@@ -1,0 +1,52 @@
+import Image from "next/image";
+import Link from "next/link";
+import LinkButton from "./LinkButton";
+
+const NavBar = () => {
+  const user = null;
+
+  return (
+    <>
+      <Link href="/" className="h-auto">
+        <Image
+          src="/appri_logo.png"
+          width={150}
+          height={150}
+          alt="アプリロゴ"
+          priority={true}
+          className="mx-4 px-2 pt-3 drop-shadow-md"
+        />
+      </Link>
+      <nav className="grow h-full">
+        <ul className="flex justify-end h-full items-center mr-8">
+          {user ? (
+            <>
+              <li className="mr-8">
+                <LinkButton
+                  href={`/users/${user?.user_name}`}
+                  value="プロフィール"
+                />
+              </li>
+
+              <li className="">
+                <LinkButton href="/login" value="ログアウト" />
+              </li>
+            </>
+          ) : (
+            <>
+              <li className="mr-8">
+                <LinkButton href="/register" value="アカウントを作成" />
+              </li>
+
+              <li className="">
+                <LinkButton href="/login" value="ログイン" />
+              </li>
+            </>
+          )}
+        </ul>
+      </nav>
+    </>
+  );
+};
+
+export default NavBar;
