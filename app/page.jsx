@@ -7,7 +7,7 @@ import { TabProvider } from "@/context/TabContext";
 export default function App() {
   return (
     <TabProvider>
-      <main className="w-[1000px] bg-sub-theme p-8 mx-auto shadow-lg">
+      <main className="w-[1000px] bg-transparent mx-auto">
         <TimelineTabSelector />
         <Timeline />
       </main>

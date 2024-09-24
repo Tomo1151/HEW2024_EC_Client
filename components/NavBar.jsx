@@ -6,7 +6,7 @@ import LinkButton from "./LinkButton";
 import { useAuthContext } from "@/context/AuthContext";
 
 const NavBar = () => {
-  const { activeUser } = useAuthContext();
+  const { activeUser, logout } = useAuthContext();
 
   return (
     <>
@@ -32,7 +32,7 @@ const NavBar = () => {
               </li>
 
               <li className="">
-                <LinkButton href="/login" value="ログアウト" />
+                <LinkButton href="/login" value="ログアウト" onClick={logout} />
               </li>
             </>
           ) : (

@@ -15,7 +15,7 @@ const TimelineTabSelector = () => {
 
   return (
     <div
-      className="flex justify-around mb-4 border-b-[1px] overflow-x-auto hidden-scrollbar"
+      className="bg-white flex justify-around p-4 my-4 border-b-[1px] overflow-x-auto hidden-scrollbar shadow-lg rounded-md"
       ref={ref}
       {...events}
     >

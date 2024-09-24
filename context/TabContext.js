@@ -18,10 +18,10 @@ export const TabProvider = ({ children }) => {
   const tabContents = [
     "最新の投稿",
     "フォロー中",
-    "VR",
+    // "VR",
     "3Dモデル",
     "神絵",
-    "Live",
+    // "Live",
   ];
 
   return (
