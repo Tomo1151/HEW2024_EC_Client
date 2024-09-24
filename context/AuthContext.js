@@ -6,6 +6,7 @@ import { fetchBaseURL, fetchHeaders } from "@/config/fetchConfig";
 
 export const AuthContext = createContext({
   activeUser: null,
+  signin: () => {},
   login: () => {},
   logout: () => {},
 });
@@ -16,6 +17,36 @@ export const useAuthContext = () => {
 
 export const AuthProvider = ({ children }) => {
   const [activeUser, setActiveUser] = useState(null);
+
+  const signin = async (username, email, password) => {
+    if (!username || !email || !password) {
+      return {
+        success: false,
+        message: "空の入力項目があります",
+      };
+    }
+
+    const response = await fetch(fetchBaseURL + "/auth/register", {
+      method: "POST",
+      headers: fetchHeaders,
+      body: JSON.stringify({ username, email, password }),
+      credentials: "include",
+    });
+
+    const resJson = await response.json();
+
+    if (!resJson.success) {
+      return {
+        success: false,
+        message: "ユーザー名またはメールアドレスが既に登録されています",
+      };
+    }
+
+    return {
+      success: true,
+      message: "Signed in successfully as " + resJson.data.username,
+    };
+  };
 
   const login = async (email, password) => {
     if (!email || !password) {
@@ -59,7 +90,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ activeUser, login, logout }}>
+    <AuthContext.Provider value={{ activeUser, signin, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

@@ -17,7 +17,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [status, setStatus] = useState("");
 
-  const { activeUser, login } = useAuthContext();
+  const { login } = useAuthContext();
 
   async function handleSubmit(event) {
     event.preventDefault();

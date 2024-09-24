@@ -10,29 +10,37 @@ import { useAuthContext } from "@/context/AuthContext";
 
 const Register = () => {
   const router = useRouter();
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [status, setStatus] = useState("");
 
-  const { login } = useAuthContext();
+  const { signin } = useAuthContext();
 
   async function handleSubmit(event) {
     event.preventDefault();
-    const data = await login(email, password);
+    const data = await signin(username, email, password);
 
     if (!data.success) {
       setStatus(data.message);
       return;
     }
 
-    router.replace("/");
+    router.replace("/login");
   }
 
   return (
     <>
       <h1 className="text-3xl font-bold text-center">新規登録</h1>
       <form>
-        <TextInput type="username" name="username" placeholder="ユーザー名" />
+        <TextInput
+          type="username"
+          name="username"
+          placeholder="ユーザー名"
+          onChange={(event) => {
+            setUsername(event.target.value);
+          }}
+        />
         <TextInput
           type="email"
           name="email"
