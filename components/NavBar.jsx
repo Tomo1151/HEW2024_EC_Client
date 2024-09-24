@@ -1,9 +1,12 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import LinkButton from "./LinkButton";
+import { useAuthContext } from "@/context/AuthContext";
 
 const NavBar = () => {
-  const user = null;
+  const { activeUser } = useAuthContext();
 
   return (
     <>
@@ -14,16 +17,16 @@ const NavBar = () => {
           height={150}
           alt="アプリロゴ"
           priority={true}
-          className="mx-4 px-2 pt-3 drop-shadow-md"
+          className="mx-4 px-2 pt-3 drop-shadow-md cursor-pointer"
         />
       </Link>
       <nav className="grow h-full">
         <ul className="flex justify-end h-full items-center mr-8">
-          {user ? (
+          {activeUser ? (
             <>
               <li className="mr-8">
                 <LinkButton
-                  href={`/users/${user?.user_name}`}
+                  href={`/users/${activeUser?.username}`}
                   value="プロフィール"
                 />
               </li>

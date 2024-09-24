@@ -1,3 +1,5 @@
+"use client";
+
 import Timeline from "@/components/Timeline";
 import TimelineTabSelector from "@/components/TimelineTabSelector";
 import { TabProvider } from "@/context/TabContext";
