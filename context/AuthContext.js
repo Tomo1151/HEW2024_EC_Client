@@ -1,6 +1,6 @@
 "use client";
 
-import { useContext, useState, createContext } from "react";
+import { useContext, useState, createContext, useEffect } from "react";
 
 import { fetchBaseURL, fetchHeaders } from "@/config/fetchConfig";
 
@@ -17,6 +17,20 @@ export const useAuthContext = () => {
 
 export const AuthProvider = ({ children }) => {
   const [activeUser, setActiveUser] = useState(null);
+
+  const fetchUser = async () => {
+    const response = await fetch(fetchBaseURL + "/auth/fetch", {
+      method: "POST",
+      headers: fetchHeaders,
+      credentials: "include",
+    });
+
+    const resJson = await response.json();
+
+    if (!resJson.success) {
+      await logout();
+    }
+  };
 
   const signin = async (username, email, password) => {
     if (!username || !email || !password) {
@@ -78,6 +92,18 @@ export const AuthProvider = ({ children }) => {
       success: true,
       message: "Logged in successfully as " + resJson.data.username,
     };
+  };
+
+  const refreshToken = async () => {
+    const response = await fetch(fetchBaseURL + "/auth/refresh", {
+      method: "POST",
+      headers: fetchHeaders,
+      credentials,
+    });
+    const resJson = await response.json();
+    if (!resJson.success) {
+      await logout();
+    }
   };
 
   const logout = async () => {
