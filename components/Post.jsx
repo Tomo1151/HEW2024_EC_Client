@@ -35,7 +35,7 @@ const Post = ({ content }) => {
             {post.author?.user_name || "名無し"}
           </Link>
           <p className="select-none font-bold opacity-35">
-            {new Date(post.created_at).toLocaleString()}
+            {new Date(post.created_at).toLocaleString("ja-JP")}
           </p>
         </div>
       </div>
