@@ -4,7 +4,7 @@ import Link from "next/link";
 const Post = ({ content }) => {
   const post = {
     author: {
-      user_name: "test",
+      user_name: "test_0",
     },
     content: "テスト投稿",
     created_at: "2022-01-01T00:00:00Z",
