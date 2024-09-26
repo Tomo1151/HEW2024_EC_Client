@@ -4,7 +4,7 @@ import Link from "next/link";
 const TimelineTab = ({ tabName, isActive, onClick }) => {
   return (
     <div
-      className="flex min-w-48 h-12 select-none cursor-pointer hover:bg-gray-200 duration-200"
+      className="flex min-w-48 h-12 select-none cursor-pointer hover:bg-gray-200 duration-200 rounded"
       onClick={onClick}
     >
       <p
