@@ -19,7 +19,7 @@ export const AuthProvider = ({ children }) => {
   const [activeUser, setActiveUser] = useState(null);
 
   const fetchUser = async () => {
-    const response = await fetch(fetchBaseURL + "/auth/fetch", {
+    const response = await fetch(fetchBaseURL + "/auth/refresh", {
       method: "POST",
       headers: fetchHeaders,
       credentials: "include",
@@ -28,9 +28,24 @@ export const AuthProvider = ({ children }) => {
     const resJson = await response.json();
 
     if (!resJson.success) {
-      await logout();
+      // await logout();
+      return {
+        success: false,
+        message: "You are not logged in",
+      };
     }
+
+    setActiveUser(resJson.data);
+
+    return {
+      success: true,
+      message: "Logged in successfully as " + resJson.data.username,
+    };
   };
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
 
   const signin = async (username, email, password) => {
     if (!username || !email || !password) {
