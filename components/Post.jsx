@@ -46,7 +46,7 @@ const Post = ({
               {new Date(created_at).toLocaleString("ja-JP")}
             </p>
           </div>
-          <p className="mt-8 pb-2">{content}</p>
+          <p className="mt-2 pb-2">{content}</p>
           {/* <Link href="/tags/" className="text-blue-400 mt-8 px-2 hover:underline">
         #{content}
       </Link> */}
