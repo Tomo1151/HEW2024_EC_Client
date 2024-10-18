@@ -3,8 +3,9 @@
 import PostForm from "@/components/PostForm";
 import Timeline from "@/components/Timeline";
 import TimelineTabSelector from "@/components/TimelineTabSelector";
-import { TabProvider } from "@/context/TabContext";
+import { TabProvider, useTabContext } from "@/context/TabContext";
 import { useAuthContext } from "@/context/AuthContext";
+import TimelineContainer from "@/components/TimelineContainer";
 
 export default function App() {
   const { activeUser } = useAuthContext();
@@ -18,7 +19,7 @@ export default function App() {
             <PostForm />
           </>
         )}
-        <Timeline />
+        <TimelineContainer />
       </main>
     </TabProvider>
   );
