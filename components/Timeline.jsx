@@ -41,6 +41,9 @@ const Timeline = ({ name, isActive }) => {
             nickname={post.author.nickname}
             icon_link={post.author.icon_link}
             content={post.content}
+            comment_count={post.comment_count}
+            ref_count={post.ref_count}
+            like_count={post.like_count}
             created_at={post.created_at}
           />
         ))}
