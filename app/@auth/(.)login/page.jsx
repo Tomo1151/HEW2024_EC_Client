@@ -38,6 +38,7 @@ const LoginModal = () => {
           type="email"
           name="email"
           placeholder="メールアドレス"
+          autoComplete="email"
           onChange={(event) => {
             setEmail(event.target.value);
           }}
@@ -46,6 +47,7 @@ const LoginModal = () => {
           type="password"
           name="password"
           placeholder="パスワード"
+          autoComplete="current-password"
           onChange={(event) => {
             setPassword(event.target.value);
           }}

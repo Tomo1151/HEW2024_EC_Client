@@ -38,6 +38,7 @@ const InterceptRegister = () => {
           type="username"
           name="username"
           placeholder="ユーザー名"
+          autoComplete="username"
           onChange={(event) => {
             setUsername(event.target.value);
           }}
@@ -46,6 +47,7 @@ const InterceptRegister = () => {
           type="email"
           name="email"
           placeholder="メールアドレス"
+          autoComplete="email"
           onChange={(event) => {
             setEmail(event.target.value);
           }}
@@ -53,6 +55,7 @@ const InterceptRegister = () => {
         <TextInput
           type="password"
           name="password"
+          autoComplete="new-password"
           onChange={(event) => {
             setPassword(event.target.value);
           }}

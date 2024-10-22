@@ -1,6 +1,13 @@
 import React from "react";
 
-const TextInput = ({ type, name, placeholder, value, onChange }) => {
+const TextInput = ({
+  type,
+  name,
+  placeholder,
+  value,
+  autoComplete,
+  onChange,
+}) => {
   return (
     <input
       className="block text-md p-4 border-b-2 border-main-theme w-[85%] mx-auto my-8"
@@ -8,6 +15,7 @@ const TextInput = ({ type, name, placeholder, value, onChange }) => {
       name={name}
       placeholder={placeholder}
       value={value}
+      autoComplete={autoComplete}
       onChange={onChange}
     />
   );
