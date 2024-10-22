@@ -16,7 +16,7 @@ const Modal = ({ children }) => {
         <FontAwesomeIcon
           icon={faXmark}
           size="xl"
-          className="absolute top-6 right-8 cursor-pointer"
+          className="absolute top-6 right-8 cursor-pointer hover:drop-shadow"
           onClick={router.back}
         />
         {/* <span className="absolute top-8 right-8" onClick={router.back}>
