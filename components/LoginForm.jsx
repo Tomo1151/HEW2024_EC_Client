@@ -4,7 +4,7 @@ import SubmitButton from "./SubmitButton";
 const LoginForm = ({ status, setEmail, setPassword, onSubmit }) => {
   return (
     <>
-      <h1 className="text-center text-2xl">ログイン</h1>
+      <h1 className="text-center font-bold text-2xl">ログイン</h1>
       <form>
         <TextInput
           type="email"
