@@ -32,7 +32,7 @@ const NavBar = () => {
               </li>
 
               <li className="">
-                <LinkButton href="/login" value="ログアウト" onClick={logout} />
+                <LinkButton href="/" value="ログアウト" onClick={logout} />
               </li>
             </>
           ) : (
