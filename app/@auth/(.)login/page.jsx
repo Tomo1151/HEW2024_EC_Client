@@ -4,8 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 import Modal from "@/components/Modal";
-import TextInput from "@/components/TextInput";
-import SubmitButton from "@/components/SubmitButton";
+import LoginForm from "@/components/LoginForm";
 
 import { useAuthContext } from "@/context/AuthContext";
 
@@ -32,29 +31,12 @@ const LoginModal = () => {
 
   return (
     <Modal>
-      <h1 className="text-center text-2xl">ログイン</h1>
-      <form>
-        <TextInput
-          type="email"
-          name="email"
-          placeholder="メールアドレス"
-          autoComplete="email"
-          onChange={(event) => {
-            setEmail(event.target.value);
-          }}
-        />
-        <TextInput
-          type="password"
-          name="password"
-          placeholder="パスワード"
-          autoComplete="current-password"
-          onChange={(event) => {
-            setPassword(event.target.value);
-          }}
-        />
-        {status && <p className="text-center text-red-600">{status}</p>}
-        <SubmitButton text="ログイン" onSubmit={handleSubmit} />
-      </form>
+      <LoginForm
+        status={status}
+        setEmail={setEmail}
+        setPassword={setPassword}
+        onSubmit={handleSubmit}
+      />
     </Modal>
   );
 };

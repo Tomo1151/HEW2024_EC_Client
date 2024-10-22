@@ -3,10 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-// import loginAction from "@/actions/auth/loginAction";
-import SubmitButton from "@/components/SubmitButton";
-import TextInput from "@/components/TextInput";
-import { useEffect } from "react";
+import LoginForm from "@/components/LoginForm";
 
 import { useAuthContext } from "@/context/AuthContext";
 
@@ -32,31 +29,12 @@ const Login = () => {
   }
 
   return (
-    <>
-      <h1 className="text-3xl font-bold text-center">ログイン</h1>
-      <form>
-        <TextInput
-          type="email"
-          name="email"
-          placeholder="メールアドレス"
-          autoComplete="email"
-          onChange={(event) => {
-            setEmail(event.target.value);
-          }}
-        />
-        <TextInput
-          type="password"
-          name="password"
-          placeholder="パスワード"
-          autoComplete="current-password"
-          onChange={(event) => {
-            setPassword(event.target.value);
-          }}
-        />
-        {status && <p className="text-center text-red-600">{status}</p>}
-        <SubmitButton text="ログイン" onSubmit={handleSubmit} />
-      </form>
-    </>
+    <LoginForm
+      status={status}
+      setEmail={setEmail}
+      setPassword={setPassword}
+      onSubmit={handleSubmit}
+    />
   );
 };
 

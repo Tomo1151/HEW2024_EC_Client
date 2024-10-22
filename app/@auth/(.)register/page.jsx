@@ -4,8 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 import Modal from "@/components/Modal";
-import TextInput from "@/components/TextInput";
-import SubmitButton from "@/components/SubmitButton";
+import RegisterForm from "@/components/RegisterForm";
 
 import { useAuthContext } from "@/context/AuthContext";
 
@@ -32,38 +31,13 @@ const InterceptRegister = () => {
 
   return (
     <Modal>
-      <h1 className="text-center text-2xl">新規登録</h1>
-      <form>
-        <TextInput
-          type="username"
-          name="username"
-          placeholder="ユーザー名"
-          autoComplete="username"
-          onChange={(event) => {
-            setUsername(event.target.value);
-          }}
-        />
-        <TextInput
-          type="email"
-          name="email"
-          placeholder="メールアドレス"
-          autoComplete="email"
-          onChange={(event) => {
-            setEmail(event.target.value);
-          }}
-        />
-        <TextInput
-          type="password"
-          name="password"
-          autoComplete="new-password"
-          onChange={(event) => {
-            setPassword(event.target.value);
-          }}
-          placeholder="パスワード"
-        />
-        {status && <p className="text-center text-red-600">{status}</p>}
-        <SubmitButton text="新規登録" onSubmit={handleSubmit} />
-      </form>
+      <RegisterForm
+        status={status}
+        setUsername={setUsername}
+        setEmail={setEmail}
+        setPassword={setPassword}
+        onSubmit={handleSubmit}
+      />
     </Modal>
   );
 };
