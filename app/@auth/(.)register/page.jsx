@@ -27,7 +27,7 @@ const InterceptRegister = () => {
       return;
     }
 
-    router.replace("/login");
+    router.replace("/login", { scroll: false });
   }
 
   return (

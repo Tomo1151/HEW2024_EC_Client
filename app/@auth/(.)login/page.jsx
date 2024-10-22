@@ -27,7 +27,7 @@ const LoginModal = () => {
       return;
     }
 
-    router.push("/");
+    router.push("/", { scroll: false });
   }
 
   return (
