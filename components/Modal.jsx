@@ -9,10 +9,10 @@ const Modal = ({ children }) => {
     <>
       <div
         id="mdoal_overlay"
-        className="absolute inset-0 w-[100dvw] h-[100dvh] bg-black opacity-40  z-40 "
+        className="fixed inset-0 w-[100dvw] h-[100dvh] bg-black opacity-40  z-40 "
         onClick={router.back}
       ></div>
-      <div className="absolute bg-white w-[600px] h-[700px] rounded-md inset-0 m-auto px-8 py-16 z-50">
+      <div className="fixed bg-white w-[600px] h-[700px] rounded-md inset-0 m-auto px-8 py-16 z-50">
         <FontAwesomeIcon
           icon={faXmark}
           size="xl"
