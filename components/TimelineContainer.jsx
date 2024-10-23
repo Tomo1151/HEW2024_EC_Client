@@ -8,7 +8,6 @@ const Timeline = lazy(() => import("@/components/Timeline"));
 
 const TimelineContainer = () => {
   const { activeTab, tabContents } = useTabContext();
-  console.log(activeTab, tabContents);
 
   return (
     <>
