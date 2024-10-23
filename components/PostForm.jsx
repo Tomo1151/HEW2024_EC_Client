@@ -9,7 +9,7 @@ import { fetchBaseURL, fetchHeaders } from "@/config/fetchConfig";
 import { useAuthContext } from "@/context/AuthContext";
 // { postText, setPostText, setLatestPosts }
 export default function PostForm() {
-  const { activeUser } = useAuthContext();
+  const { activeUser, refreshToken } = useAuthContext();
   //   const { decodeImage } = useDecodedImage();
   //   const decodedImage = decodeImage(user.profile.image);
   const [postText, setPostText] = useState("");
@@ -23,6 +23,8 @@ export default function PostForm() {
     };
 
     try {
+      await refreshToken();
+
       const response = await fetch(fetchBaseURL + "/posts", {
         method: "POST",
         headers: fetchHeaders,

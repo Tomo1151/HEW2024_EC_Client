@@ -9,6 +9,7 @@ export const AuthContext = createContext({
   signin: () => {},
   login: () => {},
   logout: () => {},
+  refreshToken: () => {},
 });
 
 export const useAuthContext = () => {
@@ -113,7 +114,7 @@ export const AuthProvider = ({ children }) => {
     const response = await fetch(fetchBaseURL + "/auth/refresh", {
       method: "POST",
       headers: fetchHeaders,
-      credentials,
+      credentials: "include",
     });
     const resJson = await response.json();
     if (!resJson.success) {
@@ -131,7 +132,9 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ activeUser, signin, login, logout }}>
+    <AuthContext.Provider
+      value={{ activeUser, signin, login, logout, refreshToken }}
+    >
       {children}
     </AuthContext.Provider>
   );
