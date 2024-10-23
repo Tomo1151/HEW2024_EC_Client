@@ -1,7 +1,7 @@
 "use client";
 
 import PostForm from "@/components/PostForm";
-import Timeline from "@/components/Timeline";
+// import Timeline from "@/components/Timeline";
 import TimelineTabSelector from "@/components/TimelineTabSelector";
 import { TabProvider, useTabContext } from "@/context/TabContext";
 import { useAuthContext } from "@/context/AuthContext";

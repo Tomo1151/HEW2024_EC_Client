@@ -1,8 +1,10 @@
 "use client";
+import { lazy, Suspense } from "react";
 
 import { useTabContext } from "@/context/TabContext";
+import TimelineLoading from "@/components/loading/TimelineLoading";
 
-import Timeline from "./Timeline";
+const Timeline = lazy(() => import("@/components/Timeline"));
 
 const TimelineContainer = () => {
   const { activeTab, tabContents } = useTabContext();
@@ -10,9 +12,11 @@ const TimelineContainer = () => {
 
   return (
     <>
-      {tabContents.map((name, idx) => (
-        <Timeline key={idx} name={name} isActive={idx === activeTab} />
-      ))}
+      <Suspense fallback={<TimelineLoading />}>
+        {tabContents.map((name, idx) => (
+          <Timeline key={idx} name={name} isActive={idx === activeTab} />
+        ))}
+      </Suspense>
     </>
   );
 };
