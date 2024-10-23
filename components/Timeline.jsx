@@ -7,15 +7,21 @@ import Post from "@/components/Post";
 
 const Timeline = ({ name, isActive }) => {
   const [posts, setPosts] = useState([]);
-  const fetchPosts = async (latest) => {
+  const [latestPostId, setLatestPostId] = useState(null);
+  const fetchPosts = async () => {
     try {
-      const response = await fetch(fetchBaseURL + `/posts?tagName=${name}`);
+      const response = await fetch(
+        fetchBaseURL + `/posts?tagName=${name}&after=${latestPostId}`
+      );
       const resJson = await response.json();
 
       console.log(`FETCH: ${name}`);
 
       if (resJson.success) {
-        setPosts((prev) => prev.concat(...resJson.data));
+        const posts = resJson.data;
+        console.dir(posts);
+        setPosts((prev) => prev.concat(...posts));
+        setLatestPostId(posts[posts.length - 1].id);
       }
     } catch (err) {
       console.log(err);
@@ -32,19 +38,21 @@ const Timeline = ({ name, isActive }) => {
   return (
     <>
       {isActive &&
-        posts.map((post, idx) => (
-          <Post
-            key={idx}
-            username={post.author.username}
-            nickname={post.author.nickname}
-            icon_link={post.author.icon_link}
-            content={post.content}
-            comment_count={post.comment_count}
-            ref_count={post.ref_count}
-            like_count={post.like_count}
-            created_at={post.created_at}
-          />
-        ))}
+        posts
+          .toReversed()
+          .map((post, idx) => (
+            <Post
+              key={idx}
+              username={post.author.username}
+              nickname={post.author.nickname}
+              icon_link={post.author.icon_link}
+              content={post.content}
+              comment_count={post.comment_count}
+              ref_count={post.ref_count}
+              like_count={post.like_count}
+              created_at={post.created_at}
+            />
+          ))}
     </>
   );
 };
