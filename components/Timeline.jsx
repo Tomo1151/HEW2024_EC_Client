@@ -11,7 +11,10 @@ const Timeline = ({ name, isActive }) => {
   const fetchPosts = async () => {
     try {
       const response = await fetch(
-        fetchBaseURL + `/posts?tagName=${name}&after=${latestPostId}`
+        fetchBaseURL + `/posts?tagName=${name}&after=${latestPostId}`,
+        {
+          credentials: "include",
+        }
       );
       const resJson = await response.json();
 
@@ -43,6 +46,7 @@ const Timeline = ({ name, isActive }) => {
           .map((post, idx) => (
             <Post
               key={idx}
+              postId={post.id}
               username={post.author.username}
               nickname={post.author.nickname}
               icon_link={post.author.icon_link}
@@ -51,6 +55,7 @@ const Timeline = ({ name, isActive }) => {
               ref_count={post.ref_count}
               like_count={post.like_count}
               created_at={post.created_at}
+              is_liked={post.likes.length > 0}
             />
           ))}
     </>

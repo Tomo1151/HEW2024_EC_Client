@@ -1,3 +1,5 @@
+"use client";
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -7,7 +9,11 @@ import {
   faRepeat,
 } from "@fortawesome/free-solid-svg-icons";
 
+import { fetchBaseURL, fetchHeaders } from "@/config/fetchConfig";
+import { useAuthContext } from "@/context/AuthContext";
+
 const Post = ({
+  postId,
   username,
   nickname,
   icon_link,
@@ -16,7 +22,36 @@ const Post = ({
   ref_count,
   like_count,
   created_at,
+  is_liked,
 }) => {
+  const [isLiked, setisLiked] = useState(is_liked);
+  const { refreshToken } = useAuthContext();
+
+  const like = async () => {
+    try {
+      await refreshToken();
+      const response = await fetch(fetchBaseURL + `/posts/${postId}/like`, {
+        method: "POST",
+        headers: fetchHeaders,
+        credentials: "include",
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const dislike = async () => {
+    try {
+      await refreshToken();
+      const response = await fetch(fetchBaseURL + `/posts/${postId}/like`, {
+        method: "DELETE",
+        credentials: "include",
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <section className="bg-white my-8 p-8 shadow-lg rounded-md">
       <div className="flex">
@@ -69,12 +104,18 @@ const Post = ({
               />
               {ref_count || 0}
             </div>
-            <div>
+            <div className="select-none">
               <FontAwesomeIcon
-                icon={faHeart}
+                icon={isLiked ? faSolidHeart : faHeart}
                 size="xl"
-                style={{ color: "#555" }}
-                className="pr-4"
+                // style={{ color: "#555" }}
+                className={`${
+                  isLiked ? "text-red-500" : "text-gray-600"
+                } pr-4 hover:text-red-500 cursor-pointer`}
+                onClick={() => {
+                  isLiked ? dislike() : like();
+                  setisLiked((prev) => !prev);
+                }}
               />
               {like_count || 0}
             </div>
