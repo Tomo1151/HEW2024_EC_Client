@@ -25,6 +25,7 @@ const Post = ({
   is_liked,
 }) => {
   const [isLiked, setisLiked] = useState(is_liked);
+  const [likeCount, setLikeCount] = useState(like_count);
   const { refreshToken } = useAuthContext();
 
   const like = async () => {
@@ -35,6 +36,7 @@ const Post = ({
         headers: fetchHeaders,
         credentials: "include",
       });
+      setLikeCount((prev) => prev + 1);
     } catch (err) {
       console.log(err);
     }
@@ -47,6 +49,7 @@ const Post = ({
         method: "DELETE",
         credentials: "include",
       });
+      setLikeCount((prev) => prev - 1);
     } catch (err) {
       console.log(err);
     }
@@ -117,7 +120,7 @@ const Post = ({
                   setisLiked((prev) => !prev);
                 }}
               />
-              {like_count || 0}
+              {likeCount || 0}
             </div>
           </div>
         </div>
