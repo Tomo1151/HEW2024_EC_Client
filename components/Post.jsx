@@ -30,14 +30,15 @@ const Post = ({
 
   const like = async () => {
     try {
-      await refreshToken();
-      const response = await fetch(fetchBaseURL + `/posts/${postId}/like`, {
-        method: "POST",
-        headers: fetchHeaders,
-        credentials: "include",
+      refreshToken().then(async () => {
+        await fetch(fetchBaseURL + `/posts/${postId}/like`, {
+          method: "POST",
+          headers: fetchHeaders,
+          credentials: "include",
+        });
+        setLikeCount((prev) => prev + 1);
+        setisLiked(true);
       });
-      setLikeCount((prev) => prev + 1);
-      setisLiked(true);
     } catch (err) {
       console.log(err);
     }
@@ -45,13 +46,14 @@ const Post = ({
 
   const dislike = async () => {
     try {
-      await refreshToken();
-      const response = await fetch(fetchBaseURL + `/posts/${postId}/like`, {
-        method: "DELETE",
-        credentials: "include",
+      refreshToken().then(async () => {
+        await fetch(fetchBaseURL + `/posts/${postId}/like`, {
+          method: "DELETE",
+          credentials: "include",
+        });
+        setLikeCount((prev) => prev - 1);
+        setisLiked(false);
       });
-      setLikeCount((prev) => prev - 1);
-      setisLiked(false);
     } catch (err) {
       console.log(err);
     }
