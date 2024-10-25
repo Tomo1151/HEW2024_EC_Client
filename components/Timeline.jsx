@@ -7,24 +7,29 @@ import Post from "@/components/Post";
 
 const Timeline = ({ name, isActive }) => {
   const [posts, setPosts] = useState([]);
-  const [latestPostId, setLatestPostId] = useState(null);
+  const [latestPostId, setLatestPostId] = useState("");
   const fetchPosts = async () => {
     try {
-      const response = await fetch(
-        fetchBaseURL + `/posts?tagName=${name}&after=${latestPostId}`,
-        {
-          credentials: "include",
-        }
-      );
+      const query = {
+        tagName: name,
+        after: latestPostId,
+      };
+      const params = new URLSearchParams(query);
+      const response = await fetch(fetchBaseURL + "/posts?" + params, {
+        credentials: "include",
+      });
       const resJson = await response.json();
 
       console.log(`FETCH: ${name}`);
 
       if (resJson.success) {
-        const posts = resJson.data;
-        console.dir(posts);
-        setPosts((prev) => prev.concat(...posts));
-        setLatestPostId(posts[posts.length - 1].id);
+        if (resJson.data.length === 0) return;
+        const newPosts = resJson.data;
+        const latestId = newPosts[newPosts.length - 1].id;
+        setPosts((prev) => {
+          setLatestPostId(latestId);
+          return prev.concat(...newPosts);
+        });
       }
     } catch (err) {
       console.log(err);
