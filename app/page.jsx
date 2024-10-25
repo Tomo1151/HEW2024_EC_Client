@@ -1,5 +1,5 @@
 "use client";
-
+import Switch from "@mui/material/Switch";
 import PostForm from "@/components/PostForm";
 // import Timeline from "@/components/Timeline";
 import TimelineTabSelector from "@/components/TimelineTabSelector";
@@ -13,6 +13,7 @@ export default function App() {
   return (
     <TabProvider>
       <main className="w-[1000px] bg-transparent mx-auto">
+        <Switch />
         {activeUser && (
           <>
             <TimelineTabSelector />
