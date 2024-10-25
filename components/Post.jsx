@@ -37,6 +37,7 @@ const Post = ({
         credentials: "include",
       });
       setLikeCount((prev) => prev + 1);
+      setisLiked(true);
     } catch (err) {
       console.log(err);
     }
@@ -50,6 +51,7 @@ const Post = ({
         credentials: "include",
       });
       setLikeCount((prev) => prev - 1);
+      setisLiked(false);
     } catch (err) {
       console.log(err);
     }
@@ -117,7 +119,6 @@ const Post = ({
                 } pr-4 hover:text-red-500 cursor-pointer`}
                 onClick={() => {
                   isLiked ? dislike() : like();
-                  setisLiked((prev) => !prev);
                 }}
               />
               {likeCount || 0}
