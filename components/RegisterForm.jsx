@@ -1,5 +1,5 @@
-import TextInput from "./TextInput";
-import SubmitButton from "./SubmitButton";
+import Link from "next/link";
+import { Button, TextField } from "@mui/material";
 
 const RegisterForm = ({
   status,
@@ -11,36 +11,57 @@ const RegisterForm = ({
   return (
     <>
       <h1 className="text-3xl font-bold text-center">新規登録</h1>
-      <form>
-        <TextInput
+      <form onSubmit={onSubmit}>
+        <TextField
           type="username"
           name="username"
-          placeholder="ユーザー名"
+          label="ユーザー名"
+          placeholder="username"
           autoComplete="username"
           onChange={(event) => {
             setUsername(event.target.value);
           }}
+          sx={{ display: "block", width: "80%", mx: "auto", my: "1em" }}
+          fullWidth
         />
-        <TextInput
+        <TextField
           type="email"
           name="email"
-          placeholder="メールアドレス"
+          label="メールアドレス"
+          placeholder="example@example.com"
           autoComplete="email"
           onChange={(event) => {
             setEmail(event.target.value);
           }}
+          sx={{ display: "block", width: "80%", mx: "auto", my: "1em" }}
+          fullWidth
         />
-        <TextInput
+        <TextField
           type="password"
           name="password"
           autoComplete="new-password"
           onChange={(event) => {
             setPassword(event.target.value);
           }}
-          placeholder="パスワード"
+          label="パスワード"
+          placeholder="[0-9a-zA-Z]{8,}"
+          sx={{ display: "block", width: "80%", mx: "auto", my: "1em" }}
+          fullWidth
         />
-        {status && <p className="text-center text-red-600">{status}</p>}
-        <SubmitButton text="新規登録" onSubmit={onSubmit} />
+        <p className="text-center text-red-600">{status}</p>
+        <Button
+          type="submit"
+          variant="contained"
+          sx={{ display: "block", width: "25%", mx: "auto", my: "2em" }}
+        >
+          新規登録
+        </Button>
+        <p className="text-center">
+          アカウントをお持ちの方は
+          <Link href="/login" className="text-blue-400 hover:underline">
+            ログイン
+          </Link>
+        </p>
       </form>
     </>
   );

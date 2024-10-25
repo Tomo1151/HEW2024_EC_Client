@@ -3,9 +3,6 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
-import SubmitButton from "@/components/SubmitButton";
-import TextInput from "@/components/TextInput";
-
 import { useAuthContext } from "@/context/AuthContext";
 import RegisterForm from "@/components/RegisterForm";
 
@@ -14,7 +11,7 @@ const Register = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [status, setStatus] = useState("");
+  const [status, setStatus] = useState("　");
 
   const { signin } = useAuthContext();
 
