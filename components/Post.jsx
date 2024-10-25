@@ -23,6 +23,7 @@ const Post = ({
   like_count,
   created_at,
   is_liked,
+  is_clickable = true,
 }) => {
   const [isLiked, setisLiked] = useState(is_liked);
   const [likeCount, setLikeCount] = useState(like_count);
@@ -60,7 +61,13 @@ const Post = ({
   };
 
   return (
-    <section className="bg-white my-8 p-8 shadow-lg rounded-md">
+    <section className="relative bg-white my-8 p-8 shadow-lg rounded-md">
+      {is_clickable && (
+        <Link
+          href={`/posts/${postId}`}
+          className="absolute inset-0 w-full h-full z-10"
+        />
+      )}
       <div className="flex">
         <div>
           <Link
@@ -98,7 +105,7 @@ const Post = ({
                 icon={faMessage}
                 size="xl"
                 style={{ color: "#555" }}
-                className="pr-4"
+                className="relative pr-4 z-20"
               />
               {comment_count || 0}
             </div>
@@ -107,7 +114,7 @@ const Post = ({
                 icon={faRepeat}
                 size="xl"
                 style={{ color: "#555" }}
-                className="pr-4"
+                className="relative pr-4 z-20"
               />
               {ref_count || 0}
             </div>
@@ -118,7 +125,7 @@ const Post = ({
                 // style={{ color: "#555" }}
                 className={`${
                   isLiked ? "text-red-500" : "text-gray-600"
-                } pr-4 hover:text-red-500 cursor-pointer`}
+                } relative pr-4 z-20 hover:text-red-500 cursor-pointer`}
                 onClick={() => {
                   isLiked ? dislike() : like();
                 }}
