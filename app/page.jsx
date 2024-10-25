@@ -6,22 +6,25 @@ import TimelineTabSelector from "@/components/TimelineTabSelector";
 import { TabProvider, useTabContext } from "@/context/TabContext";
 import { useAuthContext } from "@/context/AuthContext";
 import TimelineContainer from "@/components/TimelineContainer";
-
+import { ThemeProvider } from "@mui/material/styles";
+import theme from "@/theme/theme";
 export default function App() {
   const { activeUser } = useAuthContext();
 
   return (
-    <TabProvider>
-      <main className="w-[1000px] bg-transparent mx-auto">
-        <Switch />
-        {activeUser && (
-          <>
-            <TimelineTabSelector />
-            <PostForm />
-          </>
-        )}
-        <TimelineContainer />
-      </main>
-    </TabProvider>
+    <ThemeProvider theme={theme}>
+      <TabProvider>
+        <main className="w-[1000px] bg-transparent mx-auto">
+          <Switch />
+          {activeUser && (
+            <>
+              <TimelineTabSelector />
+              <PostForm />
+            </>
+          )}
+          <TimelineContainer />
+        </main>
+      </TabProvider>
+    </ThemeProvider>
   );
 }
