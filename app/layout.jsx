@@ -20,15 +20,20 @@ export const metadata = {
   description: "HEW 2024 ECサイト",
 };
 
+import { ThemeProvider } from "@mui/material/styles";
+import theme from "@/theme/theme";
+
 export default function RootLayout({ children, auth }) {
   return (
     <html lang="ja">
       <AuthProvider>
         <body className={`bg-gray-100 pt-[80px]`}>
           <AppRouterCacheProvider>
-            <Header />
-            {children}
-            {auth}
+            <ThemeProvider theme={theme}>
+              <Header />
+              {children}
+              {auth}
+            </ThemeProvider>
           </AppRouterCacheProvider>
         </body>
       </AuthProvider>
