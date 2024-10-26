@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { fetchBaseURL } from "@/config/fetchConfig";
 import Post from "@/components/Post";
+import { Button } from "@mui/material";
 
 const Timeline = ({ name, isActive }) => {
   const [posts, setPosts] = useState([]);
@@ -45,6 +46,9 @@ const Timeline = ({ name, isActive }) => {
 
   return (
     <>
+      <Button variant="contained" onClick={fetchPosts} fullWidth>
+        Load More
+      </Button>
       {posts.toReversed().map((post, idx) => (
         <Post
           key={idx}
