@@ -4,6 +4,7 @@ import NavBar from "./NavBar";
 import {
   Box,
   Button,
+  Divider,
   Drawer,
   List,
   ListItem,
@@ -19,6 +20,8 @@ import {
   NotificationsRounded,
   ShoppingCartRounded,
   CheckBoxRounded,
+  LoginRounded,
+  CreateRounded,
 } from "@mui/icons-material";
 
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -115,7 +118,7 @@ const Header = () => {
           {/* </ListItemButton> */}
         </ListItem>
         <ListItem>
-          <ListItemButton>
+          <ListItemButton href="/">
             <ListItemIcon>
               <AccountCircleRounded
                 sx={{
@@ -136,7 +139,7 @@ const Header = () => {
           </ListItemButton>
         </ListItem>
         <ListItem>
-          <ListItemButton>
+          <ListItemButton href="/">
             <ListItemIcon>
               <HomeRounded
                 sx={{
@@ -240,8 +243,50 @@ const Header = () => {
             />
           </ListItemButton>
         </ListItem>
+        <Divider sx={{ mt: "3em" }} />
+        <ListItem>
+          <ListItemButton href="/register">
+            <ListItemIcon>
+              <CreateRounded
+                sx={{
+                  fontSize: "2em",
+                }}
+              />
+            </ListItemIcon>
+            <ListItemText
+              primary="新規登録"
+              sx={{
+                display: {
+                  xs: "none",
+                  sm: "none",
+                  md: "block",
+                },
+              }}
+            />
+          </ListItemButton>
+        </ListItem>
+        <ListItem>
+          <ListItemButton href="/login">
+            <ListItemIcon>
+              <LoginRounded
+                sx={{
+                  fontSize: "2em",
+                }}
+              />
+            </ListItemIcon>
+            <ListItemText
+              primary="ログイン"
+              sx={{
+                display: {
+                  xs: "none",
+                  sm: "none",
+                  md: "block",
+                },
+              }}
+            />
+          </ListItemButton>
+        </ListItem>
       </List>
-      {/* <NavBar /> */}
     </Drawer>
   );
 };
