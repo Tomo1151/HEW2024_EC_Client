@@ -27,7 +27,7 @@ export default function RootLayout({ children, auth }) {
   return (
     <html lang="ja">
       <AuthProvider>
-        <body className={`bg-gray-100 pt-[80px]`}>
+        <body className={`flex bg-gray-100`}>
           <AppRouterCacheProvider>
             <ThemeProvider theme={theme}>
               <Header />

@@ -27,7 +27,12 @@ export default function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <Container maxWidth="md">
+      <Container
+        maxWidth="md"
+        sx={{
+          ml: "3em",
+        }}
+      >
         {activeUser ? (
           <TabContext value={tabIndex}>
             <>
@@ -37,6 +42,13 @@ export default function App() {
                 scrollButtons
                 allowScrollButtonsMobile
                 aria-label="Timeline tabs list"
+                sx={{
+                  mx: 3,
+                  backgroundColor: "white",
+                  // position: "fixed",
+                  // top: 0,
+                  // zIndex: 1000,
+                }}
               >
                 {tabContents.map((tabName, index) => (
                   <Tab key={index} label={tabName} value={index} />

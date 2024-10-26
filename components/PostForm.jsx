@@ -51,6 +51,7 @@ export default function PostForm() {
       maxWidth="md"
       sx={{
         mx: 3,
+        // mt: 8,
         p: 4,
       }}
       className="shadow-lg rounded-md bg-white"
