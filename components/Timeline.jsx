@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-// import { useTabContext } from "@/context/TabContext";
 import { fetchBaseURL } from "@/config/fetchConfig";
 import Post from "@/components/Post";
 
@@ -38,6 +37,7 @@ const Timeline = ({ name, isActive }) => {
 
   useEffect(() => {
     (async () => {
+      // console.log("name", name, isActive);
       if (!isActive) return;
       await fetchPosts();
     })();
@@ -45,24 +45,21 @@ const Timeline = ({ name, isActive }) => {
 
   return (
     <>
-      {isActive &&
-        posts
-          .toReversed()
-          .map((post, idx) => (
-            <Post
-              key={idx}
-              postId={post.id}
-              username={post.author.username}
-              nickname={post.author.nickname}
-              icon_link={post.author.icon_link}
-              content={post.content}
-              comment_count={post.comment_count}
-              ref_count={post.ref_count}
-              like_count={post.like_count}
-              created_at={post.created_at}
-              is_liked={post.likes.length > 0}
-            />
-          ))}
+      {posts.toReversed().map((post, idx) => (
+        <Post
+          key={idx}
+          postId={post.id}
+          username={post.author.username}
+          nickname={post.author.nickname}
+          icon_link={post.author.icon_link}
+          content={post.content}
+          comment_count={post.comment_count}
+          ref_count={post.ref_count}
+          like_count={post.like_count}
+          created_at={post.created_at}
+          is_liked={post.likes.length > 0}
+        />
+      ))}
     </>
   );
 };

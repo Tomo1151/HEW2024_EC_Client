@@ -5,7 +5,7 @@ import { useState } from "react";
 
 import { fetchBaseURL, fetchHeaders } from "@/config/fetchConfig";
 import { useAuthContext } from "@/context/AuthContext";
-import { Button, TextField } from "@mui/material";
+import { Box, Button, TextField } from "@mui/material";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 
 export default function PostForm() {
@@ -46,7 +46,15 @@ export default function PostForm() {
   };
 
   return (
-    <section className="my-8 p-8 shadow-lg rounded-md bg-white">
+    <Box
+      component="section"
+      maxWidth="md"
+      sx={{
+        mx: 3,
+        p: 4,
+      }}
+      className="shadow-lg rounded-md bg-white"
+    >
       <form onSubmit={handleSubmit}>
         <label htmlFor="postForm" className="block font-bold mb-2">
           💡 投稿してみよう
@@ -92,6 +100,6 @@ export default function PostForm() {
           </Button>
         </div>
       </form>
-    </section>
+    </Box>
   );
 }
