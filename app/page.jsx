@@ -5,7 +5,7 @@ import { useAuthContext } from "@/context/AuthContext";
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "@/theme/theme";
 
-import { Container, Tab } from "@mui/material";
+import { Box, Container, Tab } from "@mui/material";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { lazy, Suspense, useEffect, useState } from "react";
 
@@ -68,7 +68,9 @@ export default function App() {
             </Suspense>
           </TabContext>
         ) : (
-          <Timeline name="最新の投稿" isActive={true} />
+          <Box sx={{ mx: 3 }}>
+            <Timeline name="最新の投稿" isActive={true} />
+          </Box>
         )}
       </Container>
     </ThemeProvider>
