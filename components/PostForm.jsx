@@ -54,7 +54,7 @@ export default function PostForm() {
         // mt: 8,
         p: 4,
       }}
-      className="shadow-lg rounded-md bg-white"
+      className="shadow-lg rounded-b-md bg-white"
     >
       <form onSubmit={handleSubmit}>
         <label htmlFor="postForm" className="block font-bold mb-2">

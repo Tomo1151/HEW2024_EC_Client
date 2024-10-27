@@ -35,27 +35,26 @@ export default function App() {
       >
         {activeUser ? (
           <TabContext value={tabIndex}>
-            <>
-              <TabList
-                onChange={handleTabChange}
-                variant="scrollable"
-                scrollButtons
-                allowScrollButtonsMobile
-                aria-label="Timeline tabs list"
-                sx={{
-                  mx: 3,
-                  backgroundColor: "white",
-                  // position: "fixed",
-                  // top: 0,
-                  // zIndex: 1000,
-                }}
-              >
-                {tabContents.map((tabName, index) => (
-                  <Tab key={index} label={tabName} value={index} />
-                ))}
-              </TabList>
-              <PostForm />
-            </>
+            <TabList
+              onChange={handleTabChange}
+              variant="scrollable"
+              scrollButtons
+              allowScrollButtonsMobile
+              aria-label="Timeline tabs list"
+              sx={{
+                mx: 3,
+                backgroundColor: "white",
+                position: "sticky",
+                top: 0,
+                zIndex: 21,
+              }}
+              className="shadow-md"
+            >
+              {tabContents.map((tabName, index) => (
+                <Tab key={index} label={tabName} value={index} />
+              ))}
+            </TabList>
+            <PostForm />
             <Suspense fallback={<TimelineLoading />}>
               {tabContents.map((tabName, index) => (
                 <TabPanel key={index} value={index} keepMounted>

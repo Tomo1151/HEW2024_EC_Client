@@ -20,7 +20,7 @@
 html,
 body,
 div#__next {
-  @apply h-full;
+  /* @apply h-full; */
   color: var(--colors-font-black);
 }
 
