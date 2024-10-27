@@ -1,6 +1,7 @@
+"use client";
+
 import Image from "next/image";
 
-import NavBar from "./NavBar";
 import {
   Box,
   Button,
@@ -21,10 +22,13 @@ import {
   ShoppingCartRounded,
   CheckBoxRounded,
   LoginRounded,
+  LogoutRounded,
   CreateRounded,
 } from "@mui/icons-material";
 
 import Link from "next/link";
+
+import { useAuthContext } from "@/context/AuthContext";
 
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // import {
@@ -39,6 +43,7 @@ import Link from "next/link";
 const Header = () => {
   const drawerWidth = 420;
   const margin = 5;
+  const { logout } = useAuthContext();
 
   return (
     <>
@@ -249,7 +254,11 @@ const Header = () => {
           </ListItem>
           <Divider sx={{ mt: "3em" }} />
           <ListItem>
-            <ListItemButton href="/register">
+            <ListItemButton sx={{ position: "relative" }}>
+              <Link
+                href="/register"
+                className="absolute inset-0 w-full h-full"
+              ></Link>
               <ListItemIcon>
                 <CreateRounded
                   sx={{
@@ -269,29 +278,58 @@ const Header = () => {
               />
             </ListItemButton>
           </ListItem>
-          <Link href="/login">
-            <ListItem>
-              <ListItemButton>
-                <ListItemIcon>
-                  <LoginRounded
-                    sx={{
-                      fontSize: "2em",
-                    }}
-                  />
-                </ListItemIcon>
-                <ListItemText
-                  primary="ログイン"
+
+          <ListItem>
+            <ListItemButton sx={{ position: "relative" }}>
+              <Link
+                href="/login"
+                className="absolute inset-0 w-full h-full"
+              ></Link>
+              <ListItemIcon>
+                <LoginRounded
                   sx={{
-                    display: {
-                      xs: "none",
-                      sm: "none",
-                      md: "block",
-                    },
+                    fontSize: "2em",
                   }}
                 />
-              </ListItemButton>
-            </ListItem>
-          </Link>
+              </ListItemIcon>
+              <ListItemText
+                primary="ログイン"
+                sx={{
+                  display: {
+                    xs: "none",
+                    sm: "none",
+                    md: "block",
+                  },
+                }}
+              />
+            </ListItemButton>
+          </ListItem>
+          <ListItem>
+            <ListItemButton
+              sx={{ position: "relative" }}
+              onClick={() => {
+                logout();
+              }}
+            >
+              <ListItemIcon>
+                <LogoutRounded
+                  sx={{
+                    fontSize: "2em",
+                  }}
+                />
+              </ListItemIcon>
+              <ListItemText
+                primary="ログアウト"
+                sx={{
+                  display: {
+                    xs: "none",
+                    sm: "none",
+                    md: "block",
+                  },
+                }}
+              />
+            </ListItemButton>
+          </ListItem>
         </List>
       </Drawer>
     </>
