@@ -22,6 +22,7 @@ const RegisterForm = ({
             setUsername(event.target.value);
           }}
           sx={{ display: "block", width: "80%", mx: "auto", my: "1em" }}
+          autoFocus
           fullWidth
         />
         <TextField

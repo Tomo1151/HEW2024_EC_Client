@@ -2,11 +2,11 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { useState } from "react";
+import { Box, Button, TextField } from "@mui/material";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 
 import { fetchBaseURL, fetchHeaders } from "@/config/fetchConfig";
 import { useAuthContext } from "@/context/AuthContext";
-import { Box, Button, TextField } from "@mui/material";
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 
 export default function PostForm() {
   const { activeUser, refreshToken } = useAuthContext();
@@ -14,8 +14,6 @@ export default function PostForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // fetch login API
     const payload = {
       content: postText,
     };
@@ -51,7 +49,6 @@ export default function PostForm() {
       maxWidth="md"
       sx={{
         mx: 3,
-        // mt: 8,
         p: 4,
       }}
       className="shadow-lg rounded-b-md bg-white"
@@ -74,8 +71,8 @@ export default function PostForm() {
             />
           </Link>
           <TextField
-            // className="w-full h-[150px] border-b-2 mx-2 py-4 resize-none focus:outline-none placeholder:px-2"
             id="postForm"
+            name="postContent"
             variant="standard"
             rows={4}
             fullWidth

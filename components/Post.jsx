@@ -1,16 +1,7 @@
-"use client";
-import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeart, faMessage } from "@fortawesome/free-regular-svg-icons";
-import {
-  faHeart as faSolidHeart,
-  faRepeat,
-} from "@fortawesome/free-solid-svg-icons";
 
-import { fetchBaseURL, fetchHeaders } from "@/config/fetchConfig";
-import { useAuthContext } from "@/context/AuthContext";
+import PostReaction from "./PostReaction";
 
 const Post = ({
   postId,
@@ -25,41 +16,6 @@ const Post = ({
   is_liked,
   is_clickable = true,
 }) => {
-  const [isLiked, setisLiked] = useState(is_liked);
-  const [likeCount, setLikeCount] = useState(like_count);
-  const { refreshToken } = useAuthContext();
-
-  const like = async () => {
-    try {
-      refreshToken().then(async () => {
-        await fetch(fetchBaseURL + `/posts/${postId}/like`, {
-          method: "POST",
-          headers: fetchHeaders,
-          credentials: "include",
-        });
-        setLikeCount((prev) => prev + 1);
-        setisLiked(true);
-      });
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const dislike = async () => {
-    try {
-      refreshToken().then(async () => {
-        await fetch(fetchBaseURL + `/posts/${postId}/like`, {
-          method: "DELETE",
-          credentials: "include",
-        });
-        setLikeCount((prev) => prev - 1);
-        setisLiked(false);
-      });
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
   return (
     <section className="relative bg-white my-8 p-8 shadow-lg rounded-md">
       {is_clickable && (
@@ -96,43 +52,14 @@ const Post = ({
             </p>
           </div>
           <p className="mt-2 pb-2">{content}</p>
-          {/* <Link href="/tags/" className="text-blue-400 mt-8 px-2 hover:underline">
-        #{content}
-      </Link> */}
-          <div className="flex justify-start gap-x-20  border-gray-300 pt-8">
-            <div>
-              <FontAwesomeIcon
-                icon={faMessage}
-                size="xl"
-                style={{ color: "#555" }}
-                className="relative pr-4 z-20"
-              />
-              {comment_count || 0}
-            </div>
-            <div>
-              <FontAwesomeIcon
-                icon={faRepeat}
-                size="xl"
-                style={{ color: "#555" }}
-                className="relative pr-4 z-20"
-              />
-              {ref_count || 0}
-            </div>
-            <div className="select-none">
-              <FontAwesomeIcon
-                icon={isLiked ? faSolidHeart : faHeart}
-                size="xl"
-                // style={{ color: "#555" }}
-                className={`${
-                  isLiked ? "text-red-500" : "text-gray-600"
-                } relative pr-4 z-20 hover:text-red-500 cursor-pointer`}
-                onClick={() => {
-                  isLiked ? dislike() : like();
-                }}
-              />
-              {likeCount || 0}
-            </div>
-          </div>
+          <PostReaction
+            postId={postId}
+            comment_count={comment_count}
+            ref_count={ref_count}
+            like_count={like_count}
+            is_liked={is_liked}
+          />
+          {/*  */}
         </div>
       </div>
     </section>

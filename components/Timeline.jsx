@@ -1,9 +1,7 @@
-"use client";
-
 import { useEffect, useState } from "react";
-import { fetchBaseURL } from "@/config/fetchConfig";
-import Post from "@/components/Post";
 import { Button } from "@mui/material";
+import Post from "@/components/Post";
+import { fetchBaseURL } from "@/config/fetchConfig";
 
 const Timeline = ({ name, isActive }) => {
   const [posts, setPosts] = useState([]);
@@ -38,7 +36,6 @@ const Timeline = ({ name, isActive }) => {
 
   useEffect(() => {
     (async () => {
-      // console.log("name", name, isActive);
       if (!isActive) return;
       await fetchPosts();
     })();

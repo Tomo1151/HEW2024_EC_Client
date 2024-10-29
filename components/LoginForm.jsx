@@ -16,7 +16,8 @@ const LoginForm = ({ status, setEmail, setPassword, onSubmit }) => {
             setEmail(event.target.value);
           }}
           sx={{ display: "block", width: "80%", mx: "auto", my: "1em" }}
-          variant="filled"
+          variant="standard"
+          autoFocus
           fullWidth
         />
         <TextField
@@ -29,7 +30,7 @@ const LoginForm = ({ status, setEmail, setPassword, onSubmit }) => {
             setPassword(event.target.value);
           }}
           sx={{ display: "block", width: "80%", mx: "auto", my: "1em" }}
-          variant="filled"
+          variant="standard"
           fullWidth
         />
         <p className="text-center text-red-600">{status}</p>
