@@ -5,7 +5,7 @@ import { useAuthContext } from "@/context/AuthContext";
 import { Box, Tab, CircularProgress } from "@mui/material";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { lazy, Suspense } from "react";
-
+import { NotificationsProvider } from "@toolpad/core/useNotifications";
 import dynamic from "next/dynamic";
 // const Timeline = dynamic(() => import("@/components/Timeline"), {
 //   ssr: false,
@@ -26,50 +26,52 @@ const MainColumn = () => {
   };
   return (
     <>
-      {activeUser ? (
-        <>
-          <FloatingPostButton />
+      <NotificationsProvider>
+        {activeUser ? (
+          <>
+            <FloatingPostButton />
 
-          <TabContext value={tabIndex}>
-            <TabList
-              onChange={handleTabChange}
-              variant="scrollable"
-              scrollButtons
-              allowScrollButtonsMobile
-              aria-label="Timeline tabs list"
-              sx={{
-                mx: 3,
-                backgroundColor: "white",
-                position: "sticky",
-                top: 0,
-                zIndex: 21,
-              }}
-              className="shadow-md"
-            >
+            <TabContext value={tabIndex}>
+              <TabList
+                onChange={handleTabChange}
+                variant="scrollable"
+                scrollButtons
+                allowScrollButtonsMobile
+                aria-label="Timeline tabs list"
+                sx={{
+                  mx: 3,
+                  backgroundColor: "white",
+                  position: "sticky",
+                  top: 0,
+                  zIndex: 21,
+                }}
+                className="shadow-md"
+              >
+                {tabContents.map((tabName, index) => (
+                  <Tab key={index} label={tabName} value={index} />
+                ))}
+              </TabList>
+              <PostForm setRefresh={setRefresh} />
               {tabContents.map((tabName, index) => (
-                <Tab key={index} label={tabName} value={index} />
+                <TabPanel key={index} value={index} keepMounted>
+                  <Suspense fallback={<CircularProgress />}>
+                    <Timeline
+                      key={index}
+                      name={tabName}
+                      isActive={tabIndex === index}
+                      refresh={refresh}
+                    />
+                  </Suspense>
+                </TabPanel>
               ))}
-            </TabList>
-            <PostForm setRefresh={setRefresh} />
-            {tabContents.map((tabName, index) => (
-              <TabPanel key={index} value={index} keepMounted>
-                <Suspense fallback={<CircularProgress />}>
-                  <Timeline
-                    key={index}
-                    name={tabName}
-                    isActive={tabIndex === index}
-                    refresh={refresh}
-                  />
-                </Suspense>
-              </TabPanel>
-            ))}
-          </TabContext>
-        </>
-      ) : (
-        <Box sx={{ mx: 3 }}>
-          {/* <Timeline name="最新の投稿" isActive={true} /> */}
-        </Box>
-      )}
+            </TabContext>
+          </>
+        ) : (
+          <Box sx={{ mx: 3 }}>
+            {/* <Timeline name="最新の投稿" isActive={true} /> */}
+          </Box>
+        )}
+      </NotificationsProvider>
     </>
   );
 };

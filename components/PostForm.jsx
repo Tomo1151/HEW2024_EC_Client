@@ -7,10 +7,12 @@ import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 
 import { fetchBaseURL, fetchHeaders } from "@/config/fetchConfig";
 import { useAuthContext } from "@/context/AuthContext";
+import { useNotifications } from "@toolpad/core/useNotifications";
 
 export default function PostForm({ setRefresh }) {
   const { activeUser, refreshToken } = useAuthContext();
   const [postText, setPostText] = useState("");
+  const notifications = useNotifications();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -31,12 +33,20 @@ export default function PostForm({ setRefresh }) {
           if (!response.ok) {
             throw new Error(response.status);
           }
+          const resJson = await response.json();
 
           if (resJson.success) {
             setPostText("");
             setRefresh((prev) => !prev);
+            notifications.show("ポストが正常に投稿されました", {
+              severity: "success",
+              autoHideDuration: 3000,
+            });
           } else {
-            console.error("Post failed.", resJson);
+            notifications.show("ポストの投稿に失敗しました", {
+              severity: "error",
+              autoHideDuration: 3000,
+            });
           }
         } catch (error) {
           console.error("Post failed.", error);
