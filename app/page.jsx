@@ -5,7 +5,20 @@ import { useAuthContext } from "@/context/AuthContext";
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "@/theme/theme";
 
-import { Box, Container, Tab } from "@mui/material";
+import {
+  Box,
+  Container,
+  Tab,
+  SpeedDial,
+  SpeedDialIcon,
+  SpeedDialAction,
+  CircularProgress,
+} from "@mui/material";
+
+import { EditNoteRounded, ColorLensRounded } from "@mui/icons-material";
+// import EditNoteIcon from "@mui/icons-material/EditNote";
+// import ColorLensRoundedIcon from "@mui/icons-material/ColorLensRounded";
+
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { lazy, Suspense, useEffect, useState } from "react";
 
@@ -25,8 +38,35 @@ export default function App() {
     setTabIndex(newValue);
   };
 
+  const actions = [
+    {
+      icon: <EditNoteRounded />,
+      name: "投稿",
+      onclick: () => console.log("Edit"),
+    },
+    {
+      icon: <ColorLensRounded />,
+      name: "作品投稿",
+      onclick: () => console.log("Save"),
+    },
+  ];
+
   return (
     <ThemeProvider theme={theme}>
+      <SpeedDial
+        ariaLabel="投稿ボタン"
+        sx={{ position: "fixed", bottom: "5em", right: "7em", zIndex: 10 }}
+        icon={<SpeedDialIcon />}
+      >
+        {actions.map((action) => (
+          <SpeedDialAction
+            key={action.name}
+            icon={action.icon}
+            tooltipTitle={action.name}
+            onClick={action.onclick}
+          />
+        ))}
+      </SpeedDial>
       <Container
         maxWidth="md"
         sx={{
@@ -55,17 +95,17 @@ export default function App() {
               ))}
             </TabList>
             <PostForm />
-            <Suspense fallback={<TimelineLoading />}>
-              {tabContents.map((tabName, index) => (
-                <TabPanel key={index} value={index} keepMounted>
+            {tabContents.map((tabName, index) => (
+              <TabPanel key={index} value={index} keepMounted>
+                <Suspense fallback={<CircularProgress />}>
                   <Timeline
                     key={index}
                     name={tabName}
                     isActive={tabIndex === index}
                   />
-                </TabPanel>
-              ))}
-            </Suspense>
+                </Suspense>
+              </TabPanel>
+            ))}
           </TabContext>
         ) : (
           <Box sx={{ mx: 3 }}>
