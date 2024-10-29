@@ -8,7 +8,7 @@ import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { fetchBaseURL, fetchHeaders } from "@/config/fetchConfig";
 import { useAuthContext } from "@/context/AuthContext";
 
-export default function PostForm() {
+export default function PostForm({ setRefresh }) {
   const { activeUser, refreshToken } = useAuthContext();
   const [postText, setPostText] = useState("");
 
@@ -32,8 +32,12 @@ export default function PostForm() {
             throw new Error(response.status);
           }
 
-          const resJson = await response.json();
-          setPostText("");
+          if (resJson.success) {
+            setPostText("");
+            setRefresh((prev) => !prev);
+          } else {
+            console.error("Post failed.", resJson);
+          }
         } catch (error) {
           console.error("Post failed.", error);
         }

@@ -3,10 +3,11 @@ import { Button } from "@mui/material";
 import Post from "@/components/Post";
 import { fetchBaseURL } from "@/config/fetchConfig";
 
-const Timeline = ({ name, isActive }) => {
+const Timeline = ({ name, isActive, refresh }) => {
   const [posts, setPosts] = useState([]);
   const [latestPostId, setLatestPostId] = useState("");
   const fetchPosts = async () => {
+    console.log(refresh);
     try {
       const query = {
         tagName: name,
@@ -39,7 +40,7 @@ const Timeline = ({ name, isActive }) => {
       if (!isActive) return;
       await fetchPosts();
     })();
-  }, [isActive]);
+  }, [isActive, refresh]);
 
   return (
     <>

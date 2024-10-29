@@ -19,6 +19,7 @@ import FloatingPostButton from "@/components/FloatingPostButton";
 const MainColumn = () => {
   const { activeUser } = useAuthContext();
   const [tabIndex, setTabIndex] = useState(0);
+  const [refresh, setRefresh] = useState(false);
   const tabContents = ["最新の投稿", "フォロー中", "VR", "神絵", "Live"];
   const handleTabChange = async (event, newValue) => {
     setTabIndex(newValue);
@@ -49,7 +50,7 @@ const MainColumn = () => {
                 <Tab key={index} label={tabName} value={index} />
               ))}
             </TabList>
-            <PostForm />
+            <PostForm setRefresh={setRefresh} />
             {tabContents.map((tabName, index) => (
               <TabPanel key={index} value={index} keepMounted>
                 <Suspense fallback={<CircularProgress />}>
@@ -57,6 +58,7 @@ const MainColumn = () => {
                     key={index}
                     name={tabName}
                     isActive={tabIndex === index}
+                    refresh={refresh}
                   />
                 </Suspense>
               </TabPanel>
@@ -65,7 +67,7 @@ const MainColumn = () => {
         </>
       ) : (
         <Box sx={{ mx: 3 }}>
-          <Timeline name="最新の投稿" isActive={true} />
+          {/* <Timeline name="最新の投稿" isActive={true} /> */}
         </Box>
       )}
     </>
