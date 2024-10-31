@@ -62,6 +62,7 @@ const Timeline = ({ name, isActive, refresh }) => {
           ref_count={post.ref_count}
           like_count={post.like_count}
           created_at={post.created_at}
+          is_reposted={post.reposts.length > 0}
           is_liked={post.likes.length > 0}
         />
       ))}

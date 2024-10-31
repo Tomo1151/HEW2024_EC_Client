@@ -15,38 +15,41 @@ const PostReaction = ({
   postId,
   comment_count,
   ref_count,
+  is_reposted,
   like_count,
   is_liked,
 }) => {
+  const [isReposted, setisReposted] = useState(is_reposted);
+  const [repostCount, setRepostCount] = useState(ref_count);
   const [isLiked, setisLiked] = useState(is_liked);
   const [likeCount, setLikeCount] = useState(like_count);
   const { refreshToken } = useAuthContext();
 
-  const like = async () => {
+  const reaction = {
+    repost: {
+      method: isReposted ? "DELETE" : "POST",
+      count: isReposted ? -1 : 1,
+      setState: setisReposted,
+      setCount: setRepostCount,
+    },
+    like: {
+      method: isLiked ? "DELETE" : "POST",
+      count: isLiked ? -1 : 1,
+      setState: setisLiked,
+      setCount: setLikeCount,
+    },
+  };
+
+  const handleReaction = async (type) => {
     try {
       refreshToken().then(async () => {
-        await fetch(fetchBaseURL + `/posts/${postId}/like`, {
-          method: "POST",
+        await fetch(fetchBaseURL + `/posts/${postId}/${type}`, {
+          method: reaction[type].method,
           headers: fetchHeaders,
           credentials: "include",
         });
-        setLikeCount((prev) => prev + 1);
-        setisLiked(true);
-      });
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  const dislike = async () => {
-    try {
-      refreshToken().then(async () => {
-        await fetch(fetchBaseURL + `/posts/${postId}/like`, {
-          method: "DELETE",
-          credentials: "include",
-        });
-        setLikeCount((prev) => prev - 1);
-        setisLiked(false);
+        reaction[type].setState((prev) => !prev);
+        reaction[type].setCount((prev) => prev + reaction[type].count);
       });
     } catch (err) {
       console.log(err);
@@ -72,20 +75,26 @@ const PostReaction = ({
         {comment_count || 0}
       </Box>
       <Box
-        sx={{
-          fontSize: "1.15em",
-          userSelect: "none",
-          transitionDuration: "0.15s",
-          zIndex: 20,
-          "&:hover": {
-            color: "#2dcb2d",
-            filter: "drop-shadow(0 0 0.5rem #2dcb2d)",
-            cursor: "pointer",
+        sx={[
+          {
+            fontSize: "1.15em",
+            userSelect: "none",
+            transitionDuration: "0.15s",
+            zIndex: 20,
+            "&:hover": {
+              color: "#2dcb2d",
+              filter: "drop-shadow(0 0 0.5rem #2dcb2d)",
+              cursor: "pointer",
+            },
           },
-        }}
+          isReposted && {
+            color: "#2dcb2d",
+          },
+        ]}
+        onClick={handleReaction.bind(null, "repost")}
       >
         <RepeatRounded sx={{ fontSize: "1.25em", mr: 1.5, mb: 0.175 }} />
-        {ref_count || 0}
+        {repostCount || 0}
       </Box>
       <Box
         sx={[
@@ -102,7 +111,7 @@ const PostReaction = ({
           },
           isLiked && { color: "red" },
         ]}
-        onClick={isLiked ? dislike : like}
+        onClick={handleReaction.bind(null, "like")}
       >
         {isLiked ? (
           <FavoriteRounded sx={{ fontSize: "1.25em", mr: 1.5, mb: 0.175 }} />

@@ -13,6 +13,7 @@ const Post = ({
   ref_count,
   like_count,
   created_at,
+  is_reposted,
   is_liked,
   is_clickable = true,
 }) => {
@@ -57,6 +58,7 @@ const Post = ({
             comment_count={comment_count}
             ref_count={ref_count}
             like_count={like_count}
+            is_reposted={is_reposted}
             is_liked={is_liked}
           />
           {/*  */}
