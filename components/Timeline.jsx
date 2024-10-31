@@ -2,34 +2,37 @@ import { useEffect, useState } from "react";
 import { Button } from "@mui/material";
 import Post from "@/components/Post";
 import { fetchBaseURL } from "@/config/fetchConfig";
+import { useAuthContext } from "@/context/AuthContext";
 
 const Timeline = ({ name, isActive, refresh }) => {
   const [posts, setPosts] = useState([]);
   const [latestPostId, setLatestPostId] = useState("");
+  const { refreshToken } = useAuthContext();
   const fetchPosts = async () => {
-    console.log(refresh);
     try {
-      const query = {
-        tagName: name,
-        after: latestPostId,
-      };
-      const params = new URLSearchParams(query);
-      const response = await fetch(fetchBaseURL + "/posts?" + params, {
-        credentials: "include",
-      });
-      const resJson = await response.json();
-
-      console.log(`FETCH: ${name}`);
-
-      if (resJson.success) {
-        if (resJson.data.length === 0) return;
-        const newPosts = resJson.data;
-        const latestId = newPosts[newPosts.length - 1].id;
-        setPosts((prev) => {
-          setLatestPostId(latestId);
-          return prev.concat(...newPosts);
+      refreshToken().then(async () => {
+        const query = {
+          tagName: name,
+          after: latestPostId,
+        };
+        const params = new URLSearchParams(query);
+        const response = await fetch(fetchBaseURL + "/posts?" + params, {
+          credentials: "include",
         });
-      }
+        const resJson = await response.json();
+
+        console.log(`FETCH: ${name}`);
+
+        if (resJson.success) {
+          if (resJson.data.length === 0) return;
+          const newPosts = resJson.data;
+          const latestId = newPosts[newPosts.length - 1].id;
+          setPosts((prev) => {
+            setLatestPostId(latestId);
+            return prev.concat(...newPosts);
+          });
+        }
+      });
     } catch (err) {
       console.log(err);
     }

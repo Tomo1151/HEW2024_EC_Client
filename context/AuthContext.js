@@ -120,6 +120,11 @@ export const AuthProvider = ({ children }) => {
     if (!resJson.success) {
       await logout();
     }
+
+    return {
+      success: true,
+      message: "Token refreshed",
+    };
   };
 
   const logout = async () => {
