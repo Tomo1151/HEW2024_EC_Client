@@ -44,6 +44,7 @@ const PostDetail = (route) => {
         ref_count={postData.ref_count}
         like_count={postData.like_count}
         created_at={postData.created_at}
+        is_reposted={postData.reposts.length > 0}
         is_liked={postData.likes.length > 0}
         is_clickable={false}
       />
