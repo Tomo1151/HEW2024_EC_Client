@@ -15,28 +15,28 @@ const PostReaction = ({
   postId,
   comment_count,
   ref_count,
+  setRepostCount,
   is_reposted,
+  setReposted,
   like_count,
+  setLikeCount,
+  setLiked,
   is_liked,
   setRefresh,
 }) => {
-  const [isReposted, setisReposted] = useState(is_reposted);
-  const [repostCount, setRepostCount] = useState(ref_count);
-  const [isLiked, setisLiked] = useState(is_liked);
-  const [likeCount, setLikeCount] = useState(like_count);
   const { refreshToken } = useAuthContext();
 
   const reaction = {
     repost: {
-      method: isReposted ? "DELETE" : "POST",
-      count: isReposted ? -1 : 1,
-      setState: setisReposted,
+      method: is_reposted ? "DELETE" : "POST",
+      count: is_reposted ? -1 : 1,
+      setState: setReposted,
       setCount: setRepostCount,
     },
     like: {
-      method: isLiked ? "DELETE" : "POST",
-      count: isLiked ? -1 : 1,
-      setState: setisLiked,
+      method: is_liked ? "DELETE" : "POST",
+      count: is_liked ? -1 : 1,
+      setState: setLiked,
       setCount: setLikeCount,
     },
   };
@@ -89,14 +89,14 @@ const PostReaction = ({
               cursor: "pointer",
             },
           },
-          isReposted && {
+          is_reposted && {
             color: "#2dcb2d",
           },
         ]}
         onClick={handleReaction.bind(null, "repost")}
       >
         <RepeatRounded sx={{ fontSize: "1.25em", mr: 1.5, mb: 0.175 }} />
-        {repostCount || 0}
+        {ref_count || 0}
       </Box>
       <Box
         sx={[
@@ -111,18 +111,18 @@ const PostReaction = ({
               cursor: "pointer",
             },
           },
-          isLiked && { color: "red" },
+          is_liked && { color: "red" },
         ]}
         onClick={handleReaction.bind(null, "like")}
       >
-        {isLiked ? (
+        {is_liked ? (
           <FavoriteRounded sx={{ fontSize: "1.25em", mr: 1.5, mb: 0.175 }} />
         ) : (
           <FavoriteBorderRounded
             sx={{ fontSize: "1.25em", mr: 1.5, mb: 0.175 }}
           />
         )}
-        {likeCount}
+        {like_count}
       </Box>
     </Box>
   );

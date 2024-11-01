@@ -26,6 +26,7 @@ const Timeline = ({ name, isActive, setRefresh, refresh }) => {
         if (resJson.success) {
           if (resJson.data.length === 0) return;
           const newPosts = resJson.data;
+          console.log(newPosts);
           const latestId = newPosts[newPosts.length - 1].id;
           setPosts((prev) => {
             setLatestPostId(latestId);
@@ -50,9 +51,9 @@ const Timeline = ({ name, isActive, setRefresh, refresh }) => {
       <Button variant="contained" onClick={fetchPosts} fullWidth>
         Load More
       </Button>
-      {posts.toReversed().map((post, idx) => (
+      {posts.toReversed().map((post, index) => (
         <Post
-          key={idx}
+          key={`${post.id}${index}`}
           type={post.type}
           repost_user={post?.repost_user || undefined}
           postId={post.id}

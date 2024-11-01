@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import Image from "next/image";
 import Link from "next/link";
 
@@ -20,6 +22,12 @@ const Post = ({
   is_clickable = true,
   setRefresh,
 }) => {
+  const [isReposted, setisReposted] = useState(is_reposted);
+  const [isLiked, setisLiked] = useState(is_liked);
+  const [repostCount, setRepostCount] = useState(ref_count);
+  const [likeCount, setLikeCount] = useState(like_count);
+
+  // if (!isReposted && type === "repost") return null;
   return (
     <section className="relative bg-white my-8 p-8 shadow-lg rounded-md">
       {is_clickable && (
@@ -64,13 +72,16 @@ const Post = ({
           <PostReaction
             postId={postId}
             comment_count={comment_count}
-            ref_count={ref_count}
-            like_count={like_count}
-            is_reposted={is_reposted}
-            is_liked={is_liked}
+            ref_count={repostCount}
+            setRepostCount={setRepostCount}
+            like_count={likeCount}
+            setLikeCount={setLikeCount}
+            is_reposted={isReposted}
+            setReposted={setisReposted}
+            is_liked={isLiked}
+            setLiked={setisLiked}
             setRefresh={setRefresh}
           />
-          {/*  */}
         </div>
       </div>
     </section>
