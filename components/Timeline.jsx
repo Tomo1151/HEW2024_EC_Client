@@ -4,7 +4,7 @@ import Post from "@/components/Post";
 import { fetchBaseURL } from "@/config/fetchConfig";
 import { useAuthContext } from "@/context/AuthContext";
 
-const Timeline = ({ name, isActive, refresh }) => {
+const Timeline = ({ name, isActive, setRefresh, refresh }) => {
   const [posts, setPosts] = useState([]);
   const [latestPostId, setLatestPostId] = useState("");
   const { refreshToken } = useAuthContext();
@@ -53,6 +53,8 @@ const Timeline = ({ name, isActive, refresh }) => {
       {posts.toReversed().map((post, idx) => (
         <Post
           key={idx}
+          type={post.type}
+          repost_user={post?.repost_user || undefined}
           postId={post.id}
           username={post.author.username}
           nickname={post.author.nickname}
@@ -64,6 +66,7 @@ const Timeline = ({ name, isActive, refresh }) => {
           created_at={post.created_at}
           is_reposted={post.reposts.length > 0}
           is_liked={post.likes.length > 0}
+          setRefresh={setRefresh}
         />
       ))}
     </>

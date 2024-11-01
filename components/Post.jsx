@@ -4,6 +4,8 @@ import Link from "next/link";
 import PostReaction from "./PostReaction";
 
 const Post = ({
+  type,
+  repost_user,
   postId,
   username,
   nickname,
@@ -16,6 +18,7 @@ const Post = ({
   is_reposted,
   is_liked,
   is_clickable = true,
+  setRefresh,
 }) => {
   return (
     <section className="relative bg-white my-8 p-8 shadow-lg rounded-md">
@@ -24,6 +27,11 @@ const Post = ({
           href={`/posts/${postId}`}
           className="absolute inset-0 w-full h-full z-10"
         />
+      )}
+      {type === "repost" && (
+        <p className="font-bold pb-4 text-gray-300">
+          {repost_user.nickname || repost_user.username}がリポストしました
+        </p>
       )}
       <div className="flex">
         <div>
@@ -60,6 +68,7 @@ const Post = ({
             like_count={like_count}
             is_reposted={is_reposted}
             is_liked={is_liked}
+            setRefresh={setRefresh}
           />
           {/*  */}
         </div>

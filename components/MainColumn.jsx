@@ -59,6 +59,7 @@ const MainColumn = () => {
                       key={index}
                       name={tabName}
                       isActive={tabIndex === index}
+                      setRefresh={setRefresh}
                       refresh={refresh}
                     />
                   </Suspense>

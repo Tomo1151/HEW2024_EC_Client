@@ -18,6 +18,7 @@ const PostReaction = ({
   is_reposted,
   like_count,
   is_liked,
+  setRefresh,
 }) => {
   const [isReposted, setisReposted] = useState(is_reposted);
   const [repostCount, setRepostCount] = useState(ref_count);
@@ -50,6 +51,7 @@ const PostReaction = ({
         });
         reaction[type].setState((prev) => !prev);
         reaction[type].setCount((prev) => prev + reaction[type].count);
+        setRefresh((prev) => !prev);
       });
     } catch (err) {
       console.log(err);
