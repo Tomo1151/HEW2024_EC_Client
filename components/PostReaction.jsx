@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 import { Box } from "@mui/material";
 import {
@@ -25,7 +25,8 @@ const PostReaction = ({
 	setPosts,
 	setRefresh,
 }) => {
-	const { refreshToken } = useAuthContext();
+	const { activeUser, refreshToken } = useAuthContext();
+	const router = useRouter();
 
 	const reaction = {
 		repost: {
@@ -43,6 +44,11 @@ const PostReaction = ({
 	};
 
 	const handleReaction = async (type) => {
+		if (!activeUser) {
+			router.push("/login");
+			return;
+		}
+
 		try {
 			refreshToken().then(async () => {
 				await fetch(fetchBaseURL + `/posts/${postId}/${type}`, {

@@ -35,9 +35,8 @@ const Post = ({
 	const [repostCount, setRepostCount] = useState(ref_count);
 	const [likeCount, setLikeCount] = useState(like_count);
 
-	// if (!isReposted && type === "repost") return null;
 	let options = {};
-	if (activeUser.username === username) {
+	if (activeUser && activeUser.username === username) {
 		options = {
 			"通報": () => {
 				console.log("ポストを通報");
