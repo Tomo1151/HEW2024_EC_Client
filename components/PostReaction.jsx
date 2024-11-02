@@ -45,7 +45,7 @@ const PostReaction = ({
 
 	const handleReaction = async (type) => {
 		if (!activeUser) {
-			router.push("/login");
+			router.push("/login", { scroll: false });
 			return;
 		}
 
