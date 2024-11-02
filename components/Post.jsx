@@ -26,6 +26,7 @@ const Post = ({
 	is_reposted,
 	is_liked,
 	is_clickable = true,
+	setPosts,
 	setRefresh,
 }) => {
 	const { activeUser } = useAuthContext();
@@ -186,6 +187,7 @@ const Post = ({
 						setReposted={setisReposted}
 						is_liked={isLiked}
 						setLiked={setisLiked}
+						setPosts={setPosts}
 						setRefresh={setRefresh}
 					/>
 				</div>
