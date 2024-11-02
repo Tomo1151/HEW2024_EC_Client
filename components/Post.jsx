@@ -176,20 +176,22 @@ const Post = ({
 						</p>
 					</div>
 					<p className="mt-2 pb-2">{content}</p>
-					<PostReaction
-						postId={postId}
-						comment_count={comment_count}
-						ref_count={repostCount}
-						setRepostCount={setRepostCount}
-						like_count={likeCount}
-						setLikeCount={setLikeCount}
-						is_reposted={isReposted}
-						setReposted={setisReposted}
-						is_liked={isLiked}
-						setLiked={setisLiked}
-						setPosts={setPosts}
-						setRefresh={setRefresh}
-					/>
+					{type === "post" && (
+						<PostReaction
+							postId={postId}
+							comment_count={comment_count}
+							ref_count={repostCount}
+							setRepostCount={setRepostCount}
+							like_count={likeCount}
+							setLikeCount={setLikeCount}
+							is_reposted={isReposted}
+							setReposted={setisReposted}
+							is_liked={isLiked}
+							setLiked={setisLiked}
+							setPosts={setPosts}
+							setRefresh={setRefresh}
+						/>
+					)}
 				</div>
 			</div>
 		</section>

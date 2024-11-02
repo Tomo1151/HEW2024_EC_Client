@@ -5,13 +5,14 @@ import { fetchBaseURL } from "@/config/fetchConfig";
 import { useAuthContext } from "@/context/AuthContext";
 
 const Timeline = ({ name, isActive, setRefresh, refresh }) => {
-	const [posts, setPosts] = useState([]);
-	// const [latestPostId, setLatestPostId] = useState("");
 	const { refreshToken } = useAuthContext();
+	const [posts, setPosts] = useState([]);
+
 	const getLatestPostId = () => {
 		if (posts.length === 0) return "";
 		return posts[posts.length - 1].id;
 	};
+
 	const fetchPosts = async () => {
 		try {
 			refreshToken().then(async () => {
@@ -32,13 +33,7 @@ const Timeline = ({ name, isActive, setRefresh, refresh }) => {
 					const newPosts = resJson.data;
 					const latestId = newPosts[newPosts.length - 1].id;
 					setPosts((prev) => {
-						// setLatestPostId(latestId);
-						console.dir(prev);
-						console.log(newPosts);
-						console.dir(prev.concat(...newPosts));
-						console.log(latestId);
 						return prev.concat(...newPosts);
-						// return newPosts;
 					});
 				}
 			});
@@ -59,7 +54,7 @@ const Timeline = ({ name, isActive, setRefresh, refresh }) => {
 			<Button variant="contained" onClick={fetchPosts} fullWidth>
 				Load More
 			</Button>
-			{posts.toReversed().map((post, index) => (
+			{posts.toReversed().map((post) => (
 				<Post
 					key={post.id}
 					type={post.type}

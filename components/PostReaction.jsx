@@ -52,10 +52,11 @@ const PostReaction = ({
 				});
 				reaction[type].setState((prev) => !prev);
 				reaction[type].setCount((prev) => prev + reaction[type].count);
-				if (type === "repost" && is_reposted) {
+				if (type === "repost" && is_reposted && setPosts) {
 					setPosts((prev) => prev.filter((post) => post.postId !== postId));
 				}
-				setRefresh((prev) => !prev);
+
+				if (setRefresh) setRefresh((prev) => !prev);
 			});
 		} catch (err) {
 			console.log(err);
