@@ -22,7 +22,7 @@ jobs:
           node-version: "20.x"
 
       - name: Set environment variables
-        run: echo "NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_FETCH_BASE_URL" >> .env.production
+        run: echo "NEXT_PUBLIC_API_URL=https://miseba-api-0-fpdacgbqedf8d2f9.japaneast-01.azurewebsites.net" >> .env.production
 
       - name: npm install, build, and test
         run: |
