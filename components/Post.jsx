@@ -8,7 +8,7 @@ import { MoreHorizRounded } from "@mui/icons-material";
 
 import PostReaction from "./PostReaction";
 
-import { fetchBaseURL, fetchHeaders } from "@/config/fetchConfig";
+import { fetchHeaders } from "@/config/fetchConfig";
 import { useAuthContext } from "../context/AuthContext";
 import { useNotifications } from "@toolpad/core/useNotifications";
 
@@ -58,11 +58,14 @@ const Post = ({
 
   const deletePost = async () => {
     try {
-      const response = await fetch(fetchBaseURL + `/posts/${postId}`, {
-        method: "DELETE",
-        headers: fetchHeaders,
-        credentials: "include",
-      });
+      const response = await fetch(
+        process.env.NEXT_PUBLIC_FETCH_BASE_URL + `/posts/${postId}`,
+        {
+          method: "DELETE",
+          headers: fetchHeaders,
+          credentials: "include",
+        }
+      );
       const resJson = await response.json();
 
       if (resJson.success) {

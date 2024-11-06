@@ -2,7 +2,7 @@
 
 import { useContext, useState, createContext, useEffect } from "react";
 
-import { fetchBaseURL, fetchHeaders } from "@/config/fetchConfig";
+import { fetchHeaders } from "@/config/fetchConfig";
 
 export const AuthContext = createContext({
   activeUser: null,
@@ -20,11 +20,14 @@ export const AuthProvider = ({ children }) => {
   const [activeUser, setActiveUser] = useState(null);
 
   const fetchUser = async () => {
-    const response = await fetch(fetchBaseURL + "/auth/refresh", {
-      method: "POST",
-      headers: fetchHeaders,
-      credentials: "include",
-    });
+    const response = await fetch(
+      process.env.NEXT_PUBLIC_FETCH_BASE_URL + "/auth/refresh",
+      {
+        method: "POST",
+        headers: fetchHeaders,
+        credentials: "include",
+      }
+    );
 
     const resJson = await response.json();
 
@@ -56,12 +59,15 @@ export const AuthProvider = ({ children }) => {
       };
     }
 
-    const response = await fetch(fetchBaseURL + "/auth/register", {
-      method: "POST",
-      headers: fetchHeaders,
-      body: JSON.stringify({ username, email, password }),
-      credentials: "include",
-    });
+    const response = await fetch(
+      process.env.NEXT_PUBLIC_FETCH_BASE_URL + "/auth/register",
+      {
+        method: "POST",
+        headers: fetchHeaders,
+        body: JSON.stringify({ username, email, password }),
+        credentials: "include",
+      }
+    );
 
     const resJson = await response.json();
 
@@ -86,12 +92,15 @@ export const AuthProvider = ({ children }) => {
       };
     }
 
-    const response = await fetch(fetchBaseURL + "/auth/login", {
-      method: "POST",
-      headers: fetchHeaders,
-      body: JSON.stringify({ email, password }),
-      credentials: "include",
-    });
+    const response = await fetch(
+      process.env.NEXT_PUBLIC_FETCH_BASE_URL + "/auth/login",
+      {
+        method: "POST",
+        headers: fetchHeaders,
+        body: JSON.stringify({ email, password }),
+        credentials: "include",
+      }
+    );
 
     const resJson = await response.json();
 
@@ -111,11 +120,14 @@ export const AuthProvider = ({ children }) => {
   };
 
   const refreshToken = async () => {
-    const response = await fetch(fetchBaseURL + "/auth/refresh", {
-      method: "POST",
-      headers: fetchHeaders,
-      credentials: "include",
-    });
+    const response = await fetch(
+      process.env.NEXT_PUBLIC_FETCH_BASE_URL + "/auth/refresh",
+      {
+        method: "POST",
+        headers: fetchHeaders,
+        credentials: "include",
+      }
+    );
     const resJson = await response.json();
     if (!resJson.success) {
       await logout();
@@ -128,10 +140,13 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = async () => {
-    const response = await fetch(fetchBaseURL + "/auth/logout", {
-      method: "POST",
-      credentials: "include",
-    });
+    const response = await fetch(
+      process.env.NEXT_PUBLIC_FETCH_BASE_URL + "/auth/logout",
+      {
+        method: "POST",
+        credentials: "include",
+      }
+    );
     setActiveUser(null);
     console.log("Logged out successfully");
   };

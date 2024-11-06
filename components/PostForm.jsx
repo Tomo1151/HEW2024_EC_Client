@@ -5,7 +5,7 @@ import { useState } from "react";
 import { Box, Button, TextField } from "@mui/material";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 
-import { fetchBaseURL, fetchHeaders } from "@/config/fetchConfig";
+import { fetchHeaders } from "@/config/fetchConfig";
 import { useAuthContext } from "@/context/AuthContext";
 import { useNotifications } from "@toolpad/core/useNotifications";
 
@@ -23,12 +23,15 @@ export default function PostForm({ setRefresh }) {
     try {
       refreshToken().then(async () => {
         try {
-          const response = await fetch(fetchBaseURL + "/posts", {
-            method: "POST",
-            headers: fetchHeaders,
-            body: JSON.stringify(payload),
-            credentials: "include",
-          });
+          const response = await fetch(
+            process.env.NEXT_PUBLIC_FETCH_BASE_URL + "/posts",
+            {
+              method: "POST",
+              headers: fetchHeaders,
+              body: JSON.stringify(payload),
+              credentials: "include",
+            }
+          );
 
           if (!response.ok) {
             throw new Error(response.status);
