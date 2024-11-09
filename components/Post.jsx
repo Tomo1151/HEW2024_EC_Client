@@ -20,6 +20,7 @@ const Post = ({
   nickname,
   icon_link,
   content,
+  image_link,
   comment_count,
   ref_count,
   like_count,
@@ -196,6 +197,17 @@ const Post = ({
             </p>
           </div>
           <p className="mt-2 pb-2">{content}</p>
+          {image_link && (
+            <div className="mt-4">
+              <Image
+                src={`${process.env.NEXT_PUBLIC_FETCH_BASE_URL}${image_link}`}
+                width="400"
+                height="200"
+                className="rounded-md"
+                alt="投稿画像"
+              />
+            </div>
+          )}
           {type === "post" && (
             <PostReaction
               postId={postId}

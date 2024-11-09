@@ -23,12 +23,16 @@ export default function PostForm({ setRefresh }) {
     try {
       refreshToken().then(async () => {
         try {
+          const formData = new FormData(e.target);
+          for (let image of e.target[2].files) {
+            formData.append("files", image);
+          }
+
           const response = await fetch(
             process.env.NEXT_PUBLIC_FETCH_BASE_URL + "/posts",
             {
               method: "POST",
-              headers: fetchHeaders,
-              body: JSON.stringify(payload),
+              body: formData,
               credentials: "include",
             }
           );
@@ -89,7 +93,7 @@ export default function PostForm({ setRefresh }) {
           </Link>
           <TextField
             id="postForm"
-            name="postContent"
+            name="content"
             variant="standard"
             rows={4}
             fullWidth
@@ -107,7 +111,12 @@ export default function PostForm({ setRefresh }) {
             startIcon={<CloudUploadIcon></CloudUploadIcon>}
             className="relative"
           >
-            <input type="file" className="invisible absolute" />
+            <input
+              type="file"
+              className="invisible absolute"
+              accept="image/*"
+              multiple
+            />
             画像を追加
           </Button>
           <Button type="submit" variant="contained" disabled={!postText}>

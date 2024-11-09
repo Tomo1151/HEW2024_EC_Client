@@ -43,6 +43,7 @@ const PostDetail = (route) => {
         nickname={postData.author.nickname}
         icon_link={postData.author.icon_link}
         content={postData.content}
+        image_link={postData.image_link}
         comment_count={postData.comment_count}
         ref_count={postData.ref_count}
         like_count={postData.like_count}
