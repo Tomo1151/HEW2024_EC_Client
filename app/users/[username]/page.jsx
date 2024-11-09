@@ -1,13 +1,12 @@
 "use server";
 
 import ProfileContainer from "@/components/ProfileContainer";
-import { fetchBaseURL } from "@/config/fetchConfig";
 import { notFound } from "next/navigation";
 
 const UserProfile = async (route) => {
   console.log(`GET /users/${route.params.username}`);
   const response = await fetch(
-    `${fetchBaseURL}/users/${route.params.username}`,
+    `${process.env.NEXT_PUBLIC_FETCH_BASE_URL}/users/${route.params.username}`,
     { cache: "no-store" }
   );
 
