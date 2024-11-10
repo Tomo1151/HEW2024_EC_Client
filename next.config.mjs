@@ -14,9 +14,6 @@ const nextConfig = {
       },
     ],
   },
-  env: {
-    NEXT_PUBLIC_FETCH_BASE_URL: process.env.NEXT_PUBLIC_FETCH_BASE_URL,
-  },
   reactStrictMode: false,
 };
 
