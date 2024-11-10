@@ -69,3 +69,5 @@ jobs:
           slot-name: "Production"
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_9BCD63AEFAB847CCB62F679BAB832956 }}
           package: ./deploy
+        env:
+          NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_FETCH_BASE_URL }}
