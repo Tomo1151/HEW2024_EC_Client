@@ -1,7 +1,14 @@
+import { Container } from "@mui/material";
+
 export default function PostLayout({ children }) {
   return (
-    <main className="relative w-[1000px] h-[50dvh] min-h-[550px] mt-8 mx-auto">
+    <Container
+      maxWidth="md"
+      sx={{
+        ml: "3em",
+      }}
+    >
       {children}
-    </main>
+    </Container>
   );
 }

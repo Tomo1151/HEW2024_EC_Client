@@ -104,11 +104,13 @@ const Post = ({
   };
 
   return (
-    <section className="relative bg-white my-8 p-8 shadow-lg rounded-md">
+    <section
+      className={`relative bg-white my-8 p-8 shadow-lg rounded-md ${is_clickable && "hover:brightness-[.95] duration-200"}`}
+    >
       {is_clickable && (
         <Link
           href={`/posts/${postId}`}
-          className="absolute inset-0 w-full h-full z-10"
+          className="absolute inset-0 w-full h-full z-[1]"
         />
       )}
       {type === "repost" && (
@@ -170,10 +172,10 @@ const Post = ({
             </MenuItem>
           ))}
         </Menu>
-        <div>
+        <div className="shrink-0">
           <Link
             href={`/users/${username}`}
-            className="h-fit hover:brightness-[.75] rounded-full duration-200"
+            className="relative h-fit hover:brightness-[.75] rounded-full duration-200 z-10"
           >
             <Image
               src={icon_link || "https://placeholder.com/150"}
@@ -188,7 +190,7 @@ const Post = ({
           <div>
             <Link
               href={`/users/${username}`}
-              className="font-bold hover:underline tracking-[.075em]"
+              className="relative font-bold hover:underline tracking-[.075em] z-10"
             >
               {nickname || username}
             </Link>
@@ -198,15 +200,21 @@ const Post = ({
           </div>
           <p className="mt-2 pb-2">{content}</p>
           {image_link && (
-            <div className="mt-4">
-              <Image
-                src={`${process.env.NEXT_PUBLIC_FETCH_BASE_URL}${image_link}`}
-                width="400"
-                height="200"
-                className="rounded-md"
-                alt="投稿画像"
-              />
-            </div>
+            <Link
+              href={`${process.env.NEXT_PUBLIC_FETCH_BASE_URL}${image_link}`}
+              className="relative z-10"
+            >
+              <div className="mt-4">
+                <Image
+                  src={`${process.env.NEXT_PUBLIC_FETCH_BASE_URL}${image_link}`}
+                  width={1920}
+                  height={1080}
+                  style={{ objectFit: "cover", width: "100%", height: "100%" }}
+                  className="rounded-md"
+                  alt="投稿画像"
+                />
+              </div>
+            </Link>
           )}
           {type === "post" && (
             <PostReaction
