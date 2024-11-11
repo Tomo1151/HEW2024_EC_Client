@@ -37,17 +37,20 @@ const MainColumn = () => {
                 sx={{
                   mx: 3,
                   backgroundColor: "white",
+                  borderBottom: "1px solid #e0e0e0",
                   position: "sticky",
                   top: 0,
                   zIndex: 21,
                 }}
-                className="shadow-md"
+                // className="shadow-md"
               >
                 {tabContents.map((tabName, index) => (
                   <Tab key={index} label={tabName} value={index} />
                 ))}
               </TabList>
-              <PostForm setRefresh={setRefresh} />
+              <Box sx={{ mx: 3 }}>
+                <PostForm setRefresh={setRefresh} />
+              </Box>
               {tabContents.map((tabName, index) => (
                 <TabPanel key={index} value={index} keepMounted>
                   <Suspense

@@ -13,7 +13,7 @@ export const metadata = {
   description: "HEW 2024 ECサイト",
 };
 
-export default function RootLayout({ children, auth }) {
+export default function RootLayout({ children, auth, postForm }) {
   return (
     <html lang="ja">
       <AuthProvider>
@@ -23,6 +23,7 @@ export default function RootLayout({ children, auth }) {
               <Header />
               {children}
               {auth}
+              {postForm}
             </ThemeProvider>
           </AppRouterCacheProvider>
         </body>

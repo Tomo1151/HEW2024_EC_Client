@@ -1,19 +1,23 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+
 import { SpeedDial, SpeedDialIcon, SpeedDialAction } from "@mui/material";
 import { EditNoteRounded, ColorLensRounded } from "@mui/icons-material";
 
 const FloatingPostButton = () => {
+  const router = useRouter();
+
   const actions = [
     {
       icon: <EditNoteRounded />,
       name: "投稿",
-      onclick: () => console.log("post"),
+      onclick: () => router.push("/post?type=post"),
     },
     {
       icon: <ColorLensRounded />,
       name: "作品投稿",
-      onclick: () => console.log("post product"),
+      onclick: () => router.push("/post?type=product"),
     },
   ];
 

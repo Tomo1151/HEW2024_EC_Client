@@ -1,3 +1,5 @@
+"use client";
+
 import { useRouter } from "next/navigation";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -12,7 +14,7 @@ const Modal = ({ children }) => {
         className="fixed inset-0 w-[100dvw] h-[100dvh] bg-black opacity-40  z-40 "
         onClick={router.back}
       ></div>
-      <div className="fixed bg-white w-[600px] h-[600px] rounded-md inset-0 m-auto px-8 py-16 z-50">
+      <div className="fixed bg-white w-[800px] h-fit max-h-[90vh] rounded-md inset-0 m-auto px-8 py-16 z-50 overflow-y-auto">
         <FontAwesomeIcon
           icon={faXmark}
           size="xl"

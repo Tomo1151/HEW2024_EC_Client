@@ -10,7 +10,7 @@ const RegisterForm = ({
 }) => {
   return (
     <>
-      <h1 className="text-3xl font-bold text-center">新規登録</h1>
+      <h1 className="text-3xl font-bold text-center pb-8 mt-8">新規登録</h1>
       <form onSubmit={onSubmit}>
         <TextField
           type="username"

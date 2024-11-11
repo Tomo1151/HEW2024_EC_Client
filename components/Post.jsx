@@ -105,7 +105,7 @@ const Post = ({
 
   return (
     <section
-      className={`relative bg-white my-8 p-8 shadow-lg rounded-md ${is_clickable && "hover:brightness-[.95] duration-200"}`}
+      className={`relative bg-white my-8 p-8 rounded-md ${is_clickable && "hover:brightness-[.95] duration-200"}`}
     >
       {is_clickable && (
         <Link
@@ -212,6 +212,8 @@ const Post = ({
                   style={{ objectFit: "cover", width: "100%", height: "100%" }}
                   className="rounded-md"
                   alt="投稿画像"
+                  priority={false}
+                  loading="lazy"
                 />
               </div>
             </Link>

@@ -4,7 +4,7 @@ import { Button, TextField } from "@mui/material";
 const LoginForm = ({ status, setEmail, setPassword, onSubmit }) => {
   return (
     <>
-      <h1 className="text-center font-bold text-3xl pb-8">ログイン</h1>
+      <h1 className="text-center font-bold text-3xl pb-8 mt-8">ログイン</h1>
       <form onSubmit={onSubmit}>
         <TextField
           type="email"
@@ -16,7 +16,7 @@ const LoginForm = ({ status, setEmail, setPassword, onSubmit }) => {
             setEmail(event.target.value);
           }}
           sx={{ display: "block", width: "80%", mx: "auto", my: "1em" }}
-          variant="standard"
+          // variant="standard"
           autoFocus
           fullWidth
         />
@@ -30,7 +30,7 @@ const LoginForm = ({ status, setEmail, setPassword, onSubmit }) => {
             setPassword(event.target.value);
           }}
           sx={{ display: "block", width: "80%", mx: "auto", my: "1em" }}
-          variant="standard"
+          // variant="standard"
           fullWidth
         />
         <p className="text-center text-red-600">{status}</p>

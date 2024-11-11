@@ -5,7 +5,6 @@ import { useState } from "react";
 import { Box, Button, TextField } from "@mui/material";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 
-import { fetchHeaders } from "@/config/fetchConfig";
 import { useAuthContext } from "@/context/AuthContext";
 import { useNotifications } from "@toolpad/core/useNotifications";
 
@@ -69,10 +68,10 @@ export default function PostForm({ setRefresh }) {
       component="section"
       maxWidth="md"
       sx={{
-        mx: 3,
+        // mx: 3,
         p: 4,
       }}
-      className="shadow-lg rounded-b-md bg-white"
+      className="rounded-b-md bg-white"
     >
       <form onSubmit={handleSubmit}>
         <label htmlFor="postForm" className="block font-bold mb-2">
@@ -80,11 +79,11 @@ export default function PostForm({ setRefresh }) {
         </label>
         <div className="flex">
           <Link
-            href={`/users/${activeUser.username}`}
+            href={`/users/${activeUser?.username}`}
             className="h-fit hover:brightness-[.75] duration-200 mr-4 my-4 shrink-0"
           >
             <Image
-              src={`${activeUser.image_link || "https://placeholder.com/150"}`}
+              src={`${activeUser?.image_link || "https://placeholder.com/150"}`}
               width={50}
               height={50}
               alt="自分のユーザーアイコン"

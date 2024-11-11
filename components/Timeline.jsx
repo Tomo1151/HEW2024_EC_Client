@@ -54,7 +54,12 @@ const Timeline = ({ name, isActive, setRefresh, refresh }) => {
 
   return (
     <>
-      <Button variant="contained" onClick={fetchPosts} fullWidth>
+      <Button
+        variant="contained"
+        onClick={fetchPosts}
+        fullWidth
+        sx={{ boxShadow: "none", ":hover": { boxShadow: "none" } }}
+      >
         Load More
       </Button>
       {posts.toReversed().map((post) => (
