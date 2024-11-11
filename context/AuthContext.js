@@ -38,7 +38,7 @@ export const AuthProvider = ({ children }) => {
         message: "You are not logged in",
       };
     }
-
+    console.log(resJson.data);
     setActiveUser(resJson.data);
 
     return {
@@ -99,6 +99,7 @@ export const AuthProvider = ({ children }) => {
         headers: fetchHeaders,
         body: JSON.stringify({ email, password }),
         credentials: "include",
+        cache: "no-cache",
       }
     );
 

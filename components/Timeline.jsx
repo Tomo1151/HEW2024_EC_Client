@@ -52,6 +52,8 @@ const Timeline = ({ name, isActive, setRefresh, refresh }) => {
     })();
   }, [isActive, refresh]);
 
+  console.log(posts);
+
   return (
     <>
       <Button

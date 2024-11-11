@@ -61,8 +61,39 @@ const PostReaction = ({
         );
         reaction[type].setState((prev) => !prev);
         reaction[type].setCount((prev) => prev + reaction[type].count);
-        if (type === "repost" && is_reposted && setPosts) {
-          setPosts((prev) => prev.filter((post) => post.postId !== postId));
+        if (type === "repost" && setPosts) {
+          if (is_reposted) {
+            console.log(activeUser);
+            setPosts((prev) =>
+              prev
+                .filter((post) => post.postId !== postId)
+                .map((post) => {
+                  if (post.id === postId) {
+                    return {
+                      ...post,
+                      ref_count: post.ref_count - 1,
+                      reposts: post.reposts.filter(
+                        (repost) => repost.userId !== activeUser.id
+                      ),
+                    };
+                  }
+                  return post;
+                })
+            );
+          } else {
+            setPosts((prev) =>
+              prev.map((post) => {
+                if (post.id === postId) {
+                  return {
+                    ...post,
+                    ref_count: post.ref_count + 1,
+                    reposts: [{ userId: activeUser.id }, ...post.reposts],
+                  };
+                }
+                return post;
+              })
+            );
+          }
         }
 
         if (setRefresh) setRefresh((prev) => !prev);

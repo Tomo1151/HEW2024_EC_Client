@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import { Menu, MenuItem, IconButton } from "@mui/material";
 import { MoreHorizRounded } from "@mui/icons-material";
@@ -102,6 +102,14 @@ const Post = ({
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  useEffect(() => {
+    setisReposted(is_reposted);
+  }, [is_reposted]);
+
+  useEffect(() => {
+    setRepostCount(ref_count);
+  }, [ref_count]);
 
   return (
     <section
@@ -218,22 +226,22 @@ const Post = ({
               </div>
             </Link>
           )}
-          {type === "post" && (
-            <PostReaction
-              postId={postId}
-              comment_count={comment_count}
-              ref_count={repostCount}
-              setRepostCount={setRepostCount}
-              like_count={likeCount}
-              setLikeCount={setLikeCount}
-              is_reposted={isReposted}
-              setReposted={setisReposted}
-              is_liked={isLiked}
-              setLiked={setisLiked}
-              setPosts={setPosts}
-              setRefresh={setRefresh}
-            />
-          )}
+          {/* {type === "post" && ( */}
+          <PostReaction
+            postId={postId}
+            comment_count={comment_count}
+            ref_count={repostCount}
+            setRepostCount={setRepostCount}
+            like_count={likeCount}
+            setLikeCount={setLikeCount}
+            is_reposted={isReposted}
+            setReposted={setisReposted}
+            is_liked={isLiked}
+            setLiked={setisLiked}
+            setPosts={setPosts}
+            setRefresh={setRefresh}
+          />
+          {/* )} */}
         </div>
       </div>
     </section>
