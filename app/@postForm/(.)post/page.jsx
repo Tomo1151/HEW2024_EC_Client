@@ -1,10 +1,14 @@
+import { Suspense } from "react";
+
 import DetailPostForm from "@/components/DetailPostForm";
 import Modal from "@/components/Modal";
 
 const InterceptPostForm = () => {
   return (
     <Modal>
-      <DetailPostForm />
+      <Suspense>
+        <DetailPostForm />
+      </Suspense>
     </Modal>
   );
 };
