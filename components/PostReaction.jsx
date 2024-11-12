@@ -66,9 +66,15 @@ const PostReaction = ({
             console.log(activeUser);
             setPosts((prev) =>
               prev
-                .filter((post) => post.postId !== postId)
+                .filter(
+                  (post) =>
+                    !(
+                      post.postId === postId &&
+                      post.repost_user.id === activeUser.id
+                    )
+                )
                 .map((post) => {
-                  if (post.id === postId) {
+                  if (post.id === postId || post.postId === postId) {
                     return {
                       ...post,
                       ref_count: post.ref_count - 1,
@@ -83,7 +89,7 @@ const PostReaction = ({
           } else {
             setPosts((prev) =>
               prev.map((post) => {
-                if (post.id === postId) {
+                if (post.id === postId || post.postId === postId) {
                   return {
                     ...post,
                     ref_count: post.ref_count + 1,
