@@ -6,7 +6,6 @@ import { useAuthContext } from "@/context/AuthContext";
 const Timeline = ({ name, isActive, setRefresh, refresh }) => {
   const { refreshToken } = useAuthContext();
   const [posts, setPosts] = useState([]);
-  console.log(process.env.NEXT_PUBLIC_FETCH_BASE_URL);
 
   const getLatestPostId = () => {
     if (posts.length === 0) return "";
@@ -51,8 +50,6 @@ const Timeline = ({ name, isActive, setRefresh, refresh }) => {
       await fetchPosts();
     })();
   }, [isActive, refresh]);
-
-  console.log(posts);
 
   return (
     <>

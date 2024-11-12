@@ -63,7 +63,6 @@ const PostReaction = ({
         reaction[type].setCount((prev) => prev + reaction[type].count);
         if (type === "repost" && setPosts) {
           if (is_reposted) {
-            console.log(activeUser);
             setPosts((prev) =>
               prev
                 .filter(

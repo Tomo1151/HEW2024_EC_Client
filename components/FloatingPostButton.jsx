@@ -12,12 +12,12 @@ const FloatingPostButton = () => {
     {
       icon: <EditNoteRounded />,
       name: "投稿",
-      onclick: () => router.push("/post?type=post"),
+      onclick: () => router.push("/post?type=post", { scroll: false }),
     },
     {
       icon: <ColorLensRounded />,
       name: "作品投稿",
-      onclick: () => router.push("/post?type=product"),
+      onclick: () => router.push("/post?type=product", { scroll: false }),
     },
   ];
 

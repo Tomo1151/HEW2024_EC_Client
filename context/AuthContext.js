@@ -38,7 +38,6 @@ export const AuthProvider = ({ children }) => {
         message: "You are not logged in",
       };
     }
-    console.log(resJson.data);
     setActiveUser(resJson.data);
 
     return {
