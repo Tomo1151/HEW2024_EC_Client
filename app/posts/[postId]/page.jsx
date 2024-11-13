@@ -76,7 +76,7 @@ const PostDetail = (route) => {
               created_at={reply.created_at}
               is_reposted={reply.reposts.length > 0}
               is_liked={reply.likes.length > 0}
-              is_clickable={false}
+              is_clickable={true}
               setPosts={null}
               setRefresh={null}
             />

@@ -10,6 +10,7 @@ import {
 
 import { useAuthContext } from "@/context/AuthContext";
 import { fetchHeaders } from "@/config/fetchConfig";
+import Link from "next/link";
 
 const PostReaction = ({
   postId,
@@ -123,8 +124,12 @@ const PostReaction = ({
           },
         }}
       >
-        <ChatBubbleOutlineRounded sx={{ fontSize: "1.25em", mr: 1.5 }} />
-        {comment_count || 0}
+        <Link href={`/posts/${postId}`} className="z-0">
+          <Box component="span" sx={{ display: "inline-block" }}>
+            <ChatBubbleOutlineRounded sx={{ fontSize: "1.25em", mr: 1.5 }} />
+            {comment_count || 0}
+          </Box>
+        </Link>
       </Box>
       <Box
         sx={[
