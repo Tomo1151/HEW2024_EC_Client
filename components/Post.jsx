@@ -113,7 +113,7 @@ const Post = ({
 
   return (
     <section
-      className={`relative bg-white my-8 p-8 rounded-md ${is_clickable && "hover:brightness-[.95] duration-200"}`}
+      className={`relative bg-white mt-8 p-8 ${is_clickable ? "hover:brightness-[.95] duration-200 rounded-md" : "rounded-t-md"}`}
     >
       {is_clickable && (
         <Link
