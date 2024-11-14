@@ -11,6 +11,7 @@ import PostReaction from "./PostReaction";
 import { fetchHeaders } from "@/config/fetchConfig";
 import { useAuthContext } from "../context/AuthContext";
 import { useNotifications } from "@toolpad/core/useNotifications";
+import { useRouter } from "next/navigation";
 
 const Post = ({
   type,
@@ -37,6 +38,8 @@ const Post = ({
   const [repostCount, setRepostCount] = useState(ref_count);
   const [likeCount, setLikeCount] = useState(like_count);
   const notifications = useNotifications();
+
+  const router = useRouter();
 
   let options = {};
   if (activeUser && activeUser.username === username) {
@@ -70,6 +73,22 @@ const Post = ({
       const resJson = await response.json();
 
       if (resJson.success) {
+        if (!setRefresh) {
+          notifications.show("ポストが正常に削除されました", {
+            severity: "success",
+            autoHideDuration: 3000,
+          });
+          router.back();
+          return;
+        }
+        if (!setPosts) {
+          setRefresh((prev) => !prev);
+          notifications.show("ポストが正常に削除されました", {
+            severity: "success",
+            autoHideDuration: 3000,
+          });
+          return;
+        }
         setPosts((prev) =>
           prev.filter((post) => {
             if (post.type === "post") {
@@ -84,12 +103,14 @@ const Post = ({
           severity: "success",
           autoHideDuration: 3000,
         });
+      } else {
+        notifications.show("ポストの削除に失敗しました", {
+          severity: "error",
+          autoHideDuration: 3000,
+        });
       }
     } catch (error) {
-      notifications.show("ポストの削除に失敗しました", {
-        severity: "error",
-        autoHideDuration: 3000,
-      });
+      console.error(error);
     }
   };
 
