@@ -129,13 +129,13 @@ const ProfileContainer = ({ user }) => {
           <Tab label="いいね" value={2} />
         </TabList>
 
-        <TabPanel value={0}>
+        <TabPanel value={0} sx={{ pt: 0 }}>
           <ProfileUserTimeline user={user} />
         </TabPanel>
-        <TabPanel value={1}>
+        <TabPanel value={1} sx={{ pt: 0 }}>
           <ProfileUserTimeline user={user} />
         </TabPanel>
-        <TabPanel value={2}>
+        <TabPanel value={2} sx={{ pt: 0 }}>
           <ProfileUserTimeline user={user} />
         </TabPanel>
       </TabContext>
