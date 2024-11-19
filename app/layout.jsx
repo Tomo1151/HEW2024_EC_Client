@@ -7,6 +7,7 @@ import theme from "@/theme/theme";
 import Header from "@/components/Header";
 
 import { AuthProvider } from "@/context/AuthContext";
+import AuthFooter from "@/components/AuthFooter";
 
 export const metadata = {
   title: "HEW 2024 ECサイト",
@@ -24,6 +25,7 @@ export default function RootLayout({ children, auth, postForm }) {
               {children}
               {auth}
               {postForm}
+              {<AuthFooter />}
             </ThemeProvider>
           </AppRouterCacheProvider>
         </body>
