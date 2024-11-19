@@ -67,14 +67,11 @@ export default function ReplyForm({ postId, setRefresh }) {
       sx={{
         px: 4,
         pb: 4,
+        mb: "2px",
       }}
-      className="rounded-b-md bg-white"
+      className="bg-white"
     >
-      <Box
-        component="form"
-        onSubmit={handleSubmit}
-        sx={{ borderTop: "solid 2px #f0f0f0", pt: 2 }}
-      >
+      <Box component="form" onSubmit={handleSubmit} sx={{ pt: 2 }}>
         <div className="flex">
           <Link
             href={`/users/${activeUser?.username}`}

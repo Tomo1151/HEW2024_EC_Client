@@ -52,7 +52,7 @@ const MainColumn = () => {
                 <PostForm setRefresh={setRefresh} />
               </Box>
               {tabContents.map((tabName, index) => (
-                <TabPanel key={index} value={index} keepMounted>
+                <TabPanel key={index} value={index} keepMounted sx={{ pt: 0 }}>
                   <Suspense
                     fallback={
                       <Box
