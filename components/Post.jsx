@@ -222,6 +222,7 @@ const Post = ({
             <Link
               href={`/users/${username}`}
               className="relative font-bold hover:underline tracking-[.075em] z-10"
+              scroll={false}
             >
               {nickname || username}
             </Link>
