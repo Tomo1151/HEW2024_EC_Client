@@ -19,9 +19,7 @@ import {
   NotificationsRounded,
   ShoppingCartRounded,
   CheckBoxRounded,
-  LoginRounded,
   LogoutRounded,
-  CreateRounded,
 } from "@mui/icons-material";
 
 import Link from "next/link";
@@ -29,7 +27,7 @@ import Link from "next/link";
 import { useAuthContext } from "@/context/AuthContext";
 
 const Header = () => {
-  const { logout } = useAuthContext();
+  const { activeUser, logout } = useAuthContext();
 
   const drawerWidth = 420;
   const drawerWidthStyle = {
@@ -43,51 +41,45 @@ const Header = () => {
   const listItems = [
     {
       name: "プロフィール",
-      href: "/",
+      href: activeUser?.username ? `/users/${activeUser.username}` : "/",
       type: "link",
       icon: <AccountCircleRounded sx={navigationIconStyle} />,
+      loginRequired: true,
     },
     {
       name: "タイムライン",
       href: "/",
       type: "link",
       icon: <HomeRounded sx={navigationIconStyle} />,
+      loginRequired: false,
     },
     {
       name: "ライブ配信",
       href: "/",
       type: "link",
       icon: <LiveTvRounded sx={navigationIconStyle} />,
+      loginRequired: false,
     },
     {
       name: "通知",
       href: "/",
       type: "link",
       icon: <NotificationsRounded sx={navigationIconStyle} />,
+      loginRequired: true,
     },
     {
       name: "カート",
       href: "/",
       type: "link",
       icon: <ShoppingCartRounded sx={navigationIconStyle} />,
+      loginRequired: true,
     },
     {
       name: "購入履歴",
       href: "/",
       type: "link",
       icon: <CheckBoxRounded sx={navigationIconStyle} />,
-    },
-    {
-      name: "新規登録",
-      href: "/register",
-      type: "auth",
-      icon: <CreateRounded sx={navigationIconStyle} />,
-    },
-    {
-      name: "ログイン",
-      href: "/login",
-      type: "auth",
-      icon: <LoginRounded sx={navigationIconStyle} />,
+      loginRequired: true,
     },
     {
       name: "ログアウト",
@@ -160,11 +152,13 @@ const Header = () => {
           {listItems.map((item, index) => (
             <ListItem key={index}>
               <ListItemButton
-                href={item.type === "link" ? item.href : null}
+                href={
+                  item.loginRequired && activeUser === false ? null : item.href
+                }
                 onClick={item.type === "func" ? item.onclick : null}
                 sx={{ position: "relative" }}
               >
-                {item.type === "auth" && (
+                {item.loginRequired && activeUser === false && (
                   <Link
                     href="/login"
                     className="absolute inset-0 w-full h-full"

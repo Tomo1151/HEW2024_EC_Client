@@ -57,7 +57,11 @@ const Timeline = ({ name, isActive, setRefresh, refresh }) => {
         variant="contained"
         onClick={fetchPosts}
         fullWidth
-        sx={{ boxShadow: "none", ":hover": { boxShadow: "none" } }}
+        sx={{
+          boxShadow: "none",
+          ":hover": { boxShadow: "none" },
+          borderRadius: 0,
+        }}
       >
         Load More
       </Button>

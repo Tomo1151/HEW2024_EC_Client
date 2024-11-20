@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 
@@ -134,7 +136,7 @@ const Post = ({
 
   return (
     <section
-      className={`relative bg-white mt-8 p-8 ${is_clickable ? "hover:brightness-[.95] duration-200 rounded-md" : "rounded-t-md"}`}
+      className={`relative bg-white mb-[2px] p-8 ${is_clickable ? "hover:brightness-[.95] duration-200" : ""}`}
     >
       {is_clickable && (
         <Link

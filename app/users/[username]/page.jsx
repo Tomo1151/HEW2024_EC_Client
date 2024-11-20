@@ -1,27 +1,33 @@
 "use server";
 
 import ProfileContainer from "@/components/ProfileContainer";
+import { fetchHeaders } from "@/config/fetchConfig";
+import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 
+import { ThemeProvider } from "@mui/material/styles";
+import theme from "@/theme/theme";
+
 const UserProfile = async (route) => {
-  console.log(`GET /users/${route.params.username}`);
-  const response = await fetch(
+  const userResponse = await fetch(
     `${process.env.NEXT_PUBLIC_FETCH_BASE_URL}/users/${route.params.username}`,
-    { cache: "no-store" }
+    {
+      cache: "no-store",
+      headers: { Cookie: cookies().toString(), ...fetchHeaders },
+    }
   );
 
-  if (response.status === 404) {
+  if (userResponse.status === 404) {
     notFound();
   }
-  const resJson = await response.json();
 
-  if (!resJson.success) {
-    return;
-  }
+  const userJson = await userResponse.json();
 
-  const userData = resJson.data;
-  console.log(userData);
-  return <ProfileContainer user={userData} />;
+  return (
+    <ThemeProvider theme={theme}>
+      <ProfileContainer user={userJson.data} />
+    </ThemeProvider>
+  );
 };
 
 export default UserProfile;
