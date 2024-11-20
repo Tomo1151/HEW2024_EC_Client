@@ -33,6 +33,7 @@ export const AuthProvider = ({ children }) => {
 
     if (!resJson.success) {
       // await logout();
+      setActiveUser(false);
       return {
         success: false,
         message: "You are not logged in",
@@ -147,7 +148,7 @@ export const AuthProvider = ({ children }) => {
         credentials: "include",
       }
     );
-    setActiveUser(null);
+    setActiveUser(false);
     console.log("Logged out successfully");
   };
 

@@ -41,7 +41,7 @@ const Header = () => {
   const listItems = [
     {
       name: "プロフィール",
-      href: `/users/${activeUser?.username}`,
+      href: activeUser?.username ? `/users/${activeUser.username}` : "/",
       type: "link",
       icon: <AccountCircleRounded sx={navigationIconStyle} />,
       loginRequired: true,
@@ -152,11 +152,13 @@ const Header = () => {
           {listItems.map((item, index) => (
             <ListItem key={index}>
               <ListItemButton
-                href={item.loginRequired && !activeUser ? null : item.href}
+                href={
+                  item.loginRequired && activeUser === false ? null : item.href
+                }
                 onClick={item.type === "func" ? item.onclick : null}
                 sx={{ position: "relative" }}
               >
-                {item.loginRequired && !activeUser && (
+                {item.loginRequired && activeUser === false && (
                   <Link
                     href="/login"
                     className="absolute inset-0 w-full h-full"

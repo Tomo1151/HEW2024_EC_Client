@@ -6,7 +6,7 @@ import Link from "next/link";
 
 const AuthFooter = () => {
   const { activeUser } = useAuthContext();
-  if (activeUser) {
+  if (activeUser || activeUser === null) {
     return null;
   }
   return (
