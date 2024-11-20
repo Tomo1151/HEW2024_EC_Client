@@ -4,6 +4,7 @@ import ProfileContainer from "@/components/ProfileContainer";
 import { fetchHeaders } from "@/config/fetchConfig";
 import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
+import MainColumnHeader from "@/components/MainColumnHeader";
 
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "@/theme/theme";
@@ -25,6 +26,11 @@ const UserProfile = async (route) => {
 
   return (
     <ThemeProvider theme={theme}>
+      <MainColumnHeader>
+        <h3 className="font-bold tracking-wider">
+          {userJson.data?.username || "名無し"}
+        </h3>
+      </MainColumnHeader>
       <ProfileContainer user={userJson.data} />
     </ThemeProvider>
   );
