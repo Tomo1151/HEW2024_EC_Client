@@ -4,6 +4,9 @@ import React, { useEffect, useState } from "react";
 import { NotificationsProvider } from "@toolpad/core/useNotifications";
 import Post from "@/components/Post";
 import ReplyForm from "@/components/ReplyForm";
+import MainColumnHeader from "@/components/MainColumnHeader";
+import { Box } from "@mui/material";
+import CircularLoading from "@/components/loading/CircularLoading";
 
 const PostDetail = (route) => {
   /** @TODO
@@ -50,51 +53,56 @@ const PostDetail = (route) => {
   }
 
   if (!postData) {
-    return <div>Loading...</div>;
+    return <CircularLoading />;
   }
 
   return (
     <NotificationsProvider>
-      <Post
-        type="post"
-        postId={postData.id}
-        username={postData.author.username}
-        nickname={postData.author.nickname}
-        icon_link={postData.author.icon_link}
-        content={postData.content}
-        image_link={postData.image_link}
-        comment_count={postData.comment_count}
-        ref_count={postData.ref_count}
-        like_count={postData.like_count}
-        created_at={postData.created_at}
-        is_reposted={postData.reposts.length > 0}
-        is_liked={postData.likes.length > 0}
-        is_clickable={false}
-        setPosts={null}
-        setRefresh={null}
-      />
-      <ReplyForm postId={postData.id} setRefresh={setRefresh} />
-      {postData.replies.map((reply) => (
+      <MainColumnHeader>
+        <h3 className="font-bold tracking-wider">ポスト</h3>
+      </MainColumnHeader>
+      <Box sx={{ mx: 3 }}>
         <Post
-          key={reply.id}
-          type="reply"
-          postId={reply.id}
-          username={reply.author.username}
-          nickname={reply.author.nickname}
-          icon_link={reply.author.icon_link}
-          content={reply.content}
-          image_link={reply.image_link}
-          comment_count={reply.comment_count}
-          ref_count={reply.ref_count}
-          like_count={reply.like_count}
-          created_at={reply.created_at}
-          is_reposted={reply.reposts.length > 0}
-          is_liked={reply.likes.length > 0}
-          is_clickable={true}
+          type="post"
+          postId={postData.id}
+          username={postData.author.username}
+          nickname={postData.author.nickname}
+          icon_link={postData.author.icon_link}
+          content={postData.content}
+          image_link={postData.image_link}
+          comment_count={postData.comment_count}
+          ref_count={postData.ref_count}
+          like_count={postData.like_count}
+          created_at={postData.created_at}
+          is_reposted={postData.reposts.length > 0}
+          is_liked={postData.likes.length > 0}
+          is_clickable={false}
           setPosts={null}
-          setRefresh={setRefresh}
+          setRefresh={null}
         />
-      ))}
+        <ReplyForm postId={postData.id} setRefresh={setRefresh} />
+        {postData.replies.map((reply) => (
+          <Post
+            key={reply.id}
+            type="reply"
+            postId={reply.id}
+            username={reply.author.username}
+            nickname={reply.author.nickname}
+            icon_link={reply.author.icon_link}
+            content={reply.content}
+            image_link={reply.image_link}
+            comment_count={reply.comment_count}
+            ref_count={reply.ref_count}
+            like_count={reply.like_count}
+            created_at={reply.created_at}
+            is_reposted={reply.reposts.length > 0}
+            is_liked={reply.likes.length > 0}
+            is_clickable={true}
+            setPosts={null}
+            setRefresh={setRefresh}
+          />
+        ))}
+      </Box>
     </NotificationsProvider>
   );
 };

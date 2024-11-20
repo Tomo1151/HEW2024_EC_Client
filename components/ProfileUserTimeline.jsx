@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Post from "./Post";
 
 import { Box, CircularProgress } from "@mui/material";
+import CircularLoading from "./loading/CircularLoading";
 
 const ProfileUserTimeline = ({ user }) => {
   const [posts, setPosts] = useState(null);
@@ -39,11 +40,7 @@ const ProfileUserTimeline = ({ user }) => {
   }, []);
 
   if (!posts) {
-    return (
-      <Box sx={{ display: "flex", justifyContent: "center", my: 4 }}>
-        <CircularProgress />
-      </Box>
-    );
+    return <CircularLoading />;
   }
 
   return (

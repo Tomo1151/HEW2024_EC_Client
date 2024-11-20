@@ -2,10 +2,12 @@ import { useEffect, useState } from "react";
 import { Button } from "@mui/material";
 import Post from "@/components/Post";
 import { useAuthContext } from "@/context/AuthContext";
+import CircularLoading from "./loading/CircularLoading";
 
 const Timeline = ({ name, isActive, setRefresh, refresh }) => {
   const { refreshToken } = useAuthContext();
   const [posts, setPosts] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const getLatestPostId = () => {
     if (posts.length === 0) return "";
@@ -34,6 +36,7 @@ const Timeline = ({ name, isActive, setRefresh, refresh }) => {
           if (resJson.data.length === 0) return;
           const newPosts = resJson.data;
           const latestId = newPosts[newPosts.length - 1].id;
+          setIsLoading(false);
           setPosts((prev) => {
             return prev.concat(...newPosts);
           });
@@ -50,6 +53,10 @@ const Timeline = ({ name, isActive, setRefresh, refresh }) => {
       await fetchPosts();
     })();
   }, [isActive, refresh]);
+
+  if (isLoading) {
+    return <CircularLoading />;
+  }
 
   return (
     <>
