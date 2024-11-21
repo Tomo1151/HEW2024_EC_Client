@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Box, Button, TextField } from "@mui/material";
 
@@ -53,6 +53,15 @@ const ProfileEditForm = ({ userData }) => {
       console.log(err);
     }
   };
+
+  useEffect(() => {
+    if (
+      activeUser === false ||
+      (activeUser && activeUser?.username !== username)
+    ) {
+      router.push(`/users/${username}`, { scroll: false });
+    }
+  }, [activeUser]);
 
   return (
     activeUser?.username === username && (
