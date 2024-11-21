@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button } from "@mui/material";
+import { LoadingButton } from "@mui/lab";
 import Post from "@/components/Post";
 import { useAuthContext } from "@/context/AuthContext";
 import CircularLoading from "./loading/CircularLoading";
@@ -8,6 +8,7 @@ const Timeline = ({ name, isActive, setRefresh, refresh }) => {
   const { refreshToken } = useAuthContext();
   const [posts, setPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isPostFetching, setIsPostFetching] = useState(false);
 
   const getLatestPostId = () => {
     if (posts.length === 0) return "";
@@ -16,6 +17,7 @@ const Timeline = ({ name, isActive, setRefresh, refresh }) => {
 
   const fetchPosts = async () => {
     try {
+      setIsPostFetching(true);
       refreshToken().then(async () => {
         const query = {
           tagName: name,
@@ -29,6 +31,7 @@ const Timeline = ({ name, isActive, setRefresh, refresh }) => {
           }
         );
         const resJson = await response.json();
+        setIsPostFetching(false);
 
         console.log(`FETCH: ${name}`);
 
@@ -37,6 +40,7 @@ const Timeline = ({ name, isActive, setRefresh, refresh }) => {
           const newPosts = resJson.data;
           const latestId = newPosts[newPosts.length - 1].id;
           setIsLoading(false);
+          setIsPostFetching(false);
           setPosts((prev) => {
             return prev.concat(...newPosts);
           });
@@ -60,10 +64,11 @@ const Timeline = ({ name, isActive, setRefresh, refresh }) => {
 
   return (
     <>
-      <Button
+      <LoadingButton
         variant="contained"
         onClick={fetchPosts}
         fullWidth
+        loading={isPostFetching}
         sx={{
           boxShadow: "none",
           ":hover": { boxShadow: "none" },
@@ -71,7 +76,7 @@ const Timeline = ({ name, isActive, setRefresh, refresh }) => {
         }}
       >
         Load More
-      </Button>
+      </LoadingButton>
       {posts.toReversed().map((post) => (
         <Post
           key={post.id}
