@@ -2,7 +2,6 @@
 
 import { cookies } from "next/headers";
 import UserProfile from "@/app/users/[username]/page";
-import Modal from "@/components/Modal";
 import ProfileEditForm from "@/components/ProfileEditForm";
 
 import { fetchHeaders } from "@/config/fetchConfig";
@@ -21,9 +20,7 @@ const UserProfileEditPage = async ({ params }) => {
 
   return (
     <>
-      <Modal redirectPath={`/users/${username}/`}>
-        <ProfileEditForm userData={userData.data} />
-      </Modal>
+      <ProfileEditForm userData={userData.data} />
       <UserProfile username={username} />
     </>
   );

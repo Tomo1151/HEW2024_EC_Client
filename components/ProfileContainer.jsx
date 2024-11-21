@@ -12,9 +12,11 @@ import { Box, Button, Tab } from "@mui/material";
 
 import StarIcon from "@mui/icons-material/Star";
 import SettingsRoundedIcon from "@mui/icons-material/SettingsRounded";
+import { useAuthContext } from "@/context/AuthContext";
 
 const ProfileContainer = ({ user }) => {
   const profile_image = "https://placeholder.com/150";
+  const { activeUser } = useAuthContext();
   const [tabIndex, setTabIndex] = useState(0);
 
   const handleTabChange = (event, newValue) => {
@@ -52,25 +54,28 @@ const ProfileContainer = ({ user }) => {
         >
           フォロー
         </Button>
-        <Link
-          href={`${user.username}/edit`}
-          className="absolute top-4 right-6"
-          scroll={false}
-        >
-          <SettingsRoundedIcon
-            sx={{
-              fontSize: "32px",
-              boxShadow: "none",
-              borderRadius: "100px",
-              transitionProperty: "filter",
-              transitionDuration: ".25s",
-              ":hover": {
+        {activeUser && activeUser.username === user.username && (
+          <Link
+            href={`${user.username}/edit`}
+            className="absolute top-4 right-6"
+            scroll={false}
+          >
+            <SettingsRoundedIcon
+              sx={{
+                fontSize: "32px",
                 boxShadow: "none",
-                filter: "brightness(90%)",
-              },
-            }}
-          />
-        </Link>
+                borderRadius: "100px",
+                transitionProperty: "filter",
+                transitionDuration: ".25s",
+                ":hover": {
+                  boxShadow: "none",
+                  filter: "brightness(90%)",
+                },
+              }}
+            />
+          </Link>
+        )}
+
         <Image
           src={profile_image}
           width={125}
