@@ -98,7 +98,7 @@ const ProfileContainer = ({ user }) => {
             </p>
           </div>
           <p
-            className={`${false ? "" : "opacity-35 select-none "}font-bold mt-4`}
+            className={`${user.bio ? "" : "opacity-35 select-none "}font-bold mt-4`}
           >
             {user.bio || "ここには何も書かれていないようだ"}
           </p>
