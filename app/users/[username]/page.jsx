@@ -9,9 +9,9 @@ import MainColumnHeader from "@/components/MainColumnHeader";
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "@/theme/theme";
 
-const UserProfile = async (route) => {
+const UserProfile = async ({ params, username }) => {
   const userResponse = await fetch(
-    `${process.env.NEXT_PUBLIC_FETCH_BASE_URL}/users/${route.params.username}`,
+    `${process.env.NEXT_PUBLIC_FETCH_BASE_URL}/users/${username || params.username}`,
     {
       cache: "no-store",
       headers: { Cookie: cookies().toString(), ...fetchHeaders },

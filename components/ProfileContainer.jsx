@@ -52,7 +52,11 @@ const ProfileContainer = ({ user }) => {
         >
           フォロー
         </Button>
-        <Link href="/settings" className="absolute top-4 right-6">
+        <Link
+          href={`${user.username}/edit`}
+          className="absolute top-4 right-6"
+          scroll={false}
+        >
           <SettingsRoundedIcon
             sx={{
               fontSize: "32px",
@@ -73,6 +77,7 @@ const ProfileContainer = ({ user }) => {
           height={125}
           alt="ユーザーアイコン"
           className="rounded-full mx-auto"
+          priority
         />
         <div className="text-center px-12 py-4 grow">
           <p className={"font-bold text-3xl pb-2 tracking-wider"}>
@@ -98,12 +103,16 @@ const ProfileContainer = ({ user }) => {
             {user.bio || "ここには何も書かれていないようだ"}
           </p>
           <p className="mt-4">
-            <Link
-              href={user.homepage_link || "https://example.com"}
-              className="font-mono hover:underline"
-            >
-              {user.homepage_link || "https://example.com"}
-            </Link>
+            {user.homepage_link ? (
+              <Link
+                href={user.homepage_link}
+                className="font-mono hover:underline"
+              >
+                {user.homepage_link}
+              </Link>
+            ) : (
+              <></>
+            )}
           </p>
         </div>
       </Box>
