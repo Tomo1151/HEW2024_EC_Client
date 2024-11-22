@@ -12,9 +12,11 @@ import { Box, Button, Tab } from "@mui/material";
 
 import StarIcon from "@mui/icons-material/Star";
 import SettingsRoundedIcon from "@mui/icons-material/SettingsRounded";
+import { useAuthContext } from "@/context/AuthContext";
 
 const ProfileContainer = ({ user }) => {
   const profile_image = "https://placeholder.com/150";
+  const { activeUser } = useAuthContext();
   const [tabIndex, setTabIndex] = useState(0);
 
   const handleTabChange = (event, newValue) => {
@@ -52,27 +54,35 @@ const ProfileContainer = ({ user }) => {
         >
           フォロー
         </Button>
-        <Link href="/settings" className="absolute top-4 right-6">
-          <SettingsRoundedIcon
-            sx={{
-              fontSize: "32px",
-              boxShadow: "none",
-              borderRadius: "100px",
-              transitionProperty: "filter",
-              transitionDuration: ".25s",
-              ":hover": {
+        {activeUser && activeUser.username === user.username && (
+          <Link
+            href={`${user.username}/edit`}
+            className="absolute top-4 right-6"
+            scroll={false}
+          >
+            <SettingsRoundedIcon
+              sx={{
+                fontSize: "32px",
                 boxShadow: "none",
-                filter: "brightness(90%)",
-              },
-            }}
-          />
-        </Link>
+                borderRadius: "100px",
+                transitionProperty: "filter",
+                transitionDuration: ".25s",
+                ":hover": {
+                  boxShadow: "none",
+                  filter: "brightness(90%)",
+                },
+              }}
+            />
+          </Link>
+        )}
+
         <Image
           src={profile_image}
           width={125}
           height={125}
           alt="ユーザーアイコン"
           className="rounded-full mx-auto"
+          priority
         />
         <div className="text-center px-12 py-4 grow">
           <p className={"font-bold text-3xl pb-2 tracking-wider"}>
@@ -93,17 +103,21 @@ const ProfileContainer = ({ user }) => {
             </p>
           </div>
           <p
-            className={`${false ? "" : "opacity-35 select-none "}font-bold mt-4`}
+            className={`${user.bio ? "" : "opacity-35 select-none "}font-bold mt-4`}
           >
             {user.bio || "ここには何も書かれていないようだ"}
           </p>
           <p className="mt-4">
-            <Link
-              href={user.homepage_link || "https://example.com"}
-              className="font-mono hover:underline"
-            >
-              {user.homepage_link || "https://example.com"}
-            </Link>
+            {user.homepage_link ? (
+              <Link
+                href={user.homepage_link}
+                className="font-mono hover:underline"
+              >
+                {user.homepage_link}
+              </Link>
+            ) : (
+              <></>
+            )}
           </p>
         </div>
       </Box>

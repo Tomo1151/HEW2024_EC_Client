@@ -15,7 +15,7 @@ const MainColumnHeader = ({ children }) => {
         mx: 3,
         px: 2,
         py: 1,
-        zIndex: 100,
+        zIndex: 39,
       }}
     >
       <Box sx={{ mr: 2 }}>

@@ -206,6 +206,7 @@ const Post = ({
         <div className="shrink-0">
           <Link
             href={`/users/${username}`}
+            scroll={false}
             className="relative h-fit hover:brightness-[.75] rounded-full duration-200 z-10"
           >
             <Image
