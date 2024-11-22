@@ -6,7 +6,7 @@ import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 
 const Modal = ({ children, redirectPath }) => {
   const router = useRouter();
-  console.log(redirectPath);
+
   return (
     <>
       <div
