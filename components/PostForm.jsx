@@ -81,6 +81,7 @@ export default function PostForm({ setRefresh }) {
           <Link
             href={`/users/${activeUser?.username}`}
             className="h-fit hover:brightness-[.75] duration-200 mr-4 my-4 shrink-0"
+            scroll={false}
           >
             <Image
               src={`${activeUser?.image_link || "https://placeholder.com/150"}`}
