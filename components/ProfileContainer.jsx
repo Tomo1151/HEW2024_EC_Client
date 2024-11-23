@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -8,20 +8,63 @@ import Link from "next/link";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 
 import ProfileUserTimeline from "./ProfileUserTimeline";
-import { Box, Button, Tab } from "@mui/material";
+import { Box, Tab } from "@mui/material";
+
+import FollowButton from "@/components/FollowButton";
 
 import StarIcon from "@mui/icons-material/Star";
 import SettingsRoundedIcon from "@mui/icons-material/SettingsRounded";
 import { useAuthContext } from "@/context/AuthContext";
+import CircularLoading from "./loading/CircularLoading";
 
-const ProfileContainer = ({ user }) => {
+import { fetchHeaders } from "@/config/fetchConfig";
+
+const ProfileContainer = ({ username }) => {
   const profile_image = "https://placeholder.com/150";
-  const { activeUser } = useAuthContext();
+  const [user, setUser] = useState(null);
+
+  const { activeUser, refreshToken } = useAuthContext();
   const [tabIndex, setTabIndex] = useState(0);
+
+  const [isFollowing, setIsFollowing] = useState(false);
+
+  const fetchUserData = async () => {
+    try {
+      refreshToken().then(async () => {
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_FETCH_BASE_URL}/users/${username}`,
+          {
+            method: "GET",
+            headers: { ...fetchHeaders },
+            credentials: "include",
+          }
+        );
+        const resJson = await response.json();
+
+        if (resJson.success) {
+          console.log(resJson.data);
+          setUser(resJson.data);
+          setIsFollowing(resJson.data.followers.length > 0);
+        }
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   const handleTabChange = (event, newValue) => {
     setTabIndex(newValue);
   };
+
+  useEffect(() => {
+    (async () => {
+      await fetchUserData();
+    })();
+  }, []);
+
+  if (!user) {
+    return <CircularLoading />;
+  }
 
   return (
     <>
@@ -36,24 +79,28 @@ const ProfileContainer = ({ user }) => {
           boxSizing: "border-box",
         }}
       >
-        <Button
-          variant="contained"
-          className="absolute top-4 left-6"
-          sx={{
-            backgroundColor: "white",
-            color: "primary.main",
-            boxShadow: "none",
-            borderRadius: "100px",
-            transitionProperty: "filter",
-            transitionDuration: ".25s",
-            ":hover": {
+        {activeUser && activeUser.username !== user.username && (
+          <FollowButton
+            username={user.username}
+            is_following={isFollowing}
+            set_is_following={setIsFollowing}
+            sx={{
+              position: "absolute",
+              top: "1rem",
+              left: "1.25rem",
+              backgroundColor: "white",
+              color: "primary.main",
               boxShadow: "none",
-              filter: "brightness(90%)",
-            },
-          }}
-        >
-          フォロー
-        </Button>
+              borderRadius: "100px",
+              transitionProperty: "filter",
+              transitionDuration: ".25s",
+              ":hover": {
+                boxShadow: "none",
+                filter: "brightness(90%)",
+              },
+            }}
+          />
+        )}
         {activeUser && activeUser.username === user.username && (
           <Link
             href={`${user.username}/edit`}
@@ -90,10 +137,14 @@ const ProfileContainer = ({ user }) => {
           </p>
           <div className="flex justify-evenly py-2">
             <p className=" text-lg hover:underline">
-              <Link href={`${user.username}/follows`}>フォロー</Link>
+              <Link href={`${user.username}/follows`} scroll={false}>
+                フォロー: {user._count.followees}
+              </Link>
             </p>
             <p className="text-lg hover:underline">
-              <Link href={`${user.username}/followers`}>フォロワー</Link>
+              <Link href={`${user.username}/followers`} scroll={false}>
+                フォロワー: {user._count.followers}
+              </Link>
             </p>
             <p>
               <StarIcon sx={{ color: "rgb(255, 185, 0)" }} />
