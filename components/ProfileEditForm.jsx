@@ -14,10 +14,12 @@ const ProfileEditForm = ({ userData }) => {
   const { activeUser, refreshToken } = useAuthContext();
 
   const username = userData.username;
-  const [nickname, setNickname] = useState(userData.nickname);
-  const [bio, setBio] = useState(userData.bio);
-  const [homepageLink, setHomepageLink] = useState(userData.homepage_link);
-  const [iconLink, setIconLink] = useState(userData.icon_link);
+  const [nickname, setNickname] = useState(userData.nickname || "");
+  const [bio, setBio] = useState(userData.bio || "");
+  const [homepageLink, setHomepageLink] = useState(
+    userData.homepage_link || ""
+  );
+  const [iconLink, setIconLink] = useState(userData.icon_link || "");
 
   const handleSubmit = async (e) => {
     e.preventDefault();

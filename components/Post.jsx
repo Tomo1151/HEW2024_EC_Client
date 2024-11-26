@@ -234,15 +234,25 @@ const Post = ({
           <p className="mt-2 pb-2">{content}</p>
           {image_link && (
             <Link
-              href={`${process.env.NEXT_PUBLIC_FETCH_BASE_URL}${image_link}`}
+              href={`${process.env.NEXT_PUBLIC_FETCH_BASE_URL}/media/images/${image_link}`}
+              target="_blank"
               className="relative z-10"
             >
               <div className="mt-4">
                 <Image
-                  src={`${process.env.NEXT_PUBLIC_FETCH_BASE_URL}${image_link}`}
+                  src={`${process.env.NEXT_PUBLIC_FETCH_BASE_URL}/media/images/${image_link}`}
                   width={1920}
                   height={1080}
-                  style={{ objectFit: "cover", width: "100%", height: "100%" }}
+                  style={{
+                    objectFit: "contain",
+                    width: "100%",
+                    height: "100%",
+                    maxHeight: "400px",
+                    userSelect: "none",
+                    "&:hover": {
+                      filter: "brightness(.9)",
+                    },
+                  }}
                   className="rounded-md"
                   alt="投稿画像"
                   priority={false}
