@@ -4,6 +4,10 @@ const nextConfig = {
   images: {
     remotePatterns: [
       {
+        protocol: "https",
+        hostname: "api.syntck.miseba.com",
+      },
+      {
         protocol: "http",
         hostname: "localhost",
         port: "3000",
