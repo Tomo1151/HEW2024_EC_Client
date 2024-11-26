@@ -5,7 +5,7 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "api.syntck.miseba.com",
+        hostname: "api.miseba.syntck.com",
       },
       {
         protocol: "http",
