@@ -28,8 +28,6 @@ const ProfileContainer = ({ username }) => {
 
   const [isFollowing, setIsFollowing] = useState(false);
 
-  console.log(user);
-
   const fetchUserData = async () => {
     try {
       refreshToken().then(async () => {
@@ -137,6 +135,7 @@ const ProfileContainer = ({ username }) => {
             <Link
               href={`${process.env.NEXT_PUBLIC_FETCH_BASE_URL}/media/icons/${user.icon_link}`}
               scroll={false}
+              target="_blank"
               className="absolute inset-0 w-full h-full"
             ></Link>
           )}
