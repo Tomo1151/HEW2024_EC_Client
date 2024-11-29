@@ -38,6 +38,10 @@ div#__next {
   opacity: 0.3 !important;
 }
 
+input::file-selector-button {
+  visibility: hidden;
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;
