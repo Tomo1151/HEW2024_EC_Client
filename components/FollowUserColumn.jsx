@@ -32,9 +32,13 @@ const FollowUserColumn = ({
       />
       <Box sx={{ width: "54px" }}>
         <img
-          src={icon_link ? icon_link : "https://via.placeholder.com/150"}
+          src={
+            icon_link
+              ? `${process.env.NEXT_PUBLIC_FETCH_BASE_URL}/media/icons/${icon_link}`
+              : "https://via.placeholder.com/150"
+          }
           alt="ユーザーアイコン"
-          className="rounded-full mx-auto hover:brightness-[.75] duration-200"
+          className="rounded-full mx-auto w-full h-full object-cover hover:brightness-[.75] duration-200"
         />
       </Box>
       <Box sx={{ flexGrow: 1, display: "flex" }}>

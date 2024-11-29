@@ -5,7 +5,7 @@ import Link from "next/link";
 
 import { useState, useEffect } from "react";
 
-import { Menu, MenuItem, IconButton } from "@mui/material";
+import { Box, Menu, MenuItem, IconButton } from "@mui/material";
 import { MoreHorizRounded } from "@mui/icons-material";
 
 import PostReaction from "./PostReaction";
@@ -209,13 +209,19 @@ const Post = ({
             scroll={false}
             className="relative h-fit hover:brightness-[.75] rounded-full duration-200 z-10"
           >
-            <Image
-              src={icon_link || "https://placeholder.com/150"}
-              width="50"
-              height="50"
-              className="rounded-full mr-4"
-              alt="ユーザーアイコン"
-            />
+            <Box sx={{ width: "50px", height: "50px", mr: 2 }}>
+              <Image
+                src={
+                  icon_link
+                    ? `${process.env.NEXT_PUBLIC_FETCH_BASE_URL}/media/icons/${icon_link}`
+                    : "https://placeholder.com/150"
+                }
+                width="50"
+                height="50"
+                className="rounded-full object-cover w-full h-full"
+                alt="ユーザーアイコン"
+              />
+            </Box>
           </Link>
         </div>
         <div className="px-2 grow">
@@ -244,16 +250,13 @@ const Post = ({
                   width={1920}
                   height={1080}
                   style={{
-                    objectFit: "contain",
+                    objectFit: "cover",
                     width: "100%",
                     height: "100%",
                     maxHeight: "400px",
                     userSelect: "none",
-                    "&:hover": {
-                      filter: "brightness(.9)",
-                    },
                   }}
-                  className="rounded-md"
+                  className="rounded-md hover:brightness-95 duration-200"
                   alt="投稿画像"
                   priority={false}
                   loading="lazy"

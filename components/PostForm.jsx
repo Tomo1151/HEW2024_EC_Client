@@ -83,13 +83,19 @@ export default function PostForm({ setRefresh }) {
             className="h-fit hover:brightness-[.75] duration-200 mr-4 my-4 shrink-0"
             scroll={false}
           >
-            <Image
-              src={`${activeUser?.image_link || "https://placeholder.com/150"}`}
-              width={50}
-              height={50}
-              alt="自分のユーザーアイコン"
-              className="h-fit rounded-full"
-            />
+            <Box sx={{ width: "50px", height: "50px" }}>
+              <Image
+                src={
+                  activeUser?.icon_link
+                    ? `${process.env.NEXT_PUBLIC_FETCH_BASE_URL}/media/icons/${activeUser?.icon_link}`
+                    : "https://placeholder.com/150"
+                }
+                width={50}
+                height={50}
+                alt="自分のユーザーアイコン"
+                className="rounded-full object-cover w-full h-full"
+              />
+            </Box>
           </Link>
           <TextField
             id="postForm"

@@ -20,13 +20,15 @@ import CircularLoading from "./loading/CircularLoading";
 import { fetchHeaders } from "@/config/fetchConfig";
 
 const ProfileContainer = ({ username }) => {
-  const profile_image = "https://placeholder.com/150";
+  const fallback_img = "https://placeholder.com/150";
   const [user, setUser] = useState(null);
 
   const { activeUser, refreshToken } = useAuthContext();
   const [tabIndex, setTabIndex] = useState(0);
 
   const [isFollowing, setIsFollowing] = useState(false);
+
+  console.log(user);
 
   const fetchUserData = async () => {
     try {
@@ -42,7 +44,7 @@ const ProfileContainer = ({ username }) => {
         const resJson = await response.json();
 
         if (resJson.success) {
-          console.log(resJson.data);
+          // console.log(resJson.data);
           setUser(resJson.data);
           setIsFollowing(resJson.data.followers.length > 0);
         }
@@ -123,14 +125,34 @@ const ProfileContainer = ({ username }) => {
           </Link>
         )}
 
-        <Image
-          src={profile_image}
-          width={125}
-          height={125}
-          alt="ユーザーアイコン"
-          className="rounded-full mx-auto"
-          priority
-        />
+        <Box
+          sx={{
+            position: "relative",
+            width: "125px",
+            height: "125px",
+            mx: "auto",
+          }}
+        >
+          {user.icon_link && (
+            <Link
+              href={`${process.env.NEXT_PUBLIC_FETCH_BASE_URL}/media/icons/${user.icon_link}`}
+              scroll={false}
+              className="absolute inset-0 w-full h-full"
+            ></Link>
+          )}
+          <Image
+            src={
+              user.icon_link
+                ? `${process.env.NEXT_PUBLIC_FETCH_BASE_URL}/media/icons/${user.icon_link}`
+                : fallback_img
+            }
+            width={125}
+            height={125}
+            alt="ユーザーアイコン"
+            className="rounded-full object-cover w-full h-full"
+            priority
+          />
+        </Box>
         <div className="text-center px-12 py-4 grow">
           <p className={"font-bold text-3xl pb-2 tracking-wider"}>
             {user.username}
