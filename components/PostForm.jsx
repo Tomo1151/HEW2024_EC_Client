@@ -126,12 +126,12 @@ export default function PostForm({ setRefresh }) {
               return (
                 <Box
                   key={index}
-                  className="relative w-1/5 h-[100px] object-cover shrink-0 rounded shadow-md"
+                  className="relative w-1/5 h-[100px] shrink-0 rounded shadow-md"
                 >
                   <img
                     src={URL.createObjectURL(image)}
                     alt="投稿画像"
-                    className="w-full h-full inset-0"
+                    className="w-full h-full inset-0 object-cover rounded"
                   />
                   <CancelIcon
                     onClick={() =>
