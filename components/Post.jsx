@@ -258,13 +258,11 @@ const Post = ({
                   }}
                   className="rounded-md hover:brightness-95 duration-200"
                   alt="投稿画像"
-                  priority={false}
-                  loading="lazy"
+                  priority
                 />
               </div>
             </Link>
           )}
-          {/* {type === "post" && ( */}
           <PostReaction
             postId={postId}
             comment_count={comment_count}
@@ -279,7 +277,6 @@ const Post = ({
             setPosts={setPosts}
             setRefresh={setRefresh}
           />
-          {/* )} */}
         </div>
       </div>
     </section>

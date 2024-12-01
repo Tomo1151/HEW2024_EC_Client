@@ -1,31 +1,41 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Box, Button, TextField } from "@mui/material";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import CancelIcon from "@mui/icons-material/Cancel";
 
 import { useAuthContext } from "@/context/AuthContext";
 import { useNotifications } from "@toolpad/core/useNotifications";
 
 export default function PostForm({ setRefresh }) {
+  const ref = useRef(null);
+
   const { activeUser, refreshToken } = useAuthContext();
   const [postText, setPostText] = useState("");
+  const [images, setImages] = useState([]);
   const notifications = useNotifications();
+
+  const handleOnChange = (e) => {
+    setImages([...images, ...e.target.files]);
+    e.target.value = "";
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const payload = {
-      content: postText,
-    };
 
     try {
       refreshToken().then(async () => {
         try {
-          const formData = new FormData(e.target);
-          for (let image of e.target[2].files) {
+          const formData = new FormData();
+          formData.append("content", postText);
+          for (let image of images) {
             formData.append("files", image);
           }
+
+          // console.log(formData.get("content"));
+          console.log(formData.getAll("files"));
 
           const response = await fetch(
             process.env.NEXT_PUBLIC_FETCH_BASE_URL + "/posts",
@@ -43,6 +53,7 @@ export default function PostForm({ setRefresh }) {
 
           if (resJson.success) {
             setPostText("");
+            setImages([]);
             setRefresh((prev) => !prev);
             notifications.show("ポストが正常に投稿されました", {
               severity: "success",
@@ -68,7 +79,6 @@ export default function PostForm({ setRefresh }) {
       component="section"
       maxWidth="md"
       sx={{
-        // mx: 3,
         p: 4,
       }}
       className="rounded-b-md bg-white"
@@ -110,6 +120,30 @@ export default function PostForm({ setRefresh }) {
             value={postText}
           />
         </div>
+        {images.length > 0 && (
+          <div className="flex gap-x-4 p-2 mt-4 bg-slate-100 overflow-x-scroll rounded-md">
+            {Array.from(images).map((image, index) => {
+              return (
+                <Box
+                  key={index}
+                  className="relative w-1/5 h-[100px] object-cover shrink-0 rounded shadow-md"
+                >
+                  <img
+                    src={URL.createObjectURL(image)}
+                    alt="投稿画像"
+                    className="w-full h-full inset-0"
+                  />
+                  <CancelIcon
+                    onClick={() =>
+                      setImages(images.filter((_, i) => i !== index))
+                    }
+                    className="absolute top-0 right-0 cursor-pointer text-gray-500 hover:text-red-700"
+                  />
+                </Box>
+              );
+            })}
+          </div>
+        )}
         <div className="flex justify-end pt-4 gap-x-4">
           <Button
             component="label"
@@ -121,10 +155,18 @@ export default function PostForm({ setRefresh }) {
               type="file"
               className="invisible absolute"
               accept="image/*"
+              name="files"
+              ref={ref}
+              onChange={handleOnChange}
               multiple
             />
             画像を追加
           </Button>
+          {images.length > 0 && (
+            <Button variant="outlined" onClick={() => setImages([])}>
+              画像をクリア
+            </Button>
+          )}
           <Button type="submit" variant="contained" disabled={!postText}>
             投稿する
           </Button>
