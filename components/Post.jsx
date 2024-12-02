@@ -4,16 +4,17 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 import { Box, Menu, MenuItem, IconButton } from "@mui/material";
 import { MoreHorizRounded } from "@mui/icons-material";
 
 import PostReaction from "./PostReaction";
+import PostImageContainer from "./PostImageContainer";
 
 import { fetchHeaders } from "@/config/fetchConfig";
 import { useAuthContext } from "../context/AuthContext";
 import { useNotifications } from "@toolpad/core/useNotifications";
-import { useRouter } from "next/navigation";
 
 const Post = ({
   type,
@@ -23,7 +24,7 @@ const Post = ({
   nickname,
   icon_link,
   content,
-  image_link,
+  images,
   comment_count,
   ref_count,
   like_count,
@@ -238,31 +239,8 @@ const Post = ({
             </p>
           </div>
           <p className="mt-2 pb-2">{content}</p>
-          {image_link && (
-            <Link
-              href={`${process.env.NEXT_PUBLIC_FETCH_BASE_URL}/media/images/${image_link}`}
-              target="_blank"
-              className="relative z-10"
-            >
-              <div className="mt-4">
-                <Image
-                  src={`${process.env.NEXT_PUBLIC_FETCH_BASE_URL}/media/images/${image_link}`}
-                  width={1920}
-                  height={1080}
-                  style={{
-                    objectFit: "cover",
-                    width: "100%",
-                    height: "100%",
-                    maxHeight: "400px",
-                    userSelect: "none",
-                  }}
-                  className="rounded-md hover:brightness-95 duration-200"
-                  alt="投稿画像"
-                  priority
-                />
-              </div>
-            </Link>
-          )}
+          {images?.length > 0 && <PostImageContainer images={images} />}
+
           <PostReaction
             postId={postId}
             comment_count={comment_count}

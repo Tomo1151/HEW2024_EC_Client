@@ -38,7 +38,7 @@ const Timeline = ({ name, isActive, setRefresh, refresh }) => {
         if (resJson.success) {
           if (resJson.data.length === 0) return;
           const newPosts = resJson.data;
-          const latestId = newPosts[newPosts.length - 1].id;
+
           setIsLoading(false);
           setIsPostFetching(false);
           setPosts((prev) => {
@@ -87,7 +87,7 @@ const Timeline = ({ name, isActive, setRefresh, refresh }) => {
           nickname={post.author.nickname}
           icon_link={post.author.icon_link}
           content={post.content}
-          image_link={post.image_link}
+          images={post.images}
           comment_count={post.comment_count}
           ref_count={post.ref_count}
           like_count={post.like_count}

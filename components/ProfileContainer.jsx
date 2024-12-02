@@ -154,7 +154,7 @@ const ProfileContainer = ({ username }) => {
         </Box>
         <div className="text-center px-12 py-4 grow">
           <p className={"font-bold text-3xl pb-2 tracking-wider"}>
-            {user.username}
+            {user.nickname || user.username}
           </p>
           <div className="flex justify-evenly py-2">
             <p className=" text-lg hover:underline">

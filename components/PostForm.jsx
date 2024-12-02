@@ -54,7 +54,7 @@ export default function PostForm({ setRefresh }) {
           if (resJson.success) {
             setPostText("");
             setImages([]);
-            setRefresh((prev) => !prev);
+            if (setRefresh) setRefresh((prev) => !prev);
             notifications.show("ポストが正常に投稿されました", {
               severity: "success",
               autoHideDuration: 3000,
