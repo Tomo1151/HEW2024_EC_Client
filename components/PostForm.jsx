@@ -15,6 +15,7 @@ export default function PostForm({ setRefresh }) {
   const { activeUser, refreshToken } = useAuthContext();
   const [postText, setPostText] = useState("");
   const [images, setImages] = useState([]);
+  const [status, setStatus] = useState([]);
   const notifications = useNotifications();
 
   const handleOnChange = (e) => {
@@ -29,7 +30,7 @@ export default function PostForm({ setRefresh }) {
       refreshToken().then(async () => {
         try {
           const formData = new FormData();
-          formData.append("content", postText);
+          formData.append("content", postText.trim());
           for (let image of images) {
             formData.append("files", image);
           }
@@ -46,20 +47,19 @@ export default function PostForm({ setRefresh }) {
             }
           );
 
-          if (!response.ok) {
-            throw new Error(response.status);
-          }
           const resJson = await response.json();
 
           if (resJson.success) {
             setPostText("");
             setImages([]);
+            setStatus([]);
             if (setRefresh) setRefresh((prev) => !prev);
             notifications.show("ポストが正常に投稿されました", {
               severity: "success",
               autoHideDuration: 3000,
             });
           } else {
+            setStatus(resJson.error);
             notifications.show("ポストの投稿に失敗しました", {
               severity: "error",
               autoHideDuration: 3000,
@@ -120,6 +120,13 @@ export default function PostForm({ setRefresh }) {
             value={postText}
           />
         </div>
+        {status &&
+          status.map((message, index) => (
+            <p key={index} className="text-center text-red-600">
+              {message}
+            </p>
+          ))}
+        {/* <p className="text-center text-red-600">{status}</p> */}
         {images.length > 0 && (
           <div className="flex gap-x-4 p-2 mt-4 bg-slate-100 overflow-x-scroll rounded-md">
             {Array.from(images).map((image, index) => {
@@ -167,7 +174,7 @@ export default function PostForm({ setRefresh }) {
               画像をクリア
             </Button>
           )}
-          <Button type="submit" variant="contained" disabled={!postText}>
+          <Button type="submit" variant="contained" disabled={!postText.trim()}>
             投稿する
           </Button>
         </div>
