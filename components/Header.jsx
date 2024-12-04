@@ -76,7 +76,7 @@ const Header = () => {
     },
     {
       name: "購入履歴",
-      href: "/",
+      href: "/purchase-history",
       type: "link",
       icon: <CheckBoxRounded sx={navigationIconStyle} />,
       loginRequired: true,
