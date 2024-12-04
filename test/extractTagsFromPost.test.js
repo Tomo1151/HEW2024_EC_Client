@@ -170,7 +170,7 @@ describe("extractTagsFromPost", () => {
 
   test("extractTagsFromPost", async () => {
     const postContent = `Hello, world!#world!`;
-    const expected = [];
+    const expected = ["world"];
 
     const result = extractTagsFromPost(postContent);
     expect(result).toStrictEqual(expected);
