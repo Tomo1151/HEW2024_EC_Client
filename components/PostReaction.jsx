@@ -110,7 +110,14 @@ const PostReaction = ({
   };
 
   return (
-    <Box sx={{ display: "flex", pt: 2, columnGap: 8 }}>
+    <Box
+      sx={{
+        display: "flex",
+        pt: 2,
+        columnGap: 8,
+        justifyContent: "space-between",
+      }}
+    >
       <Box
         sx={{
           fontSize: "1.15em",

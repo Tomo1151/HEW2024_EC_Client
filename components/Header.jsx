@@ -3,6 +3,7 @@
 import Image from "next/image";
 
 import {
+  Box,
   Divider,
   Drawer,
   List,
@@ -92,21 +93,18 @@ const Header = () => {
 
   return (
     <>
-      <Drawer
+      <Box
         component="header"
-        variant="permanent"
-        ModalProps={{
-          keepMounted: true, // Better open performance on mobile.
-        }}
         sx={{
           width: drawerWidthStyle,
+          height: "100vh",
           flexShrink: 0,
           whiteSpace: "nowrap",
-          "& .MuiDrawer-paper": {
-            width: drawerWidthStyle,
-            boxSizing: "border-box",
-            zIndex: 39,
-          },
+          position: "sticky",
+          top: 0,
+          justifyContent: "flex-end",
+          borderRight: "1px solid #f0f0f0",
+          marginLeft: "2em",
           minWidth: "fit-content",
         }}
       >
@@ -180,7 +178,7 @@ const Header = () => {
             </ListItem>
           ))}
         </List>
-      </Drawer>
+      </Box>
     </>
   );
 };

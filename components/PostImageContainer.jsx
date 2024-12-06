@@ -9,7 +9,7 @@ const PostImageContainer = ({ images }) => {
       gridTemplateRows: "1fr",
       gridColumn: ["1"],
       gridRow: ["1"],
-      imageHeight: ["h-[400px]"],
+      imageHeight: ["h-[250px]"],
       borderRadiuses: ["rounded-md"],
     },
     {
@@ -17,7 +17,7 @@ const PostImageContainer = ({ images }) => {
       gridTemplateRows: "1fr",
       gridColumn: ["1", "2"],
       gridRow: ["1"],
-      imageHeight: ["h-[400px]", "h-[400px]"],
+      imageHeight: ["h-[250px]", "h-[250px]"],
       borderRadiuses: ["rounded-l-md", "rounded-r-md"],
     },
     {
@@ -25,7 +25,7 @@ const PostImageContainer = ({ images }) => {
       gridTemplateRows: "2fr",
       gridColumn: ["1", "2", "1"],
       gridRow: ["1", "1 / 3", "2"],
-      imageHeight: ["h-[200px]", "h-[400px]", "h-[200px]"],
+      imageHeight: ["h-[125px]", "h-[250px]", "h-[125px]"],
       borderRadiuses: ["rounded-tl-md", "rounded-r-md", "rounded-bl-md"],
     },
     {
@@ -33,7 +33,7 @@ const PostImageContainer = ({ images }) => {
       gridTemplateRows: "1fr 1fr",
       gridColumn: ["1", "2", "1", "2"],
       gridRow: ["1", "1", "2", "2"],
-      imageHeight: ["h-[200px]", "h-[200px]", "h-[200px]", "h-[200px]"],
+      imageHeight: ["h-[125px]", "h-[125px]", "h-[125px]", "h-[125px]"],
       borderRadiuses: [
         "rounded-tl-md",
         "rounded-tr-md",

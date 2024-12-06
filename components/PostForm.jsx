@@ -77,7 +77,7 @@ export default function PostForm({ setRefresh }) {
   return (
     <Box
       component="section"
-      maxWidth="md"
+      // maxWidth="md"
       sx={{
         p: 4,
       }}

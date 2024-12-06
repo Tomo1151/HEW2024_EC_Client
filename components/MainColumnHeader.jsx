@@ -12,7 +12,6 @@ const MainColumnHeader = ({ children }) => {
         top: 0,
         backgroundColor: "white",
         borderBottom: "2px solid #f0f0f0",
-        mx: 3,
         px: 2,
         py: 1,
         zIndex: 39,

@@ -61,7 +61,7 @@ const PostDetail = (route) => {
       <MainColumnHeader>
         <h3 className="font-bold tracking-wider">ポスト</h3>
       </MainColumnHeader>
-      <Box sx={{ mx: 3 }}>
+      <Box>
         <Post
           type="post"
           postId={postData.id}
