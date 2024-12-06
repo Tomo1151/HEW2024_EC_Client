@@ -16,14 +16,16 @@ import { fetchHeaders } from "@/config/fetchConfig";
 import { useAuthContext } from "../context/AuthContext";
 import { useNotifications } from "@toolpad/core/useNotifications";
 
-const Post = ({
+const Product = ({
   type,
   repost_user,
   postId,
   username,
   nickname,
   icon_link,
+  name,
   content,
+  price,
   images,
   comment_count,
   ref_count,
@@ -31,7 +33,8 @@ const Post = ({
   created_at,
   is_reposted,
   is_liked,
-  is_clickable = true,
+  is_clickable = false,
+  is_preview = false,
   setPosts,
   setRefresh,
 }) => {
@@ -238,7 +241,7 @@ const Post = ({
               {new Date(created_at).toLocaleString("ja-JP")}
             </p>
           </div>
-          <p className="mt-2 pb-2">{content}</p>
+          <h3 className="mt-4 pb-4 font-bold text-xl">{name}</h3>
           {images?.length > 0 && <PostImageContainer images={images} />}
 
           <PostReaction
@@ -261,4 +264,4 @@ const Post = ({
   );
 };
 
-export default Post;
+export default Product;

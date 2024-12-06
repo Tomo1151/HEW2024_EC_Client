@@ -35,7 +35,7 @@ const MainColumn = () => {
                 allowScrollButtonsMobile
                 aria-label="Timeline tabs list"
                 sx={{
-                  mx: 3,
+                  // mx: 3,
                   backgroundColor: "white",
                   borderBottom: "1px solid #e0e0e0",
                   position: "sticky",
@@ -48,11 +48,16 @@ const MainColumn = () => {
                   <Tab key={index} label={tabName} value={index} />
                 ))}
               </TabList>
-              <Box sx={{ mx: 3 }}>
+              <Box>
                 <PostForm setRefresh={setRefresh} />
               </Box>
               {tabContents.map((tabName, index) => (
-                <TabPanel key={index} value={index} keepMounted sx={{ pt: 0 }}>
+                <TabPanel
+                  key={index}
+                  value={index}
+                  keepMounted
+                  sx={{ p: 0, mx: 0 }}
+                >
                   <Suspense
                     fallback={
                       <Box
@@ -79,7 +84,7 @@ const MainColumn = () => {
             </TabContext>
           </>
         ) : (
-          <Box sx={{ mx: 3 }}>
+          <Box>
             <Timeline name="最新の投稿" isActive={true} />
           </Box>
         )}

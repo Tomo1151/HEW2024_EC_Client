@@ -5,7 +5,7 @@ import DetailPostForm from "@/components/DetailPostForm";
 
 const PostPage = () => {
   return (
-    <Box component="section" sx={{ mx: 3 }}>
+    <Box component="section">
       <Suspense>
         <DetailPostForm />
       </Suspense>

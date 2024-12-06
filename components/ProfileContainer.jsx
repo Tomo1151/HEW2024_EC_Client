@@ -72,7 +72,6 @@ const ProfileContainer = ({ username }) => {
         component="section"
         className="p-8"
         sx={{
-          mx: 3,
           backgroundColor: "primary.main",
           color: "white",
           position: "relative",
@@ -154,7 +153,7 @@ const ProfileContainer = ({ username }) => {
         </Box>
         <div className="text-center px-12 py-4 grow">
           <p className={"font-bold text-3xl pb-2 tracking-wider"}>
-            {user.username}
+            {user.nickname || user.username}
           </p>
           <div className="flex justify-evenly py-2">
             <p className=" text-lg hover:underline">
@@ -202,7 +201,6 @@ const ProfileContainer = ({ username }) => {
           allowScrollButtonsMobile
           aria-label="Timeline tabs list"
           sx={{
-            mx: 3,
             backgroundColor: "white",
             borderBottom: "1px solid #e0e0e0",
             position: "sticky",
@@ -215,13 +213,13 @@ const ProfileContainer = ({ username }) => {
           <Tab label="いいね" value={2} />
         </TabList>
 
-        <TabPanel value={0} sx={{ pt: 0 }}>
+        <TabPanel value={0} sx={{ pt: 0, px: 0 }}>
           <ProfileUserTimeline user={user} />
         </TabPanel>
-        <TabPanel value={1} sx={{ pt: 0 }}>
+        <TabPanel value={1} sx={{ pt: 0, px: 0 }}>
           <ProfileUserTimeline user={user} />
         </TabPanel>
-        <TabPanel value={2} sx={{ pt: 0 }}>
+        <TabPanel value={2} sx={{ pt: 0, px: 0 }}>
           <ProfileUserTimeline user={user} />
         </TabPanel>
       </TabContext>

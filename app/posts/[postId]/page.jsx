@@ -61,7 +61,7 @@ const PostDetail = (route) => {
       <MainColumnHeader>
         <h3 className="font-bold tracking-wider">ポスト</h3>
       </MainColumnHeader>
-      <Box sx={{ mx: 3 }}>
+      <Box>
         <Post
           type="post"
           postId={postData.id}
@@ -69,7 +69,7 @@ const PostDetail = (route) => {
           nickname={postData.author.nickname}
           icon_link={postData.author.icon_link}
           content={postData.content}
-          image_link={postData.image_link}
+          images={postData.images}
           comment_count={postData.comment_count}
           ref_count={postData.ref_count}
           like_count={postData.like_count}
@@ -90,7 +90,7 @@ const PostDetail = (route) => {
             nickname={reply.author.nickname}
             icon_link={reply.author.icon_link}
             content={reply.content}
-            image_link={reply.image_link}
+            images={reply.images}
             comment_count={reply.comment_count}
             ref_count={reply.ref_count}
             like_count={reply.like_count}
