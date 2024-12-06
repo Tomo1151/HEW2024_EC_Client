@@ -140,7 +140,6 @@ const Product = ({
 
   return (
     <section
-      style={{ fontSize: "10px" }}
       className={`relative bg-white mb-[2px] p-8 ${is_clickable ? "hover:brightness-[.95] duration-200" : ""}`}
     >
       {is_clickable && (
@@ -242,8 +241,8 @@ const Product = ({
               {new Date(created_at).toLocaleString("ja-JP")}
             </p>
           </div>
-          <p className="mt-2 pb-2">{content}</p>
-          {/* {images?.length > 0 && <PostImageContainer images={images} />} */}
+          <h3 className="mt-4 pb-4 font-bold text-xl">{name}</h3>
+          {images?.length > 0 && <PostImageContainer images={images} />}
 
           <PostReaction
             postId={postId}
