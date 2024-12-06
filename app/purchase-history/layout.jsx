@@ -1,8 +1,16 @@
-// 購入履歴レイアウト
-export default function UserLayout({ children }) {
+//購入履歴
+import { Container } from "@mui/material";
+// import MainColumnHeader from "@/components/MainColumnHeader";
+
+export default function PurchaseLayout({ children }) {
   return (
-    <main className="relative w-[1000px] h-[50dvh] min-h-[550px] mt-8 mx-auto">
+    <Container
+      maxWidth="md"
+      sx={{
+        ml: "3em",
+      }}
+    >
       {children}
-    </main>
+    </Container>
   );
 }
