@@ -16,7 +16,7 @@ import { fetchHeaders } from "@/config/fetchConfig";
 import { useAuthContext } from "../context/AuthContext";
 import { useNotifications } from "@toolpad/core/useNotifications";
 
-const Post = ({
+const PostDetail = ({
   type,
   repost_user,
   postId,
@@ -31,7 +31,6 @@ const Post = ({
   created_at,
   is_reposted,
   is_liked,
-  is_clickable = true,
   setPosts,
   setRefresh,
 }) => {
@@ -138,20 +137,14 @@ const Post = ({
   return (
     <section
       style={{ borderBottom: "1px solid #f0f0f0" }}
-      className={`relative bg-white mb-[2px] p-8 ${is_clickable ? "hover:brightness-[.95] duration-200" : ""}`}
+      className="relative bg-white mb-[2px] px-8 pt-8 pb-4"
     >
-      {is_clickable && (
-        <Link
-          href={`/posts/${postId}`}
-          className="absolute inset-0 w-full h-full z-[1]"
-        />
-      )}
       {type === "repost" && (
         <p className="font-bold pb-4 text-gray-300">
           {repost_user.nickname || repost_user.username}がリポストしました
         </p>
       )}
-      <div className="flex relative">
+      <div className="relative">
         <IconButton
           sx={{ position: "absolute", top: 0, right: 0, zIndex: "19" }}
           onClick={handleClick}
@@ -205,7 +198,7 @@ const Post = ({
             </MenuItem>
           ))}
         </Menu>
-        <div className="shrink-0">
+        <div className="flex shrink-0">
           <Link
             href={`/users/${username}`}
             scroll={false}
@@ -225,8 +218,6 @@ const Post = ({
               />
             </Box>
           </Link>
-        </div>
-        <div className="px-2 grow">
           <div>
             <Link
               href={`/users/${username}`}
@@ -239,7 +230,9 @@ const Post = ({
               {new Date(created_at).toLocaleString("ja-JP")}
             </p>
           </div>
-          <p className="mt-2 pb-2">{content}</p>
+        </div>
+        <div className="px-2 grow">
+          <p className="mt-4 mb-2 pb-2">{content}</p>
           {images?.length > 0 && <PostImageContainer images={images} />}
 
           <PostReaction
@@ -262,4 +255,4 @@ const Post = ({
   );
 };
 
-export default Post;
+export default PostDetail;

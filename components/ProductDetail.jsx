@@ -17,7 +17,7 @@ import { fetchHeaders } from "@/config/fetchConfig";
 import { useAuthContext } from "../context/AuthContext";
 import { useNotifications } from "@toolpad/core/useNotifications";
 
-const Product = ({
+const ProductDetail = ({
   type,
   repost_user,
   postId,
@@ -34,8 +34,6 @@ const Product = ({
   created_at,
   is_reposted,
   is_liked,
-  is_clickable = false,
-  is_preview = false,
   setPosts,
   setRefresh,
 }) => {
@@ -142,21 +140,15 @@ const Product = ({
   return (
     <section>
       <div
-        className={`relative bg-white mb-[2px] p-8 ${is_clickable ? "hover:brightness-[.95] duration-200" : ""}`}
+        className="relative bg-white mb-[2px] px-8 pt-8 pb-4"
         style={{ borderBottom: "1px solid #f0f0f0" }}
       >
-        {is_clickable && (
-          <Link
-            href={`/posts/${postId}`}
-            className="absolute inset-0 w-full h-full z-[1]"
-          />
-        )}
         {type === "repost" && (
           <p className="font-bold pb-4 text-gray-300">
             {repost_user.nickname || repost_user.username}がリポストしました
           </p>
         )}
-        <div className="flex relative">
+        <div className="relative">
           <IconButton
             sx={{ position: "absolute", top: 0, right: 0, zIndex: "19" }}
             onClick={handleClick}
@@ -210,7 +202,7 @@ const Product = ({
               </MenuItem>
             ))}
           </Menu>
-          <div className="shrink-0">
+          <div className="flex shrink-0">
             <Link
               href={`/users/${username}`}
               scroll={false}
@@ -230,8 +222,6 @@ const Product = ({
                 />
               </Box>
             </Link>
-          </div>
-          <div className="px-2 grow">
             <div>
               <Link
                 href={`/users/${username}`}
@@ -244,36 +234,14 @@ const Product = ({
                 {new Date(created_at).toLocaleString("ja-JP")}
               </p>
             </div>
-
-            <p className="flex items-center mt-4 w-fit gap-x-1 text-gray-400 font-bold">
+          </div>
+          <div className="px-2 grow">
+            {/* <p className="flex items-center mt-4 w-fit gap-x-1 text-gray-400 font-bold">
               <LabelRoundedIcon sx={{ fontSize: 20 }} />
               販売商品
-            </p>
+            </p> */}
             <h3 className="mt-4 pb-4 font-bold text-xl">{name}</h3>
-            <Box sx={{ position: "relative" }}>
-              {images?.length > 0 && <PostImageContainer images={images} />}
-              <Box
-                sx={{
-                  backgroundColor: "primary.main",
-                  color: "white",
-                  width: "fit-content",
-                  padding: ".5em 1.5em",
-                  fontWeight: "bold",
-                  borderRadius: ".375rem 0 0 .375rem",
-                  position: "absolute",
-                  bottom: "10%",
-                  right: 0,
-                  zIndex: 10,
-                  letterSpacing: ".05em",
-                  pointerEvents: "none",
-                }}
-              >
-                {price.toLocaleString("ja-JP", {
-                  style: "currency",
-                  currency: "JPY",
-                })}
-              </Box>
-            </Box>
+            {images?.length > 0 && <PostImageContainer images={images} />}
 
             <PostReaction
               postId={postId}
@@ -292,8 +260,22 @@ const Product = ({
           </div>
         </div>
       </div>
+
+      <p className="text-2xl text-right font-bold px-8 py-4">
+        {price.toLocaleString("ja-JP", {
+          style: "currency",
+          currency: "JPY",
+        })}
+      </p>
+      <Box sx={{ textAlign: "center", px: "2.5rem" }}>
+        <Button variant="contained" sx={{ px: 8 }}>
+          カートに追加
+        </Button>
+
+        <p className="text-left py-4 ">{content}</p>
+      </Box>
     </section>
   );
 };
 
-export default Product;
+export default ProductDetail;

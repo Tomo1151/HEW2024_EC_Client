@@ -25,15 +25,15 @@ const PostImageContainer = ({ images }) => {
       gridTemplateRows: "2fr",
       gridColumn: ["1", "2", "1"],
       gridRow: ["1", "1 / 3", "2"],
-      imageHeight: ["h-[125px]", "h-[250px]", "h-[125px]"],
-      borderRadiuses: ["rounded-tl-md", "rounded-r-md", "rounded-bl-md"],
+      imageHeight: ["h-[150px]", "h-[300px]", "h-[150px]"],
+      borderRadiuses: ["rounded-tl-xl", "rounded-r-xl", "rounded-bl-xl"],
     },
     {
       gridTemplateColumns: "1fr 1fr",
       gridTemplateRows: "1fr 1fr",
       gridColumn: ["1", "2", "1", "2"],
       gridRow: ["1", "1", "2", "2"],
-      imageHeight: ["h-[125px]", "h-[125px]", "h-[125px]", "h-[125px]"],
+      imageHeight: ["h-[150px]", "h-[150px]", "h-[150px]", "h-[150px]"],
       borderRadiuses: [
         "rounded-tl-md",
         "rounded-tr-md",
