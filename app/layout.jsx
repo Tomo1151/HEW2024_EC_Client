@@ -36,7 +36,7 @@ export default function RootLayout({ children, auth, postForm }) {
                   display: "block",
                   position: "relative",
                   mx: 0,
-                  width: "300px",
+                  width: "400px",
                 }}
               >
                 <SubColumn />

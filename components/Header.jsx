@@ -4,13 +4,12 @@ import Image from "next/image";
 
 import {
   Box,
-  Divider,
-  Drawer,
   List,
   ListItem,
   ListItemButton,
   ListItemIcon,
   ListItemText,
+  useMediaQuery,
 } from "@mui/material";
 
 import {
@@ -26,6 +25,7 @@ import {
 import Link from "next/link";
 
 import { useAuthContext } from "@/context/AuthContext";
+import theme from "@/theme/theme";
 
 const Header = () => {
   const { activeUser, logout } = useAuthContext();
@@ -34,9 +34,11 @@ const Header = () => {
   const drawerWidthStyle = {
     xs: drawerWidth / 3,
     sm: drawerWidth / 3,
-    md: drawerWidth / 1.5,
-    xl: drawerWidth,
+    md: drawerWidth / 3,
+    xl: drawerWidth / 3,
   };
+
+  const isIconView = useMediaQuery(theme.breakpoints.down("lg"));
 
   const navigationIconStyle = { fontSize: "2em" };
   const listItems = [
@@ -96,7 +98,7 @@ const Header = () => {
       <Box
         component="header"
         sx={{
-          width: drawerWidthStyle,
+          // width: drawerWidthStyle,
           height: "100vh",
           flexShrink: 0,
           whiteSpace: "nowrap",
@@ -104,23 +106,19 @@ const Header = () => {
           top: 0,
           justifyContent: "flex-end",
           borderRight: "1px solid #f0f0f0",
-          marginLeft: "2em",
+          p: isIconView ? "0" : "0 2em 0",
           minWidth: "fit-content",
         }}
       >
         <List
           sx={{
+            width: "fit-content",
             "& .MuiListItemText-primary": {
               fontSize: "1.25em",
             },
             "& .MuiListItemIcon-root": {
               justifyContent: "center",
-              mx: {
-                xs: "auto",
-                sm: "auto",
-                md: "auto",
-                xl: "2em",
-              },
+              mx: "auto",
               minWidth: "50px",
             },
           }}
@@ -129,32 +127,38 @@ const Header = () => {
             sx={{
               backgroundColor: "primary.main",
               pt: "1em",
-              pl: {
-                xl: "3.5em",
-              },
               mb: "1em",
+              justifyContent: isIconView ? "center" : "flex-start",
+              textAlign: "center",
               minHeight: "80px",
+              width: "100%",
             }}
           >
             <Link href="/" scroll={false}>
               <Image
-                src="/appri_logo.png"
+                src={isIconView ? "/appri_logo_s.svg" : "/appri_logo.svg"}
                 width={1516}
                 height={673}
                 alt="アプリロゴ"
                 priority={true}
-                className="w-[150px] object-contain"
+                className={`w-full ${isIconView ? "max-w-[50px]" : "max-w-[150px] pl-4"} object-contain`}
               />
             </Link>
           </ListItem>
           {listItems.map((item, index) => (
-            <ListItem key={index}>
+            <ListItem key={index} className={isIconView ? `w-fit` : "w-full"}>
               <ListItemButton
                 href={
                   item.loginRequired && activeUser === false ? null : item.href
                 }
                 onClick={item.type === "func" ? item.onclick : null}
-                sx={{ position: "relative" }}
+                sx={{
+                  position: "relative",
+                  justifyContent: "center",
+                  minWidth: "fit-content",
+                  width: isIconView ? "fit-content" : "100%",
+                  // pr: isIconView ? "0" : "2em",
+                }}
               >
                 {item.loginRequired && activeUser === false && (
                   <Link
@@ -163,14 +167,18 @@ const Header = () => {
                     scroll={false}
                   ></Link>
                 )}
-                <ListItemIcon>{item.icon}</ListItemIcon>
+                <ListItemIcon sx={{ width: "fit-content" }} className="mx-0">
+                  {item.icon}
+                </ListItemIcon>
                 <ListItemText
                   primary={item.name}
                   sx={{
+                    flexBasis: "80%",
                     display: {
                       xs: "none",
                       sm: "none",
-                      md: "block",
+                      md: "none",
+                      lg: "block",
                     },
                   }}
                 />

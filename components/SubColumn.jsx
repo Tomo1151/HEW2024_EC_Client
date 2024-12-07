@@ -3,7 +3,7 @@ import { Box } from "@mui/material";
 const SubColumn = () => {
   return (
     <Box sx={{ position: "sticky", top: 0, borderLeft: "1px solid #f0f0f0" }}>
-      <Box sx={{ backgroundColor: "gray", height: "100vh" }}></Box>
+      <Box sx={{ height: "100vh" }}></Box>
     </Box>
   );
 };
