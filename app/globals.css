@@ -55,3 +55,17 @@ input::file-selector-button {
     display: none;
   }
 }
+
+@media (max-width: 1280px) {
+  .sub-column {
+    /* @apply hidden; */
+    display: none !important;
+  }
+}
+
+@media (max-width: 768px) {
+  /* @apply text-sm; */
+  body {
+    font-size: 0.875rem;
+  }
+}

@@ -19,8 +19,8 @@ export const metadata = {
 export default function RootLayout({ children, auth, postForm }) {
   return (
     <html lang="ja">
-      <AuthProvider>
-        <body className={`relative flex bg-white justify-center`}>
+      <body className={`relative flex bg-white justify-center`}>
+        <AuthProvider>
           <AppRouterCacheProvider>
             <ThemeProvider theme={theme}>
               <Header />
@@ -31,6 +31,7 @@ export default function RootLayout({ children, auth, postForm }) {
               <Container
                 maxWidth="sm"
                 disableGutters
+                className="sub-column"
                 sx={{
                   display: "block",
                   position: "relative",
@@ -46,8 +47,8 @@ export default function RootLayout({ children, auth, postForm }) {
               {<AuthFooter />}
             </ThemeProvider>
           </AppRouterCacheProvider>
-        </body>
-      </AuthProvider>
+        </AuthProvider>
+      </body>
     </html>
   );
 }
