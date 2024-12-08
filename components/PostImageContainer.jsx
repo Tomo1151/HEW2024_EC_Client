@@ -2,14 +2,14 @@ import { Box } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
 
-const PostImageContainer = ({ images }) => {
+const PostImageContainer = ({ images, is_preview }) => {
   const styles = [
     {
       gridTemplateColumns: "1fr",
       gridTemplateRows: "1fr",
       gridColumn: ["1"],
       gridRow: ["1"],
-      imageHeight: ["h-[300px]"],
+      imageHeight: ["h-[18.75em]"],
       borderRadiuses: ["rounded-xl"],
     },
     {
@@ -17,7 +17,7 @@ const PostImageContainer = ({ images }) => {
       gridTemplateRows: "1fr",
       gridColumn: ["1", "2"],
       gridRow: ["1"],
-      imageHeight: ["h-[300px]", "h-[300px]"],
+      imageHeight: ["h-[18.75em]", "h-[18.75em]"],
       borderRadiuses: ["rounded-l-xl", "rounded-r-xl"],
     },
     {
@@ -25,7 +25,7 @@ const PostImageContainer = ({ images }) => {
       gridTemplateRows: "2fr",
       gridColumn: ["1", "2", "1"],
       gridRow: ["1", "1 / 3", "2"],
-      imageHeight: ["h-[150px]", "h-[300px]", "h-[150px]"],
+      imageHeight: ["h-[9.375em]", "h-[18.75em]", "h-[9.375em]"],
       borderRadiuses: ["rounded-tl-xl", "rounded-r-xl", "rounded-bl-xl"],
     },
     {
@@ -33,7 +33,7 @@ const PostImageContainer = ({ images }) => {
       gridTemplateRows: "1fr 1fr",
       gridColumn: ["1", "2", "1", "2"],
       gridRow: ["1", "1", "2", "2"],
-      imageHeight: ["h-[150px]", "h-[150px]", "h-[150px]", "h-[150px]"],
+      imageHeight: ["h-[9.375em]", "h-[9.375em]", "h-[9.375em]", "h-[9.375em]"],
       borderRadiuses: [
         "rounded-tl-xl",
         "rounded-tr-xl",
@@ -43,23 +43,39 @@ const PostImageContainer = ({ images }) => {
     },
   ];
 
+  console.log(images);
+
+  if (!is_preview && !images.every((image) => image.image_link != undefined)) {
+    return null;
+  }
+
   if (images.length > 4) {
     images = images.slice(0, 4);
   }
+
+  if (!is_preview) {
+    images = images.map(
+      (image) =>
+        `${process.env.NEXT_PUBLIC_FETCH_BASE_URL}/media/images/${image.image_link}`
+    );
+  }
+
+  console.log(images);
 
   return (
     <Box
       sx={{
         display: "grid",
+        width: "100%",
         gap: "2px",
         gridTemplateColumns: styles[images.length - 1].gridTemplateColumns,
         gridTemplateRows: styles[images.length - 1].gridTemplateRows,
       }}
     >
-      {images.map((image, index) => (
+      {images.map((image_link, index) => (
         <Link
-          key={image.image_link}
-          href={`${process.env.NEXT_PUBLIC_FETCH_BASE_URL}/media/images/${image.image_link}`}
+          key={image_link}
+          href={image_link}
           target="_blank"
           style={{
             gridColumn: styles[images.length - 1].gridColumn[index],
@@ -69,7 +85,7 @@ const PostImageContainer = ({ images }) => {
         >
           {/* <div className="mt-4"> */}
           <Image
-            src={`${process.env.NEXT_PUBLIC_FETCH_BASE_URL}/media/images/${image.image_link}`}
+            src={image_link}
             width={1920}
             height={1080}
             className={`hover:brightness-95 duration-200 w-full h-full object-cover ${styles[images.length - 1].borderRadiuses[index]}`}

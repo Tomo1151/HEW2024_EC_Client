@@ -8,7 +8,6 @@ import { useRouter } from "next/navigation";
 
 import { Box, Button, Menu, MenuItem, IconButton } from "@mui/material";
 import { MoreHorizRounded } from "@mui/icons-material";
-import LabelRoundedIcon from "@mui/icons-material/LabelRounded";
 
 import PostReaction from "./PostReaction";
 import PostImageContainer from "./PostImageContainer";
@@ -236,10 +235,6 @@ const ProductDetail = ({
             </div>
           </div>
           <div className="px-2 grow">
-            {/* <p className="flex items-center mt-4 w-fit gap-x-1 text-gray-400 font-bold">
-              <LabelRoundedIcon sx={{ fontSize: 20 }} />
-              販売商品
-            </p> */}
             <h3 className="mt-4 pb-4 font-bold text-xl">{name}</h3>
             {images?.length > 0 && <PostImageContainer images={images} />}
 

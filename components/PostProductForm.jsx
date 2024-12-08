@@ -10,6 +10,7 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { useAuthContext } from "@/context/AuthContext";
 import { useNotifications } from "@toolpad/core/useNotifications";
 import Product from "./Product";
+import ProductPreview from "./ProductPreview";
 
 export default function PostProductForm({ setRefresh }) {
   const { activeUser, refreshToken } = useAuthContext();
@@ -105,9 +106,14 @@ export default function PostProductForm({ setRefresh }) {
         </label>
         <Box
           component="div"
-          sx={{ display: "flex", boxSizing: "border-box", gap: "1rem" }}
+          sx={{
+            display: "flex",
+            boxSizing: "border-box",
+            gap: "5px",
+            width: "100%",
+          }}
         >
-          <Box sx={{ flexBasis: "50%" }}>
+          <Box sx={{ flex: "1 1 50%" }}>
             <Link
               href={`/users/${activeUser?.username}`}
               className="inline-block h-fit hover:brightness-[.75] my-4 duration-200 shrink-0"
@@ -316,20 +322,18 @@ export default function PostProductForm({ setRefresh }) {
               display: "flex",
               alignItems: "center",
               backgroundColor: "#ddd",
-              flexBasis: "50%",
+              flex: "1 1 50%",
               borderRadius: ".375rem",
             }}
           >
-            <Product
+            <ProductPreview
               username={activeUser?.username}
               nickname={activeUser?.nickname}
               icon_link={activeUser?.icon_link}
               name={name}
-              description={description}
               price={price}
-              liveLink={liveLink}
               images={images}
-              is_preview
+              created_at={"たった今"}
             />
           </Box>
         </Box>

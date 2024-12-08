@@ -34,8 +34,7 @@ const Product = ({
   created_at,
   is_reposted,
   is_liked,
-  is_clickable = false,
-  is_preview = false,
+  is_clickable = true,
   setPosts,
   setRefresh,
 }) => {
@@ -140,7 +139,7 @@ const Product = ({
   }, [ref_count]);
 
   return (
-    <section>
+    <section style={{ fontSize: "16px" }}>
       <div
         className={`relative bg-white mb-[2px] p-8 ${is_clickable ? "hover:brightness-[.95] duration-200" : ""}`}
         style={{ borderBottom: "1px solid #f0f0f0" }}
@@ -158,10 +157,21 @@ const Product = ({
         )}
         <div className="flex relative">
           <IconButton
-            sx={{ position: "absolute", top: 0, right: 0, zIndex: "19" }}
+            sx={{
+              position: "absolute",
+              top: 0,
+              right: 0,
+              zIndex: "19",
+            }}
             onClick={handleClick}
           >
-            <MoreHorizRounded sx={{ fontSize: 30 }} />
+            <MoreHorizRounded
+              sx={{
+                fontSize: "1rem !important",
+                width: "1.875em",
+                height: "1.875em",
+              }}
+            />
           </IconButton>
           <Menu
             anchorEl={anchorEl}
@@ -169,34 +179,34 @@ const Product = ({
             onClose={handleClose}
             transformOrigin={{ horizontal: "right", vertical: "top" }}
             anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
-            slotProps={{
-              paper: {
-                elevation: 0,
-                sx: {
-                  overflow: "visible",
-                  filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
-                  mt: 1.5,
-                  "& .MuiAvatar-root": {
-                    width: 32,
-                    height: 32,
-                    ml: -0.5,
-                    mr: 1,
-                  },
-                  "&::before": {
-                    content: '""',
-                    display: "block",
-                    position: "absolute",
-                    top: 0,
-                    right: 14,
-                    width: 10,
-                    height: 10,
-                    bgcolor: "background.paper",
-                    transform: "translateY(-50%) rotate(45deg)",
-                    zIndex: 0,
-                  },
-                },
-              },
-            }}
+            // slotProps={{
+            //   paper: {
+            //     elevation: 0,
+            //     sx: {
+            //       overflow: "visible",
+            //       filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
+            //       mt: 1.5,
+            //       "& .MuiAvatar-root": {
+            //         width: "2em",
+            //         height: "2em",
+            //         ml: "-0.5em",
+            //         mr: "0.5em",
+            //       },
+            //       "&::before": {
+            //         content: '""',
+            //         display: "block",
+            //         position: "absolute",
+            //         top: 0,
+            //         right: 14,
+            //         width: 10,
+            //         height: 10,
+            //         bgcolor: "background.paper",
+            //         transform: "translateY(-50%) rotate(45deg)",
+            //         zIndex: 0,
+            //       },
+            //     },
+            //   },
+            // }}
           >
             {Object.keys(options).map((key) => (
               <MenuItem
@@ -216,7 +226,7 @@ const Product = ({
               scroll={false}
               className="relative h-fit hover:brightness-[.75] rounded-full duration-200 z-10"
             >
-              <Box sx={{ width: "50px", height: "50px", mr: 2 }}>
+              <Box sx={{ width: "3.125em", height: "3.125em", mr: "1em" }}>
                 <Image
                   src={
                     icon_link
@@ -231,7 +241,7 @@ const Product = ({
               </Box>
             </Link>
           </div>
-          <div className="px-2 grow">
+          <div className="px-[.5em] grow">
             <div>
               <Link
                 href={`/users/${username}`}
@@ -245,11 +255,11 @@ const Product = ({
               </p>
             </div>
 
-            <p className="flex items-center mt-4 w-fit gap-x-1 text-gray-400 font-bold">
-              <LabelRoundedIcon sx={{ fontSize: 20 }} />
+            <p className="flex items-center mt-[1em] w-fit gap-x-[.25em] text-gray-400 font-bold">
+              <LabelRoundedIcon sx={{ fontSize: "1.25em" }} />
               販売商品
             </p>
-            <h3 className="mt-4 pb-4 font-bold text-xl">{name}</h3>
+            <h3 className="mt-[1em] pb-[1em] font-bold text-xl">{name}</h3>
             <Box sx={{ position: "relative" }}>
               {images?.length > 0 && <PostImageContainer images={images} />}
               <Box
@@ -259,12 +269,12 @@ const Product = ({
                   width: "fit-content",
                   padding: ".5em 1.5em",
                   fontWeight: "bold",
-                  borderRadius: ".375rem 0 0 .375rem",
+                  borderRadius: ".75em 0 0 .75em",
                   position: "absolute",
                   bottom: "10%",
                   right: 0,
                   zIndex: 10,
-                  letterSpacing: ".05em",
+                  letterSpacing: ".075em",
                   pointerEvents: "none",
                 }}
               >

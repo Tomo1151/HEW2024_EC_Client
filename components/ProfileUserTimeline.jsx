@@ -3,8 +3,8 @@
 import { useState, useEffect } from "react";
 import Post from "./Post";
 
-import { Box, CircularProgress } from "@mui/material";
 import CircularLoading from "./loading/CircularLoading";
+import Product from "./Product";
 
 const ProfileUserTimeline = ({ user }) => {
   const [posts, setPosts] = useState(null);
@@ -45,27 +45,50 @@ const ProfileUserTimeline = ({ user }) => {
 
   return (
     <section>
-      {posts.map((post) => (
-        <Post
-          key={post.id}
-          type={post.type}
-          repost_user={post?.repost_user || undefined}
-          postId={post?.postId || post.id}
-          username={post.author.username}
-          nickname={post.author.nickname}
-          icon_link={post.author.icon_link}
-          content={post.content}
-          images={post.images}
-          comment_count={post.comment_count}
-          ref_count={post.ref_count}
-          like_count={post.like_count}
-          created_at={post.created_at}
-          is_reposted={post.reposts.length > 0}
-          is_liked={post.likes.length > 0}
-          setPosts={null}
-          setRefresh={null}
-        />
-      ))}
+      {posts.map((post) =>
+        post.product ? (
+          <Product
+            key={post.id}
+            type={post.type}
+            postId={post.id}
+            username={post.author.username}
+            nickname={post.author.nickname}
+            icon_link={post.author.icon_link}
+            content={post.content}
+            price={post.product.price}
+            name={post.product.name}
+            images={post.images}
+            comment_count={post.comment_count}
+            ref_count={post.ref_count}
+            like_count={post.like_count}
+            created_at={post.created_at}
+            is_reposted={post.reposts.length > 0}
+            is_liked={post.likes.length > 0}
+            setPosts={null}
+            setRefresh={null}
+          />
+        ) : (
+          <Post
+            key={post.id}
+            type={post.type}
+            repost_user={post?.repost_user || undefined}
+            postId={post?.postId || post.id}
+            username={post.author.username}
+            nickname={post.author.nickname}
+            icon_link={post.author.icon_link}
+            content={post.content}
+            images={post.images}
+            comment_count={post.comment_count}
+            ref_count={post.ref_count}
+            like_count={post.like_count}
+            created_at={post.created_at}
+            is_reposted={post.reposts.length > 0}
+            is_liked={post.likes.length > 0}
+            setPosts={null}
+            setRefresh={null}
+          />
+        )
+      )}
     </section>
   );
 };

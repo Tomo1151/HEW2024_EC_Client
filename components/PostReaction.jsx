@@ -113,8 +113,8 @@ const PostReaction = ({
     <Box
       sx={{
         display: "flex",
-        pt: 2,
-        columnGap: 16,
+        pt: "1em",
+        columnGap: "8em",
       }}
     >
       <Box
@@ -132,7 +132,7 @@ const PostReaction = ({
       >
         <Link href={`/posts/${postId}`} className="z-0">
           <Box component="span" sx={{ display: "inline-block" }}>
-            <ChatBubbleOutlineRounded sx={{ fontSize: "1.25em", mr: 1.5 }} />
+            <ChatBubbleOutlineRounded sx={{ fontSize: "1.25em", mr: ".5em" }} />
             {comment_count || 0}
           </Box>
         </Link>
@@ -156,7 +156,7 @@ const PostReaction = ({
         ]}
         onClick={handleReaction.bind(null, "repost")}
       >
-        <RepeatRounded sx={{ fontSize: "1.25em", mr: 1.5, mb: 0.175 }} />
+        <RepeatRounded sx={{ fontSize: "1.25em", mr: ".5em", mb: ".0875em" }} />
         {ref_count || 0}
       </Box>
       <Box
@@ -177,10 +177,12 @@ const PostReaction = ({
         onClick={handleReaction.bind(null, "like")}
       >
         {is_liked ? (
-          <FavoriteRounded sx={{ fontSize: "1.25em", mr: 1.5, mb: 0.175 }} />
+          <FavoriteRounded
+            sx={{ fontSize: "1.25em", mr: ".5em", mb: ".0875em" }}
+          />
         ) : (
           <FavoriteBorderRounded
-            sx={{ fontSize: "1.25em", mr: 1.5, mb: 0.175 }}
+            sx={{ fontSize: "1.25em", mr: ".5em", mb: ".0875" }}
           />
         )}
         {like_count}
