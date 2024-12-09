@@ -31,9 +31,14 @@ const ProductPreview = ({
   console.log(images);
 
   return (
-    <section style={{ width: "100%", fontSize: "7px" }}>
+    <section
+      style={{
+        width: "100%",
+        // fontSize: "7px",
+      }}
+    >
       <div
-        className={`relative bg-white mb-[2px] p-[2em]`}
+        className={`relative bg-white mb-[2px] py-[1em]`}
         style={{ borderBottom: "1px solid #f0f0f0" }}
       >
         <div className="flex relative">
@@ -46,7 +51,13 @@ const ProductPreview = ({
               fontSize: "1.9em",
             }}
           >
-            <MoreHorizRounded sx={{ fontSize: "10px" }} />
+            <MoreHorizRounded
+              sx={
+                {
+                  // fontSize: "10px",
+                }
+              }
+            />
           </IconButton>
 
           <div className="shrink-0">
@@ -84,7 +95,7 @@ const ProductPreview = ({
 
             <p
               className="flex text-[1em] items-center mt-[1em] w-fit gap-x-[.25em] text-gray-400 font-bold"
-              style={{ transform: "scale(0.75)", transformOrigin: "top left" }}
+              // style={{ transform: "scale(0.75)", transformOrigin: "top left" }}
             >
               <LabelRoundedIcon />
               <span>販売商品</span>
@@ -97,10 +108,7 @@ const ProductPreview = ({
             </h3>
             <Box sx={{ position: "relative" }}>
               {images?.length > 0 && (
-                <PostImageContainer
-                  images={images.map((image) => URL.createObjectURL(image))}
-                  is_preview
-                />
+                <PostImageContainer images={images} is_preview />
               )}
               <Box
                 sx={{
@@ -118,10 +126,12 @@ const ProductPreview = ({
                   pointerEvents: "none",
                 }}
               >
-                {parseInt(price).toLocaleString("ja-JP", {
-                  style: "currency",
-                  currency: "JPY",
-                })}
+                {isNaN(parseInt(price))
+                  ? "価格未設定"
+                  : parseInt(price).toLocaleString("ja-JP", {
+                      style: "currency",
+                      currency: "JPY",
+                    })}
               </Box>
             </Box>
 
@@ -131,6 +141,7 @@ const ProductPreview = ({
               like_count={0}
               is_reposted={false}
               is_liked={false}
+              is_preview
             />
           </div>
         </div>

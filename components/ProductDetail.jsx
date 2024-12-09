@@ -85,6 +85,7 @@ const ProductDetail = ({
           router.back();
           return;
         }
+        console.log(setPosts);
         if (!setPosts) {
           setRefresh((prev) => !prev);
           notifications.show("ポストが正常に削除されました", {

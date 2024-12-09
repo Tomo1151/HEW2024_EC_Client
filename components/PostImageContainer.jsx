@@ -2,7 +2,10 @@ import { Box } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
 
-const PostImageContainer = ({ images, is_preview }) => {
+import { useEffect, memo } from "react";
+
+const PostImageContainer = memo(({ images, is_preview }) => {
+  console.log(images);
   const styles = [
     {
       gridTemplateColumns: "1fr",
@@ -43,7 +46,7 @@ const PostImageContainer = ({ images, is_preview }) => {
     },
   ];
 
-  console.log(images);
+  // console.log(images);
 
   if (!is_preview && !images.every((image) => image.image_link != undefined)) {
     return null;
@@ -53,14 +56,24 @@ const PostImageContainer = ({ images, is_preview }) => {
     images = images.slice(0, 4);
   }
 
-  if (!is_preview) {
+  if (is_preview) {
+    images = images.map((image) => URL.createObjectURL(image));
+  } else {
     images = images.map(
       (image) =>
         `${process.env.NEXT_PUBLIC_FETCH_BASE_URL}/media/images/${image.image_link}`
     );
   }
 
-  console.log(images);
+  useEffect(() => {
+    return () => {
+      images.forEach((imageUrl) => {
+        URL.revokeObjectURL(imageUrl);
+      });
+    };
+  }, [images]);
+
+  if (!is_preview) console.log("rendering PostImageContainer");
 
   return (
     <Box
@@ -97,6 +110,6 @@ const PostImageContainer = ({ images, is_preview }) => {
       ))}
     </Box>
   );
-};
+});
 
 export default PostImageContainer;

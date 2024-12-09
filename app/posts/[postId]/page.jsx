@@ -84,8 +84,8 @@ const PostDetailPage = (route) => {
             is_reposted={postData.reposts.length > 0}
             is_liked={postData.likes.length > 0}
             is_clickable={false}
-            setPosts
-            setRefresh={setRefresh}
+            setPosts={null}
+            setRefresh={null}
           />
         ) : (
           <PostDetail

@@ -23,6 +23,7 @@ const PostReaction = ({
   setLikeCount,
   setLiked,
   is_liked,
+  is_preview,
   setPosts,
   setRefresh,
 }) => {
@@ -45,6 +46,7 @@ const PostReaction = ({
   };
 
   const handleReaction = async (type) => {
+    if (is_preview) return;
     if (!activeUser) {
       router.push("/login", { scroll: false });
       return;
@@ -130,12 +132,21 @@ const PostReaction = ({
           },
         }}
       >
-        <Link href={`/posts/${postId}`} className="z-0">
-          <Box component="span" sx={{ display: "inline-block" }}>
+        {is_preview ? (
+          <>
             <ChatBubbleOutlineRounded sx={{ fontSize: "1.25em", mr: ".5em" }} />
             {comment_count || 0}
-          </Box>
-        </Link>
+          </>
+        ) : (
+          <Link href={`/posts/${postId}`} className="z-0" scroll={false}>
+            <Box component="span" sx={{ display: "inline-block" }}>
+              <ChatBubbleOutlineRounded
+                sx={{ fontSize: "1.25em", mr: ".5em" }}
+              />
+              {comment_count || 0}
+            </Box>
+          </Link>
+        )}
       </Box>
       <Box
         sx={[

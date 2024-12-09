@@ -8,6 +8,7 @@ import CancelIcon from "@mui/icons-material/Cancel";
 
 import { useAuthContext } from "@/context/AuthContext";
 import { useNotifications } from "@toolpad/core/useNotifications";
+import FormImagePreview from "./FormImagePreview";
 
 export default function PostForm({ setRefresh }) {
   const ref = useRef(null);
@@ -19,7 +20,7 @@ export default function PostForm({ setRefresh }) {
   const notifications = useNotifications();
 
   const handleOnChange = (e) => {
-    setImages([...images, ...e.target.files]);
+    setImages([...images, ...e.target.files].slice(0, 4));
     e.target.value = "";
   };
 
@@ -126,31 +127,10 @@ export default function PostForm({ setRefresh }) {
               {message}
             </p>
           ))}
-        {/* <p className="text-center text-red-600">{status}</p> */}
-        {images.length > 0 && (
-          <div className="flex gap-x-4 p-2 mt-4 bg-slate-100 overflow-x-scroll rounded-md">
-            {Array.from(images).map((image, index) => {
-              return (
-                <Box
-                  key={index}
-                  className="relative w-1/5 h-[100px] shrink-0 rounded shadow-md"
-                >
-                  <img
-                    src={URL.createObjectURL(image)}
-                    alt="投稿画像"
-                    className="w-full h-full inset-0 object-cover rounded"
-                  />
-                  <CancelIcon
-                    onClick={() =>
-                      setImages(images.filter((_, i) => i !== index))
-                    }
-                    className="absolute top-0 right-0 cursor-pointer text-gray-500 hover:text-red-700"
-                  />
-                </Box>
-              );
-            })}
-          </div>
-        )}
+        <p className="text-center text-red-600">{status}</p>
+
+        <FormImagePreview images={images} setImages={setImages} />
+
         <div className="flex justify-end pt-4 gap-x-4">
           <Button
             component="label"
@@ -166,6 +146,7 @@ export default function PostForm({ setRefresh }) {
               ref={ref}
               onChange={handleOnChange}
               multiple
+              disabled={images.length >= 4}
             />
             画像を追加
           </Button>

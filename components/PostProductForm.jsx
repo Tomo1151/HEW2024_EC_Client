@@ -1,26 +1,38 @@
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
-import { useState, useRef } from "react";
-import { Box, Button, TextField } from "@mui/material";
+import { useState, useCallback } from "react";
+import {
+  Box,
+  Button,
+  FormControlLabel,
+  Switch,
+  TextField,
+} from "@mui/material";
+
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import CancelIcon from "@mui/icons-material/Cancel";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import PreviewIcon from "@mui/icons-material/Preview";
 
 import { useAuthContext } from "@/context/AuthContext";
 import { useNotifications } from "@toolpad/core/useNotifications";
-import Product from "./Product";
+import ProductDetailPreview from "./ProductDetailPreview";
 import ProductPreview from "./ProductPreview";
+import FormImagePreview from "./FormImagePreview";
+import FormThumbnailImage from "./FormThumbnailImage";
 
 export default function PostProductForm({ setRefresh }) {
+  const router = useRouter();
   const { activeUser, refreshToken } = useAuthContext();
-  const imagesRef = useRef(null);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [images, setImages] = useState([]);
   const [data, setData] = useState(null);
   const [price, setPrice] = useState("");
   const [liveLink, setLiveLink] = useState("");
+
+  const [isPreviewActive, setIsPreviewActive] = useState(false);
 
   const notifications = useNotifications();
 
@@ -33,7 +45,7 @@ export default function PostProductForm({ setRefresh }) {
           const formData = new FormData();
           formData.append("name", name.trim());
           formData.append("description", description.trim());
-          formData.append("price", price.trim());
+          formData.append("price", price);
           formData.append("live_link", liveLink.trim());
           formData.append("data", data);
 
@@ -65,11 +77,13 @@ export default function PostProductForm({ setRefresh }) {
             setImages([]);
             setData(null);
 
-            // setRefresh((prev) => !prev);
             notifications.show("ポストが正常に投稿されました", {
               severity: "success",
               autoHideDuration: 3000,
             });
+
+            router.push(`/`, { scroll: false });
+            // router.push(`/posts/${resJson.data.id}`, { scroll: false });
           } else {
             notifications.show("ポストの投稿に失敗しました", {
               severity: "error",
@@ -85,10 +99,13 @@ export default function PostProductForm({ setRefresh }) {
     }
   };
 
-  const handleOnImageChange = (e) => {
-    setImages([...images, ...e.target.files].slice(0, 4));
-    e.target.value = "";
-  };
+  const handleOnImageChange = useCallback(
+    (e) => {
+      setImages([...images, ...e.target.files].slice(0, 4));
+      e.target.value = "";
+    },
+    [images]
+  );
 
   return (
     <Box
@@ -108,12 +125,19 @@ export default function PostProductForm({ setRefresh }) {
           component="div"
           sx={{
             display: "flex",
+            flexDirection: "column",
             boxSizing: "border-box",
             gap: "5px",
             width: "100%",
           }}
         >
-          <Box sx={{ flex: "1 1 50%" }}>
+          <Box
+            sx={
+              {
+                // flex: "1 1 50%",
+              }
+            }
+          >
             <Link
               href={`/users/${activeUser?.username}`}
               className="inline-block h-fit hover:brightness-[.75] my-4 duration-200 shrink-0"
@@ -142,73 +166,14 @@ export default function PostProductForm({ setRefresh }) {
               sx={{ display: "block" }}
               value={name}
             />
-            <Button
-              component="label"
-              variant="contained"
-              className="relative"
-              sx={[
-                {
-                  display: "block",
-                  position: "relative",
-                  backgroundColor: "#f0f0f0",
-                  color: "#bbb",
-                  borderRadius: ".375rem",
-                  height: "13.25em",
-                  my: 4,
-                  cursor: "pointer",
-                },
-                images.length > 0 && {
-                  backgroundImage: `url(${URL.createObjectURL(images[0])})`,
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
-                },
-              ]}
-            >
-              <input
-                id="thumbnail"
-                name="images"
-                type="file"
-                className="invisible absolute"
-                accept="image/*"
-                ref={imagesRef}
-                onChange={handleOnImageChange}
-                multiple
-              />
-              {images.length === 0 && "サムネイル画像を追加"}
-              <AddCircleOutlineIcon
-                sx={{
-                  position: "absolute",
-                  top: "50%",
-                  left: "50%",
-                  transform: "translate(-50%, -50%)",
-                  fontSize: "2rem",
-                }}
-              />
-            </Button>
-            {images.length > 0 && (
-              <div className="flex gap-x-4 p-2 mt-4 bg-slate-100 overflow-x-scroll rounded-md">
-                {images.map((image, index) => {
-                  return (
-                    <Box
-                      key={index}
-                      className="relative w-1/5 h-[100px] shrink-0 rounded shadow-md"
-                    >
-                      <img
-                        src={URL.createObjectURL(image)}
-                        alt="投稿画像"
-                        className="w-full h-full inset-0 object-cover rounded"
-                      />
-                      <CancelIcon
-                        onClick={() =>
-                          setImages(images.filter((_, i) => i !== index))
-                        }
-                        className="absolute top-0 right-0 cursor-pointer text-gray-500 hover:text-red-700"
-                      />
-                    </Box>
-                  );
-                })}
-              </div>
-            )}
+            <FormThumbnailImage
+              images={images}
+              onChange={handleOnImageChange}
+              // ref={imagesRef}
+            />
+
+            <FormImagePreview images={images} setImages={setImages} />
+
             {images.length > 0 && (
               <div className="flex justify-center pt-4 mx-6 gap-x-4">
                 <Button
@@ -223,7 +188,6 @@ export default function PostProductForm({ setRefresh }) {
                     className="invisible absolute"
                     accept="image/*"
                     name="images"
-                    ref={imagesRef}
                     onChange={handleOnImageChange}
                     multiple
                     disabled={images.length >= 4}
@@ -283,11 +247,14 @@ export default function PostProductForm({ setRefresh }) {
               id="price"
               name="price"
               variant="standard"
+              type="number"
               rows={4}
               fullWidth
               placeholder="2000"
               label="値段"
-              onChange={(e) => setPrice(e.target.value)}
+              onChange={(e) =>
+                setPrice(Math.min(Math.max(e.target.value, 0), 999999))
+              }
               sx={{ display: "block", mt: 2 }}
               value={price}
             />
@@ -316,26 +283,64 @@ export default function PostProductForm({ setRefresh }) {
               sx={{ display: "block", mt: 2 }}
               value={liveLink}
             />
-          </Box>
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              backgroundColor: "#ddd",
-              flex: "1 1 50%",
-              borderRadius: ".375rem",
-            }}
-          >
-            <ProductPreview
-              username={activeUser?.username}
-              nickname={activeUser?.nickname}
-              icon_link={activeUser?.icon_link}
-              name={name}
-              price={price}
-              images={images}
-              created_at={"たった今"}
+            <FormControlLabel
+              control={<Switch />}
+              label="プレビュー"
+              labelPlacement="start"
+              sx={{ mt: 4, ml: 0 }}
+              onChange={(e) => setIsPreviewActive(e.target.checked)}
             />
           </Box>
+
+          {isPreviewActive && (
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                // alignItems: "center",
+                backgroundColor: "#f0f0f0",
+                // flex: "1 1 50%",
+                borderRadius: ".375rem",
+                borderTop: "1px solid #f0f0f0",
+                borderBottom: "1px solid #f0f0f0",
+                pt: 2,
+                pb: 4,
+                rowGap: "1rem",
+              }}
+            >
+              <Box sx={{ backgroundColor: "#f0f0f0" }}>
+                <p className="flex items-center w-fit font-bold text-gray-400 bg-white mt-2 pt-2 px-2 rounded-tr-md">
+                  <PreviewIcon />
+                  プレビュー（タイムライン）
+                </p>
+                <ProductPreview
+                  username={activeUser?.username}
+                  nickname={activeUser?.nickname}
+                  icon_link={activeUser?.icon_link}
+                  name={name}
+                  price={price}
+                  images={images}
+                  created_at={"たった今"}
+                />
+              </Box>
+              <Box sx={{ backgroundColor: "#f0f0f0" }}>
+                <p className="flex items-center w-fit font-bold text-gray-400 bg-white pt-2 px-2 rounded-tr-md">
+                  <PreviewIcon />
+                  プレビュー（ポスト画面）
+                </p>
+                <ProductDetailPreview
+                  username={activeUser?.username}
+                  nickname={activeUser?.nickname}
+                  icon_link={activeUser?.icon_link}
+                  content={description}
+                  name={name}
+                  price={price}
+                  images={images}
+                  created_at={"たった今"}
+                />
+              </Box>
+            </Box>
+          )}
         </Box>
         <div className="flex justify-end pt-4 mt-2 gap-x-4">
           <Button type="submit" variant="contained" disabled={!description}>
