@@ -132,6 +132,7 @@ const Header = () => {
               textAlign: "center",
               minHeight: "80px",
               width: "100%",
+              borderRadius: ".375rem",
             }}
           >
             <Link href="/" scroll={false}>
@@ -174,6 +175,7 @@ const Header = () => {
                   primary={item.name}
                   sx={{
                     flexBasis: "80%",
+                    pr: isIconView ? "0" : "1em",
                     display: {
                       xs: "none",
                       sm: "none",
