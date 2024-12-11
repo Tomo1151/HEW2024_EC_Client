@@ -11,32 +11,32 @@ const PostCard = ({
 }) => {
   return (
     <>
-      <div className="w-4/5 mx-auto my-16">
+      <div className="my-4 mx-4">
         <h2 className="text-xl pb-2">{created_at}</h2> {/* 購入日付 */}
-        <div className="border border-gray-400 rounded-3xl flex  p-4">
+        <div className="border border-[#e0e0e0] rounded-xl flex  p-4">
           <div className="w-4/12 mr-3.5">
             <Image
               src={image_link}
               alt="商品画像"
               width={240}
               height={240}
-              className="rounded-3xl"
+              className="rounded-md h-full object-cover aspect-square"
             />
           </div>
           <div className="w-8/12 ml-3">
             {" "}
             {/* ユーザー情報 */}
             <div className="flex items-center pb-3">
-              <img
+              <Image
                 src={sellerIcon}
                 alt="アイコン"
-                className="rounded-full mr-5"
+                className="rounded-full mr-3 w-[50px] h-[50px]"
                 width={50}
                 height={50}
               />
-              <p className="text-2xl">{sellerName}</p>
+              <p className="font-bold tracking-[.075em]">{sellerName}</p>
             </div>
-            <h2 className="text-xl ml-1">{productName}</h2> {/* 商品名*/}
+            <h2 className="text-lg ml-1 pb-2">{productName}</h2> {/* 商品名*/}
             <p className="ml-1">{content}</p> {/* 商品詳細 */}
           </div>
         </div>

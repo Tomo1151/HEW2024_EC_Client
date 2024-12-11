@@ -11,7 +11,7 @@ export const UserContext = createContext({
   logout: () => {},
   refreshToken: () => {},
   fetchUserCart: () => {},
-  cartItem: [],
+  cartItems: [],
 });
 
 export const useUserContext = () => {
@@ -20,7 +20,7 @@ export const useUserContext = () => {
 
 export const UserProvider = ({ children }) => {
   const [activeUser, setActiveUser] = useState(null);
-  const [cartItem, setCartItem] = useState([]);
+  const [cartItems, setCartItems] = useState([]);
 
   useEffect(() => {
     fetchUser();
@@ -52,7 +52,7 @@ export const UserProvider = ({ children }) => {
       };
     }
 
-    setCartItem(resJson.data);
+    setCartItems(resJson.data);
 
     return {
       success: true,
@@ -194,7 +194,7 @@ export const UserProvider = ({ children }) => {
     <UserContext.Provider
       value={{
         activeUser,
-        cartItem,
+        cartItems,
         fetchUserCart,
         signin,
         login,

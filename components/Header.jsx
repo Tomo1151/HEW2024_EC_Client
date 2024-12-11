@@ -29,7 +29,7 @@ import { useUserContext } from "@/context/UserContext";
 import theme from "@/theme/theme";
 
 const Header = () => {
-  const { activeUser, logout, cartItem } = useUserContext();
+  const { activeUser, logout, cartItems } = useUserContext();
 
   const isIconView = useMediaQuery(theme.breakpoints.down("lg"));
 
@@ -65,10 +65,10 @@ const Header = () => {
     },
     {
       name: "カート",
-      href: "/",
+      href: "/cart-items",
       type: "link",
       icon: (
-        <Badge badgeContent={cartItem.length} color="error">
+        <Badge badgeContent={cartItems.length} color="error">
           <ShoppingCartRounded sx={navigationIconStyle} />
         </Badge>
       ),
