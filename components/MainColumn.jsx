@@ -88,7 +88,9 @@ const MainColumn = () => {
             </TabContext>
           </>
         ) : (
-          <Box>{/* <Timeline name="最新の投稿" isActive={true} /> */}</Box>
+          <Box>
+            <Timeline name="最新の投稿" isActive={true} />
+          </Box>
         )}
       </NotificationsProvider>
     </>
