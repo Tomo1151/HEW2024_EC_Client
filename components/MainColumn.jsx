@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuthContext } from "@/context/AuthContext";
 import { Box, Tab, CircularProgress } from "@mui/material";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
@@ -20,6 +20,10 @@ const MainColumn = () => {
   const handleTabChange = async (event, newValue) => {
     setTabIndex(newValue);
   };
+
+  useEffect(() => {
+    console.log("MainColumn: useEffect");
+  }, []);
   return (
     <>
       <NotificationsProvider>
@@ -55,10 +59,10 @@ const MainColumn = () => {
                 <TabPanel
                   key={index}
                   value={index}
-                  keepMounted
+                  // keepMounted
                   sx={{ p: 0, mx: 0 }}
                 >
-                  <Suspense
+                  {/* <Suspense
                     fallback={
                       <Box
                         sx={{
@@ -70,23 +74,21 @@ const MainColumn = () => {
                         <CircularProgress />
                       </Box>
                     }
-                  >
-                    <Timeline
-                      key={index}
-                      name={tabName}
-                      isActive={tabIndex === index}
-                      setRefresh={setRefresh}
-                      refresh={refresh}
-                    />
-                  </Suspense>
+                  > */}
+                  <Timeline
+                    key={index}
+                    name={tabName}
+                    isActive={tabIndex === index}
+                    setRefresh={setRefresh}
+                    refresh={refresh}
+                  />
+                  {/* </Suspense> */}
                 </TabPanel>
               ))}
             </TabContext>
           </>
         ) : (
-          <Box>
-            <Timeline name="最新の投稿" isActive={true} />
-          </Box>
+          <Box>{/* <Timeline name="最新の投稿" isActive={true} /> */}</Box>
         )}
       </NotificationsProvider>
     </>

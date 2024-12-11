@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, use } from "react";
 import { useRouter } from "next/navigation";
 
 import { Box, Menu, MenuItem, IconButton } from "@mui/material";
@@ -126,6 +126,10 @@ const Post = ({
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  useEffect(() => {
+    setisLiked(is_liked);
+  }, [is_liked]);
 
   useEffect(() => {
     setisReposted(is_reposted);

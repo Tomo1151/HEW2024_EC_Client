@@ -52,9 +52,11 @@ const PostReaction = ({
       return;
     }
 
+    console.log(type);
+
     try {
       refreshToken().then(async () => {
-        await fetch(
+        const response = await fetch(
           process.env.NEXT_PUBLIC_FETCH_BASE_URL + `/posts/${postId}/${type}`,
           {
             method: reaction[type].method,
@@ -64,47 +66,160 @@ const PostReaction = ({
         );
         reaction[type].setState((prev) => !prev);
         reaction[type].setCount((prev) => prev + reaction[type].count);
-        if (type === "repost" && setPosts) {
-          if (is_reposted) {
-            setPosts((prev) =>
-              prev
-                .filter(
-                  (post) =>
-                    !(
-                      post.postId === postId &&
-                      post.repost_user.id === activeUser.id
-                    )
-                )
-                .map((post) => {
-                  if (post.id === postId || post.postId === postId) {
+        const resJson = await response.json();
+
+        if (resJson.success) {
+          if (type === "like") {
+            if (setPosts)
+              setPosts((prev) => {
+                console.log(prev);
+                console.log(
+                  prev.map((post) => {
+                    if (
+                      post.id === resJson.data.ref.id ||
+                      post.postId === resJson.data.ref.id
+                    ) {
+                      return {
+                        ...post,
+                        like_count: resJson.data.ref.like_count,
+                        likes: resJson.data.ref.likes,
+                      };
+                    }
+                    return post;
+                  })
+                );
+                return prev.map((post) => {
+                  if (
+                    post.id === resJson.data.ref.id ||
+                    post.postId === resJson.data.ref.id
+                  ) {
                     return {
                       ...post,
-                      ref_count: post.ref_count - 1,
-                      reposts: post.reposts.filter(
-                        (repost) => repost.userId !== activeUser.id
-                      ),
+                      like_count: resJson.data.ref.like_count,
+                      likes: resJson.data.ref.likes,
                     };
                   }
                   return post;
-                })
-            );
-          } else {
-            setPosts((prev) =>
-              prev.map((post) => {
-                if (post.id === postId || post.postId === postId) {
-                  return {
-                    ...post,
-                    ref_count: post.ref_count + 1,
-                    reposts: [{ userId: activeUser.id }, ...post.reposts],
-                  };
-                }
-                return post;
-              })
-            );
+                });
+              });
           }
-        }
 
-        if (setRefresh) setRefresh((prev) => !prev);
+          if (type === "repost" && is_reposted) {
+            if (setPosts)
+              setPosts((prev) =>
+                prev
+                  .filter(
+                    (post) =>
+                      !(
+                        post.postId === postId &&
+                        post.repost_user.id === activeUser.id
+                      )
+                  )
+                  .map((post) => {
+                    if (
+                      post.id === resJson.data.ref.id ||
+                      post.postId === resJson.data.ref.id
+                    ) {
+                      return resJson.data.ref;
+                    }
+                    return post;
+                  })
+              );
+          } else if (type === "repost" && !is_reposted) {
+            if (setPosts)
+              setPosts((prev) =>
+                prev.map((post) => {
+                  if (
+                    post.id === resJson.data.ref.id ||
+                    post.postId === resJson.data.ref.id
+                  ) {
+                    return resJson.data.ref;
+                  }
+                  return post;
+                })
+              );
+          }
+
+          if (setRefresh) setRefresh((prev) => !prev);
+        }
+        // if (type === "repost" && setPosts) {
+        // if (is_reposted) {
+        //   console.log(
+        //     "set posts (d): ",
+        //     posts
+        //       // .filter(
+        //       //   (post) =>
+        //       //     !(
+        //       //       post.postId === postId &&
+        //       //       post.repost_user.id === activeUser.id
+        //       //     )
+        //       // )
+        //       .map((post) => {
+        //         if (post.id === postId || post.postId === postId) {
+        //           return {
+        //             ...post,
+        //             ref_count: post.ref_count - 1,
+        //             reposts: post.reposts.filter(
+        //               (repost) => repost.userId !== activeUser.id
+        //             ),
+        //           };
+        //         }
+        //         return post;
+        //       })
+        //   );
+        //   setPosts(
+        //     posts
+        //       .filter(
+        //         (post) =>
+        //           !(
+        //             post.postId === postId &&
+        //             post.repost_user.id === activeUser.id
+        //           )
+        //       )
+        //       .map((post) => {
+        //         if (post.id === postId || post.postId === postId) {
+        //           return {
+        //             ...post,
+        //             ref_count: post.ref_count - 1,
+        //             reposts: post.reposts.filter(
+        //               (repost) => repost.userId !== activeUser.id
+        //             ),
+        //           };
+        //         }
+        //         return post;
+        //       })
+        //   );
+        // } else {
+        //   console.log(
+        //     "set posts (a): ",
+        //     posts.map((post) => {
+        //       if (post.id === postId || post.postId === postId) {
+        //         return {
+        //           ...post,
+        //           ref_count: post.ref_count + 1,
+        //           reposts: [{ userId: activeUser.id }, ...post.reposts],
+        //         };
+        //       }
+        //       return post;
+        //     })
+        //   );
+        //   setPosts(
+        //     posts.map((post) => {
+        //       if (post.id === postId || post.postId === postId) {
+        //         return {
+        //           ...post,
+        //           ref_count: post.ref_count + 1,
+        //           reposts: [{ userId: activeUser.id }, ...post.reposts],
+        //         };
+        //       }
+        //       return post;
+        //     })
+        //   );
+        // if (setRefresh) setRefresh((prev) => !prev);
+        // }
+        // }
+
+        // console.log(posts);
       });
     } catch (err) {
       console.log(err);
