@@ -1,5 +1,5 @@
 import { Button } from "@mui/material";
-import { useAuthContext } from "@/context/AuthContext";
+import { useUserContext } from "@/context/UserContext";
 import { useState } from "react";
 
 const FollowButton = ({
@@ -8,7 +8,7 @@ const FollowButton = ({
   set_is_following,
   sx = {},
 }) => {
-  const { refreshToken } = useAuthContext();
+  const { refreshToken } = useUserContext();
   const [isFollowing, setIsFollowing] = useState(is_following);
 
   const handleOnClick = async () => {

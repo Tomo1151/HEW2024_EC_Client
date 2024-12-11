@@ -6,13 +6,12 @@ import { Box, Button, TextField } from "@mui/material";
 
 import Modal from "@/components/Modal";
 
-import { fetchHeaders } from "@/config/fetchConfig";
-import { useAuthContext } from "@/context/AuthContext";
+import { useUserContext } from "@/context/UserContext";
 import IconUploader from "./IconUploader";
 
 const ProfileEditForm = ({ userData }) => {
   const router = useRouter();
-  const { activeUser, refreshToken } = useAuthContext();
+  const { activeUser, refreshToken } = useUserContext();
 
   const username = userData.username;
   const [nickname, setNickname] = useState(userData.nickname || "");

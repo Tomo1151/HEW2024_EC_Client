@@ -3,19 +3,11 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
-
-import { Box, Button, Menu, MenuItem, IconButton } from "@mui/material";
+import { Box, Button, IconButton } from "@mui/material";
 import { MoreHorizRounded } from "@mui/icons-material";
-import LabelRoundedIcon from "@mui/icons-material/LabelRounded";
 
 import PostReaction from "./PostReaction";
 import PostImageContainer from "./PostImageContainer";
-
-import { fetchHeaders } from "@/config/fetchConfig";
-import { useAuthContext } from "../context/AuthContext";
-import { useNotifications } from "@toolpad/core/useNotifications";
 
 const ProductPreview = ({
   username,
@@ -25,23 +17,7 @@ const ProductPreview = ({
   content,
   price,
   images,
-  created_at,
 }) => {
-  const { activeUser } = useAuthContext();
-  const notifications = useNotifications();
-
-  const router = useRouter();
-
-  const options = {
-    通報: () => {
-      console.log("ポストを通報");
-    },
-    削除: async () => {
-      console.log(`ポストを削除: ${postId}`);
-      await deletePost();
-    },
-  };
-
   return (
     <section className="bg-white">
       <div

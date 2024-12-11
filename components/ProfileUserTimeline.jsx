@@ -55,6 +55,7 @@ const ProfileUserTimeline = ({ user }) => {
             nickname={post.author.nickname}
             icon_link={post.author.icon_link}
             content={post.content}
+            productId={post.product.id}
             price={post.product.price}
             name={post.product.name}
             images={post.images}

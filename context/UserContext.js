@@ -4,20 +4,62 @@ import { useContext, useState, createContext, useEffect } from "react";
 
 import { fetchHeaders } from "@/config/fetchConfig";
 
-export const AuthContext = createContext({
+export const UserContext = createContext({
   activeUser: null,
   signin: () => {},
   login: () => {},
   logout: () => {},
   refreshToken: () => {},
+  fetchUserCart: () => {},
+  cartItem: [],
 });
 
-export const useAuthContext = () => {
-  return useContext(AuthContext);
+export const useUserContext = () => {
+  return useContext(UserContext);
 };
 
-export const AuthProvider = ({ children }) => {
+export const UserProvider = ({ children }) => {
   const [activeUser, setActiveUser] = useState(null);
+  const [cartItem, setCartItem] = useState([]);
+
+  useEffect(() => {
+    fetchUser();
+    fetchUserCart();
+  }, []);
+
+  const fetchUserCart = async () => {
+    await fetch(process.env.NEXT_PUBLIC_FETCH_BASE_URL + "/auth/refresh", {
+      method: "POST",
+      headers: fetchHeaders,
+      credentials: "include",
+    });
+
+    const response = await fetch(
+      process.env.NEXT_PUBLIC_FETCH_BASE_URL + "/carts/items",
+      {
+        method: "GET",
+        headers: fetchHeaders,
+        credentials: "include",
+      }
+    );
+
+    const resJson = await response.json();
+
+    if (!resJson.success) {
+      return {
+        success: false,
+        message: "You are not logged in",
+      };
+    }
+
+    setCartItem(resJson.data);
+
+    return {
+      success: true,
+      message: "Cart fetched",
+      data: resJson.data,
+    };
+  };
 
   const fetchUser = async () => {
     const response = await fetch(
@@ -46,10 +88,6 @@ export const AuthProvider = ({ children }) => {
       message: "Logged in successfully as " + resJson.data.username,
     };
   };
-
-  useEffect(() => {
-    fetchUser();
-  }, []);
 
   const signin = async (username, email, password) => {
     if (!username || !email || !password) {
@@ -153,10 +191,18 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider
-      value={{ activeUser, signin, login, logout, refreshToken }}
+    <UserContext.Provider
+      value={{
+        activeUser,
+        cartItem,
+        fetchUserCart,
+        signin,
+        login,
+        logout,
+        refreshToken,
+      }}
     >
       {children}
-    </AuthContext.Provider>
+    </UserContext.Provider>
   );
 };

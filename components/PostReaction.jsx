@@ -8,7 +8,7 @@ import {
   RepeatRounded,
 } from "@mui/icons-material";
 
-import { useAuthContext } from "@/context/AuthContext";
+import { useUserContext } from "@/context/UserContext";
 import { fetchHeaders } from "@/config/fetchConfig";
 import Link from "next/link";
 
@@ -27,7 +27,7 @@ const PostReaction = ({
   setPosts,
   setRefresh,
 }) => {
-  const { activeUser, refreshToken } = useAuthContext();
+  const { activeUser, refreshToken } = useUserContext();
   const router = useRouter();
 
   const reaction = {

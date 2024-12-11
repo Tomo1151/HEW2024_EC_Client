@@ -15,7 +15,7 @@ import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import PreviewIcon from "@mui/icons-material/Preview";
 
-import { useAuthContext } from "@/context/AuthContext";
+import { useUserContext } from "@/context/UserContext";
 import { useNotifications } from "@toolpad/core/useNotifications";
 import ProductDetailPreview from "./ProductDetailPreview";
 import ProductPreview from "./ProductPreview";
@@ -24,7 +24,7 @@ import FormThumbnailImage from "./FormThumbnailImage";
 
 export default function PostProductForm({ setRefresh }) {
   const router = useRouter();
-  const { activeUser, refreshToken } = useAuthContext();
+  const { activeUser, refreshToken } = useUserContext();
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [images, setImages] = useState([]);

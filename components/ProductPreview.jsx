@@ -3,19 +3,12 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
-
-import { Box, Button, Menu, MenuItem, IconButton } from "@mui/material";
+import { Box, IconButton } from "@mui/material";
 import { MoreHorizRounded } from "@mui/icons-material";
 import LabelRoundedIcon from "@mui/icons-material/LabelRounded";
 
 import PostReaction from "./PostReaction";
 import PostImageContainer from "./PostImageContainer";
-
-import { fetchHeaders } from "@/config/fetchConfig";
-import { useAuthContext } from "../context/AuthContext";
-import { useNotifications } from "@toolpad/core/useNotifications";
 
 const ProductPreview = ({
   username,
@@ -26,8 +19,6 @@ const ProductPreview = ({
   price,
   images,
 }) => {
-  const { activeUser } = useAuthContext();
-
   console.log(images);
 
   return (

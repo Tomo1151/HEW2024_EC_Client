@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import Modal from "@/components/Modal";
 import LoginForm from "@/components/LoginForm";
 
-import { useAuthContext } from "@/context/AuthContext";
+import { useUserContext } from "@/context/UserContext";
 
 const LoginModal = () => {
   const router = useRouter();
@@ -15,7 +15,7 @@ const LoginModal = () => {
   const [password, setPassword] = useState("");
   const [status, setStatus] = useState("　");
 
-  const { login } = useAuthContext();
+  const { login } = useUserContext();
 
   async function handleSubmit(event) {
     event.preventDefault();

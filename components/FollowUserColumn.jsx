@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Box, Button } from "@mui/material";
-import { useAuthContext } from "@/context/AuthContext";
+import { useUserContext } from "@/context/UserContext";
 import FollowButton from "./FollowButton";
 
 const FollowUserColumn = ({
@@ -10,7 +10,7 @@ const FollowUserColumn = ({
   icon_link,
   is_following,
 }) => {
-  const { activeUser } = useAuthContext();
+  const { activeUser } = useUserContext();
   return (
     <Box
       component="li"

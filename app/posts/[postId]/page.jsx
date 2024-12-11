@@ -75,6 +75,7 @@ const PostDetailPage = (route) => {
             icon_link={postData.author.icon_link}
             content={postData.content}
             images={postData.images}
+            productId={postData.product.id}
             name={postData.product.name}
             price={postData.product.price}
             comment_count={postData.comment_count}

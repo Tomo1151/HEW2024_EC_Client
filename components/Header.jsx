@@ -3,6 +3,7 @@
 import Image from "next/image";
 
 import {
+  Badge,
   Box,
   List,
   ListItem,
@@ -24,19 +25,11 @@ import {
 
 import Link from "next/link";
 
-import { useAuthContext } from "@/context/AuthContext";
+import { useUserContext } from "@/context/UserContext";
 import theme from "@/theme/theme";
 
 const Header = () => {
-  const { activeUser, logout } = useAuthContext();
-
-  const drawerWidth = 420;
-  const drawerWidthStyle = {
-    xs: drawerWidth / 3,
-    sm: drawerWidth / 3,
-    md: drawerWidth / 3,
-    xl: drawerWidth / 3,
-  };
+  const { activeUser, logout, cartItem } = useUserContext();
 
   const isIconView = useMediaQuery(theme.breakpoints.down("lg"));
 
@@ -74,7 +67,11 @@ const Header = () => {
       name: "カート",
       href: "/",
       type: "link",
-      icon: <ShoppingCartRounded sx={navigationIconStyle} />,
+      icon: (
+        <Badge badgeContent={cartItem.length} color="error">
+          <ShoppingCartRounded sx={navigationIconStyle} />
+        </Badge>
+      ),
       loginRequired: true,
     },
     {

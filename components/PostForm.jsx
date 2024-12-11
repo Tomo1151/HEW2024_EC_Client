@@ -6,14 +6,14 @@ import { Box, Button, TextField } from "@mui/material";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import CancelIcon from "@mui/icons-material/Cancel";
 
-import { useAuthContext } from "@/context/AuthContext";
+import { useUserContext } from "@/context/UserContext";
 import { useNotifications } from "@toolpad/core/useNotifications";
 import FormImagePreview from "./FormImagePreview";
 
 export default function PostForm({ setRefresh }) {
   const ref = useRef(null);
 
-  const { activeUser, refreshToken } = useAuthContext();
+  const { activeUser, refreshToken } = useUserContext();
   const [postText, setPostText] = useState("");
   const [images, setImages] = useState([]);
   const [status, setStatus] = useState([]);

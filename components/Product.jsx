@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
-import { Box, Button, Menu, MenuItem, IconButton } from "@mui/material";
+import { Box, Menu, MenuItem, IconButton } from "@mui/material";
 import { MoreHorizRounded } from "@mui/icons-material";
 import LabelRoundedIcon from "@mui/icons-material/LabelRounded";
 
@@ -14,7 +14,7 @@ import PostReaction from "./PostReaction";
 import PostImageContainer from "./PostImageContainer";
 
 import { fetchHeaders } from "@/config/fetchConfig";
-import { useAuthContext } from "../context/AuthContext";
+import { useUserContext } from "../context/UserContext";
 import { useNotifications } from "@toolpad/core/useNotifications";
 
 const Product = ({
@@ -38,7 +38,7 @@ const Product = ({
   setPosts,
   setRefresh,
 }) => {
-  const { activeUser } = useAuthContext();
+  const { activeUser } = useUserContext();
   const [isReposted, setisReposted] = useState(is_reposted);
   const [isLiked, setisLiked] = useState(is_liked);
   const [repostCount, setRepostCount] = useState(ref_count);

@@ -1,11 +1,11 @@
 "use client";
 
-import { useAuthContext } from "@/context/AuthContext";
+import { useUserContext } from "@/context/UserContext";
 import { Box, Button, Container } from "@mui/material";
 import Link from "next/link";
 
 const AuthFooter = () => {
-  const { activeUser } = useAuthContext();
+  const { activeUser } = useUserContext();
   if (activeUser || activeUser === null) {
     return null;
   }

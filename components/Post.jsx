@@ -13,7 +13,7 @@ import PostReaction from "./PostReaction";
 import PostImageContainer from "./PostImageContainer";
 
 import { fetchHeaders } from "@/config/fetchConfig";
-import { useAuthContext } from "../context/AuthContext";
+import { useUserContext } from "../context/UserContext";
 import { useNotifications } from "@toolpad/core/useNotifications";
 
 const Post = ({
@@ -35,7 +35,7 @@ const Post = ({
   setPosts,
   setRefresh,
 }) => {
-  const { activeUser } = useAuthContext();
+  const { activeUser } = useUserContext();
   const [isReposted, setisReposted] = useState(is_reposted);
   const [isLiked, setisLiked] = useState(is_liked);
   const [repostCount, setRepostCount] = useState(ref_count);

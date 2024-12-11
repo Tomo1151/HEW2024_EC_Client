@@ -5,11 +5,11 @@ import { useEffect, useState } from "react";
 import Modal from "@/components/Modal";
 import { fetchHeaders } from "@/config/fetchConfig";
 import FollowUserColumn from "./FollowUserColumn";
-import { useAuthContext } from "@/context/AuthContext";
+import { useUserContext } from "@/context/UserContext";
 
 const FollowerList = ({ userData }) => {
   const [followers, setFollowers] = useState([]);
-  const { refreshToken } = useAuthContext();
+  const { refreshToken } = useUserContext();
 
   const fetchFollowers = async () => {
     try {

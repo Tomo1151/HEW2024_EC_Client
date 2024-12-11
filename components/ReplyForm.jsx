@@ -5,11 +5,11 @@ import { useState } from "react";
 import { Box, Button, TextField } from "@mui/material";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 
-import { useAuthContext } from "@/context/AuthContext";
+import { useUserContext } from "@/context/UserContext";
 import { useNotifications } from "@toolpad/core/useNotifications";
 
 export default function ReplyForm({ postId, setRefresh }) {
-  const { activeUser, refreshToken } = useAuthContext();
+  const { activeUser, refreshToken } = useUserContext();
   const [postText, setPostText] = useState("");
   const notifications = useNotifications();
 

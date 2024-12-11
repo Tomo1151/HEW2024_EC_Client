@@ -13,7 +13,7 @@ import PostReaction from "./PostReaction";
 import PostImageContainer from "./PostImageContainer";
 
 import { fetchHeaders } from "@/config/fetchConfig";
-import { useAuthContext } from "../context/AuthContext";
+import { useUserContext } from "../context/UserContext";
 import { useNotifications } from "@toolpad/core/useNotifications";
 
 const ProductDetail = ({
@@ -23,6 +23,7 @@ const ProductDetail = ({
   username,
   nickname,
   icon_link,
+  productId,
   name,
   content,
   price,
@@ -36,12 +37,13 @@ const ProductDetail = ({
   setPosts,
   setRefresh,
 }) => {
-  const { activeUser } = useAuthContext();
+  const { activeUser, fetchUserCart } = useUserContext();
   const [isReposted, setisReposted] = useState(is_reposted);
   const [isLiked, setisLiked] = useState(is_liked);
   const [repostCount, setRepostCount] = useState(ref_count);
   const [likeCount, setLikeCount] = useState(like_count);
   const notifications = useNotifications();
+  const [isCarted, setisCarted] = useState(false);
 
   const router = useRouter();
 
@@ -63,6 +65,39 @@ const ProductDetail = ({
       },
     };
   }
+
+  const addToCart = async () => {
+    try {
+      const response = await fetch(
+        process.env.NEXT_PUBLIC_FETCH_BASE_URL + `/carts/items`,
+        {
+          method: "POST",
+          headers: fetchHeaders,
+          body: JSON.stringify({
+            productId,
+          }),
+          credentials: "include",
+        }
+      );
+      const resJson = await response.json();
+
+      if (resJson.success) {
+        setisCarted(true);
+        fetchUserCart();
+        notifications.show("商品をカートに追加しました", {
+          severity: "success",
+          autoHideDuration: 3000,
+        });
+      } else {
+        notifications.show("商品のカート追加に失敗しました", {
+          severity: "error",
+          autoHideDuration: 3000,
+        });
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const deletePost = async () => {
     try {
@@ -264,7 +299,12 @@ const ProductDetail = ({
         })}
       </p>
       <Box sx={{ textAlign: "center", px: "2.5rem" }}>
-        <Button variant="contained" sx={{ px: 8 }}>
+        <Button
+          variant="contained"
+          sx={{ px: 8 }}
+          onClick={addToCart}
+          disabled={isCarted}
+        >
           カートに追加
         </Button>
 

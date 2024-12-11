@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useAuthContext } from "@/context/AuthContext";
-import { Box, Tab, CircularProgress } from "@mui/material";
+import { useUserContext } from "@/context/UserContext";
+import { Box, Tab } from "@mui/material";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { lazy, Suspense } from "react";
 import { NotificationsProvider } from "@toolpad/core/useNotifications";
@@ -13,7 +13,7 @@ import PostForm from "@/components/PostForm";
 import FloatingPostButton from "@/components/FloatingPostButton";
 
 const MainColumn = () => {
-  const { activeUser } = useAuthContext();
+  const { activeUser } = useUserContext();
   const [tabIndex, setTabIndex] = useState(0);
   const [refresh, setRefresh] = useState(false);
   const tabContents = ["最新の投稿", "フォロー中", "VR", "神絵", "Live"];

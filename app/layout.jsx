@@ -8,7 +8,7 @@ import SubColumn from "@/components/SubColumn";
 import theme from "@/theme/theme";
 import Header from "@/components/Header";
 
-import { AuthProvider } from "@/context/AuthContext";
+import { UserProvider } from "@/context/UserContext";
 import AuthFooter from "@/components/AuthFooter";
 
 export const metadata = {
@@ -20,7 +20,7 @@ export default function RootLayout({ children, auth, postForm }) {
   return (
     <html lang="ja">
       <body className={`relative flex bg-white justify-center`}>
-        <AuthProvider>
+        <UserProvider>
           <AppRouterCacheProvider>
             <ThemeProvider theme={theme}>
               <Header />
@@ -47,7 +47,7 @@ export default function RootLayout({ children, auth, postForm }) {
               {<AuthFooter />}
             </ThemeProvider>
           </AppRouterCacheProvider>
-        </AuthProvider>
+        </UserProvider>
       </body>
     </html>
   );

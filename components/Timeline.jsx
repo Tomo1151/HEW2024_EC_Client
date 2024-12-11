@@ -2,12 +2,12 @@ import { useEffect, useState } from "react";
 import { LoadingButton } from "@mui/lab";
 import Post from "@/components/Post";
 import Product from "@/components/Product";
-import { useAuthContext } from "@/context/AuthContext";
+import { useUserContext } from "@/context/UserContext";
 import CircularLoading from "./loading/CircularLoading";
 import InfiniteScroll from "react-infinite-scroller";
 
 const Timeline = ({ name, isActive, setRefresh, refresh }) => {
-  const { refreshToken } = useAuthContext();
+  const { refreshToken } = useUserContext();
   const [posts, setPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isPostFetching, setIsPostFetching] = useState(false);
@@ -142,6 +142,7 @@ const Timeline = ({ name, isActive, setRefresh, refresh }) => {
                 nickname={post.author.nickname}
                 icon_link={post.author.icon_link}
                 content={post.content}
+                productId={post.product.id}
                 price={post.product.price}
                 name={post.product.name}
                 images={post.images}

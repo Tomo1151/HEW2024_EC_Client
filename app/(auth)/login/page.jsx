@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 
 import LoginForm from "@/components/LoginForm";
 
-import { useAuthContext } from "@/context/AuthContext";
+import { useUserContext } from "@/context/UserContext";
 
 const Login = () => {
   const router = useRouter();
@@ -14,7 +14,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [status, setStatus] = useState(" ");
 
-  const { login } = useAuthContext();
+  const { login } = useUserContext();
 
   async function handleSubmit(event) {
     event.preventDefault();

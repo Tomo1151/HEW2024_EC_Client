@@ -14,7 +14,7 @@ import FollowButton from "@/components/FollowButton";
 
 import StarIcon from "@mui/icons-material/Star";
 import SettingsRoundedIcon from "@mui/icons-material/SettingsRounded";
-import { useAuthContext } from "@/context/AuthContext";
+import { useUserContext } from "@/context/UserContext";
 import CircularLoading from "./loading/CircularLoading";
 
 import { fetchHeaders } from "@/config/fetchConfig";
@@ -23,7 +23,7 @@ const ProfileContainer = ({ username }) => {
   const fallback_img = "https://placeholder.com/150";
   const [user, setUser] = useState(null);
 
-  const { activeUser, refreshToken } = useAuthContext();
+  const { activeUser, refreshToken } = useUserContext();
   const [tabIndex, setTabIndex] = useState(0);
 
   const [isFollowing, setIsFollowing] = useState(false);
