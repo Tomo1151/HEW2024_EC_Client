@@ -132,6 +132,10 @@ const Post = ({
   }, [is_liked]);
 
   useEffect(() => {
+    setLikeCount(like_count);
+  }, [like_count]);
+
+  useEffect(() => {
     setisReposted(is_reposted);
   }, [is_reposted]);
 

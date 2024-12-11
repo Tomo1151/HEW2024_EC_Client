@@ -52,7 +52,7 @@ const PostReaction = ({
       return;
     }
 
-    console.log(type);
+    // console.log(type);
 
     try {
       refreshToken().then(async () => {
@@ -69,25 +69,27 @@ const PostReaction = ({
         const resJson = await response.json();
 
         if (resJson.success) {
+          // console.log("response");
+          // console.log(resJson.data);
           if (type === "like") {
             if (setPosts)
               setPosts((prev) => {
-                console.log(prev);
-                console.log(
-                  prev.map((post) => {
-                    if (
-                      post.id === resJson.data.ref.id ||
-                      post.postId === resJson.data.ref.id
-                    ) {
-                      return {
-                        ...post,
-                        like_count: resJson.data.ref.like_count,
-                        likes: resJson.data.ref.likes,
-                      };
-                    }
-                    return post;
-                  })
-                );
+                // console.log(prev);
+                // console.log(
+                //   prev.map((post) => {
+                //     if (
+                //       post.id === resJson.data.ref.id ||
+                //       post.postId === resJson.data.ref.id
+                //     ) {
+                //       return {
+                //         ...post,
+                //         like_count: resJson.data.ref.like_count,
+                //         likes: resJson.data.ref.likes,
+                //       };
+                //     }
+                //     return post;
+                //   })
+                // );
                 return prev.map((post) => {
                   if (
                     post.id === resJson.data.ref.id ||
@@ -116,11 +118,18 @@ const PostReaction = ({
                       )
                   )
                   .map((post) => {
+                    // console.log(post);
                     if (
                       post.id === resJson.data.ref.id ||
                       post.postId === resJson.data.ref.id
                     ) {
-                      return resJson.data.ref;
+                      return post.type === "repost"
+                        ? {
+                            ...post,
+                            ref_count: resJson.data.ref.ref_count,
+                            reposts: resJson.data.ref.reposts,
+                          }
+                        : resJson.data.ref;
                     }
                     return post;
                   })
@@ -129,11 +138,18 @@ const PostReaction = ({
             if (setPosts)
               setPosts((prev) =>
                 prev.map((post) => {
+                  // console.log(post);
                   if (
                     post.id === resJson.data.ref.id ||
                     post.postId === resJson.data.ref.id
                   ) {
-                    return resJson.data.ref;
+                    return post.type === "repost"
+                      ? {
+                          ...post,
+                          ref_count: resJson.data.ref.ref_count,
+                          reposts: resJson.data.ref.reposts,
+                        }
+                      : resJson.data.ref;
                   }
                   return post;
                 })

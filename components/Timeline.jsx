@@ -14,7 +14,7 @@ const Timeline = ({ name, isActive, setRefresh, refresh }) => {
   const [hasMore, setHasMore] = useState(true);
 
   // console.log({ name, isActive, setRefresh, refresh });
-
+  // console.log(posts);
   const fetchPosts = async () => {
     try {
       if (!isActive) return;
