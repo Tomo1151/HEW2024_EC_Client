@@ -36,7 +36,6 @@ const Timeline = ({ name, isActive, setRefresh, refresh }) => {
         setIsPostFetching(false);
 
         console.log(`FETCH: ${name}`);
-        console.log({ name, isActive, refresh });
 
         if (resJson.success) {
           const newPosts = resJson.data;
@@ -48,8 +47,6 @@ const Timeline = ({ name, isActive, setRefresh, refresh }) => {
             setPosts(posts.concat(newPosts));
             // setRefresh((prev) => !prev);
           }
-        } else {
-          setHasMore(false);
         }
       });
     } catch (err) {
