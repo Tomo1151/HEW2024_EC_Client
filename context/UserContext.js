@@ -20,7 +20,7 @@ export const useUserContext = () => {
 
 export const UserProvider = ({ children }) => {
   const [activeUser, setActiveUser] = useState(null);
-  const [cartItems, setCartItems] = useState([]);
+  const [cartItems, setCartItems] = useState(null);
 
   useEffect(() => {
     fetchUser();

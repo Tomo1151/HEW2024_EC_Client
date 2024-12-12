@@ -68,7 +68,7 @@ const Header = () => {
       href: "/cart-items",
       type: "link",
       icon: (
-        <Badge badgeContent={cartItems.length} color="error">
+        <Badge badgeContent={cartItems?.length} color="error">
           <ShoppingCartRounded sx={navigationIconStyle} />
         </Badge>
       ),
