@@ -6,13 +6,14 @@ import Post from "./Post";
 import CircularLoading from "./loading/CircularLoading";
 import Product from "./Product";
 
-const ProfileUserTimeline = ({ user }) => {
+const ProfileUserTimeline = ({ user, endpoint }) => {
   const [posts, setPosts] = useState(null);
+  // console.log(user);
 
   const fetchPosts = async () => {
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_FETCH_BASE_URL}/users/${user.username}/posts`,
+        `${process.env.NEXT_PUBLIC_FETCH_BASE_URL}/users/${user.username}/${endpoint}`,
         {
           method: "GET",
           credentials: "include",
