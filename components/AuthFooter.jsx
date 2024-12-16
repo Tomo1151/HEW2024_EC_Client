@@ -38,7 +38,7 @@ const AuthFooter = () => {
           minWidth: "fit-content",
         }}
       >
-        <Link href="/register">
+        <Link href="/register" scroll={false}>
           <Button
             variant="standard"
             sx={{
@@ -57,7 +57,7 @@ const AuthFooter = () => {
           minWidth: "fit-content",
         }}
       >
-        <Link href="/login">
+        <Link href="/login" scroll={false}>
           <Button
             variant="standard"
             sx={{

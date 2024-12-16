@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { useState, useEffect } from "react";
 
 import {
   Badge,
@@ -26,10 +27,35 @@ import {
 import Link from "next/link";
 
 import { useUserContext } from "@/context/UserContext";
+import { fetchHeaders } from "@/config/fetchConfig";
 import theme from "@/theme/theme";
 
 const Header = () => {
   const { activeUser, logout, cartItems } = useUserContext();
+  const [unreadCount, setUnreadCount] = useState(0);
+
+  const getUnreadNotificationCount = async () => {
+    const response = await fetch(
+      process.env.NEXT_PUBLIC_FETCH_BASE_URL + "/notifications/unread",
+      {
+        method: "GET",
+        headers: fetchHeaders,
+        credentials: "include",
+      }
+    );
+
+    const resJson = await response.json();
+
+    if (resJson.success) {
+      setUnreadCount(resJson.length);
+    }
+  };
+
+  useEffect(() => {
+    if (activeUser) {
+      getUnreadNotificationCount();
+    }
+  }, [activeUser]);
 
   const isIconView = useMediaQuery(theme.breakpoints.down("lg"));
 
@@ -58,9 +84,13 @@ const Header = () => {
     },
     {
       name: "通知",
-      href: "/",
+      href: "/notifications",
       type: "link",
-      icon: <NotificationsRounded sx={navigationIconStyle} />,
+      icon: (
+        <Badge badgeContent={unreadCount} color="primary">
+          <NotificationsRounded sx={navigationIconStyle} />
+        </Badge>
+      ),
       loginRequired: true,
     },
     {
@@ -68,7 +98,7 @@ const Header = () => {
       href: "/cart-items",
       type: "link",
       icon: (
-        <Badge badgeContent={cartItems?.length} color="error">
+        <Badge badgeContent={cartItems?.length} color="primary">
           <ShoppingCartRounded sx={navigationIconStyle} />
         </Badge>
       ),
@@ -143,47 +173,54 @@ const Header = () => {
               />
             </Link>
           </ListItem>
-          {listItems.map((item, index) => (
-            <ListItem key={index} className={isIconView ? `w-fit` : "w-full"}>
-              <ListItemButton
-                href={
-                  item.loginRequired && activeUser === false ? null : item.href
-                }
-                onClick={item.type === "func" ? item.onclick : null}
-                sx={{
-                  position: "relative",
-                  justifyContent: "center",
-                  minWidth: "fit-content",
-                  width: isIconView ? "fit-content" : "100%",
-                  // pr: isIconView ? "0" : "2em",
-                }}
-              >
-                {item.loginRequired && activeUser === false && (
-                  <Link
-                    href="/login"
-                    className="absolute inset-0 w-full h-full"
-                    scroll={false}
-                  ></Link>
-                )}
-                <ListItemIcon sx={{ width: "fit-content" }} className="mx-0">
-                  {item.icon}
-                </ListItemIcon>
-                <ListItemText
-                  primary={item.name}
+          {listItems.map((item, index) => {
+            if (item.name === "ログアウト" && activeUser === false) {
+              return null;
+            }
+            return (
+              <ListItem key={index} className={isIconView ? `w-fit` : "w-full"}>
+                <ListItemButton
+                  href={
+                    item.loginRequired && activeUser === false
+                      ? null
+                      : item.href
+                  }
+                  onClick={item.type === "func" ? item.onclick : null}
                   sx={{
-                    flexBasis: "80%",
-                    pr: isIconView ? "0" : "1em",
-                    display: {
-                      xs: "none",
-                      sm: "none",
-                      md: "none",
-                      lg: "block",
-                    },
+                    position: "relative",
+                    justifyContent: "center",
+                    minWidth: "fit-content",
+                    width: isIconView ? "fit-content" : "100%",
+                    // pr: isIconView ? "0" : "2em",
                   }}
-                />
-              </ListItemButton>
-            </ListItem>
-          ))}
+                >
+                  {item.loginRequired && activeUser === false && (
+                    <Link
+                      href="/login"
+                      className="absolute inset-0 w-full h-full"
+                      scroll={false}
+                    ></Link>
+                  )}
+                  <ListItemIcon sx={{ width: "fit-content" }} className="mx-0">
+                    {item.icon}
+                  </ListItemIcon>
+                  <ListItemText
+                    primary={item.name}
+                    sx={{
+                      flexBasis: "80%",
+                      pr: isIconView ? "0" : "1em",
+                      display: {
+                        xs: "none",
+                        sm: "none",
+                        md: "none",
+                        lg: "block",
+                      },
+                    }}
+                  />
+                </ListItemButton>
+              </ListItem>
+            );
+          })}
         </List>
       </Box>
     </>
