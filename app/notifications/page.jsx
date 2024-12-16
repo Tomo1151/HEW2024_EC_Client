@@ -16,7 +16,6 @@ import { fetchHeaders } from "@/config/fetchConfig";
 import CircularLoading from "@/components/loading/CircularLoading";
 import Link from "next/link";
 import NotificationCard from "@/components/NotificationCard";
-import { read } from "pngjs/lib/png-sync";
 
 const NotificationPage = () => {
   const { refreshToken } = useUserContext();
