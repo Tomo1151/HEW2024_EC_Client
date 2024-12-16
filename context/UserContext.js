@@ -29,14 +29,7 @@ export const UserProvider = ({ children }) => {
 
   const fetchUserCart = async () => {
     refreshToken()
-      .then(async (res) => {
-        if (!res.success) {
-          return {
-            success: false,
-            message: "You are not logged in",
-          };
-        }
-
+      .then(async () => {
         const response = await fetch(
           process.env.NEXT_PUBLIC_FETCH_BASE_URL + "/carts/items",
           {
