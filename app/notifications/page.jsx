@@ -88,7 +88,6 @@ const NotificationPage = () => {
         loadMore={fetchNotifications}
         hasMore={hasMore}
         loader={<CircularLoading key={0} />}
-        threshold={50}
         initialLoad={false}
       >
         {notificationsData && notificationsData.length > 0
