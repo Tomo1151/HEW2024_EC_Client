@@ -1,29 +1,229 @@
-import { fetchBaseURL } from "@/config/fetchConfig";
-import Image from "next/image";
+"use client";
 
-const ProfileContainer = ({ user, posts }) => {
-  const profile_image = "https://placeholder.com/150";
+import { useEffect, useState } from "react";
+
+import Image from "next/image";
+import Link from "next/link";
+
+import { TabContext, TabList, TabPanel } from "@mui/lab";
+
+import ProfileUserTimeline from "./ProfileUserTimeline";
+import { Box, Tab } from "@mui/material";
+
+import FollowButton from "@/components/FollowButton";
+
+import StarIcon from "@mui/icons-material/Star";
+import SettingsRoundedIcon from "@mui/icons-material/SettingsRounded";
+import { useUserContext } from "@/context/UserContext";
+import CircularLoading from "./loading/CircularLoading";
+
+import { fetchHeaders } from "@/config/fetchConfig";
+
+const ProfileContainer = ({ username }) => {
+  const fallback_img = "https://placeholder.com/150";
+  const [user, setUser] = useState(null);
+
+  const { activeUser, refreshToken } = useUserContext();
+  const [tabIndex, setTabIndex] = useState(0);
+
+  const [isFollowing, setIsFollowing] = useState(false);
+
+  const fetchUserData = async () => {
+    try {
+      refreshToken().then(async () => {
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_FETCH_BASE_URL}/users/${username}`,
+          {
+            method: "GET",
+            headers: { ...fetchHeaders },
+            credentials: "include",
+          }
+        );
+        const resJson = await response.json();
+
+        if (resJson.success) {
+          // console.log(resJson.data);
+          setUser(resJson.data);
+          setIsFollowing(resJson.data.followers.length > 0);
+        }
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleTabChange = (event, newValue) => {
+    setTabIndex(newValue);
+  };
+
+  useEffect(() => {
+    (async () => {
+      await fetchUserData();
+    })();
+  }, []);
+
+  if (!user) {
+    return <CircularLoading />;
+  }
 
   return (
-    <section className="flex w-full p-8 shadow-lg rounded-md bg-white">
-      <Image
-        src={profile_image}
-        width={175}
-        height={175}
-        alt="ユーザーアイコン"
-        className="rounded-full shadow-lg"
-      />
-      <div className="px-12 py-4 grow">
-        <p className={"font-bold text-2xl pb-1 border-b-4 tracking-[.075em]"}>
-          {user.username}
-        </p>
-        <p
-          className={`${false ? "" : "opacity-35 select-none "}font-bold mt-4`}
+    <>
+      <Box
+        component="section"
+        className="p-8"
+        sx={{
+          backgroundColor: "primary.main",
+          color: "white",
+          position: "relative",
+          boxSizing: "border-box",
+        }}
+      >
+        {activeUser && activeUser.username !== user.username && (
+          <FollowButton
+            username={user.username}
+            is_following={isFollowing}
+            set_is_following={setIsFollowing}
+            sx={{
+              position: "absolute",
+              top: "1rem",
+              left: "1.25rem",
+              backgroundColor: "white",
+              color: "primary.main",
+              boxShadow: "none",
+              borderRadius: "100px",
+              transitionProperty: "filter",
+              transitionDuration: ".25s",
+              ":hover": {
+                boxShadow: "none",
+                filter: "brightness(90%)",
+              },
+            }}
+          />
+        )}
+        {activeUser && activeUser.username === user.username && (
+          <Link
+            href={`${user.username}/edit`}
+            className="absolute top-4 right-6"
+            scroll={false}
+          >
+            <SettingsRoundedIcon
+              sx={{
+                fontSize: "32px",
+                boxShadow: "none",
+                borderRadius: "100px",
+                transitionProperty: "filter",
+                transitionDuration: ".25s",
+                ":hover": {
+                  boxShadow: "none",
+                  filter: "brightness(90%)",
+                },
+              }}
+            />
+          </Link>
+        )}
+
+        <Box
+          sx={{
+            position: "relative",
+            width: "125px",
+            height: "125px",
+            mx: "auto",
+          }}
         >
-          {user.bio || "ここには何も書かれていないようだ"}
-        </p>
-      </div>
-    </section>
+          {user.icon_link && (
+            <Link
+              href={`${process.env.NEXT_PUBLIC_FETCH_BASE_URL}/media/icons/${user.icon_link}`}
+              scroll={false}
+              target="_blank"
+              className="absolute inset-0 w-full h-full"
+            ></Link>
+          )}
+          <Image
+            src={
+              user.icon_link
+                ? `${process.env.NEXT_PUBLIC_FETCH_BASE_URL}/media/icons/${user.icon_link}`
+                : fallback_img
+            }
+            width={125}
+            height={125}
+            alt="ユーザーアイコン"
+            className="rounded-full object-cover w-full h-full"
+            priority
+          />
+        </Box>
+        <div className="text-center px-12 py-4 grow">
+          <p className={"font-bold text-3xl pb-2 tracking-wider"}>
+            {user.nickname || user.username}
+          </p>
+          <div className="flex justify-evenly py-2">
+            <p className=" text-lg hover:underline">
+              <Link href={`${user.username}/follows`} scroll={false}>
+                フォロー: {user._count.followees}
+              </Link>
+            </p>
+            <p className="text-lg hover:underline">
+              <Link href={`${user.username}/followers`} scroll={false}>
+                フォロワー: {user._count.followers}
+              </Link>
+            </p>
+            <p>
+              <StarIcon sx={{ color: "rgb(255, 185, 0)" }} />
+              <span className="text-xl inline-block h-full pl-2 align-top">
+                4.0
+              </span>
+            </p>
+          </div>
+          <p
+            className={`${user.bio ? "" : "opacity-35 select-none "}font-bold mt-4`}
+          >
+            {user.bio || "ここには何も書かれていないようだ"}
+          </p>
+          <p className="mt-4">
+            {user.homepage_link ? (
+              <Link
+                href={user.homepage_link}
+                className="font-mono hover:underline"
+              >
+                {user.homepage_link}
+              </Link>
+            ) : (
+              <></>
+            )}
+          </p>
+        </div>
+      </Box>
+
+      <TabContext value={tabIndex}>
+        <TabList
+          onChange={handleTabChange}
+          variant="fullWidth"
+          scrollButtons
+          allowScrollButtonsMobile
+          aria-label="Timeline tabs list"
+          sx={{
+            backgroundColor: "white",
+            borderBottom: "1px solid #e0e0e0",
+            position: "sticky",
+            top: 0,
+            zIndex: 21,
+          }}
+        >
+          <Tab label="投稿" value={0} />
+          <Tab label="商品" value={1} />
+          <Tab label="いいね" value={2} />
+        </TabList>
+
+        <TabPanel value={0} sx={{ pt: 0, px: 0 }}>
+          <ProfileUserTimeline user={user} endpoint="posts" />
+        </TabPanel>
+        <TabPanel value={1} sx={{ pt: 0, px: 0 }}>
+          <ProfileUserTimeline user={user} endpoint="products" />
+        </TabPanel>
+        <TabPanel value={2} sx={{ pt: 0, px: 0 }}>
+          <ProfileUserTimeline user={user} endpoint="likes" />
+        </TabPanel>
+      </TabContext>
+    </>
   );
 };
 

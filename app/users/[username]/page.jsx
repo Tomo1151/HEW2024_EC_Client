@@ -1,27 +1,39 @@
 "use server";
 
 import ProfileContainer from "@/components/ProfileContainer";
+import { fetchHeaders } from "@/config/fetchConfig";
+import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
+import MainColumnHeader from "@/components/MainColumnHeader";
 
-const UserProfile = async (route) => {
-  console.log(`GET /users/${route.params.username}`);
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_FETCH_BASE_URL}/users/${route.params.username}`,
-    { cache: "no-store" }
+import { ThemeProvider } from "@mui/material/styles";
+import theme from "@/theme/theme";
+
+const UserProfile = async ({ params, username }) => {
+  // const userResponse = await fetch(
+  //   `${process.env.NEXT_PUBLIC_FETCH_BASE_URL}/users/${username || params.username}`,
+  //   {
+  //     cache: "no-store",
+  //     headers: { Cookie: cookies().toString(), ...fetchHeaders },
+  //   }
+  // );
+
+  // if (userResponse.status === 404) {
+  //   notFound();
+  // }
+
+  // const userJson = await userResponse.json();
+
+  return (
+    <ThemeProvider theme={theme}>
+      <MainColumnHeader>
+        <h3 className="font-bold tracking-wider">
+          {username || params.username}
+        </h3>
+      </MainColumnHeader>
+      <ProfileContainer username={username || params.username} />
+    </ThemeProvider>
   );
-
-  if (response.status === 404) {
-    notFound();
-  }
-  const resJson = await response.json();
-
-  if (!resJson.success) {
-    return;
-  }
-
-  const userData = resJson.data;
-  console.log(userData);
-  return <ProfileContainer user={userData} />;
 };
 
 export default UserProfile;

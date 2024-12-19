@@ -1,17 +1,20 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, use } from "react";
+import { useRouter } from "next/navigation";
 
-import { Menu, MenuItem, IconButton } from "@mui/material";
+import { Box, Menu, MenuItem, IconButton } from "@mui/material";
 import { MoreHorizRounded } from "@mui/icons-material";
 
 import PostReaction from "./PostReaction";
+import PostImageContainer from "./PostImageContainer";
 
 import { fetchHeaders } from "@/config/fetchConfig";
-import { useAuthContext } from "../context/AuthContext";
+import { useUserContext } from "../context/UserContext";
 import { useNotifications } from "@toolpad/core/useNotifications";
-import { useRouter } from "next/navigation";
 
 const Post = ({
   type,
@@ -21,7 +24,7 @@ const Post = ({
   nickname,
   icon_link,
   content,
-  image_link,
+  images,
   comment_count,
   ref_count,
   like_count,
@@ -32,7 +35,7 @@ const Post = ({
   setPosts,
   setRefresh,
 }) => {
-  const { activeUser } = useAuthContext();
+  const { activeUser } = useUserContext();
   const [isReposted, setisReposted] = useState(is_reposted);
   const [isLiked, setisLiked] = useState(is_liked);
   const [repostCount, setRepostCount] = useState(ref_count);
@@ -125,6 +128,14 @@ const Post = ({
   };
 
   useEffect(() => {
+    setisLiked(is_liked);
+  }, [is_liked]);
+
+  useEffect(() => {
+    setLikeCount(like_count);
+  }, [like_count]);
+
+  useEffect(() => {
     setisReposted(is_reposted);
   }, [is_reposted]);
 
@@ -134,7 +145,8 @@ const Post = ({
 
   return (
     <section
-      className={`relative bg-white mt-8 p-8 ${is_clickable ? "hover:brightness-[.95] duration-200 rounded-md" : "rounded-t-md"}`}
+      style={{ borderBottom: "1px solid #f0f0f0" }}
+      className={`relative bg-white mb-[2px] p-8 ${is_clickable ? "hover:brightness-[.95] duration-200" : ""}`}
     >
       {is_clickable && (
         <Link
@@ -204,15 +216,22 @@ const Post = ({
         <div className="shrink-0">
           <Link
             href={`/users/${username}`}
+            scroll={false}
             className="relative h-fit hover:brightness-[.75] rounded-full duration-200 z-10"
           >
-            <Image
-              src={icon_link || "https://placeholder.com/150"}
-              width="50"
-              height="50"
-              className="rounded-full mr-4"
-              alt="ユーザーアイコン"
-            />
+            <Box sx={{ width: "50px", height: "50px", mr: 2 }}>
+              <Image
+                src={
+                  icon_link
+                    ? `${process.env.NEXT_PUBLIC_FETCH_BASE_URL}/media/icons/${icon_link}`
+                    : "https://placeholder.com/150"
+                }
+                width="50"
+                height="50"
+                className="rounded-full object-cover w-full h-full"
+                alt="ユーザーアイコン"
+              />
+            </Box>
           </Link>
         </div>
         <div className="px-2 grow">
@@ -220,6 +239,7 @@ const Post = ({
             <Link
               href={`/users/${username}`}
               className="relative font-bold hover:underline tracking-[.075em] z-10"
+              scroll={false}
             >
               {nickname || username}
             </Link>
@@ -228,26 +248,8 @@ const Post = ({
             </p>
           </div>
           <p className="mt-2 pb-2">{content}</p>
-          {image_link && (
-            <Link
-              href={`${process.env.NEXT_PUBLIC_FETCH_BASE_URL}${image_link}`}
-              className="relative z-10"
-            >
-              <div className="mt-4">
-                <Image
-                  src={`${process.env.NEXT_PUBLIC_FETCH_BASE_URL}${image_link}`}
-                  width={1920}
-                  height={1080}
-                  style={{ objectFit: "cover", width: "100%", height: "100%" }}
-                  className="rounded-md"
-                  alt="投稿画像"
-                  priority={false}
-                  loading="lazy"
-                />
-              </div>
-            </Link>
-          )}
-          {/* {type === "post" && ( */}
+          {images?.length > 0 && <PostImageContainer images={images} />}
+
           <PostReaction
             postId={postId}
             comment_count={comment_count}
@@ -262,7 +264,6 @@ const Post = ({
             setPosts={setPosts}
             setRefresh={setRefresh}
           />
-          {/* )} */}
         </div>
       </div>
     </section>

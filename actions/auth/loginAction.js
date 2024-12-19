@@ -2,7 +2,7 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
-import { useAuthContext } from "@/context/AuthContext";
+import { useAuthContext } from "@/context/UserContext";
 import { fetchBaseURL, fetchHeaders } from "@/config/fetchConfig";
 
 export default async function loginAction(_, formData) {

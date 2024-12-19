@@ -8,7 +8,7 @@ import {
   RepeatRounded,
 } from "@mui/icons-material";
 
-import { useAuthContext } from "@/context/AuthContext";
+import { useUserContext } from "@/context/UserContext";
 import { fetchHeaders } from "@/config/fetchConfig";
 import Link from "next/link";
 
@@ -23,10 +23,11 @@ const PostReaction = ({
   setLikeCount,
   setLiked,
   is_liked,
+  is_preview,
   setPosts,
   setRefresh,
 }) => {
-  const { activeUser, refreshToken } = useAuthContext();
+  const { activeUser, refreshToken } = useUserContext();
   const router = useRouter();
 
   const reaction = {
@@ -45,14 +46,17 @@ const PostReaction = ({
   };
 
   const handleReaction = async (type) => {
+    if (is_preview) return;
     if (!activeUser) {
       router.push("/login", { scroll: false });
       return;
     }
 
+    // console.log(type);
+
     try {
       refreshToken().then(async () => {
-        await fetch(
+        const response = await fetch(
           process.env.NEXT_PUBLIC_FETCH_BASE_URL + `/posts/${postId}/${type}`,
           {
             method: reaction[type].method,
@@ -62,47 +66,176 @@ const PostReaction = ({
         );
         reaction[type].setState((prev) => !prev);
         reaction[type].setCount((prev) => prev + reaction[type].count);
-        if (type === "repost" && setPosts) {
-          if (is_reposted) {
-            setPosts((prev) =>
-              prev
-                .filter(
-                  (post) =>
-                    !(
-                      post.postId === postId &&
-                      post.repost_user.id === activeUser.id
-                    )
-                )
-                .map((post) => {
-                  if (post.id === postId || post.postId === postId) {
+        const resJson = await response.json();
+
+        if (resJson.success) {
+          // console.log("response");
+          // console.log(resJson.data);
+          if (type === "like") {
+            if (setPosts)
+              setPosts((prev) => {
+                // console.log(prev);
+                // console.log(
+                //   prev.map((post) => {
+                //     if (
+                //       post.id === resJson.data.ref.id ||
+                //       post.postId === resJson.data.ref.id
+                //     ) {
+                //       return {
+                //         ...post,
+                //         like_count: resJson.data.ref.like_count,
+                //         likes: resJson.data.ref.likes,
+                //       };
+                //     }
+                //     return post;
+                //   })
+                // );
+                return prev.map((post) => {
+                  if (
+                    post.id === resJson.data.ref.id ||
+                    post.postId === resJson.data.ref.id
+                  ) {
                     return {
                       ...post,
-                      ref_count: post.ref_count - 1,
-                      reposts: post.reposts.filter(
-                        (repost) => repost.userId !== activeUser.id
-                      ),
+                      like_count: resJson.data.ref.like_count,
+                      likes: resJson.data.ref.likes,
                     };
                   }
                   return post;
-                })
-            );
-          } else {
-            setPosts((prev) =>
-              prev.map((post) => {
-                if (post.id === postId || post.postId === postId) {
-                  return {
-                    ...post,
-                    ref_count: post.ref_count + 1,
-                    reposts: [{ userId: activeUser.id }, ...post.reposts],
-                  };
-                }
-                return post;
-              })
-            );
+                });
+              });
           }
-        }
 
-        if (setRefresh) setRefresh((prev) => !prev);
+          if (type === "repost" && is_reposted) {
+            if (setPosts)
+              setPosts((prev) =>
+                prev
+                  .filter(
+                    (post) =>
+                      !(
+                        post.postId === postId &&
+                        post.repost_user.id === activeUser.id
+                      )
+                  )
+                  .map((post) => {
+                    // console.log(post);
+                    if (
+                      post.id === resJson.data.ref.id ||
+                      post.postId === resJson.data.ref.id
+                    ) {
+                      return post.type === "repost"
+                        ? {
+                            ...post,
+                            ref_count: resJson.data.ref.ref_count,
+                            reposts: resJson.data.ref.reposts,
+                          }
+                        : resJson.data.ref;
+                    }
+                    return post;
+                  })
+              );
+          } else if (type === "repost" && !is_reposted) {
+            if (setPosts)
+              setPosts((prev) =>
+                prev.map((post) => {
+                  // console.log(post);
+                  if (
+                    post.id === resJson.data.ref.id ||
+                    post.postId === resJson.data.ref.id
+                  ) {
+                    return post.type === "repost"
+                      ? {
+                          ...post,
+                          ref_count: resJson.data.ref.ref_count,
+                          reposts: resJson.data.ref.reposts,
+                        }
+                      : resJson.data.ref;
+                  }
+                  return post;
+                })
+              );
+          }
+
+          if (setRefresh) setRefresh((prev) => !prev);
+        }
+        // if (type === "repost" && setPosts) {
+        // if (is_reposted) {
+        //   console.log(
+        //     "set posts (d): ",
+        //     posts
+        //       // .filter(
+        //       //   (post) =>
+        //       //     !(
+        //       //       post.postId === postId &&
+        //       //       post.repost_user.id === activeUser.id
+        //       //     )
+        //       // )
+        //       .map((post) => {
+        //         if (post.id === postId || post.postId === postId) {
+        //           return {
+        //             ...post,
+        //             ref_count: post.ref_count - 1,
+        //             reposts: post.reposts.filter(
+        //               (repost) => repost.userId !== activeUser.id
+        //             ),
+        //           };
+        //         }
+        //         return post;
+        //       })
+        //   );
+        //   setPosts(
+        //     posts
+        //       .filter(
+        //         (post) =>
+        //           !(
+        //             post.postId === postId &&
+        //             post.repost_user.id === activeUser.id
+        //           )
+        //       )
+        //       .map((post) => {
+        //         if (post.id === postId || post.postId === postId) {
+        //           return {
+        //             ...post,
+        //             ref_count: post.ref_count - 1,
+        //             reposts: post.reposts.filter(
+        //               (repost) => repost.userId !== activeUser.id
+        //             ),
+        //           };
+        //         }
+        //         return post;
+        //       })
+        //   );
+        // } else {
+        //   console.log(
+        //     "set posts (a): ",
+        //     posts.map((post) => {
+        //       if (post.id === postId || post.postId === postId) {
+        //         return {
+        //           ...post,
+        //           ref_count: post.ref_count + 1,
+        //           reposts: [{ userId: activeUser.id }, ...post.reposts],
+        //         };
+        //       }
+        //       return post;
+        //     })
+        //   );
+        //   setPosts(
+        //     posts.map((post) => {
+        //       if (post.id === postId || post.postId === postId) {
+        //         return {
+        //           ...post,
+        //           ref_count: post.ref_count + 1,
+        //           reposts: [{ userId: activeUser.id }, ...post.reposts],
+        //         };
+        //       }
+        //       return post;
+        //     })
+        //   );
+        // if (setRefresh) setRefresh((prev) => !prev);
+        // }
+        // }
+
+        // console.log(posts);
       });
     } catch (err) {
       console.log(err);
@@ -110,7 +243,13 @@ const PostReaction = ({
   };
 
   return (
-    <Box sx={{ display: "flex", pt: 8, columnGap: 8 }}>
+    <Box
+      sx={{
+        display: "flex",
+        pt: "1em",
+        columnGap: "8em",
+      }}
+    >
       <Box
         sx={{
           fontSize: "1.15em",
@@ -124,12 +263,21 @@ const PostReaction = ({
           },
         }}
       >
-        <Link href={`/posts/${postId}`} className="z-0">
-          <Box component="span" sx={{ display: "inline-block" }}>
-            <ChatBubbleOutlineRounded sx={{ fontSize: "1.25em", mr: 1.5 }} />
+        {is_preview ? (
+          <>
+            <ChatBubbleOutlineRounded sx={{ fontSize: "1.25em", mr: ".5em" }} />
             {comment_count || 0}
-          </Box>
-        </Link>
+          </>
+        ) : (
+          <Link href={`/posts/${postId}`} className="z-0" scroll={false}>
+            <Box component="span" sx={{ display: "inline-block" }}>
+              <ChatBubbleOutlineRounded
+                sx={{ fontSize: "1.25em", mr: ".5em" }}
+              />
+              {comment_count || 0}
+            </Box>
+          </Link>
+        )}
       </Box>
       <Box
         sx={[
@@ -150,7 +298,7 @@ const PostReaction = ({
         ]}
         onClick={handleReaction.bind(null, "repost")}
       >
-        <RepeatRounded sx={{ fontSize: "1.25em", mr: 1.5, mb: 0.175 }} />
+        <RepeatRounded sx={{ fontSize: "1.25em", mr: ".5em", mb: ".0875em" }} />
         {ref_count || 0}
       </Box>
       <Box
@@ -171,10 +319,12 @@ const PostReaction = ({
         onClick={handleReaction.bind(null, "like")}
       >
         {is_liked ? (
-          <FavoriteRounded sx={{ fontSize: "1.25em", mr: 1.5, mb: 0.175 }} />
+          <FavoriteRounded
+            sx={{ fontSize: "1.25em", mr: ".5em", mb: ".0875em" }}
+          />
         ) : (
           <FavoriteBorderRounded
-            sx={{ fontSize: "1.25em", mr: 1.5, mb: 0.175 }}
+            sx={{ fontSize: "1.25em", mr: ".5em", mb: ".0875" }}
           />
         )}
         {like_count}

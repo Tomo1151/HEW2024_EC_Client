@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
-import { useAuthContext } from "@/context/AuthContext";
+import { useUserContext } from "@/context/UserContext";
 import RegisterForm from "@/components/RegisterForm";
 
 const Register = () => {
@@ -13,7 +13,7 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [status, setStatus] = useState("　");
 
-  const { signin } = useAuthContext();
+  const { signin } = useUserContext();
 
   async function handleSubmit(event) {
     event.preventDefault();
