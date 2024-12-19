@@ -145,6 +145,22 @@ describe("extractTagsFromPost", () => {
   });
 
   test("extractTagsFromPost", async () => {
+    const postContent = `Hello, world! https://example.com/日本語#world!`;
+    const expected = [];
+
+    const result = extractTagsFromPost(postContent);
+    expect(result).toStrictEqual(expected);
+  });
+
+  test("extractTagsFromPost", async () => {
+    const postContent = `Hello, world! https://example.com/#world日本`;
+    const expected = [];
+
+    const result = extractTagsFromPost(postContent);
+    expect(result).toStrictEqual(expected);
+  });
+
+  test("extractTagsFromPost", async () => {
     const postContent = `Hello, world! https://example.com #world!`;
     const expected = ["world"];
 
@@ -154,7 +170,7 @@ describe("extractTagsFromPost", () => {
 
   test("extractTagsFromPost", async () => {
     const postContent = `Hello, world!#world!`;
-    const expected = [];
+    const expected = ["world"];
 
     const result = extractTagsFromPost(postContent);
     expect(result).toStrictEqual(expected);
@@ -235,6 +251,29 @@ describe("extractTagsFromPost", () => {
 
   test("extractTagsFromPost", async () => {
     const postContent = `#tag1＃tag2`;
+    const expected = [];
+
+    const result = extractTagsFromPost(postContent);
+    expect(result).toStrictEqual(expected);
+  });
+
+  test("extractTagsFromPost", async () => {
+    const postContent = ` #タグ1#tag2`;
+    const expected = [];
+
+    const result = extractTagsFromPost(postContent);
+    expect(result).toStrictEqual(expected);
+  });
+
+  test("extractTagsFromPost", async () => {
+    const postContent = ` #タグ1#タグ2`;
+    const expected = [];
+
+    const result = extractTagsFromPost(postContent);
+    expect(result).toStrictEqual(expected);
+  });
+  test("extractTagsFromPost", async () => {
+    const postContent = ` #tag1#タグ2`;
     const expected = [];
 
     const result = extractTagsFromPost(postContent);
