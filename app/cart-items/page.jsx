@@ -105,8 +105,9 @@ const CartPage = () => {
                   item.product.post.author.username
                 }
                 sellerIcon={
-                  `${process.env.NEXT_PUBLIC_FETCH_BASE_URL}/media/icons/${item.product.post.author.icon_link}` ||
-                  fallback_image
+                  item.product.post.author.icon_link
+                    ? `${process.env.NEXT_PUBLIC_FETCH_BASE_URL}/media/icons/${item.product.post.author.icon_link}`
+                    : fallback_image
                 }
                 productName={item.product.name}
               >
