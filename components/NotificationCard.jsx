@@ -34,7 +34,13 @@ const NotificationCard = ({ type, sender, is_read, rel_post }) => {
       className={`relative bg-white mb-[2px] p-8 hover:brightness-[.95] duration-200 ${!is_read && "bg-[#6dc96525]"}`}
     >
       <Link
-        href={rel_post ? `/posts/${rel_post.id}` : `/users/${sender.username}`}
+        href={
+          rel_post
+            ? rel_post.replied_ref
+              ? `/posts/${rel_post.replied_ref.id}`
+              : `/posts/${rel_post.id}`
+            : `/users/${sender.username}`
+        }
         scroll={false}
         className="absolute inset-0 w-full h-full z-[1]"
       ></Link>
