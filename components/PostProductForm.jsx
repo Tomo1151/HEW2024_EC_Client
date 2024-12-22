@@ -6,6 +6,7 @@ import { useState, useCallback } from "react";
 import {
   Box,
   Button,
+  Chip,
   FormControlLabel,
   Switch,
   TextField,
@@ -28,6 +29,7 @@ export default function PostProductForm({ setRefresh }) {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [images, setImages] = useState([]);
+  const [tags, setTags] = useState([]);
   const [data, setData] = useState(null);
   const [price, setPrice] = useState("");
   const [liveLink, setLiveLink] = useState("");
@@ -35,6 +37,20 @@ export default function PostProductForm({ setRefresh }) {
   const [isPreviewActive, setIsPreviewActive] = useState(false);
 
   const notifications = useNotifications();
+
+  const handleSetTags = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+
+      if (!e.target.value || e.target.value.trim() === "") return;
+
+      console.log("Enter key pressed: ", `"${e.target.value}"`);
+      const newTags = [...tags, e.target.value.trim()];
+      const uniqueTags = [...new Set(newTags)];
+      setTags(uniqueTags);
+      e.target.value = "";
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -49,8 +65,12 @@ export default function PostProductForm({ setRefresh }) {
           formData.append("live_link", liveLink.trim());
           formData.append("data", data);
 
-          for (let image of images) {
+          for (const image of images) {
             formData.append("images", image);
+          }
+
+          for (const tag of tags) {
+            formData.append("tags[]", tag);
           }
 
           console.log(...formData.entries());
@@ -271,6 +291,45 @@ export default function PostProductForm({ setRefresh }) {
               sx={{ display: "block", mt: 2 }}
               value={description}
             />
+
+            <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
+              <TextField
+                id="tag"
+                variant="standard"
+                rows={1}
+                fullWidth
+                label="タグ"
+                placeholder="タグを入力（複数可）"
+                sx={{ mt: 2 }}
+                onKeyDown={handleSetTags}
+              />
+            </Box>
+            {tags && tags.length > 0 && (
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  flexWrap: "wrap",
+                  backgroundColor: "#f0f0f0",
+                  p: 1,
+                  my: 2,
+                  borderRadius: "0.375em",
+                }}
+              >
+                {tags.map((tag, index) => (
+                  <Chip
+                    key={index}
+                    label={`# ${tag}`}
+                    color="primary"
+                    onDelete={() => {
+                      setTags(tags.filter((t) => t !== tag));
+                    }}
+                    sx={{ m: 0.5 }}
+                  />
+                ))}
+              </Box>
+            )}
+
             <TextField
               id="live_link"
               name="live_link"

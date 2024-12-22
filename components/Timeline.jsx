@@ -15,6 +15,7 @@ const Timeline = ({ name, isActive, setRefresh, refresh }) => {
 
   // console.log({ name, isActive, setRefresh, refresh });
   // console.log(posts);
+
   const fetchPosts = async () => {
     try {
       if (!isActive) return;
@@ -146,6 +147,7 @@ const Timeline = ({ name, isActive, setRefresh, refresh }) => {
                 price={post.product.price}
                 name={post.product.name}
                 images={post.images}
+                tags={post.tags?.map((tagObj) => tagObj.tag.name)}
                 comment_count={post.comment_count}
                 ref_count={post.ref_count}
                 like_count={post.like_count}
@@ -167,6 +169,7 @@ const Timeline = ({ name, isActive, setRefresh, refresh }) => {
                 icon_link={post.author.icon_link}
                 content={post.content}
                 images={post.images}
+                tags={post.tags?.map((tagObj) => tagObj.tag.name)}
                 comment_count={post.comment_count}
                 ref_count={post.ref_count}
                 like_count={post.like_count}

@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { useState, useRef } from "react";
-import { Box, Button, TextField } from "@mui/material";
+import { Box, Button, Chip, TextField } from "@mui/material";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import CancelIcon from "@mui/icons-material/Cancel";
 
@@ -15,6 +15,7 @@ export default function PostForm({ setRefresh }) {
 
   const { activeUser, refreshToken } = useUserContext();
   const [postText, setPostText] = useState("");
+  const [tags, setTags] = useState([]);
   const [images, setImages] = useState([]);
   const [status, setStatus] = useState([]);
   const notifications = useNotifications();
@@ -22,6 +23,20 @@ export default function PostForm({ setRefresh }) {
   const handleOnChange = (e) => {
     setImages([...images, ...e.target.files].slice(0, 4));
     e.target.value = "";
+  };
+
+  const handleSetTags = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+
+      if (!e.target.value || e.target.value.trim() === "") return;
+
+      console.log("Enter key pressed: ", `"${e.target.value}"`);
+      const newTags = [...tags, e.target.value.trim()];
+      const uniqueTags = [...new Set(newTags)];
+      setTags(uniqueTags);
+      e.target.value = "";
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -32,12 +47,16 @@ export default function PostForm({ setRefresh }) {
         try {
           const formData = new FormData();
           formData.append("content", postText.trim());
-          for (let image of images) {
+          for (const image of images) {
             formData.append("files", image);
           }
 
+          for (const tag of tags) {
+            formData.append("tags[]", tag);
+          }
+
           // console.log(formData.get("content"));
-          console.log(formData.getAll("files"));
+          console.log(formData.getAll("tags[]"));
 
           const response = await fetch(
             process.env.NEXT_PUBLIC_FETCH_BASE_URL + "/posts",
@@ -54,6 +73,7 @@ export default function PostForm({ setRefresh }) {
             setPostText("");
             setImages([]);
             setStatus([]);
+            setTags([]);
             if (setRefresh) setRefresh((prev) => !prev);
             notifications.show("ポストが正常に投稿されました", {
               severity: "success",
@@ -121,13 +141,54 @@ export default function PostForm({ setRefresh }) {
             value={postText}
           />
         </div>
+
+        <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
+          <p className=" w-[50px] text-right shrink-0 mx-2">
+            <label htmlFor="tag" className="font-bold w-full">
+              タグ：
+            </label>
+          </p>
+          <TextField
+            id="tag"
+            variant="standard"
+            rows={1}
+            placeholder="タグを入力（複数可）"
+            sx={{ p: 0, ml: 2 }}
+            onKeyDown={handleSetTags}
+          />
+        </Box>
+        {tags && tags.length > 0 && (
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              flexWrap: "wrap",
+              backgroundColor: "#f0f0f0",
+              p: 1,
+              my: 2,
+              borderRadius: "0.375em",
+            }}
+          >
+            {tags.map((tag, index) => (
+              <Chip
+                key={index}
+                label={`# ${tag}`}
+                color="primary"
+                onDelete={() => {
+                  setTags(tags.filter((t) => t !== tag));
+                }}
+                sx={{ m: 0.5 }}
+              />
+            ))}
+          </Box>
+        )}
+
         {status &&
           status.map((message, index) => (
-            <p key={index} className="text-center text-red-600">
+            <p key={index} className="text-center text-red-600 font-bold">
               {message}
             </p>
           ))}
-        <p className="text-center text-red-600">{status}</p>
 
         <FormImagePreview images={images} setImages={setImages} />
 

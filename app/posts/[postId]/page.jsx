@@ -75,6 +75,7 @@ const PostDetailPage = (route) => {
             icon_link={postData.author.icon_link}
             content={postData.content}
             images={postData.images}
+            tags={postData.tags?.map((tagObj) => tagObj.tag.name)}
             productId={postData.product.id}
             name={postData.product.name}
             price={postData.product.price}
@@ -97,6 +98,7 @@ const PostDetailPage = (route) => {
             icon_link={postData.author.icon_link}
             content={postData.content}
             images={postData.images}
+            tags={postData.tags?.map((tagObj) => tagObj.tag.name)}
             comment_count={postData.comment_count}
             ref_count={postData.ref_count}
             like_count={postData.like_count}
