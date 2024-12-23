@@ -2,8 +2,7 @@
 import { useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroller";
 
-import { Box, Button, IconButton, ThemeProvider } from "@mui/material";
-import CancelIcon from "@mui/icons-material/Cancel";
+import { Box, ThemeProvider } from "@mui/material";
 
 import MainColumnHeader from "@/components/MainColumnHeader";
 import theme from "@/theme/theme";
@@ -14,7 +13,6 @@ import { useUserContext } from "@/context/UserContext";
 // } from "@toolpad/core/useNotifications";
 import { fetchHeaders } from "@/config/fetchConfig";
 import CircularLoading from "@/components/loading/CircularLoading";
-import Link from "next/link";
 import NotificationCard from "@/components/NotificationCard";
 
 const NotificationPage = () => {
@@ -88,7 +86,7 @@ const NotificationPage = () => {
         loadMore={fetchNotifications}
         hasMore={hasMore}
         loader={<CircularLoading key={0} />}
-        initialLoad={false}
+        // initialLoad={false}
       >
         {notificationsData && notificationsData.length > 0
           ? notificationsData.map((notification) => (
