@@ -16,7 +16,14 @@ const MainColumn = () => {
   const { activeUser } = useUserContext();
   const [tabIndex, setTabIndex] = useState(0);
   const [refresh, setRefresh] = useState(false);
-  const tabContents = ["最新の投稿", "フォロー中", "VR", "神絵", "Live"];
+  const tabContents = [
+    "最新の投稿",
+    "フォロー中",
+    "VR",
+    "神絵",
+    "Live",
+    "タグ１",
+  ];
   const handleTabChange = async (event, newValue) => {
     setTabIndex(newValue);
   };

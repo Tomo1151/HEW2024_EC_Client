@@ -16,6 +16,8 @@ import { fetchHeaders } from "@/config/fetchConfig";
 import { useUserContext } from "../context/UserContext";
 import { useNotifications } from "@toolpad/core/useNotifications";
 
+import PostTags from "./PostTags";
+
 const Post = ({
   type,
   repost_user,
@@ -25,6 +27,7 @@ const Post = ({
   icon_link,
   content,
   images,
+  tags,
   comment_count,
   ref_count,
   like_count,
@@ -248,6 +251,9 @@ const Post = ({
             </p>
           </div>
           <p className="mt-2 pb-2">{content}</p>
+
+          <PostTags tags={tags} />
+
           {images?.length > 0 && <PostImageContainer images={images} />}
 
           <PostReaction

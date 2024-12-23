@@ -15,6 +15,7 @@ import PostImageContainer from "./PostImageContainer";
 import { fetchHeaders } from "@/config/fetchConfig";
 import { useUserContext } from "../context/UserContext";
 import { useNotifications } from "@toolpad/core/useNotifications";
+import PostTags from "./PostTags";
 
 const PostDetail = ({
   type,
@@ -25,6 +26,7 @@ const PostDetail = ({
   icon_link,
   content,
   images,
+  tags,
   comment_count,
   ref_count,
   like_count,
@@ -233,6 +235,9 @@ const PostDetail = ({
         </div>
         <div className="px-2 grow">
           <p className="mt-4 mb-2 pb-2">{content}</p>
+
+          <PostTags tags={tags} />
+
           {images?.length > 0 && <PostImageContainer images={images} />}
 
           <PostReaction

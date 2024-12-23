@@ -10,12 +10,14 @@ import LabelRoundedIcon from "@mui/icons-material/LabelRounded";
 import PostReaction from "./PostReaction";
 import PostImageContainer from "./PostImageContainer";
 
+import PostTags from "./PostTags";
+
 const ProductPreview = ({
   username,
   nickname,
   icon_link,
   name,
-  content,
+  tags,
   price,
   images,
 }) => {
@@ -97,6 +99,7 @@ const ProductPreview = ({
             >
               {name}
             </h3>
+            <PostTags tags={tags} />
             <Box sx={{ position: "relative" }}>
               {images?.length > 0 && (
                 <PostImageContainer images={images} is_preview />

@@ -74,8 +74,9 @@ export default function ReplyForm({ postId, setRefresh }) {
       <Box component="form" onSubmit={handleSubmit} sx={{ pt: 2 }}>
         <div className="flex">
           <Link
-            href={`/users/${activeUser?.username}`}
+            href={`${activeUser ? `/users/${activeUser.username}` : "/login"}`}
             className="h-fit hover:brightness-[.75] duration-200 mr-4 my-4 shrink-0"
+            scroll={false}
           >
             <Image
               src={`${activeUser?.image_link || "https://placeholder.com/150"}`}

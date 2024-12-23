@@ -16,6 +16,7 @@ import PostImageContainer from "./PostImageContainer";
 import { fetchHeaders } from "@/config/fetchConfig";
 import { useUserContext } from "../context/UserContext";
 import { useNotifications } from "@toolpad/core/useNotifications";
+import PostTags from "./PostTags";
 
 const Product = ({
   type,
@@ -28,6 +29,7 @@ const Product = ({
   content,
   price,
   images,
+  tags,
   comment_count,
   ref_count,
   like_count,
@@ -260,6 +262,9 @@ const Product = ({
               販売商品
             </p>
             <h3 className="mt-[1em] pb-[1em] font-bold text-xl">{name}</h3>
+
+            <PostTags tags={tags} />
+
             <Box sx={{ position: "relative" }}>
               {images?.length > 0 && <PostImageContainer images={images} />}
               <Box
