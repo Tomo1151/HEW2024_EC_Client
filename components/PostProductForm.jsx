@@ -171,7 +171,7 @@ export default function PostProductForm({ setRefresh }) {
                 width={50}
                 height={50}
                 alt="自分のユーザーアイコン"
-                className="h-fit rounded-full"
+                className="w-[50px] h-[50px] rounded-full object-cover"
               />
             </Link>
             <TextField
@@ -378,6 +378,7 @@ export default function PostProductForm({ setRefresh }) {
                   icon_link={activeUser?.icon_link}
                   name={name}
                   price={price}
+                  tags={tags}
                   images={images}
                   created_at={"たった今"}
                 />
@@ -394,6 +395,7 @@ export default function PostProductForm({ setRefresh }) {
                   content={description}
                   name={name}
                   price={price}
+                  tags={tags}
                   images={images}
                   created_at={"たった今"}
                 />

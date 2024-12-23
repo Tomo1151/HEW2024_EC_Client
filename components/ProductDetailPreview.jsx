@@ -8,6 +8,7 @@ import { MoreHorizRounded } from "@mui/icons-material";
 
 import PostReaction from "./PostReaction";
 import PostImageContainer from "./PostImageContainer";
+import PostTags from "./PostTags";
 
 const ProductPreview = ({
   username,
@@ -15,6 +16,7 @@ const ProductPreview = ({
   icon_link,
   name,
   content,
+  tags,
   price,
   images,
 }) => {
@@ -63,6 +65,7 @@ const ProductPreview = ({
           </div>
           <div className="px-2 grow">
             <h3 className="mt-4 pb-4 font-bold text-xl">{name}</h3>
+            <PostTags tags={tags} />
             {images?.length > 0 && (
               <PostImageContainer images={images} is_preview />
             )}

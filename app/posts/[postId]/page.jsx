@@ -58,8 +58,6 @@ const PostDetailPage = (route) => {
     return <CircularLoading />;
   }
 
-  console.log(postData);
-
   return (
     <NotificationsProvider>
       <MainColumnHeader>

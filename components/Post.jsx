@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useState, useEffect, use } from "react";
 import { useRouter } from "next/navigation";
 
-import { Box, Menu, MenuItem, IconButton, Chip } from "@mui/material";
+import { Box, Menu, MenuItem, IconButton } from "@mui/material";
 import { MoreHorizRounded } from "@mui/icons-material";
 
 import PostReaction from "./PostReaction";
@@ -15,6 +15,8 @@ import PostImageContainer from "./PostImageContainer";
 import { fetchHeaders } from "@/config/fetchConfig";
 import { useUserContext } from "../context/UserContext";
 import { useNotifications } from "@toolpad/core/useNotifications";
+
+import PostTags from "./PostTags";
 
 const Post = ({
   type,
@@ -250,28 +252,7 @@ const Post = ({
           </div>
           <p className="mt-2 pb-2">{content}</p>
 
-          {tags && tags.length > 0 && (
-            <Box
-              sx={{
-                display: "flex",
-                flexWrap: "wrap",
-                columnGap: ".5em",
-                mb: 2,
-              }}
-            >
-              {tags.map((tag, index) => (
-                <Link
-                  key={index}
-                  href={`/tags/${tag}`}
-                  className="relative hover:underline z-20 font-bold"
-                  scroll={false}
-                >
-                  {/* <Chip label={`#${tag}`} color="primary" sx={{}} /> */}
-                  <p className="mr-2 text-blue-500">#{tag}</p>
-                </Link>
-              ))}
-            </Box>
-          )}
+          <PostTags tags={tags} />
 
           {images?.length > 0 && <PostImageContainer images={images} />}
 

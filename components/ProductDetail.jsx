@@ -15,6 +15,7 @@ import PostImageContainer from "./PostImageContainer";
 import { fetchHeaders } from "@/config/fetchConfig";
 import { useUserContext } from "../context/UserContext";
 import { useNotifications } from "@toolpad/core/useNotifications";
+import PostTags from "./PostTags";
 
 const ProductDetail = ({
   type,
@@ -272,6 +273,9 @@ const ProductDetail = ({
           </div>
           <div className="px-2 grow">
             <h3 className="mt-4 pb-4 font-bold text-xl">{name}</h3>
+
+            <PostTags tags={[]} />
+
             {images?.length > 0 && <PostImageContainer images={images} />}
 
             <PostReaction

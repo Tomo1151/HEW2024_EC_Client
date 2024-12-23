@@ -15,6 +15,7 @@ import PostImageContainer from "./PostImageContainer";
 import { fetchHeaders } from "@/config/fetchConfig";
 import { useUserContext } from "../context/UserContext";
 import { useNotifications } from "@toolpad/core/useNotifications";
+import PostTags from "./PostTags";
 
 const PostDetail = ({
   type,
@@ -235,28 +236,7 @@ const PostDetail = ({
         <div className="px-2 grow">
           <p className="mt-4 mb-2 pb-2">{content}</p>
 
-          {tags && tags.length > 0 && (
-            <Box
-              sx={{
-                display: "flex",
-                flexWrap: "wrap",
-                columnGap: ".5em",
-                mb: 2,
-              }}
-            >
-              {tags.map((tag, index) => (
-                <Link
-                  key={index}
-                  href={`/tags/${tag}`}
-                  className="relative hover:underline z-20 font-bold"
-                  scroll={false}
-                >
-                  {/* <Chip label={`#${tag}`} color="primary" sx={{}} /> */}
-                  <p className="mr-2 text-blue-500">#{tag}</p>
-                </Link>
-              ))}
-            </Box>
-          )}
+          <PostTags tags={tags} />
 
           {images?.length > 0 && <PostImageContainer images={images} />}
 
