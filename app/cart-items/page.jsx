@@ -151,7 +151,9 @@ const CartPage = () => {
               })}
             </span>
           </p>
-          <Button variant="contained">購入する</Button>
+          <Button variant="contained" href="/purchase">
+            購入する
+          </Button>
           <Link
             href="/"
             className="text-blue-500 hover:underline"
