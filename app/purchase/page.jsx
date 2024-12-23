@@ -55,23 +55,39 @@ const page = () => {
         </Stepper>
         <Box sx={{ mx: 4, px: 4, py: 2 }}>
           {pageContent[activeStep]}
-          <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={prevStep}
-              disabled={activeStep === 0}
-            >
-              戻る
-            </Button>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={nextStep}
-              disabled={activeStep === 3}
-            >
-              次へ
-            </Button>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent:
+                activeStep === pageContent.length - 1
+                  ? "center"
+                  : "space-between",
+            }}
+          >
+            {activeStep === pageContent.length - 1 ? (
+              <Button variant="contained" color="primary" href="/">
+                トップへ
+              </Button>
+            ) : (
+              <>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={prevStep}
+                  disabled={activeStep === 0}
+                >
+                  戻る
+                </Button>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={nextStep}
+                  disabled={activeStep === 3}
+                >
+                  次へ
+                </Button>
+              </>
+            )}
           </Box>
         </Box>
       </Box>
