@@ -17,7 +17,12 @@ import Step3 from "./Step3";
 const page = () => {
   const [activeStep, setActiveStep] = useState(0);
 
-  const pageContent = [<Step0 />, <Step1 />, <Step2 />, <Step3 />];
+  const pageContent = [
+    <Step0 />,
+    <Step1 />,
+    <Step2 setActiveStep={setActiveStep} />,
+    <Step3 />,
+  ];
 
   const nextStep = () => {
     setActiveStep(
@@ -84,7 +89,7 @@ const page = () => {
                   onClick={nextStep}
                   disabled={activeStep === 3}
                 >
-                  次へ
+                  {activeStep === 2 ? "購入を確定する" : "次へ"}
                 </Button>
               </>
             )}

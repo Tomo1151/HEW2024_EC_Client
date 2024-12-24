@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+
 import Image from "next/image";
 import Link from "next/link";
 
@@ -9,10 +11,37 @@ import { StarRateOutlined, StarRateRounded } from "@mui/icons-material";
 
 const Step3 = () => {
   const { cartItems } = useUserContext();
+  const [isCompleted, setIsCompleted] = useState(false);
+  const [error, setError] = useState(null);
 
-  if (!cartItems) {
-    return <CircularLoading />;
-  }
+  const purchaseItems = async () => {
+    if (isCompleted) return;
+
+    const productIds = cartItems.map((item) => item.product.id);
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_FETCH_BASE_URL}/purchase`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ productIds }),
+          credentials: "include",
+        }
+      );
+
+      const resJson = await response.json();
+      console.log(resJson);
+      if (resJson.success) {
+        console.log("購入完了");
+        setIsCompleted(true);
+      }
+    } catch (error) {
+      setError(error);
+      console.error(error);
+    }
+  };
 
   const uniqUsers = Array.from(
     new Map(
@@ -23,8 +52,37 @@ const Step3 = () => {
     ).values()
   );
 
+  const [ratings, setRatings] = useState({});
+
   console.log("Step0");
   console.log(uniqUsers);
+  console.log(ratings);
+
+  useEffect(() => {
+    purchaseItems();
+  }, []);
+
+  if (error) {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          my: 4,
+        }}
+      >
+        <p>エラーが発生しました</p>
+        <p>時間をおいてもう一度お試しください</p>
+      </Box>
+    );
+  }
+
+  if (!cartItems || !isCompleted) {
+    return <CircularLoading />;
+  }
+
   return (
     <>
       <Box
@@ -34,6 +92,16 @@ const Step3 = () => {
         }}
       >
         <h3 className="text-xl font-bold">購入完了</h3>
+        <p className="pt-2">
+          商品データは
+          <Link
+            href="/purchase-history"
+            className="text-blue-500 hover:underline"
+          >
+            購入履歴ページ
+          </Link>
+          からダウンロードいただけます
+        </p>
       </Box>
       {uniqUsers.map((user) => (
         <Box key={user.id}>
@@ -100,12 +168,23 @@ const Step3 = () => {
             <p className="text-center">このユーザーを評価してみませんか？</p>
             <p className="text-center">
               <Rating
-                name="rating"
+                id={user.id}
+                name={`rating-${user.id}`}
                 defaultValue={0}
                 precision={0.5}
                 icon={<StarRateRounded fontSize="inherit" />}
                 emptyIcon={<StarRateRounded fontSize="inherit" />}
                 sx={{ fontSize: "3em" }}
+                onChange={(e, newValue) => {
+                  console.log({
+                    ...ratings,
+                    [user.id]: newValue,
+                  });
+                  setRatings({
+                    ...ratings,
+                    [user.id]: newValue,
+                  });
+                }}
               />
             </p>
           </Box>

@@ -2,9 +2,9 @@ import Image from "next/image";
 
 import { useUserContext } from "@/context/UserContext";
 import CircularLoading from "@/components/loading/CircularLoading";
-import { Box } from "@mui/material";
+import { Box, Button } from "@mui/material";
 
-const Step2 = () => {
+const Step2 = ({ setActiveStep }) => {
   const { cartItems } = useUserContext();
 
   if (!cartItems) {
@@ -59,6 +59,13 @@ const Step2 = () => {
           </Box>
         </Box>
       </Box>
+
+      <Box sx={{ display: "flex", justifyContent: "center", px: 4, py: 2 }}>
+        <Button variant="contained" onClick={() => setActiveStep(3)}>
+          購入を確定する
+        </Button>
+      </Box>
+
       {cartItems.map((item) => (
         <Box
           key={item.id}
