@@ -11,6 +11,7 @@ export const UserContext = createContext({
   logout: () => {},
   refreshToken: () => {},
   fetchUserCart: () => {},
+  clearUserCart: () => {},
   cartItems: [],
 });
 
@@ -23,9 +24,39 @@ export const UserProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState(null);
 
   useEffect(() => {
+    refreshToken();
     fetchUser();
     fetchUserCart();
   }, []);
+
+  const clearUserCart = () => {
+    refreshToken().then(async () => {
+      const response = await fetch(
+        process.env.NEXT_PUBLIC_FETCH_BASE_URL + "/carts/items/clear",
+        {
+          method: "DELETE",
+          headers: fetchHeaders,
+          credentials: "include",
+        }
+      );
+
+      const resJson = await response.json();
+
+      if (!resJson.success) {
+        return {
+          success: false,
+          message: "You are not logged in",
+        };
+      }
+
+      setCartItems([]);
+
+      return {
+        success: true,
+        message: "Cart cleared",
+      };
+    });
+  };
 
   const fetchUserCart = async () => {
     refreshToken()
@@ -209,6 +240,7 @@ export const UserProvider = ({ children }) => {
         activeUser,
         cartItems,
         fetchUserCart,
+        clearUserCart,
         signin,
         login,
         logout,

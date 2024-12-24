@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -10,9 +10,12 @@ import FollowButton from "@/components/FollowButton";
 import { StarRateOutlined, StarRateRounded } from "@mui/icons-material";
 
 const Step3 = () => {
-  const { cartItems } = useUserContext();
+  const { cartItems, fetchUserCart, clearUserCart } = useUserContext();
+  const [ratings, setRatings] = useState({});
   const [isCompleted, setIsCompleted] = useState(false);
   const [error, setError] = useState(null);
+
+  const items = useRef([]);
 
   const purchaseItems = async () => {
     if (isCompleted) return;
@@ -35,6 +38,8 @@ const Step3 = () => {
       console.log(resJson);
       if (resJson.success) {
         console.log("購入完了");
+        items.current = cartItems;
+        clearUserCart();
         setIsCompleted(true);
       }
     } catch (error) {
@@ -43,23 +48,10 @@ const Step3 = () => {
     }
   };
 
-  const uniqUsers = Array.from(
-    new Map(
-      cartItems.map((item) => [
-        item.product.post.author.id,
-        item.product.post.author,
-      ])
-    ).values()
-  );
-
-  const [ratings, setRatings] = useState({});
-
-  console.log("Step0");
-  console.log(uniqUsers);
-  console.log(ratings);
-
   useEffect(() => {
-    purchaseItems();
+    fetchUserCart().then(() => {
+      purchaseItems();
+    });
   }, []);
 
   if (error) {
@@ -82,6 +74,20 @@ const Step3 = () => {
   if (!cartItems || !isCompleted) {
     return <CircularLoading />;
   }
+
+  const uniqUsers = Array.from(
+    new Map(
+      items.current.map((item) => [
+        item.product.post.author.id,
+        item.product.post.author,
+      ])
+    ).values()
+  );
+
+  console.log("Step0");
+  console.log(items);
+  console.log(items.current);
+  console.log(uniqUsers);
 
   return (
     <>
