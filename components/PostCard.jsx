@@ -29,7 +29,7 @@ const PostCard = ({
               <Image
                 src={sellerIcon}
                 alt="アイコン"
-                className="rounded-full mr-3 w-[50px] h-[50px]"
+                className="rounded-full mr-3 w-[50px] h-[50px] object-cover"
                 width={50}
                 height={50}
               />
