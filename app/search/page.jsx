@@ -1,39 +1,41 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import { Tab } from "@mui/material";
 
 import MainColumnHeader from "@/components/MainColumnHeader";
 import TagHeading from "@/components/TagHeading";
-import Timeline from "@/components/Timeline";
 import SearchTimeline from "@/components/SearchTimeline";
+import CircularLoading from "@/components/loading/CircularLoading";
 
-const page = () => {
+const InsidePageComponent = ({}) => {
   const [tabIndex, setTabIndex] = useState(0);
-  const searchQuery = useSearchParams().get("q");
-  const isSrcTagClick = useSearchParams().get("src") === "tag_click";
-
-  console.log(searchQuery);
-  console.log(isSrcTagClick);
-
-  const [query, setQuery] = useState(searchQuery);
-
   const handleTabChange = (event, newValue) => {
     setTabIndex(newValue);
   };
+
+  const searchQuery = useSearchParams().get("q");
+  const isSrcTagClick = useSearchParams().get("src") === "tag_click";
+
+  // console.log(searchQuery);
+  // console.log(isSrcTagClick);
+
+  const [query, setQuery] = useState(searchQuery);
 
   useEffect(() => {
     setQuery(searchQuery);
   }, [searchQuery]);
 
+  // console.log("inside", query, isSrcTagClick);
+
   return (
     <>
       <MainColumnHeader>
-        <h3 className="font-bold tracking-wider">検索結果："{searchQuery}"</h3>
+        <h3 className="font-bold tracking-wider">検索結果："{query}"</h3>
       </MainColumnHeader>
-      {isSrcTagClick && <TagHeading tagName={searchQuery} />}
+      {isSrcTagClick && <TagHeading tagName={query} />}
       <TabContext value={tabIndex}>
         <TabList
           onChange={handleTabChange}
@@ -80,6 +82,14 @@ const page = () => {
         )}
       </TabContext>
     </>
+  );
+};
+
+const page = () => {
+  return (
+    <Suspense fallback={<CircularLoading />}>
+      <InsidePageComponent />
+    </Suspense>
   );
 };
 
