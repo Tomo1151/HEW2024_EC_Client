@@ -1,7 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import Post from "@/components/Post";
 import Product from "@/components/Product";
 import { useUserContext } from "@/context/UserContext";
@@ -17,7 +16,7 @@ const SearchTimeline = ({ type, isSrcTagClick, q, isActive }) => {
   const [isPostFetching, setIsPostFetching] = useState(false);
 
   const [hasMore, setHasMore] = useState(true);
-  console.log("rendering SearchTimeline", type, isSrcTagClick, q, entries);
+  // console.log("rendering SearchTimeline", type, isSrcTagClick, q, entries);
 
   const fetchEntry = async (before) => {
     try {
@@ -72,7 +71,7 @@ const SearchTimeline = ({ type, isSrcTagClick, q, isActive }) => {
     return <CircularLoading />;
   }
 
-  console.log(entries);
+  // console.log(entries);
 
   if (!isPostFetching && entries.length === 0) {
     return (
