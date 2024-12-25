@@ -86,7 +86,7 @@ const Timeline = ({ name, isActive, setRefresh, refresh }) => {
 
           if (resJson.length > 0) {
             setPosts(oldPosts.concat(posts));
-            setRefresh((prev) => !prev);
+            if (setRefresh) setRefresh((prev) => !prev);
           }
         } else {
           setHasMore(false);

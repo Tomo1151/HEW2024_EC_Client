@@ -16,14 +16,16 @@ const MainColumn = () => {
   const { activeUser } = useUserContext();
   const [tabIndex, setTabIndex] = useState(0);
   const [refresh, setRefresh] = useState(false);
-  const tabContents = [
-    "最新の投稿",
-    "フォロー中",
-    "VR",
-    "神絵",
-    "Live",
-    "タグ１",
-  ];
+  let pinnedTags = [];
+  try {
+    if (typeof window !== "undefined")
+      pinnedTags = JSON.parse(localStorage.getItem("pinnedTag"));
+  } catch (error) {
+    console.error(error);
+  }
+
+  const tabContents = ["最新の投稿", "フォロー中"].concat(pinnedTags);
+
   const handleTabChange = async (event, newValue) => {
     setTabIndex(newValue);
   };
