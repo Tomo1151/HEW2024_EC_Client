@@ -18,9 +18,12 @@ import NotificationCard from "@/components/NotificationCard";
 const NotificationPage = () => {
   const { refreshToken } = useUserContext();
   const [notificationsData, setNotificationsData] = useState(null);
+  const [isPostFetching, setIsPostFetching] = useState(false);
   const [hasMore, setHasMore] = useState(true);
 
   const fetchNotifications = async () => {
+    if (isPostFetching || !hasMore) return;
+    setIsPostFetching(true);
     refreshToken().then(async () => {
       const query = {
         before:
@@ -49,9 +52,10 @@ const NotificationPage = () => {
             : resJson.data
         );
         readNotification(resJson.data.map((n) => n.id));
-        setHasMore(resJson.data.length > 0);
+        setHasMore(resJson.data.length === 10);
       }
     });
+    setIsPostFetching(false);
   };
 
   const readNotification = async (ids) => {
@@ -84,9 +88,9 @@ const NotificationPage = () => {
       <InfiniteScroll
         pageStart={0}
         loadMore={fetchNotifications}
-        hasMore={hasMore}
+        hasMore={!isPostFetching && hasMore}
         loader={<CircularLoading key={0} />}
-        // initialLoad={false}
+        initialLoad={false}
       >
         {notificationsData && notificationsData.length > 0
           ? notificationsData.map((notification) => (

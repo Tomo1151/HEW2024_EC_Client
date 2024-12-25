@@ -31,7 +31,7 @@ const NotificationCard = ({ type, sender, is_read, rel_post }) => {
   return (
     <section
       style={{ borderBottom: "1px solid #f0f0f0" }}
-      className={`relative bg-white mb-[2px] p-8 hover:brightness-[.95] duration-200 ${!is_read && "bg-[#6dc96525]"}`}
+      className={`relative mb-[2px] p-8 hover:brightness-[.95] duration-200 ${is_read ? "bg-white" : "bg-[#6dc96525]"}`}
     >
       <Link
         href={
