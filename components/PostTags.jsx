@@ -16,7 +16,7 @@ const PostTags = ({ tags }) => {
         {tags.map((tag, index) => (
           <Link
             key={index}
-            href={`/tags/${tag}`}
+            href={`/search?q=${tag}&src=tag_click`}
             className="relative hover:underline z-20 font-bold"
             scroll={false}
           >
