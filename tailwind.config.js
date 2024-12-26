@@ -8,11 +8,11 @@ module.exports = {
   ],
   theme: {
     screens: {
-      xs: 500,
-      sm: 650,
-      md: 960,
-      lg: 1280,
-      xl: 1920,
+      xs: "0px",
+      sm: "650px",
+      md: "960px",
+      lg: "1280px",
+      xl: "1920px",
     },
     extend: {
       backgroundImage: {
@@ -23,6 +23,9 @@ module.exports = {
       colors: {
         "main-theme": "var(--colors-main-theme)",
         "sub-theme": "var(--colors-sub-theme)",
+      },
+      height: {
+        header: "var(--height-header)",
       },
     },
   },
