@@ -141,9 +141,9 @@ const Product = ({
   }, [ref_count]);
 
   return (
-    <section style={{ fontSize: "16px" }}>
+    <Box component="section">
       <div
-        className={`relative bg-white mb-[2px] p-8 ${is_clickable ? "hover:brightness-[.95] duration-200" : ""}`}
+        className={`relative w-full bg-white mb-[2px] p-4 sm:p-8 ${is_clickable ? "hover:brightness-[.95] duration-200" : ""}`}
         style={{ borderBottom: "1px solid #f0f0f0" }}
       >
         {is_clickable && (
@@ -157,7 +157,7 @@ const Product = ({
             {repost_user.nickname || repost_user.username}がリポストしました
           </p>
         )}
-        <div className="flex relative">
+        <div className="flex relative w-full">
           <IconButton
             sx={{
               position: "absolute",
@@ -228,7 +228,13 @@ const Product = ({
               scroll={false}
               className="relative h-fit hover:brightness-[.75] rounded-full duration-200 z-10"
             >
-              <Box sx={{ width: "3.125em", height: "3.125em", mr: "1em" }}>
+              <Box
+                sx={{
+                  width: { xs: "3.5em", sm: "50px" },
+                  height: { xs: "3.5em", sm: "50px" },
+                  mr: "1em",
+                }}
+              >
                 <Image
                   src={
                     icon_link
@@ -307,7 +313,7 @@ const Product = ({
           </div>
         </div>
       </div>
-    </section>
+    </Box>
   );
 };
 

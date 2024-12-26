@@ -147,9 +147,10 @@ const Post = ({
   }, [ref_count]);
 
   return (
-    <section
-      style={{ borderBottom: "1px solid #f0f0f0" }}
-      className={`relative bg-white mb-[2px] p-8 ${is_clickable ? "hover:brightness-[.95] duration-200" : ""}`}
+    <Box
+      component="section"
+      sx={{ borderBottom: "1px solid #f0f0f0" }}
+      className={`relative bg-white mb-[2px] p-4 sm:p-8 ${is_clickable ? "hover:brightness-[.95] duration-200" : ""}`}
     >
       {is_clickable && (
         <Link
@@ -162,12 +163,12 @@ const Post = ({
           {repost_user.nickname || repost_user.username}がリポストしました
         </p>
       )}
-      <div className="flex relative">
+      <div className="flex relative w-full">
         <IconButton
           sx={{ position: "absolute", top: 0, right: 0, zIndex: "19" }}
           onClick={handleClick}
         >
-          <MoreHorizRounded sx={{ fontSize: 30 }} />
+          <MoreHorizRounded />
         </IconButton>
         <Menu
           anchorEl={anchorEl}
@@ -222,7 +223,13 @@ const Post = ({
             scroll={false}
             className="relative h-fit hover:brightness-[.75] rounded-full duration-200 z-10"
           >
-            <Box sx={{ width: "50px", height: "50px", mr: 2 }}>
+            <Box
+              sx={{
+                width: { xs: "3.5em", sm: "50px" },
+                height: { xs: "3.5em", sm: "50px" },
+                mr: "1em",
+              }}
+            >
               <Image
                 src={
                   icon_link
@@ -272,7 +279,7 @@ const Post = ({
           />
         </div>
       </div>
-    </section>
+    </Box>
   );
 };
 

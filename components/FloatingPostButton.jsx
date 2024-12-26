@@ -24,7 +24,13 @@ const FloatingPostButton = () => {
   return (
     <SpeedDial
       ariaLabel="投稿ボタン"
-      sx={{ position: "fixed", bottom: "5em", right: "7em", zIndex: 10 }}
+      sx={{
+        display: { xs: "inline-flex", sm: "none" },
+        position: "fixed",
+        bottom: "2em",
+        right: "2em",
+        zIndex: 40,
+      }}
       icon={<SpeedDialIcon />}
     >
       {actions.map((action) => (

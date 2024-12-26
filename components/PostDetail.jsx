@@ -206,7 +206,13 @@ const PostDetail = ({
             scroll={false}
             className="relative h-fit hover:brightness-[.75] rounded-full duration-200 z-10"
           >
-            <Box sx={{ width: "50px", height: "50px", mr: 2 }}>
+            <Box
+              sx={{
+                width: { xs: "3.5em", sm: "50px" },
+                height: { xs: "3.5em", sm: "50px" },
+                mr: 2,
+              }}
+            >
               <Image
                 src={
                   icon_link
