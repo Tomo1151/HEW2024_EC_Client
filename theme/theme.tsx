@@ -11,7 +11,7 @@ const M_PLUS_Rounded_1cFont = M_PLUS_Rounded_1c({
 const theme = createTheme({
   breakpoints: {
     values: {
-      xs: 0,
+      xs: 500,
       sm: 650,
       md: 960,
       lg: 1280,
