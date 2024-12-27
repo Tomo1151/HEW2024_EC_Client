@@ -13,15 +13,18 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [status, setStatus] = useState(" ");
+  const [isFetching, setIsFetching] = useState(false);
 
   const { login } = useUserContext();
 
   async function handleSubmit(event) {
+    setIsFetching(true);
     event.preventDefault();
     const data = await login(email, password);
 
     if (!data.success) {
       setStatus(data.message);
+      setIsFetching(false);
       return;
     }
 
@@ -33,6 +36,7 @@ const Login = () => {
       status={status}
       setEmail={setEmail}
       setPassword={setPassword}
+      isFetching={isFetching}
       onSubmit={handleSubmit}
     />
   );

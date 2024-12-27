@@ -111,14 +111,14 @@ const CartPage = () => {
                 }
                 productName={item.product.name}
               >
-                <h2 className="text-lg ml-1">{item.product.name}</h2>
+                <h2 className="text-[1.15em] ml-1">{item.product.name}</h2>
                 <p className="ml-1 mb-2 text-red-500 font-bold">
                   {item.product.price.toLocaleString("ja-JP", {
                     style: "currency",
                     currency: "JPY",
                   })}
                 </p>
-                <p className="ml-1">{item.product.post.content}</p>
+                <p className="text-[1em] ml-1">{item.product.post.content}</p>
               </PostCard>
             </Link>
           </Box>

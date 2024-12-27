@@ -139,7 +139,7 @@ const PostDetail = ({
   return (
     <section
       style={{ borderBottom: "1px solid #f0f0f0" }}
-      className="relative bg-white mb-[2px] px-8 pt-8 pb-4"
+      className="relative bg-white mb-[2px] px-4 sm:px-8 pt-8 pb-4"
     >
       {type === "repost" && (
         <p className="font-bold pb-4 text-gray-300">
@@ -206,7 +206,13 @@ const PostDetail = ({
             scroll={false}
             className="relative h-fit hover:brightness-[.75] rounded-full duration-200 z-10"
           >
-            <Box sx={{ width: "50px", height: "50px", mr: 2 }}>
+            <Box
+              sx={{
+                width: { xs: "3.5em", sm: "50px" },
+                height: { xs: "3.5em", sm: "50px" },
+                mr: { xs: 1, sm: 2 },
+              }}
+            >
               <Image
                 src={
                   icon_link

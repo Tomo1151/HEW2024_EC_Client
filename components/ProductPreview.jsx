@@ -24,14 +24,14 @@ const ProductPreview = ({
   console.log(images);
 
   return (
-    <section
-      style={{
+    <Box
+      sx={{
         width: "100%",
-        // fontSize: "7px",
+        fontSize: { xs: "11.5px", sm: "1em" },
       }}
     >
       <div
-        className={`relative bg-white mb-[2px] py-[1em]`}
+        className={`relative bg-white mb-[2px] px-2 sm:px-8 py-[1em]`}
         style={{ borderBottom: "1px solid #f0f0f0" }}
       >
         <div className="flex relative">
@@ -140,7 +140,7 @@ const ProductPreview = ({
           </div>
         </div>
       </div>
-    </section>
+    </Box>
   );
 };
 

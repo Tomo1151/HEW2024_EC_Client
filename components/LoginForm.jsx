@@ -1,10 +1,13 @@
 import Link from "next/link";
-import { Button, TextField } from "@mui/material";
+import { LoadingButton } from "@mui/lab";
+import { TextField } from "@mui/material";
 
-const LoginForm = ({ status, setEmail, setPassword, onSubmit }) => {
+const LoginForm = ({ status, setEmail, setPassword, isFetching, onSubmit }) => {
   return (
     <>
-      <h1 className="text-center font-bold text-3xl pb-8 mt-8">ログイン</h1>
+      <h1 className="text-center font-bold text-[2em] pb-8 mt-8 w-full">
+        ログイン
+      </h1>
       <form onSubmit={onSubmit}>
         <TextField
           type="email"
@@ -34,13 +37,14 @@ const LoginForm = ({ status, setEmail, setPassword, onSubmit }) => {
           fullWidth
         />
         <p className="text-center text-red-600">{status}</p>
-        <Button
+        <LoadingButton
           variant="contained"
           type="submit"
-          sx={{ display: "block", width: "25%", mx: "auto", my: "2em" }}
+          loading={isFetching}
+          sx={{ display: "block", width: "fit-content", mx: "auto", my: "2em" }}
         >
           ログイン
-        </Button>
+        </LoadingButton>
         <p className="text-center">
           アカウントをお持ちでない方は
           <Link href="/register" className="text-blue-400 hover:underline">

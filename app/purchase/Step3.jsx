@@ -135,7 +135,7 @@ const Step3 = () => {
     <>
       <Box
         sx={{
-          px: 4,
+          px: { xs: 1, sm: 4 },
           pt: 2,
           pb: 4,
         }}
@@ -159,12 +159,20 @@ const Step3 = () => {
               sx={{
                 display: "flex",
                 borderTop: "1px solid #e0e0e0",
-                px: 4,
+                px: { xs: 0, sm: 4 },
                 py: 2,
+                columnGap: { xs: 1, sm: 2 },
                 // mt: 2,
               }}
             >
-              <Box sx={{ width: 50, height: 50, mr: 4 }}>
+              <Box
+                sx={{
+                  width: 50,
+                  height: 50,
+                  // mr: { xs: 1, sm: 2 },
+                  flexShrink: 0,
+                }}
+              >
                 <Link
                   href={`/users/${user.username}`}
                   rel="noopener noreferrer"
@@ -180,7 +188,7 @@ const Step3 = () => {
                     width={50}
                     height={50}
                     priority
-                    className="h-full rounded-full object-cover"
+                    className="w-full h-full rounded-full object-cover"
                     alt="商品のサムネイル画像"
                   />
                 </Link>
@@ -209,11 +217,13 @@ const Step3 = () => {
                   alignItems: "center",
                   justifyContent: "flex-end",
                   flexGrow: 1,
+                  flexShrink: 0,
                 }}
               >
                 <FollowButton
                   username={user.username}
                   is_following={user.followers.length > 0}
+                  sx={{ height: "fit-content" }}
                 />
               </Box>
             </Box>
@@ -226,11 +236,12 @@ const Step3 = () => {
                   sx={{
                     display: "flex",
                     // borderBottom: "1px solid #e0e0e0",
-                    px: 4,
+                    px: { xs: 1, sm: 4 },
                     pt: 2,
+                    columnGap: { xs: 1, sm: 2 },
                   }}
                 >
-                  <Box sx={{ width: 100, height: 100, mr: 4 }}>
+                  <Box sx={{ width: 100, height: 100, flexShrink: 0 }}>
                     <Image
                       src={`${process.env.NEXT_PUBLIC_FETCH_BASE_URL}/media/images/${item.product.thumbnail_link}`}
                       width={100}
@@ -240,9 +251,11 @@ const Step3 = () => {
                       alt="商品のサムネイル画像"
                     />
                   </Box>
-                  <Box>
-                    <p className="text-xl font-bold">{item.product.name}</p>
-                    <p className="text-lg text-red-500 font-bold">
+                  <Box sx={{ flexGrow: 1 }}>
+                    <p className="text-[1.25em] font-bold">
+                      {item.product.name}
+                    </p>
+                    <p className="text-[1.15em] text-red-500 font-bold">
                       {isNaN(parseInt(item.product.price))
                         ? "価格未設定"
                         : parseInt(item.product.price).toLocaleString("ja-JP", {

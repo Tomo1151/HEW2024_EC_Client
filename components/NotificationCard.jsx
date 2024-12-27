@@ -31,7 +31,7 @@ const NotificationCard = ({ type, sender, is_read, rel_post }) => {
   return (
     <section
       style={{ borderBottom: "1px solid #f0f0f0" }}
-      className={`relative mb-[2px] p-8 hover:brightness-[.95] duration-200 ${is_read ? "bg-white" : "bg-[#6dc96525]"}`}
+      className={`relative mb-[2px] p-4 sm:p-8 hover:brightness-[.95] duration-200 ${is_read ? "bg-white" : "bg-[#6dc96525]"}`}
     >
       <Link
         href={
@@ -45,7 +45,7 @@ const NotificationCard = ({ type, sender, is_read, rel_post }) => {
         className="absolute inset-0 w-full h-full z-[1]"
       ></Link>
       <div className="flex relative">
-        <div className="shrink-0 pr-4">
+        <div className="shrink-0 pr-2 sm:pr-4">
           <div className="w-fit mx-auto pt-1">{icons[type]}</div>
         </div>
         <div className="grow px-2">

@@ -1,18 +1,8 @@
 "use client";
 
-import Image from "next/image";
 import { useState, useEffect } from "react";
 
-import {
-  Badge,
-  Box,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  useMediaQuery,
-} from "@mui/material";
+import { Badge, Box, useMediaQuery } from "@mui/material";
 
 import {
   HomeRounded,
@@ -24,15 +14,18 @@ import {
   LogoutRounded,
 } from "@mui/icons-material";
 
-import Link from "next/link";
-
 import { useUserContext } from "@/context/UserContext";
 import { fetchHeaders } from "@/config/fetchConfig";
 import theme from "@/theme/theme";
+import DesktopHeader from "./DesktopHeader";
+import MobileHeader from "./MobileHeader";
+
+const HEADER_SCROLL_THRESHOLD = 360;
 
 const Header = () => {
   const { activeUser, logout, cartItems } = useUserContext();
   const [unreadCount, setUnreadCount] = useState(0);
+  const [isHeaderTransparent, setIsHeaderTransparent] = useState(false);
 
   const getUnreadNotificationCount = async () => {
     const response = await fetch(
@@ -120,109 +113,37 @@ const Header = () => {
     },
   ];
 
+  const handleScroll = () => {
+    // console.log(window.scrollY);
+    if (window.scrollY > HEADER_SCROLL_THRESHOLD) {
+      setIsHeaderTransparent(true);
+    } else {
+      setIsHeaderTransparent(false);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
     <>
-      <Box
-        component="header"
-        sx={{
-          // width: drawerWidthStyle,
-          height: "100vh",
-          flexShrink: 0,
-          whiteSpace: "nowrap",
-          position: "sticky",
-          top: 0,
-          justifyContent: "flex-end",
-          borderRight: "1px solid #f0f0f0",
-          p: isIconView ? "0" : "0 2em 0",
-          minWidth: "fit-content",
-        }}
-      >
-        <List
-          sx={{
-            width: "fit-content",
-            "& .MuiListItemText-primary": {
-              fontSize: "1.25em",
-            },
-            "& .MuiListItemIcon-root": {
-              justifyContent: "center",
-              mx: "auto",
-              minWidth: "50px",
-            },
-          }}
-        >
-          <ListItem
-            sx={{
-              backgroundColor: "primary.main",
-              pt: "1em",
-              mb: "1em",
-              justifyContent: isIconView ? "center" : "flex-start",
-              textAlign: "center",
-              minHeight: "80px",
-              width: "100%",
-              borderRadius: ".375rem",
-            }}
-          >
-            <Link href="/" scroll={false}>
-              <Image
-                src={isIconView ? "/appri_logo_s.svg" : "/appri_logo.svg"}
-                width={1516}
-                height={673}
-                alt="アプリロゴ"
-                priority={true}
-                className={`w-full ${isIconView ? "max-w-[50px]" : "max-w-[150px] pl-4"} object-contain`}
-              />
-            </Link>
-          </ListItem>
-          {listItems.map((item, index) => {
-            if (item.name === "ログアウト" && activeUser === false) {
-              return null;
-            }
-            return (
-              <ListItem key={index} className={isIconView ? `w-fit` : "w-full"}>
-                <ListItemButton
-                  href={
-                    item.loginRequired && activeUser === false
-                      ? null
-                      : item.href
-                  }
-                  onClick={item.type === "func" ? item.onclick : null}
-                  sx={{
-                    position: "relative",
-                    justifyContent: "center",
-                    minWidth: "fit-content",
-                    width: isIconView ? "fit-content" : "100%",
-                    // pr: isIconView ? "0" : "2em",
-                  }}
-                >
-                  {item.loginRequired && activeUser === false && (
-                    <Link
-                      href="/login"
-                      className="absolute inset-0 w-full h-full"
-                      scroll={false}
-                    ></Link>
-                  )}
-                  <ListItemIcon sx={{ width: "fit-content" }} className="mx-0">
-                    {item.icon}
-                  </ListItemIcon>
-                  <ListItemText
-                    primary={item.name}
-                    sx={{
-                      flexBasis: "80%",
-                      pr: isIconView ? "0" : "1em",
-                      display: {
-                        xs: "none",
-                        sm: "none",
-                        md: "none",
-                        lg: "block",
-                      },
-                    }}
-                  />
-                </ListItemButton>
-              </ListItem>
-            );
-          })}
-        </List>
-      </Box>
+      {/* PC用ヘッダー, sm (650px) 以上で表示 */}
+      <DesktopHeader
+        listItems={listItems}
+        isIconView={isIconView}
+        activeUser={activeUser}
+        isHeaderTransparent={isHeaderTransparent}
+      />
+      {/* スマホ用ヘッダー, sm (650px) 未満で表示 */}
+      <MobileHeader
+        listItems={listItems}
+        activeUser={activeUser}
+        isHeaderTransparent={isHeaderTransparent}
+      />
     </>
   );
 };

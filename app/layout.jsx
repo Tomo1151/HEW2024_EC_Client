@@ -28,8 +28,12 @@ console.log(M_PLUS_Rounded_1cFont.className);
 export default function RootLayout({ children, auth, postForm }) {
   return (
     <html lang="ja">
+      <head>
+        <meta charSet="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      </head>
       <body
-        className={`relative flex bg-white justify-center ${M_PLUS_Rounded_1cFont.className}`}
+        className={`mt-[var(--height-header)] sm:mt-0 relative flex bg-white justify-center ${M_PLUS_Rounded_1cFont.className}`}
       >
         <UserProvider>
           <AppRouterCacheProvider>

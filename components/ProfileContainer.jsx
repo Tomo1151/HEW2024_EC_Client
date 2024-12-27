@@ -70,7 +70,7 @@ const ProfileContainer = ({ username }) => {
     <>
       <Box
         component="section"
-        className="p-8"
+        className="p-4 sm:p-8"
         sx={{
           backgroundColor: "primary.main",
           color: "white",
@@ -125,8 +125,9 @@ const ProfileContainer = ({ username }) => {
         <Box
           sx={{
             position: "relative",
-            width: "125px",
-            height: "125px",
+            width: { xs: "100px", sm: "125px" },
+            height: { xs: "100px", sm: "125px" },
+            mt: { xs: "3.5em", sm: "0" },
             mx: "auto",
           }}
         >
@@ -151,24 +152,26 @@ const ProfileContainer = ({ username }) => {
             priority
           />
         </Box>
-        <div className="text-center px-12 py-4 grow">
-          <p className={"font-bold text-3xl pb-2 tracking-wider"}>
+        <div className="text-center px-2 sm:px-12 py-4 grow">
+          <p className={"font-bold text-[2em] pb-2 tracking-wider"}>
             {user.nickname || user.username}
           </p>
           <div className="flex justify-evenly py-2">
-            <p className=" text-lg hover:underline">
+            <p className=" text-[1em] hover:underline">
               <Link href={`${user.username}/follows`} scroll={false}>
                 フォロー: {user._count.followees}
               </Link>
             </p>
-            <p className="text-lg hover:underline">
+            <p className="text-[1em] hover:underline">
               <Link href={`${user.username}/followers`} scroll={false}>
                 フォロワー: {user._count.followers}
               </Link>
             </p>
             <p>
-              <StarIcon sx={{ color: "rgb(255, 185, 0)" }} />
-              <span className="text-xl inline-block h-full pl-2 align-top">
+              <StarIcon
+                sx={{ color: "rgb(255, 185, 0)", fontSize: "1.15em" }}
+              />
+              <span className="text-[1em] inline-block h-full pl-2 align-top">
                 4.0
               </span>
             </p>
