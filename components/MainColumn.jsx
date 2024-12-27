@@ -12,10 +12,14 @@ const Timeline = lazy(() => import("@/components/Timeline"));
 import PostForm from "@/components/PostForm";
 import FloatingPostButton from "@/components/FloatingPostButton";
 
+const HEADER_SCROLL_THRESHOLD = 360;
+
 const MainColumn = () => {
   const { activeUser } = useUserContext();
   const [tabIndex, setTabIndex] = useState(0);
   const [refresh, setRefresh] = useState(false);
+  const [isTabBarTransparent, setIsTabBarTransparent] = useState(false);
+
   let pinnedTags = [];
   try {
     if (typeof window !== "undefined")
@@ -30,9 +34,21 @@ const MainColumn = () => {
     setTabIndex(newValue);
   };
 
+  const handleScroll = () => {
+    if (window.scrollY > HEADER_SCROLL_THRESHOLD) {
+      setIsTabBarTransparent(true);
+    } else {
+      setIsTabBarTransparent(false);
+    }
+  };
+
   useEffect(() => {
-    console.log("MainColumn: useEffect");
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
+
   return (
     <>
       <NotificationsProvider>
@@ -52,7 +68,12 @@ const MainColumn = () => {
                   backgroundColor: "white",
                   borderBottom: "1px solid #e0e0e0",
                   position: "sticky",
-                  top: 0,
+                  top: {
+                    xs: "var(--height-header)",
+                    sm: 0,
+                  },
+                  transition: "opacity 0.25s",
+                  opacity: { xs: isTabBarTransparent ? 0.5 : 1, sm: 1 },
                   zIndex: 21,
                 }}
                 // className="shadow-md"

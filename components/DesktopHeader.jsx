@@ -11,7 +11,12 @@ import {
   ListItemText,
 } from "@mui/material";
 
-const DesktopHeader = ({ isIconView, listItems, activeUser }) => {
+const DesktopHeader = ({
+  isIconView,
+  listItems,
+  activeUser,
+  isHeaderTransparent,
+}) => {
   return (
     <Box
       component="header"
@@ -30,6 +35,8 @@ const DesktopHeader = ({ isIconView, listItems, activeUser }) => {
         borderRight: "1px solid #f0f0f0",
         p: isIconView ? "0" : "0 2em 0",
         minWidth: "fit-content",
+        transition: "opacity 0.25s",
+        opacity: { xs: isHeaderTransparent ? 0.5 : 1, sm: 1 },
       }}
     >
       <List

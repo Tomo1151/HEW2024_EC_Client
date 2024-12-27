@@ -20,9 +20,12 @@ import theme from "@/theme/theme";
 import DesktopHeader from "./DesktopHeader";
 import MobileHeader from "./MobileHeader";
 
+const HEADER_SCROLL_THRESHOLD = 360;
+
 const Header = () => {
   const { activeUser, logout, cartItems } = useUserContext();
   const [unreadCount, setUnreadCount] = useState(0);
+  const [isHeaderTransparent, setIsHeaderTransparent] = useState(false);
 
   const getUnreadNotificationCount = async () => {
     const response = await fetch(
@@ -110,6 +113,22 @@ const Header = () => {
     },
   ];
 
+  const handleScroll = () => {
+    // console.log(window.scrollY);
+    if (window.scrollY > HEADER_SCROLL_THRESHOLD) {
+      setIsHeaderTransparent(true);
+    } else {
+      setIsHeaderTransparent(false);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
     <>
       {/* PC用ヘッダー, sm (650px) 以上で表示 */}
@@ -117,9 +136,10 @@ const Header = () => {
         listItems={listItems}
         isIconView={isIconView}
         activeUser={activeUser}
+        isHeaderTransparent={isHeaderTransparent}
       />
       {/* スマホ用ヘッダー, sm (650px) 未満で表示 */}
-      <MobileHeader />
+      <MobileHeader isHeaderTransparent={isHeaderTransparent} />
     </>
   );
 };

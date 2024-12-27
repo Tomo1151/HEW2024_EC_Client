@@ -15,6 +15,7 @@ export default function PostForm({ setRefresh }) {
 
   const { activeUser, refreshToken } = useUserContext();
   const [postText, setPostText] = useState("");
+  const [tagInput, setTagInput] = useState("");
   const [tags, setTags] = useState([]);
   const [images, setImages] = useState([]);
   const [status, setStatus] = useState([]);
@@ -29,13 +30,13 @@ export default function PostForm({ setRefresh }) {
     if (e.key === "Enter") {
       e.preventDefault();
 
-      if (!e.target.value || e.target.value.trim() === "") return;
+      if (!tagInput || tagInput.trim() === "") return;
 
-      console.log("Enter key pressed: ", `"${e.target.value}"`);
-      const newTags = [...tags, e.target.value.trim()];
+      // console.log("Enter key pressed: ", `"${e.target.value}"`);
+      const newTags = [...tags, tagInput.trim()];
       const uniqueTags = [...new Set(newTags)];
       setTags(uniqueTags);
-      e.target.value = "";
+      setTagInput("");
     }
   };
 
@@ -100,7 +101,7 @@ export default function PostForm({ setRefresh }) {
       component="section"
       // maxWidth="md"
       sx={{
-        p: 4,
+        p: { xs: 2, sm: 4 },
       }}
       className="rounded-b-md bg-white"
     >
@@ -108,10 +109,10 @@ export default function PostForm({ setRefresh }) {
         <label htmlFor="postForm" className="block font-bold mb-2">
           💡 投稿してみよう
         </label>
-        <div className="flex">
+        <div className="flex gap-x-1 sm:gap-x-4">
           <Link
             href={`/users/${activeUser?.username}`}
-            className="h-fit hover:brightness-[.75] duration-200 mr-4 my-4 shrink-0"
+            className="h-fit hover:brightness-[.75] duration-200 my-4 shrink-0"
             scroll={false}
           >
             <Box sx={{ width: "50px", height: "50px" }}>
@@ -143,7 +144,7 @@ export default function PostForm({ setRefresh }) {
         </div>
 
         <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
-          <p className=" w-[50px] text-right shrink-0 mx-2">
+          <p className=" w-[50px] text-right shrink-0 mx-0 sm:mx-2">
             <label htmlFor="tag" className="font-bold w-full">
               タグ：
             </label>
@@ -153,9 +154,20 @@ export default function PostForm({ setRefresh }) {
             variant="standard"
             rows={1}
             placeholder="タグを入力（複数可）"
-            sx={{ p: 0, ml: 2 }}
-            onKeyDown={handleSetTags}
+            sx={{ p: 0, ml: 2, flexGrow: 1 }}
+            value={tagInput}
+            onChange={(e) => setTagInput(e.target.value)}
+            onKeyPress={handleSetTags}
           />
+          <Button
+            type="button"
+            color="black"
+            onClick={() =>
+              handleSetTags({ key: "Enter", preventDefault: () => {} })
+            }
+          >
+            追加
+          </Button>
         </Box>
         {tags && tags.length > 0 && (
           <Box

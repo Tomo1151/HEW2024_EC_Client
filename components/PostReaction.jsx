@@ -247,7 +247,9 @@ const PostReaction = ({
       sx={{
         display: "flex",
         pt: "1em",
-        columnGap: "8em",
+        justifyContent: { xs: "space-between", sm: "flex-start" },
+        columnGap: { xs: 0, sm: "8em" },
+        mr: { xs: 2, sm: 0 },
       }}
     >
       <Box

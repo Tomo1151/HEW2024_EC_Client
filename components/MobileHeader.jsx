@@ -1,13 +1,13 @@
 import React from "react";
 import { Box } from "@mui/material";
 
-const MobileHeader = () => {
+const MobileHeader = ({ isHeaderTransparent }) => {
   return (
     <Box
       component="header"
       sx={{
         display: {
-          xs: "block",
+          xs: "flex",
           sm: "none",
         },
         width: "100%",
@@ -17,13 +17,18 @@ const MobileHeader = () => {
         whiteSpace: "nowrap",
         position: "fixed",
         top: 0,
-        justifyContent: "flex-end",
+        justifyContent: "center",
+        alignItems: "center",
         borderRight: "1px solid #f0f0f0",
         p: "0",
         minWidth: "fit-content",
-        zIndex: 1000,
+        zIndex: 48,
+        transition: "opacity 0.25s",
+        opacity: { xs: isHeaderTransparent ? 0.5 : 1, sm: 1 },
       }}
-    ></Box>
+    >
+      <p className="text-white text-lg font-bold">ここがヘッダー</p>
+    </Box>
   );
 };
 

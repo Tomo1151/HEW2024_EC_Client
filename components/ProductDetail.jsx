@@ -176,7 +176,7 @@ const ProductDetail = ({
   return (
     <section>
       <div
-        className="relative bg-white mb-[2px] px-8 pt-8 pb-4"
+        className="relative bg-white mb-[2px] px-4 sm:px-8 pt-8 pb-4"
         style={{ borderBottom: "1px solid #f0f0f0" }}
       >
         {type === "repost" && (
@@ -248,7 +248,7 @@ const ProductDetail = ({
                 sx={{
                   width: { xs: "3.5em", sm: "50px" },
                   height: { xs: "3.5em", sm: "50px" },
-                  mr: 2,
+                  mr: { xs: 1, sm: 2 },
                 }}
               >
                 <Image

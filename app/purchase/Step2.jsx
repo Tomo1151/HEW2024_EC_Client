@@ -72,18 +72,19 @@ const Step2 = ({ setActiveStep }) => {
           sx={{
             display: "flex",
             borderBottom: "1px solid #e0e0e0",
-            px: 4,
+            px: { xs: 1, sm: 4 },
             py: 2,
             my: 2,
+            columnGap: { xs: 2, sm: 4 },
           }}
         >
-          <Box sx={{ width: 100, height: 100, mr: 4 }}>
+          <Box sx={{ width: "100px", height: "100px", flexShrink: 0 }}>
             <Image
               src={`${process.env.NEXT_PUBLIC_FETCH_BASE_URL}/media/images/${item.product.thumbnail_link}`}
               width={100}
               height={100}
               priority
-              className="h-full rounded-lg object-cover"
+              className="inline-block w-full h-full rounded-lg object-cover"
               alt="商品のサムネイル画像"
             />
           </Box>

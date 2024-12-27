@@ -30,6 +30,7 @@ export default function PostProductForm({ setRefresh }) {
   const [description, setDescription] = useState("");
   const [images, setImages] = useState([]);
   const [tags, setTags] = useState([]);
+  const [tagInput, setTagInput] = useState("");
   const [data, setData] = useState(null);
   const [price, setPrice] = useState("");
   const [liveLink, setLiveLink] = useState("");
@@ -39,19 +40,19 @@ export default function PostProductForm({ setRefresh }) {
   const notifications = useNotifications();
 
   const handleSetTags = (e) => {
+    console.log(tagInput);
     if (e.key === "Enter") {
       e.preventDefault();
 
-      if (!e.target.value || e.target.value.trim() === "") return;
+      if (!tagInput || tagInput.trim() === "") return;
 
-      console.log("Enter key pressed: ", `"${e.target.value}"`);
-      const newTags = [...tags, e.target.value.trim()];
+      // console.log("Enter key pressed: ", `"${e.target.value}"`);
+      const newTags = [...tags, tagInput.trim()];
       const uniqueTags = [...new Set(newTags)];
       setTags(uniqueTags);
-      e.target.value = "";
+      setTagInput("");
     }
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -133,7 +134,7 @@ export default function PostProductForm({ setRefresh }) {
       maxWidth="md"
       sx={{
         // mx: 3,
-        p: 4,
+        p: { xs: 2, sm: 4 },
       }}
       className="rounded-b-md bg-white"
     >
@@ -195,29 +196,46 @@ export default function PostProductForm({ setRefresh }) {
             <FormImagePreview images={images} setImages={setImages} />
 
             {images.length > 0 && (
-              <div className="flex justify-center pt-4 mx-6 gap-x-4">
-                <Button
-                  component="label"
-                  variant="contained"
-                  startIcon={<CloudUploadIcon></CloudUploadIcon>}
-                  className="relative"
-                  disabled={images.length >= 4}
-                >
-                  <input
-                    type="file"
-                    className="invisible absolute"
-                    accept="image/*"
-                    name="images"
-                    onChange={handleOnImageChange}
-                    multiple
+              <div className="flex justify-around sm:justify-center pt-4 mx-0 sm:mx-6 sm:gap-x-4">
+                <Box sx={{ width: "fit-content" }}>
+                  <Button
+                    component="label"
+                    variant="contained"
+                    startIcon={
+                      <Box
+                        sx={{
+                          display: { xs: "none", sm: "block" },
+                          width: "fit-content",
+                        }}
+                      >
+                        <CloudUploadIcon />
+                      </Box>
+                    }
+                    className="relative"
                     disabled={images.length >= 4}
-                  />
-                  画像を追加
-                </Button>
-
-                <Button variant="outlined" onClick={() => setImages([])}>
-                  画像をクリア
-                </Button>
+                    sx={{ height: "100%" }}
+                  >
+                    <input
+                      type="file"
+                      className="invisible absolute w-full inset-0 h-full"
+                      accept="image/*"
+                      name="images"
+                      onChange={handleOnImageChange}
+                      multiple
+                      disabled={images.length >= 4}
+                    />
+                    画像を追加
+                  </Button>
+                </Box>
+                <Box sx={{ width: "fit-content" }}>
+                  <Button
+                    variant="outlined"
+                    onClick={() => setImages([])}
+                    sx={{ height: "100%" }}
+                  >
+                    画像をクリア
+                  </Button>
+                </Box>
               </div>
             )}
 
@@ -232,6 +250,7 @@ export default function PostProductForm({ setRefresh }) {
                 color: data ? "#555" : "#bbb",
                 borderRadius: ".375rem",
                 mt: 4,
+                width: "100%",
                 cursor: "pointer",
               }}
             >
@@ -239,7 +258,7 @@ export default function PostProductForm({ setRefresh }) {
                 id="data"
                 name="data"
                 type="file"
-                className="invisible absolute"
+                className="invisible absolute w-full inset-0 h-full cursor-pointer"
                 accept="application/zip"
                 onChange={(e) => {
                   setData(e.target.files[0]);
@@ -248,7 +267,11 @@ export default function PostProductForm({ setRefresh }) {
               />
               {data ? `${data.name}: ${data.size}` : "ファイルをアップロード"}
               <AddCircleOutlineIcon
-                sx={{ position: "absolute", right: 8, color: "#bbb" }}
+                sx={{
+                  position: "absolute",
+                  right: 8,
+                  color: "#bbb",
+                }}
               />
             </Button>
             {data && (
@@ -288,11 +311,11 @@ export default function PostProductForm({ setRefresh }) {
               placeholder="商品の詳細"
               label="商品説明"
               onChange={(e) => setDescription(e.target.value)}
-              sx={{ display: "block", mt: 2 }}
+              sx={{ display: "block" }}
               value={description}
             />
 
-            <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
+            <Box sx={{ display: "flex", alignItems: "center", my: 2 }}>
               <TextField
                 id="tag"
                 variant="standard"
@@ -300,9 +323,21 @@ export default function PostProductForm({ setRefresh }) {
                 fullWidth
                 label="タグ"
                 placeholder="タグを入力（複数可）"
-                sx={{ mt: 2 }}
-                onKeyDown={handleSetTags}
+                // sx={{ mt: 2 }}
+                value={tagInput}
+                onChange={(e) => setTagInput(e.target.value)}
+                onKeyPress={handleSetTags}
               />
+              <Button
+                type="button"
+                color="black"
+                onClick={() =>
+                  handleSetTags({ key: "Enter", preventDefault: () => {} })
+                }
+                sx={{ mt: 2 }}
+              >
+                追加
+              </Button>
             </Box>
             {tags && tags.length > 0 && (
               <Box
@@ -346,7 +381,7 @@ export default function PostProductForm({ setRefresh }) {
               control={<Switch />}
               label="プレビュー"
               labelPlacement="start"
-              sx={{ mt: 4, ml: 0 }}
+              sx={{ display: { xs: "none", sm: "block" }, mt: 4, ml: 0 }}
               onChange={(e) => setIsPreviewActive(e.target.checked)}
             />
           </Box>

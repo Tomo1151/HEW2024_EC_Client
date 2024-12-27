@@ -16,6 +16,7 @@ const FormThumbnailImage = memo(({ images, onChange }) => {
           backgroundColor: "#f0f0f0",
           color: "#bbb",
           borderRadius: ".375rem",
+          width: { xs: "100%", sm: "auto" },
           height: "13.25em",
           aspectRatio: "16/9",
           mx: "auto",
@@ -33,7 +34,7 @@ const FormThumbnailImage = memo(({ images, onChange }) => {
         id="thumbnail"
         name="images"
         type="file"
-        className="invisible absolute"
+        className="invisible absolute w-full inset-0 h-full"
         accept="image/*"
         // ref={ref}
         onChange={onChange}

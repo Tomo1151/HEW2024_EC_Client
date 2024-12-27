@@ -78,13 +78,13 @@ input::file-selector-button {
 @media (max-width: 640px) {
   /* @apply text-xs; */
   body {
-    font-size: 0.75rem;
+    font-size: 14px;
   }
 }
 
 @media (max-width: 480px) {
   /* @apply text-xs; */
   body {
-    font-size: 0.625rem;
+    font-size: 14px;
   }
 }

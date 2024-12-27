@@ -18,8 +18,8 @@ const Modal = ({ children, redirectPath }) => {
             : router.back
         }
       ></div>
-      <div className="fixed bg-white w-[800px] h-fit max-h-[90vh] rounded-md inset-0 m-auto px-8 py-16 z-50 overflow-y-auto">
-        <IconButton
+      <div className="fixed bg-white w-[800px] max-w-[90vw] h-fit max-h-[90vh] rounded-md inset-0 m-auto px-2 sm:px-8 py-4 sm:pt-8 sm:pb-12 z-50 overflow-y-auto">
+        {/* <IconButton
           size="large"
           className="absolute top-6 right-8 cursor-pointer hover:drop-shadow"
           onClick={
@@ -29,7 +29,7 @@ const Modal = ({ children, redirectPath }) => {
           }
         >
           <CloseRoundedIcon />
-        </IconButton>
+        </IconButton> */}
         <div className="mt-2">{children}</div>
       </div>
     </>

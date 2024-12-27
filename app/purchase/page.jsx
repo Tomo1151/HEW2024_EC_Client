@@ -39,14 +39,21 @@ const page = () => {
       <MainColumnHeader>
         <h3 className="font-bold tracking-wider">購入確認</h3>
       </MainColumnHeader>
-      <Box sx={{ py: 4 }}>
+      <Box
+        sx={{
+          py: 4,
+          "& .MuiStepLabel-labelContainer span": { fontSize: "1em" },
+        }}
+      >
         <Stepper activeStep={activeStep} alternativeLabel>
           <Step>
             <StepLabel>カート確認</StepLabel>
           </Step>
           <Step>
             <StepLabel
-              optional={<span className="text-sm">(スキップされます)</span>}
+              optional={
+                <span className="text-[.75em]">(スキップされます)</span>
+              }
             >
               お支払方法確認
             </StepLabel>
@@ -58,7 +65,19 @@ const page = () => {
             <StepLabel>購入完了</StepLabel>
           </Step>
         </Stepper>
-        <Box sx={{ mx: 4, px: 4, py: 2 }}>
+        <Box
+          sx={{
+            mx: {
+              xs: 0,
+              sm: 4,
+            },
+            px: {
+              xs: 2,
+              sm: 4,
+            },
+            py: 2,
+          }}
+        >
           {pageContent[activeStep]}
           <Box
             sx={{

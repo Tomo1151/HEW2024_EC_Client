@@ -65,8 +65,8 @@ export default function ReplyForm({ postId, setRefresh }) {
       component="section"
       maxWidth="md"
       sx={{
-        px: 4,
-        pb: 4,
+        px: { xs: 2, sm: 4 },
+        pb: { xs: 1, sm: 4 },
         mb: "2px",
       }}
       className="bg-white"
@@ -75,7 +75,7 @@ export default function ReplyForm({ postId, setRefresh }) {
         <div className="flex">
           <Link
             href={`${activeUser ? `/users/${activeUser.username}` : "/login"}`}
-            className="h-fit hover:brightness-[.75] duration-200 mr-4 my-4 shrink-0"
+            className="w-[3.5em] sm:w-[50px] h-[3.5em] sm:h-[50px] hover:brightness-[.75] duration-200 mr-4 my-4 shrink-0"
             scroll={false}
           >
             <Image
@@ -91,6 +91,7 @@ export default function ReplyForm({ postId, setRefresh }) {
             name="content"
             variant="standard"
             minRows={2}
+            maxRows={5}
             fullWidth
             multiline
             placeholder="返信をポストする"

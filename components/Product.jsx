@@ -232,7 +232,7 @@ const Product = ({
                 sx={{
                   width: { xs: "3.5em", sm: "50px" },
                   height: { xs: "3.5em", sm: "50px" },
-                  mr: "1em",
+                  mr: { xs: 0, sm: "1em" },
                 }}
               >
                 <Image
