@@ -139,7 +139,11 @@ const Header = () => {
         isHeaderTransparent={isHeaderTransparent}
       />
       {/* スマホ用ヘッダー, sm (650px) 未満で表示 */}
-      <MobileHeader isHeaderTransparent={isHeaderTransparent} />
+      <MobileHeader
+        listItems={listItems}
+        activeUser={activeUser}
+        isHeaderTransparent={isHeaderTransparent}
+      />
     </>
   );
 };

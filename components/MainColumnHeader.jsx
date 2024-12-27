@@ -9,7 +9,7 @@ const MainColumnHeader = ({ children }) => {
   const [isHeaderTransparent, setIsHeaderTransparent] = useState(false);
 
   const handleScroll = () => {
-    console.log(window.scrollY);
+    // console.log(window.scrollY);
     if (window.scrollY > HEADER_SCROLL_THRESHOLD) {
       setIsHeaderTransparent(true);
     } else {

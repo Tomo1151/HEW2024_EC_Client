@@ -64,11 +64,11 @@ const DesktopHeader = ({
             borderRadius: ".375rem",
           }}
         >
-          <Link href="/" scroll={false}>
+          <Link href="/">
             <Image
               src={isIconView ? "/appri_logo_s.svg" : "/appri_logo.svg"}
-              width={1516}
-              height={673}
+              width={isIconView ? 700 : 1516}
+              height={isIconView ? 573 : 673}
               alt="アプリロゴ"
               priority={true}
               className={`w-full ${isIconView ? "max-w-[50px]" : "max-w-[150px] pl-4"} object-contain`}

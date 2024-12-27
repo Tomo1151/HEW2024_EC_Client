@@ -22,26 +22,29 @@ const FloatingPostButton = () => {
   ];
 
   return (
-    <SpeedDial
-      ariaLabel="投稿ボタン"
-      sx={{
-        display: { xs: "inline-flex", sm: "none" },
-        position: "fixed",
-        bottom: "2em",
-        right: "2em",
-        zIndex: 40,
-      }}
-      icon={<SpeedDialIcon />}
-    >
-      {actions.map((action) => (
-        <SpeedDialAction
-          key={action.name}
-          icon={action.icon}
-          tooltipTitle={action.name}
-          onClick={action.onclick}
-        />
-      ))}
-    </SpeedDial>
+    <>
+      <div></div>
+      <SpeedDial
+        ariaLabel="投稿ボタン"
+        sx={{
+          display: { xs: "inline-flex", sm: "none" },
+          position: "fixed",
+          bottom: "2em",
+          right: "2em",
+          zIndex: 40,
+        }}
+        icon={<SpeedDialIcon />}
+      >
+        {actions.map((action) => (
+          <SpeedDialAction
+            key={action.name}
+            icon={action.icon}
+            tooltipTitle={action.name}
+            onClick={action.onclick}
+          />
+        ))}
+      </SpeedDial>
+    </>
   );
 };
 
