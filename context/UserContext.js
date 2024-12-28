@@ -4,20 +4,94 @@ import { useContext, useState, createContext, useEffect } from "react";
 
 import { fetchHeaders } from "@/config/fetchConfig";
 
-export const AuthContext = createContext({
+export const UserContext = createContext({
   activeUser: null,
   signin: () => {},
   login: () => {},
   logout: () => {},
   refreshToken: () => {},
+  fetchUserCart: () => {},
+  clearUserCart: () => {},
+  cartItems: [],
 });
 
-export const useAuthContext = () => {
-  return useContext(AuthContext);
+export const useUserContext = () => {
+  return useContext(UserContext);
 };
 
-export const AuthProvider = ({ children }) => {
+export const UserProvider = ({ children }) => {
   const [activeUser, setActiveUser] = useState(null);
+  const [cartItems, setCartItems] = useState(null);
+
+  useEffect(() => {
+    refreshToken();
+    fetchUser();
+    fetchUserCart();
+  }, []);
+
+  const clearUserCart = () => {
+    refreshToken().then(async () => {
+      const response = await fetch(
+        process.env.NEXT_PUBLIC_FETCH_BASE_URL + "/carts/items/clear",
+        {
+          method: "DELETE",
+          headers: fetchHeaders,
+          credentials: "include",
+        }
+      );
+
+      const resJson = await response.json();
+
+      if (!resJson.success) {
+        return {
+          success: false,
+          message: "You are not logged in",
+        };
+      }
+
+      setCartItems([]);
+
+      return {
+        success: true,
+        message: "Cart cleared",
+      };
+    });
+  };
+
+  const fetchUserCart = async () => {
+    refreshToken()
+      .then(async () => {
+        const response = await fetch(
+          process.env.NEXT_PUBLIC_FETCH_BASE_URL + "/carts/items",
+          {
+            method: "GET",
+            headers: fetchHeaders,
+            credentials: "include",
+          }
+        );
+
+        const resJson = await response.json();
+
+        if (!resJson.success) {
+          return {
+            success: false,
+            message: "You are not logged in",
+          };
+        }
+
+        setCartItems(resJson.data);
+
+        return {
+          success: true,
+          message: "Cart fetched",
+          data: resJson.data,
+        };
+      })
+      .catch((err) => {
+        console.log("Error fetching cart items");
+        console.error(err);
+      });
+  };
 
   const fetchUser = async () => {
     const response = await fetch(
@@ -27,7 +101,9 @@ export const AuthProvider = ({ children }) => {
         headers: fetchHeaders,
         credentials: "include",
       }
-    );
+    ).catch((err) => {
+      // console.error(err);
+    });
 
     const resJson = await response.json();
 
@@ -46,10 +122,6 @@ export const AuthProvider = ({ children }) => {
       message: "Logged in successfully as " + resJson.data.username,
     };
   };
-
-  useEffect(() => {
-    fetchUser();
-  }, []);
 
   const signin = async (username, email, password) => {
     if (!username || !email || !password) {
@@ -121,6 +193,9 @@ export const AuthProvider = ({ children }) => {
   };
 
   const refreshToken = async () => {
+    if (activeUser === null || activeUser === false)
+      return { success: false, message: "You are not logged in" };
+
     const response = await fetch(
       process.env.NEXT_PUBLIC_FETCH_BASE_URL + "/auth/refresh",
       {
@@ -130,8 +205,15 @@ export const AuthProvider = ({ children }) => {
       }
     );
     const resJson = await response.json();
+    // console.log(resJson);
     if (!resJson.success) {
       await logout();
+      // console.log("You are not logged in");
+      // throw new Error("You are not logged in");
+      return {
+        success: false,
+        message: "You are not logged in",
+      };
     }
 
     return {
@@ -153,10 +235,19 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider
-      value={{ activeUser, signin, login, logout, refreshToken }}
+    <UserContext.Provider
+      value={{
+        activeUser,
+        cartItems,
+        fetchUserCart,
+        clearUserCart,
+        signin,
+        login,
+        logout,
+        refreshToken,
+      }}
     >
       {children}
-    </AuthContext.Provider>
+    </UserContext.Provider>
   );
 };

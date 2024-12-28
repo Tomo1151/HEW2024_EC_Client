@@ -1,11 +1,13 @@
 import Link from "next/link";
-import { Button, TextField } from "@mui/material";
+import { LoadingButton } from "@mui/lab";
+import { TextField } from "@mui/material";
 
 const RegisterForm = ({
   status,
   setUsername,
   setEmail,
   setPassword,
+  isFetching,
   onSubmit,
 }) => {
   return (
@@ -50,13 +52,14 @@ const RegisterForm = ({
           fullWidth
         />
         <p className="text-center text-red-600">{status}</p>
-        <Button
+        <LoadingButton
           type="submit"
           variant="contained"
-          sx={{ display: "block", width: "25%", mx: "auto", my: "2em" }}
+          loading={isFetching}
+          sx={{ display: "block", width: "fit-content", mx: "auto", my: "2em" }}
         >
           新規登録
-        </Button>
+        </LoadingButton>
         <p className="text-center">
           アカウントをお持ちの方は
           <Link href="/login" className="text-blue-400 hover:underline">

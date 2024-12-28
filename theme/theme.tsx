@@ -1,6 +1,12 @@
 "use client";
 
 import { createTheme } from "@mui/material/styles";
+import { M_PLUS_Rounded_1c } from "next/font/google";
+
+const M_PLUS_Rounded_1cFont = M_PLUS_Rounded_1c({
+  weight: "500",
+  subsets: ["latin"],
+});
 
 const theme = createTheme({
   breakpoints: {
@@ -23,7 +29,7 @@ const theme = createTheme({
     },
   },
   typography: {
-    fontFamily: "Arial, sans-serif",
+    fontFamily: M_PLUS_Rounded_1cFont.style.fontFamily,
     fontSize: 14,
     fontWeightLight: 300,
     fontWeightRegular: 400,

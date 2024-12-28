@@ -3,12 +3,14 @@
 import React, { useEffect, useState } from "react";
 import { NotificationsProvider } from "@toolpad/core/useNotifications";
 import Post from "@/components/Post";
+import PostDetail from "@/components/PostDetail";
 import ReplyForm from "@/components/ReplyForm";
 import MainColumnHeader from "@/components/MainColumnHeader";
 import { Box } from "@mui/material";
 import CircularLoading from "@/components/loading/CircularLoading";
+import ProductDetail from "@/components/ProductDetail";
 
-const PostDetail = (route) => {
+const PostDetailPage = (route) => {
   /** @TODO
    *   ポストがリプの場合，リプ元のポストにぶら下がる形で表示する
    *   not foundの場合の表示を作成
@@ -62,24 +64,51 @@ const PostDetail = (route) => {
         <h3 className="font-bold tracking-wider">ポスト</h3>
       </MainColumnHeader>
       <Box>
-        <Post
-          type="post"
-          postId={postData.id}
-          username={postData.author.username}
-          nickname={postData.author.nickname}
-          icon_link={postData.author.icon_link}
-          content={postData.content}
-          images={postData.images}
-          comment_count={postData.comment_count}
-          ref_count={postData.ref_count}
-          like_count={postData.like_count}
-          created_at={postData.created_at}
-          is_reposted={postData.reposts.length > 0}
-          is_liked={postData.likes.length > 0}
-          is_clickable={false}
-          setPosts={null}
-          setRefresh={null}
-        />
+        {postData.product ? (
+          <ProductDetail
+            type="detail"
+            postId={postData.id}
+            username={postData.author.username}
+            nickname={postData.author.nickname}
+            icon_link={postData.author.icon_link}
+            content={postData.content}
+            images={postData.images}
+            tags={postData.tags?.map((tagObj) => tagObj.tag.name)}
+            productId={postData.product.id}
+            name={postData.product.name}
+            price={postData.product.price}
+            comment_count={postData.comment_count}
+            ref_count={postData.ref_count}
+            like_count={postData.like_count}
+            created_at={postData.created_at}
+            is_reposted={postData.reposts.length > 0}
+            is_liked={postData.likes.length > 0}
+            is_clickable={false}
+            setPosts={null}
+            setRefresh={null}
+          />
+        ) : (
+          <PostDetail
+            type="post"
+            postId={postData.id}
+            username={postData.author.username}
+            nickname={postData.author.nickname}
+            icon_link={postData.author.icon_link}
+            content={postData.content}
+            images={postData.images}
+            tags={postData.tags?.map((tagObj) => tagObj.tag.name)}
+            comment_count={postData.comment_count}
+            ref_count={postData.ref_count}
+            like_count={postData.like_count}
+            created_at={postData.created_at}
+            is_reposted={postData.reposts.length > 0}
+            is_liked={postData.likes.length > 0}
+            is_clickable={false}
+            setPosts={null}
+            setRefresh={null}
+          />
+        )}
+
         <ReplyForm postId={postData.id} setRefresh={setRefresh} />
         {postData.replies.map((reply) => (
           <Post
@@ -107,4 +136,4 @@ const PostDetail = (route) => {
   );
 };
 
-export default PostDetail;
+export default PostDetailPage;

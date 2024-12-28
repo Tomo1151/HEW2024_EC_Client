@@ -7,6 +7,13 @@ module.exports = {
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
+    screens: {
+      xs: "0px",
+      sm: "650px",
+      md: "960px",
+      lg: "1280px",
+      xl: "1920px",
+    },
     extend: {
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
@@ -16,6 +23,9 @@ module.exports = {
       colors: {
         "main-theme": "var(--colors-main-theme)",
         "sub-theme": "var(--colors-sub-theme)",
+      },
+      height: {
+        header: "var(--height-header)",
       },
     },
   },

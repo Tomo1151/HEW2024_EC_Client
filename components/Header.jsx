@@ -1,17 +1,8 @@
 "use client";
 
-import Image from "next/image";
+import { useState, useEffect } from "react";
 
-import {
-  Box,
-  Divider,
-  Drawer,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-} from "@mui/material";
+import { Badge, Box, useMediaQuery } from "@mui/material";
 
 import {
   HomeRounded,
@@ -23,20 +14,43 @@ import {
   LogoutRounded,
 } from "@mui/icons-material";
 
-import Link from "next/link";
+import { useUserContext } from "@/context/UserContext";
+import { fetchHeaders } from "@/config/fetchConfig";
+import theme from "@/theme/theme";
+import DesktopHeader from "./DesktopHeader";
+import MobileHeader from "./MobileHeader";
 
-import { useAuthContext } from "@/context/AuthContext";
+const HEADER_SCROLL_THRESHOLD = 360;
 
 const Header = () => {
-  const { activeUser, logout } = useAuthContext();
+  const { activeUser, logout, cartItems } = useUserContext();
+  const [unreadCount, setUnreadCount] = useState(0);
+  const [isHeaderTransparent, setIsHeaderTransparent] = useState(false);
 
-  const drawerWidth = 420;
-  const drawerWidthStyle = {
-    xs: drawerWidth / 3,
-    sm: drawerWidth / 3,
-    md: drawerWidth / 1.5,
-    xl: drawerWidth,
+  const getUnreadNotificationCount = async () => {
+    const response = await fetch(
+      process.env.NEXT_PUBLIC_FETCH_BASE_URL + "/notifications/unread",
+      {
+        method: "GET",
+        headers: fetchHeaders,
+        credentials: "include",
+      }
+    );
+
+    const resJson = await response.json();
+
+    if (resJson.success) {
+      setUnreadCount(resJson.length);
+    }
   };
+
+  useEffect(() => {
+    if (activeUser) {
+      getUnreadNotificationCount();
+    }
+  }, [activeUser]);
+
+  const isIconView = useMediaQuery(theme.breakpoints.down("lg"));
 
   const navigationIconStyle = { fontSize: "2em" };
   const listItems = [
@@ -63,16 +77,24 @@ const Header = () => {
     },
     {
       name: "通知",
-      href: "/",
+      href: "/notifications",
       type: "link",
-      icon: <NotificationsRounded sx={navigationIconStyle} />,
+      icon: (
+        <Badge badgeContent={unreadCount} color="primary">
+          <NotificationsRounded sx={navigationIconStyle} />
+        </Badge>
+      ),
       loginRequired: true,
     },
     {
       name: "カート",
-      href: "/",
+      href: "/cart-items",
       type: "link",
-      icon: <ShoppingCartRounded sx={navigationIconStyle} />,
+      icon: (
+        <Badge badgeContent={cartItems?.length} color="primary">
+          <ShoppingCartRounded sx={navigationIconStyle} />
+        </Badge>
+      ),
       loginRequired: true,
     },
     {
@@ -91,94 +113,37 @@ const Header = () => {
     },
   ];
 
+  const handleScroll = () => {
+    // console.log(window.scrollY);
+    if (window.scrollY > HEADER_SCROLL_THRESHOLD) {
+      setIsHeaderTransparent(true);
+    } else {
+      setIsHeaderTransparent(false);
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
     <>
-      <Box
-        component="header"
-        sx={{
-          width: drawerWidthStyle,
-          height: "100vh",
-          flexShrink: 0,
-          whiteSpace: "nowrap",
-          position: "sticky",
-          top: 0,
-          justifyContent: "flex-end",
-          borderRight: "1px solid #f0f0f0",
-          marginLeft: "2em",
-          minWidth: "fit-content",
-        }}
-      >
-        <List
-          sx={{
-            "& .MuiListItemText-primary": {
-              fontSize: "1.25em",
-            },
-            "& .MuiListItemIcon-root": {
-              justifyContent: "center",
-              mx: {
-                xs: "auto",
-                sm: "auto",
-                md: "auto",
-                xl: "2em",
-              },
-              minWidth: "50px",
-            },
-          }}
-        >
-          <ListItem
-            sx={{
-              backgroundColor: "primary.main",
-              pt: "1em",
-              pl: {
-                xl: "3.5em",
-              },
-              mb: "1em",
-              minHeight: "80px",
-            }}
-          >
-            <Link href="/" scroll={false}>
-              <Image
-                src="/appri_logo.png"
-                width={1516}
-                height={673}
-                alt="アプリロゴ"
-                priority={true}
-                className="w-[150px] object-contain"
-              />
-            </Link>
-          </ListItem>
-          {listItems.map((item, index) => (
-            <ListItem key={index}>
-              <ListItemButton
-                href={
-                  item.loginRequired && activeUser === false ? null : item.href
-                }
-                onClick={item.type === "func" ? item.onclick : null}
-                sx={{ position: "relative" }}
-              >
-                {item.loginRequired && activeUser === false && (
-                  <Link
-                    href="/login"
-                    className="absolute inset-0 w-full h-full"
-                    scroll={false}
-                  ></Link>
-                )}
-                <ListItemIcon>{item.icon}</ListItemIcon>
-                <ListItemText
-                  primary={item.name}
-                  sx={{
-                    display: {
-                      xs: "none",
-                      sm: "none",
-                      md: "block",
-                    },
-                  }}
-                />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
-      </Box>
+      {/* PC用ヘッダー, sm (650px) 以上で表示 */}
+      <DesktopHeader
+        listItems={listItems}
+        isIconView={isIconView}
+        activeUser={activeUser}
+        isHeaderTransparent={isHeaderTransparent}
+      />
+      {/* スマホ用ヘッダー, sm (650px) 未満で表示 */}
+      <MobileHeader
+        listItems={listItems}
+        activeUser={activeUser}
+        isHeaderTransparent={isHeaderTransparent}
+      />
     </>
   );
 };

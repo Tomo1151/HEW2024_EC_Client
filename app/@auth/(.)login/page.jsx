@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import Modal from "@/components/Modal";
 import LoginForm from "@/components/LoginForm";
 
-import { useAuthContext } from "@/context/AuthContext";
+import { useUserContext } from "@/context/UserContext";
 
 const LoginModal = () => {
   const router = useRouter();
@@ -14,27 +14,30 @@ const LoginModal = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [status, setStatus] = useState("　");
+  const [isFetching, setIsFetching] = useState(false);
 
-  const { login } = useAuthContext();
+  const { login } = useUserContext();
 
   async function handleSubmit(event) {
+    setIsFetching(true);
     event.preventDefault();
     const data = await login(email, password);
 
     if (!data.success) {
       setStatus(data.message);
+      setIsFetching(false);
       return;
     }
-
     router.push("/", { scroll: false });
   }
 
   return (
-    <Modal>
+    <Modal redirectPath="/">
       <LoginForm
         status={status}
         setEmail={setEmail}
         setPassword={setPassword}
+        isFetching={isFetching}
         onSubmit={handleSubmit}
       />
     </Modal>

@@ -5,13 +5,13 @@ import { useEffect, useState } from "react";
 import Modal from "@/components/Modal";
 import { fetchHeaders } from "@/config/fetchConfig";
 import FollowUserColumn from "./FollowUserColumn";
-import { useAuthContext } from "@/context/AuthContext";
+import { useUserContext } from "@/context/UserContext";
 import CircularLoading from "./loading/CircularLoading";
 
 const FollowingUserList = ({ userData }) => {
   const [followingUsers, setFollowingUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const { refreshToken } = useAuthContext();
+  const { refreshToken } = useUserContext();
 
   const fetchFollowingUsers = async () => {
     try {

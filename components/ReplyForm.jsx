@@ -5,11 +5,11 @@ import { useState } from "react";
 import { Box, Button, TextField } from "@mui/material";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 
-import { useAuthContext } from "@/context/AuthContext";
+import { useUserContext } from "@/context/UserContext";
 import { useNotifications } from "@toolpad/core/useNotifications";
 
 export default function ReplyForm({ postId, setRefresh }) {
-  const { activeUser, refreshToken } = useAuthContext();
+  const { activeUser, refreshToken } = useUserContext();
   const [postText, setPostText] = useState("");
   const notifications = useNotifications();
 
@@ -65,8 +65,8 @@ export default function ReplyForm({ postId, setRefresh }) {
       component="section"
       maxWidth="md"
       sx={{
-        px: 4,
-        pb: 4,
+        px: { xs: 2, sm: 4 },
+        pb: { xs: 1, sm: 4 },
         mb: "2px",
       }}
       className="bg-white"
@@ -74,8 +74,9 @@ export default function ReplyForm({ postId, setRefresh }) {
       <Box component="form" onSubmit={handleSubmit} sx={{ pt: 2 }}>
         <div className="flex">
           <Link
-            href={`/users/${activeUser?.username}`}
-            className="h-fit hover:brightness-[.75] duration-200 mr-4 my-4 shrink-0"
+            href={`${activeUser ? `/users/${activeUser.username}` : "/login"}`}
+            className="w-[3.5em] sm:w-[50px] h-[3.5em] sm:h-[50px] hover:brightness-[.75] duration-200 mr-4 my-4 shrink-0"
+            scroll={false}
           >
             <Image
               src={`${activeUser?.image_link || "https://placeholder.com/150"}`}
@@ -90,6 +91,7 @@ export default function ReplyForm({ postId, setRefresh }) {
             name="content"
             variant="standard"
             minRows={2}
+            maxRows={5}
             fullWidth
             multiline
             placeholder="返信をポストする"

@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, use } from "react";
 import { useRouter } from "next/navigation";
 
 import { Box, Menu, MenuItem, IconButton } from "@mui/material";
@@ -13,8 +13,10 @@ import PostReaction from "./PostReaction";
 import PostImageContainer from "./PostImageContainer";
 
 import { fetchHeaders } from "@/config/fetchConfig";
-import { useAuthContext } from "../context/AuthContext";
+import { useUserContext } from "../context/UserContext";
 import { useNotifications } from "@toolpad/core/useNotifications";
+
+import PostTags from "./PostTags";
 
 const Post = ({
   type,
@@ -25,6 +27,7 @@ const Post = ({
   icon_link,
   content,
   images,
+  tags,
   comment_count,
   ref_count,
   like_count,
@@ -35,7 +38,7 @@ const Post = ({
   setPosts,
   setRefresh,
 }) => {
-  const { activeUser } = useAuthContext();
+  const { activeUser } = useUserContext();
   const [isReposted, setisReposted] = useState(is_reposted);
   const [isLiked, setisLiked] = useState(is_liked);
   const [repostCount, setRepostCount] = useState(ref_count);
@@ -128,6 +131,14 @@ const Post = ({
   };
 
   useEffect(() => {
+    setisLiked(is_liked);
+  }, [is_liked]);
+
+  useEffect(() => {
+    setLikeCount(like_count);
+  }, [like_count]);
+
+  useEffect(() => {
     setisReposted(is_reposted);
   }, [is_reposted]);
 
@@ -136,8 +147,10 @@ const Post = ({
   }, [ref_count]);
 
   return (
-    <section
-      className={`relative bg-white mb-[2px] p-8 ${is_clickable ? "hover:brightness-[.95] duration-200" : ""}`}
+    <Box
+      component="section"
+      sx={{ borderBottom: "1px solid #f0f0f0" }}
+      className={`relative bg-white mb-[2px] p-4 sm:p-8 ${is_clickable ? "hover:brightness-[.95] duration-200" : ""}`}
     >
       {is_clickable && (
         <Link
@@ -150,12 +163,12 @@ const Post = ({
           {repost_user.nickname || repost_user.username}がリポストしました
         </p>
       )}
-      <div className="flex relative">
+      <div className="flex relative w-full">
         <IconButton
           sx={{ position: "absolute", top: 0, right: 0, zIndex: "19" }}
           onClick={handleClick}
         >
-          <MoreHorizRounded sx={{ fontSize: 30 }} />
+          <MoreHorizRounded />
         </IconButton>
         <Menu
           anchorEl={anchorEl}
@@ -210,7 +223,13 @@ const Post = ({
             scroll={false}
             className="relative h-fit hover:brightness-[.75] rounded-full duration-200 z-10"
           >
-            <Box sx={{ width: "50px", height: "50px", mr: 2 }}>
+            <Box
+              sx={{
+                width: { xs: "3.5em", sm: "50px" },
+                height: { xs: "3.5em", sm: "50px" },
+                mr: { xs: 0, sm: "1em" },
+              }}
+            >
               <Image
                 src={
                   icon_link
@@ -239,6 +258,9 @@ const Post = ({
             </p>
           </div>
           <p className="mt-2 pb-2">{content}</p>
+
+          <PostTags tags={tags} />
+
           {images?.length > 0 && <PostImageContainer images={images} />}
 
           <PostReaction
@@ -257,7 +279,7 @@ const Post = ({
           />
         </div>
       </div>
-    </section>
+    </Box>
   );
 };
 

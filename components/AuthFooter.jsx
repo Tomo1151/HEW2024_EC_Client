@@ -1,11 +1,11 @@
 "use client";
 
-import { useAuthContext } from "@/context/AuthContext";
+import { useUserContext } from "@/context/UserContext";
 import { Box, Button, Container } from "@mui/material";
 import Link from "next/link";
 
 const AuthFooter = () => {
-  const { activeUser } = useAuthContext();
+  const { activeUser } = useUserContext();
   if (activeUser || activeUser === null) {
     return null;
   }
@@ -38,7 +38,7 @@ const AuthFooter = () => {
           minWidth: "fit-content",
         }}
       >
-        <Link href="/register">
+        <Link href="/register" scroll={false}>
           <Button
             variant="standard"
             sx={{
@@ -57,7 +57,7 @@ const AuthFooter = () => {
           minWidth: "fit-content",
         }}
       >
-        <Link href="/login">
+        <Link href="/login" scroll={false}>
           <Button
             variant="standard"
             sx={{

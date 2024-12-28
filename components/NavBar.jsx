@@ -3,10 +3,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import LinkButton from "./LinkButton";
-import { useAuthContext } from "@/context/AuthContext";
+import { useUserContext } from "@/context/UserContext";
 
 const NavBar = () => {
-  const { activeUser, logout } = useAuthContext();
+  const { activeUser, logout } = useUserContext();
 
   return (
     <>

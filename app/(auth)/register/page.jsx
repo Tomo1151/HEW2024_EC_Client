@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
-import { useAuthContext } from "@/context/AuthContext";
+import { useUserContext } from "@/context/UserContext";
 import RegisterForm from "@/components/RegisterForm";
 
 const Register = () => {
@@ -12,15 +12,18 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [status, setStatus] = useState("　");
+  const [isFetching, setIsFetching] = useState(false);
 
-  const { signin } = useAuthContext();
+  const { signin } = useUserContext();
 
   async function handleSubmit(event) {
+    setIsFetching(true);
     event.preventDefault();
     const data = await signin(username, email, password);
 
     if (!data.success) {
       setStatus(data.message);
+      setIsFetching(false);
       return;
     }
 
@@ -33,6 +36,7 @@ const Register = () => {
       setUsername={setUsername}
       setEmail={setEmail}
       setPassword={setPassword}
+      isFetching={isFetching}
       onSubmit={handleSubmit}
     />
   );

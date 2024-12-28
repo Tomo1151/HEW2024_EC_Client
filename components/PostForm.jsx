@@ -2,25 +2,42 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { useState, useRef } from "react";
-import { Box, Button, TextField } from "@mui/material";
+import { Box, Button, Chip, TextField } from "@mui/material";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import CancelIcon from "@mui/icons-material/Cancel";
 
-import { useAuthContext } from "@/context/AuthContext";
+import { useUserContext } from "@/context/UserContext";
 import { useNotifications } from "@toolpad/core/useNotifications";
+import FormImagePreview from "./FormImagePreview";
 
 export default function PostForm({ setRefresh }) {
   const ref = useRef(null);
 
-  const { activeUser, refreshToken } = useAuthContext();
+  const { activeUser, refreshToken } = useUserContext();
   const [postText, setPostText] = useState("");
+  const [tagInput, setTagInput] = useState("");
+  const [tags, setTags] = useState([]);
   const [images, setImages] = useState([]);
   const [status, setStatus] = useState([]);
   const notifications = useNotifications();
 
   const handleOnChange = (e) => {
-    setImages([...images, ...e.target.files]);
+    setImages([...images, ...e.target.files].slice(0, 4));
     e.target.value = "";
+  };
+
+  const handleSetTags = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+
+      if (!tagInput || tagInput.trim() === "") return;
+
+      // console.log("Enter key pressed: ", `"${e.target.value}"`);
+      const newTags = [...tags, tagInput.trim()];
+      const uniqueTags = [...new Set(newTags)];
+      setTags(uniqueTags);
+      setTagInput("");
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -31,12 +48,16 @@ export default function PostForm({ setRefresh }) {
         try {
           const formData = new FormData();
           formData.append("content", postText.trim());
-          for (let image of images) {
+          for (const image of images) {
             formData.append("files", image);
           }
 
+          for (const tag of tags) {
+            formData.append("tags[]", tag);
+          }
+
           // console.log(formData.get("content"));
-          console.log(formData.getAll("files"));
+          console.log(formData.getAll("tags[]"));
 
           const response = await fetch(
             process.env.NEXT_PUBLIC_FETCH_BASE_URL + "/posts",
@@ -53,6 +74,7 @@ export default function PostForm({ setRefresh }) {
             setPostText("");
             setImages([]);
             setStatus([]);
+            setTags([]);
             if (setRefresh) setRefresh((prev) => !prev);
             notifications.show("ポストが正常に投稿されました", {
               severity: "success",
@@ -79,7 +101,7 @@ export default function PostForm({ setRefresh }) {
       component="section"
       // maxWidth="md"
       sx={{
-        p: 4,
+        p: { xs: 2, sm: 4 },
       }}
       className="rounded-b-md bg-white"
     >
@@ -87,10 +109,10 @@ export default function PostForm({ setRefresh }) {
         <label htmlFor="postForm" className="block font-bold mb-2">
           💡 投稿してみよう
         </label>
-        <div className="flex">
+        <div className="flex gap-x-1 sm:gap-x-4">
           <Link
             href={`/users/${activeUser?.username}`}
-            className="h-fit hover:brightness-[.75] duration-200 mr-4 my-4 shrink-0"
+            className="h-fit hover:brightness-[.75] duration-200 my-4 shrink-0"
             scroll={false}
           >
             <Box sx={{ width: "50px", height: "50px" }}>
@@ -120,37 +142,68 @@ export default function PostForm({ setRefresh }) {
             value={postText}
           />
         </div>
+
+        <Box sx={{ display: "flex", alignItems: "center", mb: 2 }}>
+          <p className=" w-[50px] text-right shrink-0 mx-0 sm:mx-2">
+            <label htmlFor="tag" className="font-bold w-full">
+              タグ：
+            </label>
+          </p>
+          <TextField
+            id="tag"
+            variant="standard"
+            rows={1}
+            placeholder="タグを入力（複数可）"
+            sx={{ p: 0, ml: 2, flexGrow: 1 }}
+            value={tagInput}
+            onChange={(e) => setTagInput(e.target.value)}
+            onKeyPress={handleSetTags}
+          />
+          <Button
+            type="button"
+            color="black"
+            onClick={() =>
+              handleSetTags({ key: "Enter", preventDefault: () => {} })
+            }
+          >
+            追加
+          </Button>
+        </Box>
+        {tags && tags.length > 0 && (
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              flexWrap: "wrap",
+              backgroundColor: "#f0f0f0",
+              p: 1,
+              my: 2,
+              borderRadius: "0.375em",
+            }}
+          >
+            {tags.map((tag, index) => (
+              <Chip
+                key={index}
+                label={`# ${tag}`}
+                color="primary"
+                onDelete={() => {
+                  setTags(tags.filter((t) => t !== tag));
+                }}
+                sx={{ m: 0.5 }}
+              />
+            ))}
+          </Box>
+        )}
+
         {status &&
           status.map((message, index) => (
-            <p key={index} className="text-center text-red-600">
+            <p key={index} className="text-center text-red-600 font-bold">
               {message}
             </p>
           ))}
-        {/* <p className="text-center text-red-600">{status}</p> */}
-        {images.length > 0 && (
-          <div className="flex gap-x-4 p-2 mt-4 bg-slate-100 overflow-x-scroll rounded-md">
-            {Array.from(images).map((image, index) => {
-              return (
-                <Box
-                  key={index}
-                  className="relative w-1/5 h-[100px] shrink-0 rounded shadow-md"
-                >
-                  <img
-                    src={URL.createObjectURL(image)}
-                    alt="投稿画像"
-                    className="w-full h-full inset-0 object-cover rounded"
-                  />
-                  <CancelIcon
-                    onClick={() =>
-                      setImages(images.filter((_, i) => i !== index))
-                    }
-                    className="absolute top-0 right-0 cursor-pointer text-gray-500 hover:text-red-700"
-                  />
-                </Box>
-              );
-            })}
-          </div>
-        )}
+
+        <FormImagePreview images={images} setImages={setImages} />
+
         <div className="flex justify-end pt-4 gap-x-4">
           <Button
             component="label"
@@ -166,6 +219,7 @@ export default function PostForm({ setRefresh }) {
               ref={ref}
               onChange={handleOnChange}
               multiple
+              disabled={images.length >= 4}
             />
             画像を追加
           </Button>

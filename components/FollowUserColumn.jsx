@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { Box, Button } from "@mui/material";
-import { useAuthContext } from "@/context/AuthContext";
+import { useUserContext } from "@/context/UserContext";
 import FollowButton from "./FollowButton";
+import Image from "next/image";
 
 const FollowUserColumn = ({
   username,
@@ -9,19 +10,20 @@ const FollowUserColumn = ({
   bio,
   icon_link,
   is_following,
+  is_detail,
 }) => {
-  const { activeUser } = useAuthContext();
+  const { activeUser } = useUserContext();
   return (
     <Box
       component="li"
       sx={{
         display: "flex",
         position: "relative",
-        columnGap: 4,
-        mx: 4,
+        columnGap: 2,
+        // mx: 4,
         px: 4,
         py: 2,
-        borderRadius: ".375rem",
+        // borderRadius: ".375rem",
         "&:hover": { backgroundColor: "#f0f0f0" },
       }}
     >
@@ -30,43 +32,55 @@ const FollowUserColumn = ({
         scroll={false}
         className="absolute inset-0 w-full h-full"
       />
-      <Box sx={{ width: "54px" }}>
-        <img
+      <Box sx={{ width: "50px", height: "50px", flexShrink: 0 }}>
+        <Image
           src={
             icon_link
               ? `${process.env.NEXT_PUBLIC_FETCH_BASE_URL}/media/icons/${icon_link}`
-              : "https://via.placeholder.com/150"
+              : "https://placeholder.com/150"
           }
+          width={50}
+          height={50}
           alt="ユーザーアイコン"
-          className="rounded-full mx-auto w-full h-full object-cover hover:brightness-[.75] duration-200"
+          className="rounded-full mx-auto h-full object-cover hover:brightness-[.75] duration-200"
         />
       </Box>
-      <Box sx={{ flexGrow: 1, display: "flex" }}>
-        <Box
-          sx={{
-            flexGrow: 1,
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-          }}
-        >
-          <p className="font-bold pb-2 tracking-wider hover:underline">
-            {nickname || username}
-          </p>
-          {bio && <p className="">{bio}</p>}
-        </Box>
-
-        {activeUser && activeUser.username !== username && (
+      <Box sx={{ width: "100%" }}>
+        <Box sx={{ flexGrow: 1, display: "flex" }}>
           <Box
             sx={{
+              flexGrow: 1,
               display: "flex",
               flexDirection: "column",
               justifyContent: "center",
             }}
           >
-            <FollowButton username={username} is_following={is_following} />
+            <p className="font-bold pt-2 tracking-wider hover:underline">
+              {nickname || username}
+            </p>
           </Box>
-        )}
+
+          {activeUser && activeUser.username !== username && (
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                flexShrink: 0,
+                pt: 1,
+              }}
+            >
+              <FollowButton username={username} is_following={is_following} />
+            </Box>
+          )}
+        </Box>
+        <Box sx={{ flexGrow: 1, display: "flex", pt: 1 }}>
+          {bio && (
+            <p className="">
+              {bio.length > 50 ? bio.slice(0, 50) + "..." : bio}
+            </p>
+          )}
+        </Box>
       </Box>
     </Box>
   );
