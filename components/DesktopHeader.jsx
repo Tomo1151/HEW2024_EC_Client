@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import {
   Box,
+  Container,
   List,
   ListItem,
   ListItemButton,
@@ -11,29 +12,27 @@ import {
   ListItemText,
 } from "@mui/material";
 
-const DesktopHeader = ({
-  isIconView,
-  listItems,
-  activeUser,
-  isHeaderTransparent,
-}) => {
+const DesktopHeader = ({ listItems, activeUser, isHeaderTransparent }) => {
   return (
-    <Box
+    <Container
       component="header"
       sx={{
-        // width: drawerWidthStyle,
         display: {
           xs: "none",
-          sm: "block",
+          sm: "flex",
         },
         height: "100vh",
+        width: "fit-content",
+        maxWidth: { sm: "13em", lg: "32dvw" },
+        mx: 0,
         flexShrink: 0,
+        flexGrow: 1,
         whiteSpace: "nowrap",
         position: "sticky",
         top: 0,
         justifyContent: "flex-end",
         borderRight: "1px solid #f0f0f0",
-        p: isIconView ? "0" : "0 2em 0",
+        p: { sm: "0", lg: "0 2em 0" },
         minWidth: "fit-content",
         transition: "opacity 0.25s",
         opacity: { xs: isHeaderTransparent ? 0.5 : 1, sm: 1 },
@@ -54,24 +53,36 @@ const DesktopHeader = ({
       >
         <ListItem
           sx={{
-            backgroundColor: "primary.main",
+            // backgroundColor: "primary.main",
             pt: "1em",
-            mb: "1em",
-            justifyContent: isIconView ? "center" : "flex-start",
+            px: { sm: 4.25, lg: 1.75 },
+            mt: "1em",
+            justifyContent: { sm: "center", lg: "flex-start" },
             textAlign: "center",
             minHeight: "80px",
             width: "100%",
             borderRadius: ".375rem",
           }}
         >
-          <Link href="/">
+          {/* 名前つき */}
+          <Link href="/" className="hidden lg:inline">
             <Image
-              src={isIconView ? "/appri_logo_s.svg" : "/appri_logo.svg"}
-              width={isIconView ? 700 : 1516}
-              height={isIconView ? 573 : 673}
+              src="/appri_logo_c.svg"
+              width={1516}
+              height={673}
               alt="アプリロゴ"
-              priority={true}
-              className={`w-full ${isIconView ? "max-w-[50px]" : "max-w-[150px] pl-4"} object-contain`}
+              priority
+              className="w-full max-w-[150px] pl-4 object-contain hover:drop-shadow-[0_3px_10px_rgba(109,201,101,0.5)] duration-200"
+            />
+          </Link>
+          <Link href="/" className="lg:hidden">
+            <Image
+              src="/appri_logo_sc.svg"
+              width={700}
+              height={573}
+              alt="アプリロゴ"
+              priority
+              className="w-full max-w-[50px] object-contain hover:drop-shadow-[0_3px_10px_rgba(109,201,101,0.5)] duration-200"
             />
           </Link>
         </ListItem>
@@ -80,7 +91,7 @@ const DesktopHeader = ({
             return null;
           }
           return (
-            <ListItem key={index} className={isIconView ? `w-fit` : "w-full"}>
+            <ListItem key={index} className="w-fit lg:w-full">
               <ListItemButton
                 href={
                   item.loginRequired && activeUser === false ? null : item.href
@@ -90,7 +101,7 @@ const DesktopHeader = ({
                   position: "relative",
                   justifyContent: "center",
                   minWidth: "fit-content",
-                  width: isIconView ? "fit-content" : "100%",
+                  width: { sm: "fit-content", md: "100%" },
                   // pr: isIconView ? "0" : "2em",
                 }}
               >
@@ -108,7 +119,7 @@ const DesktopHeader = ({
                   primary={item.name}
                   sx={{
                     flexBasis: "80%",
-                    pr: isIconView ? "0" : "1em",
+                    pr: { sm: "0", md: "1em" },
                     display: {
                       xs: "none",
                       sm: "none",
@@ -122,7 +133,7 @@ const DesktopHeader = ({
           );
         })}
       </List>
-    </Box>
+    </Container>
   );
 };
 

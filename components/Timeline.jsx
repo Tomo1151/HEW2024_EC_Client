@@ -82,7 +82,7 @@ const Timeline = ({ name, isActive, setRefresh, refresh }) => {
 
           setIsLoading(false);
           setIsPostFetching(false);
-          setHasMore(resJson.length > 0);
+          setHasMore(resJson.length === 10);
 
           if (resJson.length > 0) {
             setPosts(oldPosts.concat(posts));
@@ -126,7 +126,7 @@ const Timeline = ({ name, isActive, setRefresh, refresh }) => {
       <InfiniteScroll
         pageStart={0}
         loadMore={fetchOldPosts}
-        hasMore={hasMore}
+        hasMore={!isPostFetching && hasMore}
         loader={<CircularLoading key={0} />}
         threshold={50}
       >
