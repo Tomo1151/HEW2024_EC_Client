@@ -217,13 +217,25 @@ const ProfileContainer = ({ username }) => {
         </TabList>
 
         <TabPanel value={0} sx={{ pt: 0, px: 0 }}>
-          <ProfileUserTimeline user={user} endpoint="posts" />
+          <ProfileUserTimeline
+            user={user}
+            endpoint="posts"
+            isActive={tabIndex === 0}
+          />
         </TabPanel>
         <TabPanel value={1} sx={{ pt: 0, px: 0 }}>
-          <ProfileUserTimeline user={user} endpoint="products" />
+          <ProfileUserTimeline
+            user={user}
+            endpoint="products"
+            isActive={tabIndex === 1}
+          />
         </TabPanel>
         <TabPanel value={2} sx={{ pt: 0, px: 0 }}>
-          <ProfileUserTimeline user={user} endpoint="likes" />
+          <ProfileUserTimeline
+            user={user}
+            endpoint="likes"
+            isActive={tabIndex === 2}
+          />
         </TabPanel>
       </TabContext>
     </>
