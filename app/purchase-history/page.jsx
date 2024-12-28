@@ -2,13 +2,11 @@
 
 import { useEffect, useState } from "react";
 
-import Image from "next/image";
-import Link from "next/link";
-
 import InfiniteScroll from "react-infinite-scroller";
 import PostCard from "@/components/PostCard";
 import MainColumnHeader from "@/components/MainColumnHeader";
 import CircularLoading from "@/components/loading/CircularLoading";
+import { Box } from "@mui/material";
 
 import { useUserContext } from "@/context/UserContext";
 
@@ -71,6 +69,22 @@ export default function PurchaseHistoryPage() {
     fetchPurchaseHistory();
   }, []);
 
+  console.log(purchaseHistory);
+  if (purchaseHistory.length === 0 && !isPostFetching && !hasMore) {
+    return (
+      <>
+        <MainColumnHeader className="font-bold tracking-wider">
+          <h3>購入履歴</h3>
+        </MainColumnHeader>
+        <Box sx={{ mt: 10, textAlign: "center" }}>
+          <h3 className="text-2xl font-bold text-gray-400">
+            購入履歴がありません
+          </h3>
+        </Box>
+      </>
+    );
+  }
+
   return (
     <section className="bg-white">
       <MainColumnHeader className="font-bold tracking-wider">
@@ -78,7 +92,7 @@ export default function PurchaseHistoryPage() {
       </MainColumnHeader>
       <InfiniteScroll
         loadMore={fetchPurchaseHistory}
-        hasMore={hasMore}
+        hasMore={!isPostFetching && hasMore}
         loader={<CircularLoading key={0} />}
       >
         {Object.keys(aggrigatePurchaseHistory(purchaseHistory)).map(
