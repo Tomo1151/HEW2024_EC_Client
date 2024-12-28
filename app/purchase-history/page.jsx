@@ -69,7 +69,7 @@ export default function PurchaseHistoryPage() {
     fetchPurchaseHistory();
   }, []);
 
-  console.log(purchaseHistory);
+  // console.log(purchaseHistory);
   if (purchaseHistory.length === 0 && !isPostFetching && !hasMore) {
     return (
       <>
