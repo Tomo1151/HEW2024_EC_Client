@@ -1,5 +1,6 @@
 import { Box } from "@mui/material";
 import SearchBar from "./SearchBar";
+import Trending from "./Trending";
 
 const SubColumn = () => {
   return (
@@ -15,12 +16,13 @@ const SubColumn = () => {
         sx={{
           // display: "flex",
           height: "100vh",
-          padding: "1em 3em",
+          padding: "1em 2em",
           // flexDirection: "column",
           // alignItems: "center",
         }}
       >
         <SearchBar />
+        <Trending />
       </Box>
     </Box>
   );
