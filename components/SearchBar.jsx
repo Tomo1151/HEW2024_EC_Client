@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { TextField, InputAdornment } from "@mui/material";
+import { Box, TextField, InputAdornment } from "@mui/material";
 import { Search } from "@mui/icons-material";
 
 const SearchBar = () => {
@@ -10,7 +10,15 @@ const SearchBar = () => {
   };
 
   return (
-    <form action="/search" method="get" onSubmit={onSubmit}>
+    <Box
+      component="form"
+      action="/search"
+      method="get"
+      onSubmit={onSubmit}
+      sx={{
+        borderRadius: ".5em",
+      }}
+    >
       <TextField
         slotProps={{
           input: {
@@ -27,7 +35,7 @@ const SearchBar = () => {
         placeholder="ポストやユーザーを検索"
         sx={{ backgroundColor: "white" }}
       />
-    </form>
+    </Box>
   );
 };
 
