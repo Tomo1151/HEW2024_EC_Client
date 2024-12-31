@@ -60,6 +60,10 @@ export default function ReplyForm({ postId, setRefresh }) {
     }
   };
 
+  if (!activeUser) {
+    return null;
+  }
+
   return (
     <Box
       component="section"
@@ -79,11 +83,11 @@ export default function ReplyForm({ postId, setRefresh }) {
             scroll={false}
           >
             <Image
-              src={`${activeUser?.image_link || "https://placeholder.com/150"}`}
+              src={`${activeUser ? `${process.env.NEXT_PUBLIC_FETCH_BASE_URL}/media/icons/${activeUser.icon_link}` : "https://placeholder.com/150"}`}
               width={50}
               height={50}
               alt="自分のユーザーアイコン"
-              className="h-fit rounded-full"
+              className="w-full h-full rounded-full object-cover"
             />
           </Link>
           <TextField
