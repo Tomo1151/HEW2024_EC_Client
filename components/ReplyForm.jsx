@@ -60,6 +60,10 @@ export default function ReplyForm({ postId, setRefresh }) {
     }
   };
 
+  if (!activeUser) {
+    return null;
+  }
+
   return (
     <Box
       component="section"
