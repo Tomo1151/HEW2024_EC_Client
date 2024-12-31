@@ -5,6 +5,7 @@ import Product from "@/components/Product";
 import { useUserContext } from "@/context/UserContext";
 import CircularLoading from "./loading/CircularLoading";
 import InfiniteScroll from "react-infinite-scroller";
+import PullToRefresh from "react-simple-pull-to-refresh";
 
 const Timeline = ({ name, isActive, setRefresh, refresh }) => {
   const { refreshToken } = useUserContext();
@@ -116,6 +117,10 @@ const Timeline = ({ name, isActive, setRefresh, refresh }) => {
         fullWidth
         loading={isPostFetching}
         sx={{
+          display: {
+            xs: "none",
+            sm: "inline-flex",
+          },
           boxShadow: "none",
           ":hover": { boxShadow: "none" },
           borderRadius: 0,
@@ -123,65 +128,71 @@ const Timeline = ({ name, isActive, setRefresh, refresh }) => {
       >
         Load More
       </LoadingButton>
-      <InfiniteScroll
-        pageStart={0}
-        loadMore={fetchOldPosts}
-        hasMore={!isPostFetching && hasMore}
-        loader={<CircularLoading key={0} />}
-        threshold={50}
+      <PullToRefresh
+        onRefresh={fetchPosts}
+        refreshingContent={<CircularLoading />}
+        pullingContent={<CircularLoading />}
       >
-        {posts
-          .toReversed()
-          .map((post) =>
-            post.product ? (
-              <Product
-                key={post.id}
-                type={post.type}
-                repost_user={post?.repost_user || undefined}
-                postId={post?.postId || post.id}
-                username={post.author.username}
-                nickname={post.author.nickname}
-                icon_link={post.author.icon_link}
-                content={post.content}
-                productId={post.product.id}
-                price={post.product.price}
-                name={post.product.name}
-                images={post.images}
-                tags={post.tags?.map((tagObj) => tagObj.tag.name)}
-                comment_count={post.comment_count}
-                ref_count={post.ref_count}
-                like_count={post.like_count}
-                created_at={post.created_at}
-                is_reposted={post.reposts.length > 0}
-                is_liked={post.likes.length > 0}
-                is_clickable={true}
-                setPosts={setPosts}
-                setRefresh={setRefresh}
-              />
-            ) : (
-              <Post
-                key={post.id}
-                type={post.type}
-                repost_user={post?.repost_user || undefined}
-                postId={post?.postId || post.id}
-                username={post.author.username}
-                nickname={post.author.nickname}
-                icon_link={post.author.icon_link}
-                content={post.content}
-                images={post.images}
-                tags={post.tags?.map((tagObj) => tagObj.tag.name)}
-                comment_count={post.comment_count}
-                ref_count={post.ref_count}
-                like_count={post.like_count}
-                created_at={post.created_at}
-                is_reposted={post.reposts.length > 0}
-                is_liked={post.likes.length > 0}
-                setPosts={setPosts}
-                setRefresh={setRefresh}
-              />
-            )
-          )}
-      </InfiniteScroll>
+        <InfiniteScroll
+          pageStart={0}
+          loadMore={fetchOldPosts}
+          hasMore={!isPostFetching && hasMore}
+          loader={<CircularLoading key={0} />}
+          threshold={50}
+        >
+          {posts
+            .toReversed()
+            .map((post) =>
+              post.product ? (
+                <Product
+                  key={post.id}
+                  type={post.type}
+                  repost_user={post?.repost_user || undefined}
+                  postId={post?.postId || post.id}
+                  username={post.author.username}
+                  nickname={post.author.nickname}
+                  icon_link={post.author.icon_link}
+                  content={post.content}
+                  productId={post.product.id}
+                  price={post.product.price}
+                  name={post.product.name}
+                  images={post.images}
+                  tags={post.tags?.map((tagObj) => tagObj.tag.name)}
+                  comment_count={post.comment_count}
+                  ref_count={post.ref_count}
+                  like_count={post.like_count}
+                  created_at={post.created_at}
+                  is_reposted={post.reposts.length > 0}
+                  is_liked={post.likes.length > 0}
+                  is_clickable={true}
+                  setPosts={setPosts}
+                  setRefresh={setRefresh}
+                />
+              ) : (
+                <Post
+                  key={post.id}
+                  type={post.type}
+                  repost_user={post?.repost_user || undefined}
+                  postId={post?.postId || post.id}
+                  username={post.author.username}
+                  nickname={post.author.nickname}
+                  icon_link={post.author.icon_link}
+                  content={post.content}
+                  images={post.images}
+                  tags={post.tags?.map((tagObj) => tagObj.tag.name)}
+                  comment_count={post.comment_count}
+                  ref_count={post.ref_count}
+                  like_count={post.like_count}
+                  created_at={post.created_at}
+                  is_reposted={post.reposts.length > 0}
+                  is_liked={post.likes.length > 0}
+                  setPosts={setPosts}
+                  setRefresh={setRefresh}
+                />
+              )
+            )}
+        </InfiniteScroll>
+      </PullToRefresh>
     </>
   );
 };
