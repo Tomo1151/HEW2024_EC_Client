@@ -172,10 +172,10 @@ const Trending = () => {
             }}
             className="hover:brightness-[.95] duration-200"
           >
-            <Link
+            <a
               href={`/search?q=${tag.name}&src=tag_click`}
               className="absolute inset-0 w-full h-full z-10"
-            ></Link>
+            ></a>
             <h4>{tag.name}</h4>
             <span className="text-[.5em] opacity-75">
               {(tag._count.tagged_posts || 0).toLocaleString("ja-JP")}件の投稿
