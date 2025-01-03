@@ -83,7 +83,7 @@ export default function ReplyForm({ postId, setRefresh }) {
             scroll={false}
           >
             <Image
-              src={`${activeUser ? `${process.env.NEXT_PUBLIC_FETCH_BASE_URL}/media/icons/${activeUser.icon_link}` : "https://placeholder.com/150"}`}
+              src={`${activeUser?.icon_link ? `${process.env.NEXT_PUBLIC_FETCH_BASE_URL}/media/icons/${activeUser.icon_link}` : "https://placeholder.com/150"}`}
               width={50}
               height={50}
               alt="自分のユーザーアイコン"
