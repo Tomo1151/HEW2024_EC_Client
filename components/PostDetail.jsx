@@ -137,8 +137,13 @@ const PostDetail = ({
   }, [ref_count]);
 
   return (
-    <section
-      style={{ borderBottom: "1px solid #f0f0f0" }}
+    <Box
+      id={postId}
+      component="section"
+      style={{
+        borderBottom: "1px solid #f0f0f0",
+        scrollPaddingTop: "var(--height-header)",
+      }}
       className="relative bg-white mb-[2px] px-4 sm:px-8 pt-8 pb-4"
     >
       {type === "repost" && (
@@ -262,7 +267,7 @@ const PostDetail = ({
           />
         </div>
       </div>
-    </section>
+    </Box>
   );
 };
 

@@ -174,7 +174,7 @@ const ProductDetail = ({
   }, [ref_count]);
 
   return (
-    <section>
+    <Box id={postId} component="section">
       <div
         className="relative bg-white mb-[2px] px-4 sm:px-8 pt-8 pb-4"
         style={{ borderBottom: "1px solid #f0f0f0" }}
@@ -320,7 +320,7 @@ const ProductDetail = ({
 
         <p className="text-left py-4 ">{content}</p>
       </Box>
-    </section>
+    </Box>
   );
 };
 

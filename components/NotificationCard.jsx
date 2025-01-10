@@ -37,7 +37,7 @@ const NotificationCard = ({ type, sender, is_read, rel_post }) => {
         href={
           rel_post
             ? rel_post.replied_ref
-              ? `/posts/${rel_post.replied_ref.id}`
+              ? `/posts/${rel_post.replied_ref.id}#${rel_post.id}`
               : `/posts/${rel_post.id}`
             : `/users/${sender.username}`
         }
@@ -53,7 +53,7 @@ const NotificationCard = ({ type, sender, is_read, rel_post }) => {
             <Box sx={{ width: "40px", height: "40px", mr: 2 }}>
               <Link
                 href={`/users/${sender.username}`}
-                scroll={false}
+                // scroll={false}
                 className="relative hover:brightness-[.75] rounded-full duration-200 z-10"
               >
                 <Image
