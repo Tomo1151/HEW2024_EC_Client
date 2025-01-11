@@ -3,6 +3,7 @@ import { Box, Button } from "@mui/material";
 import { useUserContext } from "@/context/UserContext";
 import FollowButton from "./FollowButton";
 import Image from "next/image";
+import { urlForImage } from "@/utils/utils";
 
 const FollowUserColumn = ({
   username,
@@ -34,11 +35,7 @@ const FollowUserColumn = ({
       />
       <Box sx={{ width: "50px", height: "50px", flexShrink: 0 }}>
         <Image
-          src={
-            icon_link
-              ? `${process.env.NEXT_PUBLIC_FETCH_BASE_URL}/media/icons/${icon_link}`
-              : "https://placeholder.com/150"
-          }
+          src={urlForImage(icon_link)}
           width={50}
           height={50}
           alt="ユーザーアイコン"

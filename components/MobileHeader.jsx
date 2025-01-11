@@ -15,6 +15,7 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import SearchBar from "./SearchBar";
+import { urlForImage } from "@/utils/utils";
 
 const MobileHeader = ({ listItems, activeUser, isHeaderTransparent }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -159,14 +160,10 @@ const MobileHeader = ({ listItems, activeUser, isHeaderTransparent }) => {
               <CloseRoundedIcon sx={{ fontSize: "1.5em", m: 1 }} />
             </IconButton>
             <Image
-              src={
-                activeUser?.icon_link
-                  ? `${process.env.NEXT_PUBLIC_FETCH_BASE_URL}/media/icons/${activeUser?.icon_link}`
-                  : "https://placeholder.com/150"
-              }
+              src={urlForImage(activeUser?.icon_link)}
               width={50}
               height={50}
-              alt="アプリロゴ"
+              alt="ユーザーアイコン"
               className="w-[40px] h-[40px] rounded-full object-cover"
               style={{
                 width: "40px",

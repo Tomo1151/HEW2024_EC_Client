@@ -8,6 +8,7 @@ import PersonAddAltRoundedIcon from "@mui/icons-material/PersonAddAltRounded";
 import ChatBubbleRoundedIcon from "@mui/icons-material/ChatBubbleRounded";
 import ShoppingCartRoundedIcon from "@mui/icons-material/ShoppingCartRounded";
 import AssignmentRoundedIcon from "@mui/icons-material/AssignmentRounded";
+import { urlForImage } from "@/utils/utils";
 
 const NotificationCard = ({ type, sender, is_read, rel_post }) => {
   const icons = [
@@ -57,11 +58,7 @@ const NotificationCard = ({ type, sender, is_read, rel_post }) => {
                 className="relative hover:brightness-[.75] rounded-full duration-200 z-10"
               >
                 <Image
-                  src={
-                    sender.icon_link
-                      ? `${process.env.NEXT_PUBLIC_FETCH_BASE_URL}/media/icons/${sender.icon_link}`
-                      : "https://placeholder.com/150"
-                  }
+                  src={urlForImage(sender.icon_link)}
                   width="40"
                   height="40"
                   className="rounded-full object-cover w-full h-full"
