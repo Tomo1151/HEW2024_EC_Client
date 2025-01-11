@@ -16,6 +16,10 @@ const SearchBar = () => {
       method="get"
       onSubmit={onSubmit}
       sx={{
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        flexGrow: 1,
         borderRadius: ".5em",
       }}
     >
@@ -33,7 +37,7 @@ const SearchBar = () => {
         name="q"
         fullWidth
         placeholder="ポストやユーザーを検索"
-        sx={{ backgroundColor: "white" }}
+        sx={{ backgroundColor: "white", borderRadius: 1 }}
       />
     </Box>
   );

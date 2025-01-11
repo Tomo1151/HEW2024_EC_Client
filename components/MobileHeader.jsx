@@ -5,6 +5,8 @@ import Link from "next/link";
 
 import { Box, SwipeableDrawer, IconButton } from "@mui/material";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
+import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
+import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 
 import List from "@mui/material/List";
 import Divider from "@mui/material/Divider";
@@ -12,15 +14,17 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
+import SearchBar from "./SearchBar";
 
 const MobileHeader = ({ listItems, activeUser, isHeaderTransparent }) => {
-  const [open, setOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const iOS =
     typeof navigator !== "undefined" &&
     /iPad|iPhone|iPod/.test(navigator.userAgent);
 
-  const toggleDrawer = (newOpen) => {
-    setOpen(newOpen);
+  const toggleDrawer = (state) => {
+    setIsMenuOpen(state);
   };
 
   return (
@@ -40,7 +44,7 @@ const MobileHeader = ({ listItems, activeUser, isHeaderTransparent }) => {
           whiteSpace: "nowrap",
           position: "fixed",
           top: 0,
-          justifyContent: "flex-start",
+          justifyContent: "space-between",
           alignItems: "center",
           borderRight: "1px solid #f0f0f0",
           p: "0",
@@ -50,49 +54,87 @@ const MobileHeader = ({ listItems, activeUser, isHeaderTransparent }) => {
           opacity: { xs: isHeaderTransparent ? 0.5 : 1, sm: 1 },
         }}
       >
-        <Box sx={{ width: "fit-content" }}>
-          <IconButton
-            sx={{ width: "fit-content" }}
-            onClick={() => toggleDrawer(true)}
-          >
-            <MenuRoundedIcon
-              sx={{ color: "white", fontSize: "1.5em", ml: 1 }}
-            />
-          </IconButton>
-        </Box>
-        {/* <Box sx={{}}>
-          <IconButton sx={{ width: "fit-content" }}>
-            <MenuRoundedIcon />
-          </IconButton>
-        </Box> */}
         <Box
           sx={{
             position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            width: "fit-content",
-            height: "fit-content",
+            inset: 0,
+            display: "flex",
+            width: "100%",
+            pl: 4,
+            pr: 1,
+            opacity: isSearchOpen ? 1 : 0,
+            zIndex: isSearchOpen ? 1 : -1,
+            transition: "opacity 0.2s",
           }}
         >
-          <Link href="/" scroll={true}>
-            <Image
-              src="/appri_logo_s.svg"
-              width={700}
-              height={573}
-              alt="アプリロゴ"
-              style={{
-                width: "50px",
-                height: "auto",
-              }}
-              priority
-            />
-          </Link>
+          <SearchBar />
+          <IconButton
+            sx={{ width: "fit-content" }}
+            onClick={() => setIsSearchOpen(false)}
+          >
+            <CloseRoundedIcon sx={{ color: "white", m: 1 }} />
+          </IconButton>
         </Box>
-        {/* <p className="text-white text-lg font-bold">ここがヘッダー</p> */}
+        <Box
+          sx={{
+            position: "relative",
+            display: "flex",
+            width: "100%",
+            justifyContent: "space-between",
+            alignItems: "center",
+            height: "100%",
+            opacity: isSearchOpen ? 0 : 1,
+            zIndex: isSearchOpen ? -1 : 1,
+            transition: "opacity 0.2s",
+          }}
+        >
+          <Box sx={{ width: "fit-content" }}>
+            <IconButton
+              sx={{ width: "fit-content" }}
+              onClick={() => toggleDrawer(true)}
+            >
+              <MenuRoundedIcon
+                sx={{ color: "white", fontSize: "1.5em", m: 1 }}
+              />
+            </IconButton>
+          </Box>
+          <Box sx={{ width: "fit-content" }}>
+            <IconButton sx={{ width: "fit-content" }}>
+              <SearchRoundedIcon
+                onClick={() => setIsSearchOpen(true)}
+                sx={{ color: "white", fontSize: "1.5em", mx: 1, mt: 0.5 }}
+              />
+            </IconButton>
+          </Box>
+          <Box
+            sx={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              width: "fit-content",
+              height: "fit-content",
+            }}
+          >
+            <Link href="/" scroll={true}>
+              <Image
+                src="/appri_logo_s.svg"
+                width={700}
+                height={573}
+                alt="アプリロゴ"
+                style={{
+                  width: "50px",
+                  height: "auto",
+                }}
+                priority
+              />
+            </Link>
+          </Box>
+        </Box>
       </Box>
+
       <SwipeableDrawer
-        open={open}
+        open={isMenuOpen}
         onClose={() => toggleDrawer(false)}
         disableBackdropTransition={!iOS}
         disableDiscovery={iOS}
@@ -112,9 +154,9 @@ const MobileHeader = ({ listItems, activeUser, isHeaderTransparent }) => {
           >
             <IconButton
               sx={{ width: "fit-content" }}
-              onClick={() => toggleDrawer(true)}
+              onClick={() => toggleDrawer(false)}
             >
-              <MenuRoundedIcon sx={{ fontSize: "1.5em", ml: 1 }} />
+              <CloseRoundedIcon sx={{ fontSize: "1.5em", m: 1 }} />
             </IconButton>
             <Image
               src={
