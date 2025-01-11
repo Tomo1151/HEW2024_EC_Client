@@ -286,11 +286,6 @@ function ChartComponent({}) {
       },
     },
     plugins: {
-      beforeInit: function (chart, options) {
-        chart.legend.afterFit = function () {
-          this.height += 120;
-        };
-      },
       legend: {
         position: "top", // 凡例の位置
         labels: {
@@ -306,7 +301,7 @@ function ChartComponent({}) {
       x: {
         title: {
           display: true,
-          text: "Date (日付)",
+          text: "日付",
         },
       },
       y: {
