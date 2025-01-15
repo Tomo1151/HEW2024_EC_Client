@@ -31,6 +31,7 @@ const MobileHeader = ({ listItems, activeUser, isHeaderTransparent }) => {
     <>
       <div></div>
       <Box
+        id="mobile_header"
         component="header"
         sx={{
           display: {

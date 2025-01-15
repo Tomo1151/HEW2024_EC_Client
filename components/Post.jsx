@@ -148,6 +148,7 @@ const Post = ({
 
   return (
     <Box
+      id={type === "reply" ? postId : null}
       component="section"
       sx={{ borderBottom: "1px solid #f0f0f0" }}
       className={`relative bg-white mb-[2px] p-4 sm:p-8 ${is_clickable ? "hover:brightness-[.95] duration-200" : ""}`}

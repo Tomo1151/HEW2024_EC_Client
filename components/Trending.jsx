@@ -48,7 +48,6 @@ const Trending = () => {
         }
       );
       const resJson = await response.json();
-      console.log(resJson);
 
       if (resJson.success) {
         setTrendTags(resJson.data.tags);
@@ -223,16 +222,6 @@ const Trending = () => {
           </Box>
         ))}
       </Box>
-
-      {/* <Box
-        sx={{
-          width: "100%",
-          border: "1px solid #cdcdcd",
-          borderRadius: ".25em",
-        }}
-      >
-        トレン
-      </Box> */}
     </>
   );
 };
