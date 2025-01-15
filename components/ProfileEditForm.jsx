@@ -8,6 +8,7 @@ import Modal from "@/components/Modal";
 
 import { useUserContext } from "@/context/UserContext";
 import IconUploader from "./IconUploader";
+import { urlForImage } from "@/utils/utils";
 
 const ProfileEditForm = ({ userData }) => {
   const router = useRouter();
@@ -76,11 +77,7 @@ const ProfileEditForm = ({ userData }) => {
             <IconUploader
               width={100}
               height={100}
-              src_img={
-                userData.icon_link
-                  ? `${process.env.NEXT_PUBLIC_FETCH_BASE_URL}/media/icons/${userData.icon_link}`
-                  : "https://placeholder.com/150"
-              }
+              src_img={urlForImage(userData.icon_link)}
             />
           </Box>
           <TextField

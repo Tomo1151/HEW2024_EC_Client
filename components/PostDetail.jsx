@@ -16,6 +16,7 @@ import { fetchHeaders } from "@/config/fetchConfig";
 import { useUserContext } from "../context/UserContext";
 import { useNotifications } from "@toolpad/core/useNotifications";
 import PostTags from "./PostTags";
+import { urlForImage } from "@/utils/utils";
 
 const PostDetail = ({
   type,
@@ -219,11 +220,7 @@ const PostDetail = ({
               }}
             >
               <Image
-                src={
-                  icon_link
-                    ? `${process.env.NEXT_PUBLIC_FETCH_BASE_URL}/media/icons/${icon_link}`
-                    : "https://placeholder.com/150"
-                }
+                src={urlForImage(icon_link)}
                 width="50"
                 height="50"
                 className="rounded-full object-cover w-full h-full"
