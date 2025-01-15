@@ -14,7 +14,7 @@ const nextConfig = {
       },
       {
         protocol: "https",
-        hostname: "placeholder.com",
+        hostname: "placehold.jp",
       },
     ],
   },

@@ -14,15 +14,15 @@ const PostTags = ({ tags }) => {
         }}
       >
         {tags.map((tag, index) => (
-          <Link
+          <a
             key={index}
             href={`/search?q=${tag}&src=tag_click`}
             className="relative hover:underline z-20 font-bold"
-            scroll={false}
+            // scroll={false}
           >
             {/* <Chip label={`#${tag}`} color="primary" sx={{}} /> */}
             <p className="mr-2 text-blue-500">#{tag}</p>
-          </Link>
+          </a>
         ))}
       </Box>
     )

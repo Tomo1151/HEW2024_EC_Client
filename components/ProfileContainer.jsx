@@ -18,6 +18,7 @@ import { useUserContext } from "@/context/UserContext";
 import CircularLoading from "./loading/CircularLoading";
 
 import { fetchHeaders } from "@/config/fetchConfig";
+import { urlForImage } from "@/utils/utils";
 
 const ProfileContainer = ({ username }) => {
   const fallback_img = "https://placeholder.com/150";
@@ -133,18 +134,14 @@ const ProfileContainer = ({ username }) => {
         >
           {user.icon_link && (
             <Link
-              href={`${process.env.NEXT_PUBLIC_FETCH_BASE_URL}/media/icons/${user.icon_link}`}
+              href={urlForImage(user.icon_link)}
               scroll={false}
               target="_blank"
               className="absolute inset-0 w-full h-full"
             ></Link>
           )}
           <Image
-            src={
-              user.icon_link
-                ? `${process.env.NEXT_PUBLIC_FETCH_BASE_URL}/media/icons/${user.icon_link}`
-                : fallback_img
-            }
+            src={urlForImage(user.icon_link)}
             width={125}
             height={125}
             alt="ユーザーアイコン"

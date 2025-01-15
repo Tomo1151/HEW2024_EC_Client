@@ -17,6 +17,7 @@ import { useUserContext } from "../context/UserContext";
 import { useNotifications } from "@toolpad/core/useNotifications";
 
 import PostTags from "./PostTags";
+import { urlForImage } from "@/utils/utils";
 
 const Post = ({
   type,
@@ -148,6 +149,7 @@ const Post = ({
 
   return (
     <Box
+      id={type === "reply" ? postId : null}
       component="section"
       sx={{ borderBottom: "1px solid #f0f0f0" }}
       className={`relative bg-white mb-[2px] p-4 sm:p-8 ${is_clickable ? "hover:brightness-[.95] duration-200" : ""}`}
@@ -231,11 +233,7 @@ const Post = ({
               }}
             >
               <Image
-                src={
-                  icon_link
-                    ? `${process.env.NEXT_PUBLIC_FETCH_BASE_URL}/media/icons/${icon_link}`
-                    : "https://placeholder.com/150"
-                }
+                src={urlForImage(icon_link)}
                 width="50"
                 height="50"
                 className="rounded-full object-cover w-full h-full"

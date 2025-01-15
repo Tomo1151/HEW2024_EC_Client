@@ -48,7 +48,6 @@ const Trending = () => {
         }
       );
       const resJson = await response.json();
-      console.log(resJson);
 
       if (resJson.success) {
         setTrendTags(resJson.data.tags);
@@ -172,10 +171,10 @@ const Trending = () => {
             }}
             className="hover:brightness-[.95] duration-200"
           >
-            <Link
+            <a
               href={`/search?q=${tag.name}&src=tag_click`}
               className="absolute inset-0 w-full h-full z-10"
-            ></Link>
+            ></a>
             <h4>{tag.name}</h4>
             <span className="text-[.5em] opacity-75">
               {(tag._count.tagged_posts || 0).toLocaleString("ja-JP")}件の投稿
@@ -223,16 +222,6 @@ const Trending = () => {
           </Box>
         ))}
       </Box>
-
-      {/* <Box
-        sx={{
-          width: "100%",
-          border: "1px solid #cdcdcd",
-          borderRadius: ".25em",
-        }}
-      >
-        トレン
-      </Box> */}
     </>
   );
 };
