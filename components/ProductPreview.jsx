@@ -12,6 +12,8 @@ import PostImageContainer from "./PostImageContainer";
 
 import PostTags from "./PostTags";
 
+import { urlForImage } from "@/utils/utils";
+
 const ProductPreview = ({
   username,
   nickname,
@@ -61,11 +63,7 @@ const ProductPreview = ({
             >
               <Box sx={{ width: "3.125em", height: "3.125em", mr: "1em" }}>
                 <Image
-                  src={
-                    icon_link
-                      ? `${process.env.NEXT_PUBLIC_FETCH_BASE_URL}/media/icons/${icon_link}`
-                      : "https://placeholder.com/150"
-                  }
+                  src={urlForImage(icon_link)}
                   width="50"
                   height="50"
                   className="rounded-full object-cover w-full h-full"

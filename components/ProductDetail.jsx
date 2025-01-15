@@ -16,6 +16,7 @@ import { fetchHeaders } from "@/config/fetchConfig";
 import { useUserContext } from "../context/UserContext";
 import { useNotifications } from "@toolpad/core/useNotifications";
 import PostTags from "./PostTags";
+import { urlForImage } from "@/utils/utils";
 
 const ProductDetail = ({
   type,
@@ -174,7 +175,7 @@ const ProductDetail = ({
   }, [ref_count]);
 
   return (
-    <section>
+    <Box id={postId} component="section">
       <div
         className="relative bg-white mb-[2px] px-4 sm:px-8 pt-8 pb-4"
         style={{ borderBottom: "1px solid #f0f0f0" }}
@@ -252,11 +253,7 @@ const ProductDetail = ({
                 }}
               >
                 <Image
-                  src={
-                    icon_link
-                      ? `${process.env.NEXT_PUBLIC_FETCH_BASE_URL}/media/icons/${icon_link}`
-                      : "https://placeholder.com/150"
-                  }
+                  src={urlForImage(icon_link)}
                   width="50"
                   height="50"
                   className="rounded-full object-cover w-full h-full"
@@ -329,7 +326,7 @@ const ProductDetail = ({
         )}
         <p className="text-left py-4 ">{content}</p>
       </Box>
-    </section>
+    </Box>
   );
 };
 

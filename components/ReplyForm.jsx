@@ -7,6 +7,7 @@ import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 
 import { useUserContext } from "@/context/UserContext";
 import { useNotifications } from "@toolpad/core/useNotifications";
+import { urlForImage } from "@/utils/utils";
 
 export default function ReplyForm({ postId, setRefresh }) {
   const { activeUser, refreshToken } = useUserContext();
@@ -83,7 +84,7 @@ export default function ReplyForm({ postId, setRefresh }) {
             scroll={false}
           >
             <Image
-              src={`${activeUser?.icon_link ? `${process.env.NEXT_PUBLIC_FETCH_BASE_URL}/media/icons/${activeUser.icon_link}` : "https://placeholder.com/150"}`}
+              src={urlForImage(activeUser?.icon_link)}
               width={50}
               height={50}
               alt="自分のユーザーアイコン"

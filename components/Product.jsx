@@ -17,6 +17,7 @@ import { fetchHeaders } from "@/config/fetchConfig";
 import { useUserContext } from "../context/UserContext";
 import { useNotifications } from "@toolpad/core/useNotifications";
 import PostTags from "./PostTags";
+import { urlForImage } from "@/utils/utils";
 
 const Product = ({
   type,
@@ -181,34 +182,6 @@ const Product = ({
             onClose={handleClose}
             transformOrigin={{ horizontal: "right", vertical: "top" }}
             anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
-            // slotProps={{
-            //   paper: {
-            //     elevation: 0,
-            //     sx: {
-            //       overflow: "visible",
-            //       filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
-            //       mt: 1.5,
-            //       "& .MuiAvatar-root": {
-            //         width: "2em",
-            //         height: "2em",
-            //         ml: "-0.5em",
-            //         mr: "0.5em",
-            //       },
-            //       "&::before": {
-            //         content: '""',
-            //         display: "block",
-            //         position: "absolute",
-            //         top: 0,
-            //         right: 14,
-            //         width: 10,
-            //         height: 10,
-            //         bgcolor: "background.paper",
-            //         transform: "translateY(-50%) rotate(45deg)",
-            //         zIndex: 0,
-            //       },
-            //     },
-            //   },
-            // }}
           >
             {Object.keys(options).map((key) => (
               <MenuItem
@@ -236,11 +209,7 @@ const Product = ({
                 }}
               >
                 <Image
-                  src={
-                    icon_link
-                      ? `${process.env.NEXT_PUBLIC_FETCH_BASE_URL}/media/icons/${icon_link}`
-                      : "https://placeholder.com/150"
-                  }
+                  src={urlForImage(icon_link)}
                   width="50"
                   height="50"
                   className="rounded-full object-cover w-full h-full"

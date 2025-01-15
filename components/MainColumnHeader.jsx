@@ -26,6 +26,7 @@ const MainColumnHeader = ({ children }) => {
 
   return (
     <Box
+      id="main_column_header"
       component="div"
       sx={{
         display: "flex",

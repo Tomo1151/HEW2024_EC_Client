@@ -9,6 +9,7 @@ import CancelIcon from "@mui/icons-material/Cancel";
 import { useUserContext } from "@/context/UserContext";
 import { useNotifications } from "@toolpad/core/useNotifications";
 import FormImagePreview from "./FormImagePreview";
+import { urlForImage } from "@/utils/utils";
 
 export default function PostForm({ setRefresh }) {
   const ref = useRef(null);
@@ -117,11 +118,7 @@ export default function PostForm({ setRefresh }) {
           >
             <Box sx={{ width: "50px", height: "50px" }}>
               <Image
-                src={
-                  activeUser?.icon_link
-                    ? `${process.env.NEXT_PUBLIC_FETCH_BASE_URL}/media/icons/${activeUser?.icon_link}`
-                    : "https://placeholder.com/150"
-                }
+                src={urlForImage(activeUser?.icon_link)}
                 width={50}
                 height={50}
                 alt="自分のユーザーアイコン"

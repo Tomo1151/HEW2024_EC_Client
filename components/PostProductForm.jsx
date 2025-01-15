@@ -22,6 +22,7 @@ import ProductDetailPreview from "./ProductDetailPreview";
 import ProductPreview from "./ProductPreview";
 import FormImagePreview from "./FormImagePreview";
 import FormThumbnailImage from "./FormThumbnailImage";
+import { urlForImage } from "@/utils/utils";
 
 export default function PostProductForm({ setRefresh }) {
   const router = useRouter();
@@ -164,11 +165,7 @@ export default function PostProductForm({ setRefresh }) {
               className="inline-block h-fit hover:brightness-[.75] my-4 duration-200 shrink-0"
             >
               <Image
-                src={
-                  activeUser?.icon_link
-                    ? `${process.env.NEXT_PUBLIC_FETCH_BASE_URL}/media/icons/${activeUser?.icon_link}`
-                    : "https://placeholder.com/150"
-                }
+                src={urlForImage(activeUser?.icon_link)}
                 width={50}
                 height={50}
                 alt="自分のユーザーアイコン"

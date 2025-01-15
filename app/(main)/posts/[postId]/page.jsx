@@ -28,15 +28,12 @@ const PostDetailPage = (route) => {
       );
       const resJson = await response.json();
 
-      console.log(`FETCH: ${name}`);
-
       if (response.status === 404) {
         setPostData(null);
       }
 
       if (resJson.success) {
         const posts = resJson.data;
-        console.dir(posts);
         setPostData(posts);
       }
     } catch (err) {
@@ -49,6 +46,20 @@ const PostDetailPage = (route) => {
       await fetchPostById(route.params.postId);
     })();
   }, [refresh]);
+
+  useEffect(() => {
+    const id =
+      window && window.location.hash
+        ? window && window.location.hash.substring(1)
+        : window.innerWidth < 650
+          ? "mobile_header"
+          : "root";
+    if (!id) return;
+
+    const element = document.getElementById(id);
+    if (!element) return;
+    element?.scrollIntoView({ behavior: "smooth" });
+  }, [postData]);
 
   if (postData === null) {
     return <div>Post not found</div>;
