@@ -21,36 +21,35 @@ const Timeline = ({ name, isActive, setRefresh, refresh }) => {
     try {
       if (!isActive) return;
       setIsPostFetching(true);
-      refreshToken().then(async () => {
-        const query = {
-          tagName: name,
-          after: posts.length > 0 ? posts[posts.length - 1].id : "",
-        };
+      await refreshToken();
+      const query = {
+        tagName: name,
+        after: posts.length > 0 ? posts[posts.length - 1].id : "",
+      };
 
-        const params = new URLSearchParams(query);
-        const response = await fetch(
-          process.env.NEXT_PUBLIC_FETCH_BASE_URL + "/posts?" + params,
-          {
-            credentials: "include",
-          }
-        );
-        const resJson = await response.json();
-        setIsPostFetching(false);
-
-        console.log(`FETCH: ${name}`);
-
-        if (resJson.success) {
-          const newPosts = resJson.data;
-
-          setIsLoading(false);
-          setIsPostFetching(false);
-          setHasMore(resJson.length > 0);
-          if (resJson.length > 0) {
-            setPosts(posts.concat(newPosts));
-            // setRefresh((prev) => !prev);
-          }
+      const params = new URLSearchParams(query);
+      const response = await fetch(
+        process.env.NEXT_PUBLIC_FETCH_BASE_URL + "/posts?" + params,
+        {
+          credentials: "include",
         }
-      });
+      );
+      const resJson = await response.json();
+      setIsPostFetching(false);
+
+      console.log(`FETCH: ${name}`);
+
+      if (resJson.success) {
+        const newPosts = resJson.data;
+
+        setIsLoading(false);
+        setIsPostFetching(false);
+        setHasMore(resJson.length > 0);
+        if (resJson.length > 0) {
+          setPosts(posts.concat(newPosts));
+          // setRefresh((prev) => !prev);
+        }
+      }
     } catch (err) {
       console.log(err);
     }
@@ -61,38 +60,37 @@ const Timeline = ({ name, isActive, setRefresh, refresh }) => {
       if (!isActive) return;
 
       setIsPostFetching(true);
-      refreshToken().then(async () => {
-        const query = {
-          tagName: name,
-          before: posts.length > 0 ? posts[0].id : "",
-        };
-        const params = new URLSearchParams(query);
-        const response = await fetch(
-          process.env.NEXT_PUBLIC_FETCH_BASE_URL + "/posts?" + params,
-          {
-            credentials: "include",
-          }
-        );
-        const resJson = await response.json();
-        setIsPostFetching(false);
-
-        console.log(`FETCH: ${name}`);
-
-        if (resJson.success) {
-          const oldPosts = resJson.data;
-
-          setIsLoading(false);
-          setIsPostFetching(false);
-          setHasMore(resJson.length === 10);
-
-          if (resJson.length > 0) {
-            setPosts(oldPosts.concat(posts));
-            if (setRefresh) setRefresh((prev) => !prev);
-          }
-        } else {
-          setHasMore(false);
+      await refreshToken();
+      const query = {
+        tagName: name,
+        before: posts.length > 0 ? posts[0].id : "",
+      };
+      const params = new URLSearchParams(query);
+      const response = await fetch(
+        process.env.NEXT_PUBLIC_FETCH_BASE_URL + "/posts?" + params,
+        {
+          credentials: "include",
         }
-      });
+      );
+      const resJson = await response.json();
+      setIsPostFetching(false);
+
+      console.log(`FETCH: ${name}`);
+
+      if (resJson.success) {
+        const oldPosts = resJson.data;
+
+        setIsLoading(false);
+        setIsPostFetching(false);
+        setHasMore(resJson.length === 10);
+
+        if (resJson.length > 0) {
+          setPosts(oldPosts.concat(posts));
+          if (setRefresh) setRefresh((prev) => !prev);
+        }
+      } else {
+        setHasMore(false);
+      }
     } catch (err) {
       console.log(err);
     }

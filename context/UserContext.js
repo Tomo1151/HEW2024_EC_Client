@@ -24,76 +24,81 @@ export const UserProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState(null);
 
   useEffect(() => {
-    refreshToken();
-    fetchUser();
-    fetchUserCart();
+    (async () => {
+      // await refreshToken();
+      await fetchUser();
+      await fetchUserCart();
+    })();
   }, []);
 
-  const clearUserCart = () => {
-    refreshToken().then(async () => {
-      const response = await fetch(
-        process.env.NEXT_PUBLIC_FETCH_BASE_URL + "/carts/items/clear",
-        {
-          method: "DELETE",
-          headers: fetchHeaders,
-          credentials: "include",
-        }
-      );
-
-      const resJson = await response.json();
-
-      if (!resJson.success) {
-        return {
-          success: false,
-          message: "You are not logged in",
-        };
+  const clearUserCart = async () => {
+    // refreshToken().then(async () => {
+    await refreshToken();
+    const response = await fetch(
+      process.env.NEXT_PUBLIC_FETCH_BASE_URL + "/carts/items/clear",
+      {
+        method: "DELETE",
+        headers: fetchHeaders,
+        credentials: "include",
       }
+    );
 
-      setCartItems([]);
+    const resJson = await response.json();
 
+    if (!resJson.success) {
       return {
-        success: true,
-        message: "Cart cleared",
+        success: false,
+        message: "You are not logged in",
       };
-    });
+    }
+
+    setCartItems([]);
+
+    return {
+      success: true,
+      message: "Cart cleared",
+    };
+    // });
   };
 
   const fetchUserCart = async () => {
-    refreshToken()
-      .then(async () => {
-        const response = await fetch(
-          process.env.NEXT_PUBLIC_FETCH_BASE_URL + "/carts/items",
-          {
-            method: "GET",
-            headers: fetchHeaders,
-            credentials: "include",
-          }
-        );
+    // refreshToken()
+    // .then(async () => {
+    await refreshToken();
+    const response = await fetch(
+      process.env.NEXT_PUBLIC_FETCH_BASE_URL + "/carts/items",
+      {
+        method: "GET",
+        headers: fetchHeaders,
+        credentials: "include",
+      }
+    );
 
-        const resJson = await response.json();
+    const resJson = await response.json();
 
-        if (!resJson.success) {
-          return {
-            success: false,
-            message: "You are not logged in",
-          };
-        }
+    if (!resJson.success) {
+      return {
+        success: false,
+        message: "You are not logged in",
+      };
+    }
 
-        setCartItems(resJson.data);
+    setCartItems(resJson.data);
 
-        return {
-          success: true,
-          message: "Cart fetched",
-          data: resJson.data,
-        };
-      })
-      .catch((err) => {
-        console.log("Error fetching cart items");
-        console.error(err);
-      });
+    return {
+      success: true,
+      message: "Cart fetched",
+      data: resJson.data,
+    };
+    // })
+    // .catch((err) => {
+    // console.log("Error fetching cart items");
+    // console.error(err);
+    // });
   };
 
   const fetchUser = async () => {
+    await refreshToken();
     const response = await fetch(
       process.env.NEXT_PUBLIC_FETCH_BASE_URL + "/auth/refresh",
       {

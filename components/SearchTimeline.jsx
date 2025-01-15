@@ -49,7 +49,7 @@ const SearchTimeline = ({ type, isSrcTagClick, q, isActive }) => {
 
           setIsLoading(false);
           setIsPostFetching(false);
-          setHasMore(resJson.length > 0);
+          setHasMore(resJson.length === 10);
           if (resJson.length > 0) {
             setEntries(entries.concat(newEntries));
           }

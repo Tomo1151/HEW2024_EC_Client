@@ -1,8 +1,7 @@
 "use server";
 
 import { cookies } from "next/headers";
-import UserProfile from "@/app/users/[username]/page";
-import ProfileEditForm from "@/components/ProfileEditForm";
+import UserProfile from "@/app/(main)/users/[username]/page";
 
 import { fetchHeaders } from "@/config/fetchConfig";
 import FollowerList from "@/components/FollowerList";

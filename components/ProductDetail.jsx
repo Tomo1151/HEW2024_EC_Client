@@ -306,15 +306,24 @@ const ProductDetail = ({
         })}
       </p>
       <Box sx={{ textAlign: "center", px: "2.5rem" }}>
-        <Button
-          variant="contained"
-          sx={{ px: 8 }}
-          onClick={addToCart}
-          disabled={isCarted}
-        >
-          カートに追加
-        </Button>
-
+        {activeUser ? (
+          <Button
+            variant="contained"
+            sx={{ px: 8 }}
+            onClick={addToCart}
+            disabled={isCarted}
+          >
+            カートに追加
+          </Button>
+        ) : (
+          <Button
+            variant="contained"
+            sx={{ px: 8 }}
+            onClick={() => router.push("/login")}
+          >
+            カートに追加
+          </Button>
+        )}
         <p className="text-left py-4 ">{content}</p>
       </Box>
     </Box>
