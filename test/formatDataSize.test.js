@@ -1,5 +1,5 @@
 import { test, expect, describe } from "bun:test";
-import { formatDataSize } from "@utils/formatDataSize.js";
+import { formatDataSize } from "@/utils/formatDataSize.js";
 
 describe("formatDataSize", () => {
   test("formatDataSize", async () => {
