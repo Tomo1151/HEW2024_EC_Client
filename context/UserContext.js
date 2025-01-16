@@ -198,8 +198,8 @@ export const UserProvider = ({ children }) => {
   };
 
   const refreshToken = async () => {
-    if (activeUser === null || activeUser === false)
-      return { success: false, message: "You are not logged in" };
+    // if (activeUser === null || activeUser === false)
+    // return { success: false, message: "You are not logged in" };
 
     const response = await fetch(
       process.env.NEXT_PUBLIC_FETCH_BASE_URL + "/auth/refresh",
