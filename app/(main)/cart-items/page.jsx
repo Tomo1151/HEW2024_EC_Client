@@ -15,6 +15,7 @@ import PostCard from "@/components/PostCard";
 import { fetchHeaders } from "@/config/fetchConfig";
 import CircularLoading from "@/components/loading/CircularLoading";
 import Link from "next/link";
+import { urlForImage } from "@/utils/utils";
 
 const CartPage = () => {
   const fallback_image = "https://placeholder.com/150";
@@ -96,19 +97,12 @@ const CartPage = () => {
               <PostCard
                 key={item.id}
                 created_at={item.created_at}
-                image_link={
-                  `${process.env.NEXT_PUBLIC_FETCH_BASE_URL}/media/images/${item.product.thumbnail_link}` ||
-                  fallback_image
-                }
+                image_link={urlForImage(item.product.thumbnail_link, "images")}
                 sellerName={
                   item.product.post.author.nickname ||
                   item.product.post.author.username
                 }
-                sellerIcon={
-                  item.product.post.author.icon_link
-                    ? `${process.env.NEXT_PUBLIC_FETCH_BASE_URL}/media/icons/${item.product.post.author.icon_link}`
-                    : fallback_image
-                }
+                sellerIcon={urlForImage(item.product.post.author.icon_link)}
                 productName={item.product.name}
               >
                 <h2 className="text-[1.15em] ml-1">{item.product.name}</h2>

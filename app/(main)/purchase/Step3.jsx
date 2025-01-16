@@ -8,6 +8,7 @@ import CircularLoading from "@/components/loading/CircularLoading";
 import { Box, Button, Rating } from "@mui/material";
 import FollowButton from "@/components/FollowButton";
 import { StarRateRounded } from "@mui/icons-material";
+import { urlForImage } from "@/utils/utils";
 
 const Step3 = () => {
   const { cartItems, fetchUserCart, clearUserCart } = useUserContext();
@@ -125,12 +126,6 @@ const Step3 = () => {
     );
   });
 
-  console.log("Step0");
-  console.log(items);
-  console.log(items.current);
-  console.log(uniqUsers);
-  console.log(isRated);
-
   return (
     <>
       <Box
@@ -180,11 +175,7 @@ const Step3 = () => {
                   className="hover:brightness-[.85] rounded-full duration-200"
                 >
                   <Image
-                    src={
-                      user.icon_link
-                        ? `${process.env.NEXT_PUBLIC_FETCH_BASE_URL}/media/icons/${user.icon_link}`
-                        : "https://placeholder.com/150"
-                    }
+                    src={urlForImage(user.icon_link)}
                     width={50}
                     height={50}
                     priority
