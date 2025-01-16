@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { FormControl, Select, MenuItem } from "@mui/material";
 
 import {
   Box,
@@ -25,9 +26,10 @@ import CircularLoading from "@/components/loading/CircularLoading";
 ChartJS.register(...registerables);
 
 const page = () => {
-  const { activeUser } = useUserContext();
+  const { activeUser, refreshToken } = useUserContext();
   const [stats, setStats] = useState(null);
   const [sales, setSales] = useState(null);
+  const [periodType, setPeriodType] = useState("daily");
 
   const fetchStats = async () => {
     try {
@@ -39,10 +41,10 @@ const page = () => {
         }
       );
       const resJson = await response.json();
-      console.log(resJson);
+      // console.log(resJson);
 
       if (resJson.success) {
-        console.log(aggregateWholeCounts(resJson.data.impressions));
+        // console.log(aggregateWholeCounts(resJson.data.impressions));
         setStats(resJson.data);
       }
     } catch (error) {
@@ -60,22 +62,31 @@ const page = () => {
         }
       );
       const resJson = await response.json();
-      console.log(Object.values(resJson.data));
+      // console.log(Object.values(resJson.data));
       setSales(resJson.data);
     } catch (error) {
       console.error(error);
     }
   };
 
-  const aggregateWholeCounts = (impressionCounts) => {
-    if (!impressionCounts) return 0;
-    return Object.values(impressionCounts).reduce((acc, impressionCount) => {
-      return acc + impressionCount;
-    }, 0);
+  const aggregateWholeCounts = (data) => {
+    if (!data) return 0;
+    if (periodType === "total") {
+      const dailySum = Object.values(data.daily || {}).reduce(
+        (acc, count) => acc + count,
+        0
+      );
+      return (data.total || 0) + dailySum;
+    }
+    return Object.values(data.daily || {}).reduce(
+      (acc, count) => acc + count,
+      0
+    );
   };
 
   useEffect(() => {
     (async function () {
+      await refreshToken();
       await fetchStats();
       await fetchSales();
     })();
@@ -104,26 +115,43 @@ const page = () => {
       <Box
         sx={{ display: "flex", columnGap: "1em", alignItems: "center", my: 2 }}
       >
-        <Link href={`/users/${activeUser?.username}`} className="block w-fit">
+        <Link href={`/users/${activeUser.username}`} className="block w-fit">
           <Image
-            src={urlForImage(activeUser?.icon_link)}
+            src={urlForImage(activeUser.icon_link)}
             width={150}
             height={150}
             alt="ユーザーアイコン"
             priority
-            className="rounded-full object-cover w-[100px] h-[100px]"
+            className="rounded-full object-cover w-[50px] h-[50px] sm:w-[100px] sm:h-[100px]"
           />
         </Link>
-        <p className="text-center font-bold">{activeUser?.nickname}</p>
+        <p className="text-center font-bold">
+          {activeUser.nickname || activeUser.username}
+        </p>
       </Box>
       <p className="mb-4">
-        {activeUser?.nickname}
-        さんのダッシュボードです。ここでは、売上金額、インプレッション数、フォロワー数の推移を確認できます。
+        {activeUser.nickname || activeUser.username}
+        さんのダッシュボードです。ここでは、
+        {periodType === "daily" ? "過去30日間" : "全期間"}
+        の売上金額 / インプレッション数 / フォロワー数の推移を確認できます。
       </p>
       <p className="mb-4 text-sm text-gray-500">
-        ※インプレッション数は、ユーザーがコンテンツを見た回数です。正確な数値を反映していない場合があります。
+        ※インプレッション数は、ユーザーがコンテンツを見た回数です。
+        {periodType === "daily" ? "過去30日間" : "全期間"}の
+        {periodType === "daily" ? "日次データ" : "累計値"}を表示しています。
+        正確な数値を反映していない場合があります。
       </p>
-      <p className="text-xl text-center mt-8">過去30日間の統計</p>
+      <Box sx={{ display: "flex", justifyContent: "flex-end", mb: 2 }}>
+        <FormControl size="small" sx={{ minWidth: 200 }}>
+          <Select
+            value={periodType}
+            onChange={(e) => setPeriodType(e.target.value)}
+          >
+            <MenuItem value="daily">過去30日間</MenuItem>
+            <MenuItem value="total">全期間</MenuItem>
+          </Select>
+        </FormControl>
+      </Box>
       <Box
         sx={{
           display: "flex",
@@ -162,7 +190,7 @@ const page = () => {
           </p>
         </Box>
       </Box>
-      <ChartComponent {...formatStats(stats)} />
+      <ChartComponent {...formatStats(stats, periodType)} />
 
       <TableContainer component={Box} sx={{ mt: 8, mb: 4 }}>
         <h2 className="text-xl text-center mb-2">売り上げの詳細</h2>
@@ -170,10 +198,13 @@ const page = () => {
           <TableHead>
             <TableRow>
               <TableCell
-                width="10%"
-                sx={{ backgroundColor: "transparent" }}
+                width="20%"
+                sx={{
+                  backgroundColor: "transparent",
+                  display: { xs: "none", sm: "table-cell" },
+                }}
               ></TableCell>
-              <TableCell width="50%" sx={{ backgroundColor: "transparent" }}>
+              <TableCell width="30%" sx={{ backgroundColor: "transparent" }}>
                 コンテンツ
               </TableCell>
               <TableCell
@@ -195,14 +226,24 @@ const page = () => {
           <TableBody>
             {sales &&
               Object.values(sales).map((sale) => (
-                <TableRow sx={{ height: "100px" }}>
-                  <TableCell sx={{ position: "relative", height: "100%" }}>
+                <TableRow key={sale[0].product.id} sx={{ height: "100px" }}>
+                  <TableCell
+                    align="center"
+                    sx={{
+                      position: "relative",
+                      height: "100%",
+                      display: { xs: "none", sm: "table-cell" },
+                    }}
+                  >
                     <Image
-                      src={urlForImage(sale[0].product.thumbnail_link)}
+                      src={urlForImage(
+                        sale[0].product.thumbnail_link,
+                        "images"
+                      )}
                       width={1920}
                       height={1080}
                       alt="コンテンツ画像"
-                      className="rounded-md object-cover w-[150px] h-[100px]"
+                      className="inline-block rounded-md object-cover w-[150px] h-[100px]"
                     />
                   </TableCell>
                   <TableCell sx={{ position: "relative", height: "100%" }}>
@@ -227,23 +268,63 @@ const page = () => {
   );
 };
 
-function formatStats(stats) {
-  // すべての日付キーを取得し、重複を削除してソート
-  const allDates = [
-    ...new Set([
-      ...Object.keys(stats.impressions || {}),
-      ...Object.keys(stats.followers || {}),
-      ...Object.keys(stats.sales || {}),
-    ]),
-  ].sort();
+function formatStats(stats, periodType) {
+  let dates;
+  let salesData;
+  let impressionsData;
+  let followersData;
 
-  // 各メトリクスの配列を作成
-  const dateLabels = allDates;
-  const sales = allDates.map((date) => stats.sales?.[date] || 0);
-  const impressions = allDates.map((date) => stats.impressions?.[date] || 0);
-  const followers = allDates.map((date) => stats.followers?.[date] || 0);
+  if (periodType === "total") {
+    // 全期間の場合、累計からの推移を計算
+    const allDates = [
+      ...new Set([
+        ...Object.keys(stats.impressions.daily || {}),
+        ...Object.keys(stats.followers.daily || {}),
+        ...Object.keys(stats.sales.daily || {}),
+      ]),
+    ].sort();
 
-  return { dateLabels, sales, impressions, followers };
+    // 累計値を初期値として設定
+    let totalSales = stats.sales.total || 0;
+    let totalImpressions = stats.impressions.total || 0;
+    let totalFollowers = stats.followers.total || 0;
+
+    // 日付ごとの累計を計算
+    dates = allDates;
+    salesData = [];
+    impressionsData = [];
+    followersData = [];
+
+    dates.forEach((date) => {
+      totalSales += stats.sales.daily[date] || 0;
+      totalImpressions += stats.impressions.daily[date] || 0;
+      totalFollowers += stats.followers.daily[date] || 0;
+
+      salesData.push(totalSales);
+      impressionsData.push(totalImpressions);
+      followersData.push(totalFollowers);
+    });
+  } else {
+    // 過去30日間の場合、日次データをそのまま使用
+    dates = [
+      ...new Set([
+        ...Object.keys(stats.impressions.daily || {}),
+        ...Object.keys(stats.followers.daily || {}),
+        ...Object.keys(stats.sales.daily || {}),
+      ]),
+    ].sort();
+
+    salesData = dates.map((date) => stats.sales.daily[date] || 0);
+    impressionsData = dates.map((date) => stats.impressions.daily[date] || 0);
+    followersData = dates.map((date) => stats.followers.daily[date] || 0);
+  }
+
+  return {
+    dateLabels: dates,
+    sales: salesData,
+    impressions: impressionsData,
+    followers: followersData,
+  };
 }
 
 function ChartComponent({ dateLabels, sales, impressions, followers }) {
@@ -319,7 +400,7 @@ function ChartComponent({ dateLabels, sales, impressions, followers }) {
       y: {
         title: {
           display: true,
-          text: "売上金額",
+          text: "売上金額（累計）",
           font: {
             family: "monospace",
           },
@@ -329,14 +410,14 @@ function ChartComponent({ dateLabels, sales, impressions, followers }) {
       y1: {
         title: {
           display: true,
-          text: "インプレッション数・フォロワー数",
+          text: "インプレッション数・フォロワー数（累計）",
           font: {
             family: "monospace",
           },
         },
         position: "right",
         grid: {
-          drawOnChartArea: false, // y軸1のグリッドを重ねない
+          drawOnChartArea: false,
         },
       },
     },
