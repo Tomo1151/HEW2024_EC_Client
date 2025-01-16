@@ -255,10 +255,11 @@ function ChartComponent({ dateLabels, sales, impressions, followers }) {
         label: "売上金額",
         data: sales,
         backgroundColor: "rgba(66, 165, 245, .2)",
-        borderWidth: 2, // 枠線の太さ
+        borderColor: "rgba(66, 165, 245, 1)",
+        borderWidth: 1, // 枠線の太さ
         borderRadius: 5, // 棒グラフの角丸
         maxBarThickness: 50, // 棒グラフの最大幅
-        order: 3, // グラフのz-index
+        order: 1, // グラフのz-index
         yAxisID: "y", // 左側のY軸
       },
       {
@@ -278,7 +279,7 @@ function ChartComponent({ dateLabels, sales, impressions, followers }) {
         borderColor: "rgba(239, 83, 80, 1)", // 赤色
         backgroundColor: "rgba(239, 83, 80, .2)",
         pointStyle: "triangle", // ポイントのスタイル
-        order: 1, // グラフのz-index
+        order: 3, // グラフのz-index
         yAxisID: "y1", // 右側のY軸
       },
     ],
