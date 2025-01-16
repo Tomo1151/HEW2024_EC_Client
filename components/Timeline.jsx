@@ -137,6 +137,7 @@ const Timeline = ({ name, isActive, setRefresh, refresh }) => {
           hasMore={!isPostFetching && hasMore}
           loader={<CircularLoading key={0} />}
           threshold={50}
+          initialLoad={false}
         >
           {posts
             .toReversed()
