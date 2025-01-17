@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { Box, Skeleton } from "@mui/material";
 import Link from "next/link";
+import { countFormat } from "@/utils/countFormat";
 
 const Trending = () => {
   const [isDataFetching, setIsDataFetching] = useState(false);
@@ -176,8 +177,8 @@ const Trending = () => {
               className="absolute inset-0 w-full h-full z-10"
             ></a>
             <h4>{tag.name}</h4>
-            <span className="text-[.5em] opacity-75">
-              {(tag._count.tagged_posts || 0).toLocaleString("ja-JP")}件の投稿
+            <span className="text-[.75em] opacity-75">
+              {countFormat(tag._count.tagged_posts || 0)}件の投稿
             </span>
           </Box>
         ))}
@@ -211,13 +212,13 @@ const Trending = () => {
               href={`/posts/${product.post.id}`}
               className="absolute inset-0 w-full h-full z-10"
             ></Link>
-            <p className="text-[.5em] indent-0 opacity-75">
+            <p className="text-[.75em] indent-0 opacity-75">
               {product.post.author.nickname || product.post.author.username}
               さんの商品
             </p>
             <h4>{product.name}</h4>
-            <span className="text-[.5em] opacity-75">
-              {(product._count.Purchase || 0).toLocaleString("ja-JP")}件の購入
+            <span className="text-[.75em] opacity-75">
+              {countFormat(product._count.Purchase || 0)}件の購入
             </span>
           </Box>
         ))}
