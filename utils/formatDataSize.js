@@ -5,7 +5,7 @@ export function formatDataSize(size, limit = 5) {
   }
 
   // バイトの単位定義
-  const units = ["B", "KB", "MB", "GB"];
+  const units = ["B", "kB", "MB", "GB"];
   let unitIndex = 0;
 
   // サイズが1,000以上の場合、適切な単位を見つける
@@ -20,6 +20,6 @@ export function formatDataSize(size, limit = 5) {
   }
 
   // 小数点以下1桁にフォーマット
-  const formattedSize = size.toFixed(1) + units[unitIndex];
+  const formattedSize = size.toFixed(1) + " " + units[unitIndex];
   return formattedSize;
 }
