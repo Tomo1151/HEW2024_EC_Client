@@ -21,8 +21,6 @@ const Step3 = () => {
 
   const items = useRef([]);
 
-  console.log(cartItems);
-
   const ratingProduct = async (productId, rating) => {
     try {
       const response = await fetch(
@@ -40,13 +38,11 @@ const Step3 = () => {
       const resJson = await response.json();
 
       if (resJson.success) {
-        console.log("評価完了");
         setIsRated({
           ...isRated,
           [productId]: true,
         });
       }
-      console.log(resJson);
     } catch (error) {
       setError(error);
       console.error(error);
@@ -71,9 +67,7 @@ const Step3 = () => {
       );
 
       const resJson = await response.json();
-      console.log(resJson);
       if (resJson.success) {
-        console.log("購入完了");
         items.current = cartItems;
         clearUserCart();
         setIsCompleted(true);
@@ -234,7 +228,7 @@ const Step3 = () => {
                 >
                   <Box sx={{ width: 100, height: 100, flexShrink: 0 }}>
                     <Image
-                      src={`${process.env.NEXT_PUBLIC_FETCH_BASE_URL}/media/images/${item.product.thumbnail_link}`}
+                      src={urlForImage(item.product.thumbnail_link, "images")}
                       width={100}
                       height={100}
                       priority

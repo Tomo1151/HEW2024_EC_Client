@@ -9,7 +9,7 @@ import CircularLoading from "@/components/loading/CircularLoading";
 import { Box } from "@mui/material";
 
 import { useUserContext } from "@/context/UserContext";
-
+import { urlForImage } from "@/utils/utils";
 import { fetchHeaders } from "@/config/fetchConfig";
 
 export default function PurchaseHistoryPage() {
@@ -54,10 +54,8 @@ export default function PurchaseHistoryPage() {
       );
 
       const resJson = await response.json();
-      // console.log(resJson);
 
       if (resJson.success) {
-        // console.log(aggrigatePurchaseHistory(resJson.data));
         setPurchaseHistory(purchaseHistory.concat(resJson.data));
         setHasMore(resJson.data.length === 10);
       }
@@ -69,7 +67,6 @@ export default function PurchaseHistoryPage() {
     fetchPurchaseHistory();
   }, []);
 
-  // console.log(purchaseHistory);
   if (purchaseHistory.length === 0 && !isPostFetching && !hasMore) {
     return (
       <>
@@ -105,18 +102,16 @@ export default function PurchaseHistoryPage() {
                     <PostCard
                       key={purchase.id}
                       // created_at={purchase.created_at} //購入日付
-                      image_link={
-                        purchase.product.thumbnail_link
-                          ? `${process.env.NEXT_PUBLIC_FETCH_BASE_URL}/media/images/${purchase.product.thumbnail_link}`
-                          : "https://placeholder.com/150"
-                      } //画像イメージ
+                      image_link={urlForImage(
+                        purchase.product.thumbnail_link,
+                        "images"
+                      )} //画像イメージ
                       post_link={`/posts/${purchase.product.post.id}`}
                       sellerName={purchase.product.post.author.username}
-                      sellerIcon={
-                        purchase.product.post.author.icon_link
-                          ? `${process.env.NEXT_PUBLIC_FETCH_BASE_URL}/media/icons/${purchase.product.post.author.icon_link}`
-                          : "https://placeholder.com/150"
-                      } //売り手のアイコン
+                      sellerIcon={urlForImage(
+                        purchase.product.post.author.icon_link,
+                        "icons"
+                      )} //売り手のアイコン
                       productName={purchase.product.name} //売り物の名前
                       content={purchase.product.post.content} //売り物の詳細
                     >
@@ -139,47 +134,7 @@ export default function PurchaseHistoryPage() {
             );
           }
         )}
-        {/* {purchaseHistory?.map((purchase) => (
-          <PostCard
-            key={purchase.id}
-            created_at={purchase.created_at} //購入日付
-            image_link={
-              purchase.product.thumbnail_link
-                ? `${process.env.NEXT_PUBLIC_FETCH_BASE_URL}/media/images/${purchase.product.thumbnail_link}`
-                : "https://placeholder.com/150"
-            } //画像イメージ
-            sellerName={purchase.product.post.author.username}
-            sellerIcon={
-              purchase.product.post.author.icon_link
-                ? `${process.env.NEXT_PUBLIC_FETCH_BASE_URL}/media/icons/${purchase.product.post.author.icon_link}`
-                : "https://placeholder.com/150"
-            } //売り手のアイコン
-            productName={purchase.product.name} //売り物の名前
-            content={purchase.product.post.content} //売り物の詳細
-          >
-            <h2 className="text-[1.15em] ml-1">{purchase.product.name}</h2>
-            <p className="ml-1 mb-2 text-red-500 font-bold">
-              {purchase.product.price.toLocaleString("ja-JP", {
-                style: "currency",
-                currency: "JPY",
-              })}
-            </p>
-            <p className="text-[1em] ml-1">{purchase.product.post.content}</p>
-          </PostCard>
-        ))} */}
       </InfiniteScroll>
-
-      {/* {tentative.map((purchase, index) => (
-        <PostCard
-          key={index}
-          created_at={purchase.created_at} //購入日付
-          image_link={purchase.product.post.images[0].image_link} //画像イメージ
-          sellerName={purchase.product.post.author.username} //売り手の名前
-          sellerIcon={purchase.product.post.author.icon_link} //売り手のアイコン
-          productName={purchase.product.name} //売り物の名前
-          content={purchase.product.post.content} //売り物の詳細
-        ></PostCard>
-      ))} */}
     </section>
   );
 }

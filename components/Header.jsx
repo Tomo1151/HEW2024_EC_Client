@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 
 import { Badge, Box, useMediaQuery } from "@mui/material";
-
+import { AddRounded } from "@mui/icons-material";
 import {
   HomeRounded,
   AccountCircleRounded,
@@ -12,6 +12,7 @@ import {
   ShoppingCartRounded,
   CheckBoxRounded,
   LogoutRounded,
+  CreateRounded,
 } from "@mui/icons-material";
 
 import { useUserContext } from "@/context/UserContext";
@@ -80,7 +81,7 @@ const Header = () => {
       href: "/notifications",
       type: "link",
       icon: (
-        <Badge badgeContent={unreadCount} color="primary">
+        <Badge badgeContent={unreadCount} color="primary" max={99}>
           <NotificationsRounded sx={navigationIconStyle} />
         </Badge>
       ),
@@ -91,7 +92,7 @@ const Header = () => {
       href: "/cart-items",
       type: "link",
       icon: (
-        <Badge badgeContent={cartItems?.length} color="primary">
+        <Badge badgeContent={cartItems?.length} color="primary" max={99}>
           <ShoppingCartRounded sx={navigationIconStyle} />
         </Badge>
       ),
@@ -110,6 +111,13 @@ const Header = () => {
       type: "func",
       onclick: logout,
       icon: <LogoutRounded sx={navigationIconStyle} />,
+    },
+    {
+      name: "投稿する",
+      href: "/post",
+      type: "link",
+      icon: <CreateRounded sx={{ ...navigationIconStyle, color: "white" }} />,
+      loginRequired: true,
     },
   ];
 

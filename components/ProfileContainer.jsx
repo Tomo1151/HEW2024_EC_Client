@@ -19,6 +19,7 @@ import CircularLoading from "./loading/CircularLoading";
 
 import { fetchHeaders } from "@/config/fetchConfig";
 import { urlForImage } from "@/utils/utils";
+import { countFormat } from "@/utils/countFormat";
 
 const ProfileContainer = ({ username }) => {
   const fallback_img = "https://placeholder.com/150";
@@ -156,12 +157,12 @@ const ProfileContainer = ({ username }) => {
           <div className="flex justify-evenly py-2">
             <p className=" text-[1em] hover:underline">
               <Link href={`${user.username}/follows`} scroll={false}>
-                フォロー: {user._count.followees}
+                フォロー: {countFormat(user._count.followees)}
               </Link>
             </p>
             <p className="text-[1em] hover:underline">
               <Link href={`${user.username}/followers`} scroll={false}>
-                フォロワー: {user._count.followers}
+                フォロワー: {countFormat(user._count.followers)}
               </Link>
             </p>
             <p>

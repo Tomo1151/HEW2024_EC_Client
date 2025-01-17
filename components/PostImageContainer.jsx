@@ -1,3 +1,4 @@
+import { urlForImage } from "@/utils/utils";
 import { Box } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
@@ -59,10 +60,7 @@ const PostImageContainer = memo(({ images, is_preview }) => {
   if (is_preview) {
     images = images.map((image) => URL.createObjectURL(image));
   } else {
-    images = images.map(
-      (image) =>
-        `${process.env.NEXT_PUBLIC_FETCH_BASE_URL}/media/images/${image.image_link}`
-    );
+    images = images.map((image) => urlForImage(image.image_link, "images"));
   }
 
   useEffect(() => {
