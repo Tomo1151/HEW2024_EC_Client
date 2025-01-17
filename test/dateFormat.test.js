@@ -1,5 +1,5 @@
 import { test, expect, describe } from "bun:test";
-import { dateFormat } from "@utils/dateFormat.js";
+import { dateFormat } from "@/utils/dateFormat.js";
 
 // 日付フォーマット
 /**
@@ -97,7 +97,7 @@ describe("dateFormat", () => {
 
   test("dateFormat", async () => {
     const targetDate = new Date();
-    targetDate.setMonth(targetDate.getMonth() - 1);
+    targetDate.setFullYear(targetDate.getFullYear() - 1);
     const expected = `${targetDate.getFullYear()}年${targetDate.getMonth() + 1}月${targetDate.getDate()}日`;
 
     const result = dateFormat(targetDate);
