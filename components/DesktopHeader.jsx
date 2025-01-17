@@ -93,23 +93,38 @@ const DesktopHeader = ({ listItems, activeUser, isHeaderTransparent }) => {
           return (
             <ListItem key={index} className="w-fit lg:w-full">
               <ListItemButton
-                href={
-                  item.loginRequired && activeUser === false ? null : item.href
-                }
                 onClick={item.type === "func" ? item.onclick : null}
                 sx={{
                   position: "relative",
                   justifyContent: "center",
                   minWidth: "fit-content",
                   width: { sm: "fit-content", md: "100%" },
-                  // pr: isIconView ? "0" : "2em",
+                  borderRadius: ".365rem",
+                  ...(item.href === "/post" && {
+                    backgroundColor: "primary.main",
+                    color: "white",
+                    textAlign: "center",
+                    transition: "opacity 0.2s",
+                    pr: "2em",
+                    mt: "3em",
+                    "&:hover": {
+                      backgroundColor: "primary.main",
+                      color: "white",
+                      opacity: 0.8,
+                    },
+                  }),
                 }}
               >
-                {item.loginRequired && activeUser === false && (
+                {item.loginRequired && activeUser === false ? (
                   <Link
                     href="/login"
                     className="absolute inset-0 w-full h-full"
                     scroll={false}
+                  ></Link>
+                ) : (
+                  <Link
+                    href={item.href}
+                    className="absolute inset-0 w-full h-full"
                   ></Link>
                 )}
                 <ListItemIcon sx={{ width: "fit-content" }} className="mx-0">

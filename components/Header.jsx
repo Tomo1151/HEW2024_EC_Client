@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 
 import { Badge, Box, useMediaQuery } from "@mui/material";
-
+import { AddRounded } from "@mui/icons-material";
 import {
   HomeRounded,
   AccountCircleRounded,
@@ -12,6 +12,7 @@ import {
   ShoppingCartRounded,
   CheckBoxRounded,
   LogoutRounded,
+  CreateRounded,
 } from "@mui/icons-material";
 
 import { useUserContext } from "@/context/UserContext";
@@ -110,6 +111,13 @@ const Header = () => {
       type: "func",
       onclick: logout,
       icon: <LogoutRounded sx={navigationIconStyle} />,
+    },
+    {
+      name: "投稿する",
+      href: "/post",
+      type: "link",
+      icon: <CreateRounded sx={{ ...navigationIconStyle, color: "white" }} />,
+      loginRequired: true,
     },
   ];
 

@@ -206,7 +206,20 @@ const MobileHeader = ({ listItems, activeUser, isHeaderTransparent }) => {
                       justifyContent: "center",
                       minWidth: "fit-content",
                       width: "100%",
-                      // pr: isIconView ? "0" : "2em",
+                      borderRadius: ".365rem",
+                      ...(item.href === "/post" && {
+                        backgroundColor: "primary.main",
+                        color: "white",
+                        transition: "opacity 0.2s",
+                        textAlign: "center",
+                        pr: "2em",
+                        mt: "1em",
+                        "&:hover": {
+                          backgroundColor: "primary.main",
+                          color: "white",
+                          opacity: 0.8,
+                        },
+                      }),
                     }}
                   >
                     {item.loginRequired && activeUser === false && (
