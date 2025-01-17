@@ -10,15 +10,15 @@ export function dateFormat(targetDate, currentDate = new Date()) {
   hourCheckDate.setHours(currentDate.getHours() - 1);
   dayCheckDate.setDate(currentDate.getDate() - 1);
   yearCheckDate.setFullYear(currentDate.getFullYear() - 1);
-  
+
   if (Number.isNaN(targetDate.getTime())) {
     return "不明";
   } else if (targetDate > minutesCheckDate) {
     return "たった今";
   } else if (targetDate > hourCheckDate) {
-    return `${diff / (60 * 1000)}分前`;
+    return `${Math.trunc(diff / (60 * 1000))}分前`;
   } else if (targetDate > dayCheckDate) {
-    return `${diff / (60 * 60 * 1000)}時間前`;
+    return `${Math.trunc(diff / (60 * 60 * 1000))}時間前`;
   } else if (targetDate > yearCheckDate) {
     return `${targetDate.getMonth() + 1}月${targetDate.getDate()}日`;
   } else {
