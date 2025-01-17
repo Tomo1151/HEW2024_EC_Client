@@ -3,6 +3,7 @@ import Image from "next/image";
 import { useUserContext } from "@/context/UserContext";
 import CircularLoading from "@/components/loading/CircularLoading";
 import { Box } from "@mui/material";
+import { urlForImage } from "@/utils/utils";
 
 const Step0 = () => {
   const { cartItems } = useUserContext();
@@ -27,7 +28,7 @@ const Step0 = () => {
         >
           <Box sx={{ width: "100px", height: "100px", flexShrink: 0 }}>
             <Image
-              src={`${process.env.NEXT_PUBLIC_FETCH_BASE_URL}/media/images/${item.product.thumbnail_link}`}
+              src={urlForImage(item.product.thumbnail_link, "images")}
               width={100}
               height={100}
               priority

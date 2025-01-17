@@ -60,10 +60,7 @@ const PostImageContainer = memo(({ images, is_preview }) => {
   if (is_preview) {
     images = images.map((image) => URL.createObjectURL(image));
   } else {
-    images = images.map(
-      (image) => urlForImage(image.image_link, "images")
-      // `/api/images?url=${process.env.NEXT_PUBLIC_FETCH_BASE_URL}/media/images/${image.image_link}`
-    );
+    images = images.map((image) => urlForImage(image.image_link, "images"));
   }
 
   useEffect(() => {
