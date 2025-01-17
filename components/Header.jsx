@@ -80,7 +80,7 @@ const Header = () => {
       href: "/notifications",
       type: "link",
       icon: (
-        <Badge badgeContent={unreadCount} color="primary">
+        <Badge badgeContent={unreadCount} color="primary" max={99}>
           <NotificationsRounded sx={navigationIconStyle} />
         </Badge>
       ),
@@ -91,7 +91,7 @@ const Header = () => {
       href: "/cart-items",
       type: "link",
       icon: (
-        <Badge badgeContent={cartItems?.length} color="primary">
+        <Badge badgeContent={cartItems?.length} color="primary" max={99}>
           <ShoppingCartRounded sx={navigationIconStyle} />
         </Badge>
       ),
