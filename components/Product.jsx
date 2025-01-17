@@ -18,7 +18,7 @@ import { useUserContext } from "../context/UserContext";
 import { useNotifications } from "@toolpad/core/useNotifications";
 import PostTags from "./PostTags";
 import { urlForImage } from "@/utils/utils";
-
+import { dateFormat } from "@/utils/dateFormat";
 const Product = ({
   type,
   repost_user,
@@ -228,7 +228,7 @@ const Product = ({
                 {nickname || username}
               </Link>
               <p className="select-none font-bold opacity-35">
-                {new Date(created_at).toLocaleString("ja-JP")}
+                {dateFormat(new Date(created_at))}
               </p>
             </div>
 

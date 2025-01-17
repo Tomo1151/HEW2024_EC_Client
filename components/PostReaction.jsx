@@ -11,6 +11,7 @@ import {
 import { useUserContext } from "@/context/UserContext";
 import { fetchHeaders } from "@/config/fetchConfig";
 import Link from "next/link";
+import { countFormat } from "@/utils/countFormat";
 
 const PostReaction = ({
   postId,
@@ -152,7 +153,7 @@ const PostReaction = ({
         display: "flex",
         pt: "1em",
         justifyContent: { xs: "space-between", sm: "flex-start" },
-        columnGap: { xs: 0, sm: "8em" },
+        // columnGap: { xs: 0, sm: "6em" },
         mr: { xs: 2, sm: 0 },
       }}
     >
@@ -162,6 +163,7 @@ const PostReaction = ({
             fontSize: "1.15em",
             userSelect: "none",
             transitionDuration: "0.15s",
+            flexBasis: "33%",
             zIndex: 20,
             "&:hover": {
               color: "#68b5ff",
@@ -173,17 +175,17 @@ const PostReaction = ({
           {is_preview ? (
             <>
               <ChatBubbleOutlineRounded
-                sx={{ fontSize: "1.25em", mr: ".5em" }}
+                sx={{ fontSize: "1.25em", mr: { xs: 0.25, sm: ".5em" } }}
               />
-              {comment_count || 0}
+              {countFormat(comment_count)}
             </>
           ) : (
             <Link href={`/posts/${postId}`} className="z-0" scroll={false}>
               <Box component="span" sx={{ display: "inline-block" }}>
                 <ChatBubbleOutlineRounded
-                  sx={{ fontSize: "1.25em", mr: ".5em" }}
+                  sx={{ fontSize: "1.25em", mr: { xs: 0.25, sm: ".5em" } }}
                 />
-                {comment_count || 0}
+                {countFormat(comment_count)}
               </Box>
             </Link>
           )}
@@ -197,6 +199,7 @@ const PostReaction = ({
               userSelect: "none",
               transitionDuration: "0.15s",
               zIndex: 20,
+              flexBasis: "33%",
               "&:hover": {
                 color: "#2dcb2d",
                 filter: "drop-shadow(0 0 0.5rem #2dcb2d)",
@@ -210,9 +213,13 @@ const PostReaction = ({
           onClick={handleReaction.bind(null, "repost")}
         >
           <RepeatRounded
-            sx={{ fontSize: "1.25em", mr: ".5em", mb: ".0875em" }}
+            sx={{
+              fontSize: "1.25em",
+              mr: { xs: 0.25, sm: ".5em" },
+              mb: { xs: ".0875em", sm: ".0875em" },
+            }}
           />
-          {ref_count || 0}
+          {countFormat(ref_count)}
         </Box>
       </Tooltip>
       <Tooltip title="いいね">
@@ -223,6 +230,7 @@ const PostReaction = ({
               userSelect: "none",
               transitionDuration: "0.15s",
               zIndex: 20,
+              flexBasis: "33%",
               "&:hover": {
                 color: "red",
                 filter: "drop-shadow(0 0 0.5rem red)",
@@ -235,14 +243,22 @@ const PostReaction = ({
         >
           {is_liked ? (
             <FavoriteRounded
-              sx={{ fontSize: "1.25em", mr: ".5em", mb: ".0875em" }}
+              sx={{
+                fontSize: "1.25em",
+                mr: { xs: 0.25, sm: ".5em" },
+                mb: { xs: ".0875em", sm: ".0875em" },
+              }}
             />
           ) : (
             <FavoriteBorderRounded
-              sx={{ fontSize: "1.25em", mr: ".5em", mb: ".0875" }}
+              sx={{
+                fontSize: "1.25em",
+                mr: { xs: 0.25, sm: ".5em" },
+                mb: { xs: ".0875em", sm: ".0875em" },
+              }}
             />
           )}
-          {like_count}
+          {countFormat(like_count)}
         </Box>
       </Tooltip>
     </Box>
