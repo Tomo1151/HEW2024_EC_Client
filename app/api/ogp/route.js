@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 
 export async function GET(req) {
+  // URLからogptagを取得
   const searchParams = req.nextUrl.searchParams;
   const res = await fetch(searchParams.get("url"));
   const text = await res.text();
@@ -8,6 +9,7 @@ export async function GET(req) {
     /<meta property="og:[\u0000-\u0019\u0021-\uFFFF]+" content="[\u0000-\u0019\u0021-\uFFFF]+"\/>/gu
   );
 
+  // dictに変換
   const ogpDict = {};
   ogpTag.forEach((tag) => {
     const index = tag.match(
