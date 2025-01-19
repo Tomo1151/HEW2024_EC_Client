@@ -1,6 +1,6 @@
 "use server";
 
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 import UserProfile from "@/app/(main)/users/[username]/page";
 import ProfileEditForm from "@/components/ProfileEditForm";
 
@@ -8,11 +8,16 @@ import { fetchHeaders } from "@/config/fetchConfig";
 
 const UserProfileEditPage = async ({ params }) => {
   const username = params.username;
+  const host = headers().get("host");
   const userResponse = await fetch(
     `${process.env.NEXT_PUBLIC_FETCH_BASE_URL}/users/${username}`,
     {
       cache: "no-store",
-      headers: { Cookie: cookies().toString(), ...fetchHeaders },
+      headers: {
+        Cookie: cookies().toString(),
+        Origin: `http://${host}`,
+        ...fetchHeaders,
+      },
     }
   );
 
