@@ -23,7 +23,7 @@ import ProductPreview from "./ProductPreview";
 import FormImagePreview from "./FormImagePreview";
 import FormThumbnailImage from "./FormThumbnailImage";
 import { urlForImage } from "@/utils/utils";
-
+import { formatDataSize } from "@/utils/formatDataSize";
 export default function PostProductForm({ setRefresh }) {
   const router = useRouter();
   const { activeUser, refreshToken } = useUserContext();
@@ -236,6 +236,12 @@ export default function PostProductForm({ setRefresh }) {
               </div>
             )}
 
+            <label
+              htmlFor="data"
+              className="inline-block text-sm text-[rgba(0,0,0,.6)] py-2"
+            >
+              商品データ
+            </label>
             <Button
               component="label"
               variant="contained"
@@ -246,7 +252,7 @@ export default function PostProductForm({ setRefresh }) {
                 backgroundColor: "#f0f0f0",
                 color: data ? "#555" : "#bbb",
                 borderRadius: ".375rem",
-                mt: 4,
+                // mt: 4,
                 width: "100%",
                 cursor: "pointer",
               }}
@@ -262,7 +268,9 @@ export default function PostProductForm({ setRefresh }) {
                   e.target.value = "";
                 }}
               />
-              {data ? `${data.name}: ${data.size}` : "ファイルをアップロード"}
+              {data
+                ? `${data.name}: ${formatDataSize(data.size)}`
+                : "ファイルをアップロード"}
               <AddCircleOutlineIcon
                 sx={{
                   position: "absolute",
@@ -308,7 +316,7 @@ export default function PostProductForm({ setRefresh }) {
               placeholder="商品の詳細"
               label="商品説明"
               onChange={(e) => setDescription(e.target.value)}
-              sx={{ display: "block" }}
+              sx={{ display: "block", mt: 2 }}
               value={description}
             />
 
