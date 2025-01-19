@@ -34,11 +34,7 @@ const ProductPreview = ({
             <MoreHorizRounded sx={{ fontSize: 30 }} />
           </IconButton>
           <div className="flex shrink-0">
-            <Link
-              href={`/users/${username}`}
-              scroll={false}
-              className="relative h-fit hover:brightness-[.75] rounded-full duration-200 z-10"
-            >
+            <div className="relative h-fit hover:brightness-[.75] rounded-full duration-200 select-none cursor-pointer">
               <Box sx={{ width: "50px", height: "50px", mr: 2 }}>
                 <Image
                   src={urlForImage(icon_link)}
@@ -48,15 +44,11 @@ const ProductPreview = ({
                   alt="ユーザーアイコン"
                 />
               </Box>
-            </Link>
+            </div>
             <div>
-              <Link
-                href={`/users/${username}`}
-                className="relative font-bold hover:underline tracking-[.075em] z-10"
-                scroll={false}
-              >
+              <p className="inline relative font-bold hover:underline tracking-[.075em] z-10 select-none cursor-pointer">
                 {nickname || username}
-              </Link>
+              </p>
               <p className="select-none font-bold opacity-35">{"たった今"}</p>
             </div>
           </div>

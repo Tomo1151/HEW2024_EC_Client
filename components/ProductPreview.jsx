@@ -56,11 +56,7 @@ const ProductPreview = ({
           </IconButton>
 
           <div className="shrink-0">
-            <Link
-              href={`/users/${username}`}
-              scroll={false}
-              className="relative h-fit hover:brightness-[.75] rounded-full duration-200 z-10"
-            >
+            <div className="relative h-fit hover:brightness-[.75] rounded-full duration-200 z-10 select-none cursor-pointer">
               <Box sx={{ width: "3.125em", height: "3.125em", mr: "1em" }}>
                 <Image
                   src={urlForImage(icon_link)}
@@ -70,17 +66,13 @@ const ProductPreview = ({
                   alt="ユーザーアイコン"
                 />
               </Box>
-            </Link>
+            </div>
           </div>
           <div className="px-[.5em] grow" style={{ fontSize: "1em" }}>
             <div>
-              <Link
-                href={`/users/${username}`}
-                className="relative font-bold hover:underline tracking-[.075em] z-10"
-                scroll={false}
-              >
+              <p className="inline relative font-bold hover:underline tracking-[.075em] z-10 select-none cursor-pointer">
                 {nickname || username}
-              </Link>
+              </p>
               <p className="select-none font-bold opacity-35">{"たった今"}</p>
             </div>
 
