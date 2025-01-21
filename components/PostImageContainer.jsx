@@ -83,6 +83,7 @@ const PostImageContainer = memo(({ images, is_preview }) => {
       sx={{
         display: "grid",
         width: "100%",
+        mb: "1em",
         gap: "2px",
         gridTemplateColumns: styles[images.length - 1].gridTemplateColumns,
         gridTemplateRows: styles[images.length - 1].gridTemplateRows,
