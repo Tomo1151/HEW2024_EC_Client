@@ -13,7 +13,7 @@ const PostImageContainer = memo(({ images, is_preview }) => {
       gridTemplateRows: "1fr",
       gridColumn: ["1"],
       gridRow: ["1"],
-      imageHeight: ["h-[18.75em]"],
+      imageHeight: ["aspect-video"],
       borderRadiuses: ["rounded-xl"],
     },
     {
@@ -21,15 +21,15 @@ const PostImageContainer = memo(({ images, is_preview }) => {
       gridTemplateRows: "1fr",
       gridColumn: ["1", "2"],
       gridRow: ["1"],
-      imageHeight: ["h-[18.75em]", "h-[18.75em]"],
+      imageHeight: ["aspect-video", "aspect-video"],
       borderRadiuses: ["rounded-l-xl", "rounded-r-xl"],
     },
     {
       gridTemplateColumns: "1fr 1fr",
-      gridTemplateRows: "2fr",
+      gridTemplateRows: "1fr 1fr",
       gridColumn: ["1", "2", "1"],
       gridRow: ["1", "1 / 3", "2"],
-      imageHeight: ["h-[9.375em]", "h-[18.75em]", "h-[9.375em]"],
+      imageHeight: ["aspect-video", "aspect-[16/18]", "aspect-video"],
       borderRadiuses: ["rounded-tl-xl", "rounded-r-xl", "rounded-bl-xl"],
     },
     {
@@ -37,7 +37,12 @@ const PostImageContainer = memo(({ images, is_preview }) => {
       gridTemplateRows: "1fr 1fr",
       gridColumn: ["1", "2", "1", "2"],
       gridRow: ["1", "1", "2", "2"],
-      imageHeight: ["h-[9.375em]", "h-[9.375em]", "h-[9.375em]", "h-[9.375em]"],
+      imageHeight: [
+        "aspect-video",
+        "aspect-video",
+        "aspect-video",
+        "aspect-video",
+      ],
       borderRadiuses: [
         "rounded-tl-xl",
         "rounded-tr-xl",
@@ -78,6 +83,7 @@ const PostImageContainer = memo(({ images, is_preview }) => {
       sx={{
         display: "grid",
         width: "100%",
+        mb: "1em",
         gap: "2px",
         gridTemplateColumns: styles[images.length - 1].gridTemplateColumns,
         gridTemplateRows: styles[images.length - 1].gridTemplateRows,
@@ -91,19 +97,23 @@ const PostImageContainer = memo(({ images, is_preview }) => {
           style={{
             gridColumn: styles[images.length - 1].gridColumn[index],
             gridRow: styles[images.length - 1].gridRow[index],
+            width: "100%",
+            height: "100%",
+            display: "block",
+            overflow: "hidden",
           }}
           className={`relative z-10 ${styles[images.length - 1].imageHeight[index]}`}
         >
-          {/* <div className="mt-4"> */}
-          <Image
-            src={image_link}
-            width={1920}
-            height={1080}
-            className={`hover:brightness-95 duration-200 w-full h-full object-cover ${styles[images.length - 1].borderRadiuses[index]}`}
-            alt="投稿画像"
-            priority
-          />
-          {/* </div> */}
+          <div style={{ width: "100%", height: "100%", position: "relative" }}>
+            <Image
+              src={image_link}
+              fill
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              className={`hover:brightness-95 duration-200 object-cover ${styles[images.length - 1].borderRadiuses[index]}`}
+              alt="投稿画像"
+              priority
+            />
+          </div>
         </Link>
       ))}
     </Box>

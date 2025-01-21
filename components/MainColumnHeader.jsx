@@ -25,33 +25,36 @@ const MainColumnHeader = ({ children }) => {
   }, []);
 
   return (
-    <Box
-      id="main_column_header"
-      component="div"
-      sx={{
-        display: "flex",
-        color: "#333",
-        position: "sticky",
-        top: {
-          xs: "var(--height-header)",
-          sm: 0,
-        },
-        backgroundColor: "white",
-        borderBottom: "2px solid #f0f0f0",
-        px: { xs: 1, sm: 2 },
-        py: 1,
-        transition: "opacity 0.25s",
-        opacity: { xs: isHeaderTransparent ? 0.5 : 1, sm: 1 },
-        zIndex: 39,
-      }}
-    >
-      <Box sx={{ mr: { xs: 1, sm: 2 } }}>
-        <ArrowBackButton />
+    <>
+      <div></div>
+      <Box
+        id="main_column_header"
+        component="div"
+        sx={{
+          display: "flex",
+          color: "#333",
+          position: "sticky",
+          top: {
+            xs: "var(--height-header)",
+            sm: 0,
+          },
+          backgroundColor: "white",
+          borderBottom: "2px solid #f0f0f0",
+          px: { xs: 1, sm: 2 },
+          py: 1,
+          transition: "opacity 0.25s",
+          opacity: { xs: isHeaderTransparent ? 0.5 : 1, sm: 1 },
+          zIndex: 39,
+        }}
+      >
+        <Box sx={{ mr: { xs: 1, sm: 2 } }}>
+          <ArrowBackButton />
+        </Box>
+        <Box sx={{ display: "flex", flexGrow: 1, alignItems: "center" }}>
+          {children}
+        </Box>
       </Box>
-      <Box sx={{ display: "flex", flexGrow: 1, alignItems: "center" }}>
-        {children}
-      </Box>
-    </Box>
+    </>
   );
 };
 
