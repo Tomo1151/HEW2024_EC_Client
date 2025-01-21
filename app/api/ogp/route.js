@@ -11,15 +11,16 @@ export async function GET(req) {
 
   // dictに変換
   const ogpDict = {};
-  ogpTag.forEach((tag) => {
-    const index = tag.match(
-      /(?<=property="og:)[\u0000-\u0019\u0021-\uFFFF]+(?=")/
-    )[0];
-    const data = tag.match(
-      /(?<=content=")[\u0000-\u0019\u0021-\uFFFF]+(?=")/
-    )[0];
-    ogpDict[index] = data;
-  });
+  ogpTag &&
+    ogpTag.forEach((tag) => {
+      const index = tag.match(
+        /(?<=property="og:)[\u0000-\u0019\u0021-\uFFFF]+(?=")/
+      )[0];
+      const data = tag.match(
+        /(?<=content=")[\u0000-\u0019\u0021-\uFFFF]+(?=")/
+      )[0];
+      ogpDict[index] = data;
+    });
 
   return NextResponse.json(ogpDict);
 }
