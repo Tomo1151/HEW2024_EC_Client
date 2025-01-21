@@ -8,10 +8,14 @@ export function PostOgp({ urls }) {
 
   // route handlerを経由してOGPをjsonで受け取る
   async function getOgp(url) {
-    const response = await fetch(`/api/ogp?url=${url}`);
-    const text = await response.text();
-    const jsonOgp = JSON.parse(text);
-    setOgpData(jsonOgp);
+    try {
+      const response = await fetch(`/api/ogp?url=${url}`);
+      const text = await response.text();
+      const jsonOgp = JSON.parse(text);
+      setOgpData(jsonOgp);
+    } catch (error) {
+      setOgpData({});
+    }
   }
 
   useEffect(() => {
