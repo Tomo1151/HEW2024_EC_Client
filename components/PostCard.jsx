@@ -44,7 +44,9 @@ const PostCard = ({
                 width={50}
                 height={50}
               />
-              <p className="font-bold tracking-[.075em] grow">{sellerName}</p>
+              <p className="font-bold tracking-[.075em] grow truncate">
+                {sellerName}
+              </p>
             </div>
             {children}
           </div>

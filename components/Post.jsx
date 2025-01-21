@@ -19,6 +19,10 @@ import { useNotifications } from "@toolpad/core/useNotifications";
 import PostTags from "./PostTags";
 import { urlForImage } from "@/utils/utils";
 import { dateFormat } from "@/utils/dateFormat";
+import { formatPostBody } from "@/utils/postBodyFormat";
+import { PostOgp } from "./PostOgp";
+import { extractUrlsFromPost } from "@/utils/extractUrlsFromPost";
+
 const Post = ({
   type,
   repost_user,
@@ -147,6 +151,8 @@ const Post = ({
     setRepostCount(ref_count);
   }, [ref_count]);
 
+  const firstUrl = extractUrlsFromPost(content)[0];
+
   return (
     <Box
       id={type === "reply" ? postId : null}
@@ -165,7 +171,7 @@ const Post = ({
           {repost_user.nickname || repost_user.username}がリポストしました
         </p>
       )}
-      <div className="flex relative w-full">
+      <div className="flex relative w-full overflow-hidden">
         <IconButton
           sx={{ position: "absolute", top: 0, right: 0, zIndex: "19" }}
           onClick={handleClick}
@@ -242,7 +248,7 @@ const Post = ({
             </Box>
           </Link>
         </div>
-        <div className="px-2 grow">
+        <div className="px-2 grow w-full overflow-hidden">
           <div>
             <Link
               href={`/users/${username}`}
@@ -255,11 +261,14 @@ const Post = ({
               {dateFormat(new Date(created_at))}
             </p>
           </div>
-          <p className="mt-2 pb-2">{content}</p>
+          <p className="mt-2 pb-2">{formatPostBody(content)}</p>
 
           <PostTags tags={tags} />
 
           {images?.length > 0 && <PostImageContainer images={images} />}
+
+          {/* URLが存在する場合のみOGPカードを表示 */}
+          {firstUrl && <PostOgp url={firstUrl} />}
 
           <PostReaction
             postId={postId}
