@@ -13,7 +13,7 @@ const PostImageContainer = memo(({ images, is_preview }) => {
       gridTemplateRows: "1fr",
       gridColumn: ["1"],
       gridRow: ["1"],
-      imageHeight: ["h-[18.75em]"],
+      imageHeight: ["aspect-video"],
       borderRadiuses: ["rounded-xl"],
     },
     {
@@ -21,15 +21,15 @@ const PostImageContainer = memo(({ images, is_preview }) => {
       gridTemplateRows: "1fr",
       gridColumn: ["1", "2"],
       gridRow: ["1"],
-      imageHeight: ["h-[18.75em]", "h-[18.75em]"],
+      imageHeight: ["aspect-video", "aspect-video"],
       borderRadiuses: ["rounded-l-xl", "rounded-r-xl"],
     },
     {
       gridTemplateColumns: "1fr 1fr",
-      gridTemplateRows: "2fr",
+      gridTemplateRows: "1fr 1fr",
       gridColumn: ["1", "2", "1"],
       gridRow: ["1", "1 / 3", "2"],
-      imageHeight: ["h-[9.375em]", "h-[18.75em]", "h-[9.375em]"],
+      imageHeight: ["aspect-video", "aspect-[16/18]", "aspect-video"],
       borderRadiuses: ["rounded-tl-xl", "rounded-r-xl", "rounded-bl-xl"],
     },
     {
@@ -37,7 +37,12 @@ const PostImageContainer = memo(({ images, is_preview }) => {
       gridTemplateRows: "1fr 1fr",
       gridColumn: ["1", "2", "1", "2"],
       gridRow: ["1", "1", "2", "2"],
-      imageHeight: ["h-[9.375em]", "h-[9.375em]", "h-[9.375em]", "h-[9.375em]"],
+      imageHeight: [
+        "aspect-video",
+        "aspect-video",
+        "aspect-video",
+        "aspect-video",
+      ],
       borderRadiuses: [
         "rounded-tl-xl",
         "rounded-tr-xl",
