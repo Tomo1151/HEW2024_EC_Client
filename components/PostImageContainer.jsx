@@ -108,6 +108,7 @@ const PostImageContainer = memo(({ images, is_preview }) => {
             <Image
               src={image_link}
               fill
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               className={`hover:brightness-95 duration-200 object-cover ${styles[images.length - 1].borderRadiuses[index]}`}
               alt="投稿画像"
               priority
