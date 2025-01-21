@@ -25,17 +25,17 @@ export function PostOgp({ url }) {
   if (!ogpData || Object.keys(ogpData).length === 0) return null;
 
   return (
-    <div className="relative bg-white hover:brightness-[.95] duration-200 rounded">
-      {ogpData.url && (
+    <div className="relative bg-white mt-4 hover:brightness-[.95] duration-200 z-10 rounded-xl">
+      {url && (
         <Link
-          href={ogpData.url}
+          href={url}
           className="absolute inset-0 w-full h-full z-10 pointer-events-auto"
           target="_blank"
           rel="noopener noreferrer"
         />
       )}
       <div
-        className={`relative bg-white py-2 sm:border border-[#e0e0e0] rounded flex ${ogpData.card === "summary_large_image" ? "flex-col" : ""} sm:p-4 sm:hover:brightness-[.95] duration-200`}
+        className={`relative bg-white py-2 sm:border border-[#e0e0e0] rounded-xl flex ${ogpData.card === "summary_large_image" ? "flex-col" : ""} sm:p-4 sm:hover:brightness-[.95] duration-200`}
       >
         <div
           className={`${
@@ -48,7 +48,7 @@ export function PostOgp({ url }) {
             <img
               src={ogpData.image}
               alt={ogpData.title}
-              className={`rounded-sm object-cover w-full h-full ${ogpData.card === "summary_large_image" ? "rounded-t-sm" : "rounded-sm"}`}
+              className={`object-cover w-full h-full ${ogpData.card === "summary_large_image" ? "rounded-t-md" : "rounded-md"}`}
             />
           )}
         </div>
