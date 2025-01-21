@@ -16,8 +16,12 @@ import { fetchHeaders } from "@/config/fetchConfig";
 import { useUserContext } from "../context/UserContext";
 import { useNotifications } from "@toolpad/core/useNotifications";
 import PostTags from "./PostTags";
+import { PostOgp } from "./PostOgp";
 import { urlForImage } from "@/utils/utils";
 import { dateFormat } from "@/utils/dateFormat";
+import { formatPostBody } from "@/utils/postBodyFormat";
+import { extractUrlsFromPost } from "@/utils/extractUrlsFromPost";
+
 const PostDetail = ({
   type,
   repost_user,
@@ -137,6 +141,8 @@ const PostDetail = ({
     setRepostCount(ref_count);
   }, [ref_count]);
 
+  const firstUrl = extractUrlsFromPost(content)[0];
+
   return (
     <Box
       id={postId}
@@ -242,11 +248,14 @@ const PostDetail = ({
           </div>
         </div>
         <div className="px-2 grow">
-          <p className="mt-4 mb-2 pb-2">{content}</p>
+          <p className="mt-4 mb-2 pb-2">{formatPostBody(content)}</p>
 
           <PostTags tags={tags} />
 
           {images?.length > 0 && <PostImageContainer images={images} />}
+
+          {/* URLが存在する場合のみOGPカードを表示 */}
+          {firstUrl && <PostOgp urls={firstUrl} />}
 
           <PostReaction
             postId={postId}

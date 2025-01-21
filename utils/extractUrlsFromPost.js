@@ -1,4 +1,4 @@
-export function extractTagsFromPost(text) {
+export function extractUrlsFromPost(text) {
   const urls = text.match(/https?:\/\/[\S\N]+/g) ?? [];
   return urls;
 }
