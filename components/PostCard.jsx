@@ -40,7 +40,7 @@ const PostCard = ({
               <Image
                 src={sellerIcon}
                 alt="アイコン"
-                className="rounded-full mr-3 w-[40px] h-[40px] sm:w-[50px] sm:h-[50px] object-cover"
+                className="rounded-full mr-3 w-[40px] h-[40px] sm:w-[36px] sm:h-[36px] object-cover"
                 width={50}
                 height={50}
               />
