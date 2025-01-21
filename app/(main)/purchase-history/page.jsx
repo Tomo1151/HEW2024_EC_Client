@@ -115,7 +115,7 @@ export default function PurchaseHistoryPage() {
                       productName={purchase.product.name} //売り物の名前
                       content={purchase.product.post.content} //売り物の詳細
                     >
-                      <h2 className="text-[1.15em] ml-1">
+                      <h2 className="text-[1.15em] ml-1 truncate">
                         {purchase.product.name}
                       </h2>
                       <p className="ml-1 mb-2 text-red-500 font-bold">
@@ -124,7 +124,7 @@ export default function PurchaseHistoryPage() {
                           currency: "JPY",
                         })}
                       </p>
-                      <p className="text-[1em] ml-1">
+                      <p className="text-[1em] ml-1 truncate">
                         {purchase.product.post.content}
                       </p>
                     </PostCard>
