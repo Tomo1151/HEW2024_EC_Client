@@ -176,7 +176,7 @@ const Trending = () => {
               href={`/search?q=${tag.name}&src=tag_click`}
               className="absolute inset-0 w-full h-full z-10"
             ></a>
-            <h4>{tag.name}</h4>
+            <h4 className="truncate">{tag.name}</h4>
             <span className="text-[.75em] opacity-75">
               {countFormat(tag._count.tagged_posts || 0)}件の投稿
             </span>
@@ -216,7 +216,7 @@ const Trending = () => {
               {product.post.author.nickname || product.post.author.username}
               さんの商品
             </p>
-            <h4>{product.name}</h4>
+            <h4 className="truncate">{product.name}</h4>
             <span className="text-[.75em] opacity-75">
               {countFormat(product._count.Purchase || 0)}件の購入
             </span>

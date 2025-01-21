@@ -52,7 +52,7 @@ const FollowUserColumn = ({
               justifyContent: "center",
             }}
           >
-            <p className="font-bold pt-2 tracking-wider hover:underline">
+            <p className="font-bold pt-2 tracking-wider hover:underline truncate">
               {nickname || username}
             </p>
           </Box>

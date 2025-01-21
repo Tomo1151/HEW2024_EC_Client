@@ -97,19 +97,22 @@ const PostImageContainer = memo(({ images, is_preview }) => {
           style={{
             gridColumn: styles[images.length - 1].gridColumn[index],
             gridRow: styles[images.length - 1].gridRow[index],
+            width: "100%",
+            height: "100%",
+            display: "block",
+            overflow: "hidden",
           }}
           className={`relative z-10 ${styles[images.length - 1].imageHeight[index]}`}
         >
-          {/* <div className="mt-4"> */}
-          <Image
-            src={image_link}
-            width={1920}
-            height={1080}
-            className={`hover:brightness-95 duration-200 w-full h-full object-cover ${styles[images.length - 1].borderRadiuses[index]}`}
-            alt="投稿画像"
-            priority
-          />
-          {/* </div> */}
+          <div style={{ width: "100%", height: "100%", position: "relative" }}>
+            <Image
+              src={image_link}
+              fill
+              className={`hover:brightness-95 duration-200 object-cover ${styles[images.length - 1].borderRadiuses[index]}`}
+              alt="投稿画像"
+              priority
+            />
+          </div>
         </Link>
       ))}
     </Box>
