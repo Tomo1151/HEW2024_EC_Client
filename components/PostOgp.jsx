@@ -19,11 +19,11 @@ export function PostOgp({ urls }) {
   }, [urls]);
 
   return (
-    <div className="relative p-2">
+    <div className="relative p-2 bg-white">
       {ogpData.url && (
         <Link
           href={ogpData.url}
-          className="absolute inset-0 w-full h-full z-[10] pointer-events-auto bg-white"
+          className="absolute inset-0 w-full h-full z-10 pointer-events-auto"
         />
       )}
       {ogpData && (
