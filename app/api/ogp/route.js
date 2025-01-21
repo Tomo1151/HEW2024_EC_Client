@@ -25,7 +25,7 @@ export async function GET(req) {
         ogpDict[index] = data;
       });
 
-    ogpDict.image = ogpDict.image.replace(/&amp;/g, "&");
+    ogpDict.image = ogpDict.image?.replace(/&amp;/g, "&");
 
     return NextResponse.json(ogpDict);
   } catch (error) {
