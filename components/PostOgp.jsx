@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 
-export function PostOgp({ urls }) {
+export function PostOgp({ url }) {
   const [ogpData, setOgpData] = useState({});
 
   // route handlerを経由してOGPをjsonで受け取る
@@ -19,8 +19,8 @@ export function PostOgp({ urls }) {
   }
 
   useEffect(() => {
-    getOgp(urls);
-  }, [urls]);
+    getOgp(url);
+  }, [url]);
 
   if (!ogpData || Object.keys(ogpData).length === 0) return null;
 
@@ -34,19 +34,33 @@ export function PostOgp({ urls }) {
           rel="noopener noreferrer"
         />
       )}
-      <div className="relative bg-white py-2 sm:border border-[#e0e0e0] rounded flex sm:p-4 sm:hover:brightness-[.95] duration-200">
-        <div className="w-[5em] h-[5em] sm:w-[128px] sm:h-[86px] mr-[.5em] shrink-0">
+      <div
+        className={`relative bg-white py-2 sm:border border-[#e0e0e0] rounded flex ${ogpData.card === "summary_large_image" ? "flex-col" : ""} sm:p-4 sm:hover:brightness-[.95] duration-200`}
+      >
+        <div
+          className={`${
+            ogpData.card === "summary_large_image"
+              ? "w-full mb-3"
+              : "w-[5em] h-[5em] sm:w-[120px] sm:h-[120px] mr-[.5em]"
+          } shrink-0`}
+        >
           {ogpData.image && (
             <img
               src={ogpData.image}
               alt={ogpData.title}
-              className="rounded-sm object-cover w-full h-full"
+              className={`rounded-sm object-cover w-full h-full ${ogpData.card === "summary_large_image" ? "rounded-t-sm" : "rounded-sm"}`}
             />
           )}
         </div>
-        <div className="w-8/12 ml-0 sm:ml-3 grow min-w-0">
+        <div
+          className={`${ogpData.card === "summary_large_image" ? "w-full" : "w-8/12 ml-0 sm:ml-3"} grow min-w-0`}
+        >
           {ogpData.title && (
-            <h1 className="truncate text-sm sm:text-base">{ogpData.title}</h1>
+            <h1
+              className={`${ogpData.card === "summary_large_image" ? "text-base sm:text-lg font-bold" : "text-sm sm:text-base"} truncate`}
+            >
+              {ogpData.title}
+            </h1>
           )}
           {ogpData.description && (
             <div className="relative text-xs sm:text-sm ml-1 opacity-35 line-clamp-2 overflow-hidden">

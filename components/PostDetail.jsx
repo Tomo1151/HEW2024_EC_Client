@@ -255,7 +255,7 @@ const PostDetail = ({
           {images?.length > 0 && <PostImageContainer images={images} />}
 
           {/* URLが存在する場合のみOGPカードを表示 */}
-          {firstUrl && <PostOgp urls={firstUrl} />}
+          {firstUrl && <PostOgp url={firstUrl} />}
 
           <PostReaction
             postId={postId}
