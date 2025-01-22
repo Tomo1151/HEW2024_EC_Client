@@ -1,12 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 
 import InfiniteScroll from "react-infinite-scroller";
 import PostCard from "@/components/PostCard";
 import MainColumnHeader from "@/components/MainColumnHeader";
 import CircularLoading from "@/components/loading/CircularLoading";
-import { Box } from "@mui/material";
+import { Box, Button } from "@mui/material";
 
 import { useUserContext } from "@/context/UserContext";
 import { urlForImage } from "@/utils/utils";
@@ -127,6 +128,18 @@ export default function PurchaseHistoryPage() {
                       <p className="text-[1em] ml-1 truncate">
                         {purchase.product.post.content}
                       </p>
+                      <Box sx={{ mt: 2, display: "flex", gap: 2 }}>
+                        <Button variant="outlined" color="primary">
+                          評価
+                        </Button>
+                        <Button variant="outlined" color="primary">
+                          <Link
+                            href={`/purchase-history/download?id=${purchase.product.id}`}
+                          >
+                            ダウンロード
+                          </Link>
+                        </Button>
+                      </Box>
                     </PostCard>
                   )
                 )}
