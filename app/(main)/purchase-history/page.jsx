@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 
 import InfiniteScroll from "react-infinite-scroller";
 import PostCard from "@/components/PostCard";
@@ -132,7 +133,11 @@ export default function PurchaseHistoryPage() {
                           評価
                         </Button>
                         <Button variant="outlined" color="primary">
-                          ダウンロード
+                          <Link
+                            href={`/purchase-history/download?id=${purchase.product.id}`}
+                          >
+                            ダウンロード
+                          </Link>
                         </Button>
                       </Box>
                     </PostCard>
