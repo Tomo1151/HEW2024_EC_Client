@@ -21,7 +21,7 @@ const PostImageContainer = memo(({ images, is_preview }) => {
       gridTemplateRows: "1fr",
       gridColumn: ["1", "2"],
       gridRow: ["1"],
-      imageHeight: ["aspect-video", "aspect-video"],
+      imageHeight: ["aspect-[16/18]", "aspect-[16/18]"],
       borderRadiuses: ["rounded-l-xl", "rounded-r-xl"],
     },
     {
