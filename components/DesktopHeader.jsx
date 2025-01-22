@@ -105,7 +105,11 @@ const DesktopHeader = ({ listItems, activeUser, isHeaderTransparent }) => {
                     color: "white",
                     textAlign: "center",
                     transition: "opacity 0.2s",
-                    pr: "2em",
+                    pr: {
+                      xs: 0,
+                      sm: 0,
+                      md: "2em",
+                    },
                     mt: "3em",
                     "&:hover": {
                       backgroundColor: "primary.main",

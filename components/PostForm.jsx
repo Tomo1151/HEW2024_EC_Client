@@ -103,6 +103,10 @@ export default function PostForm({ setRefresh }) {
       // maxWidth="md"
       sx={{
         p: { xs: 2, sm: 4 },
+        display: {
+          xs: "none",
+          sm: "block",
+        },
       }}
       className="rounded-b-md bg-white"
     >
