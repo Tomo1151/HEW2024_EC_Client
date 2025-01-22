@@ -18,8 +18,6 @@ const M_PLUS_Rounded_1cFont = M_PLUS_Rounded_1c({
   subsets: ["latin"],
 });
 
-console.log(M_PLUS_Rounded_1cFont.className);
-
 export default function RootLayout({ children }) {
   return (
     <html lang="ja">
