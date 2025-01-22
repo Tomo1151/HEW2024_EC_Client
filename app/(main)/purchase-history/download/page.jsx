@@ -2,16 +2,24 @@
 
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { Box, Button } from "@mui/material";
+import { Box } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import MainColumnHeader from "@/components/MainColumnHeader";
 import DownloadRoundedIcon from "@mui/icons-material/DownloadRounded";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { fetchHeaders } from "@/config/fetchConfig";
 import { formatDataSize } from "@/utils/formatDataSize";
 import CircularLoading from "@/components/loading/CircularLoading";
 
 const DownloadPage = () => {
+  return (
+    <Suspense loading={<CircularLoading />}>
+      <DownloadPageContainer />
+    </Suspense>
+  );
+};
+
+const DownloadPageContainer = () => {
   const params = useSearchParams().get("id");
 
   const [isGenerating, setIsGenerating] = useState(false);

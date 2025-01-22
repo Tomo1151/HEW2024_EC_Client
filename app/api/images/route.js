@@ -1,8 +1,9 @@
 import { headers } from "next/headers";
 
 export async function GET(request) {
+  const { searchParams } = new URL(request.url);
+
   try {
-    const { searchParams } = new URL(request.url);
     const imageUrl = searchParams.get("url");
     const host = headers().get("host");
 
