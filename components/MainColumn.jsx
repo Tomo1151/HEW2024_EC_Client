@@ -82,7 +82,7 @@ const MainColumn = () => {
                   <Tab key={index} label={tabName} value={index} />
                 ))}
               </TabList>
-              <Box>
+              <Box sx={{ display: { xs: "none", sm: "block" } }}>
                 <PostForm setRefresh={setRefresh} />
               </Box>
               {tabContents.map((tabName, index) => (
