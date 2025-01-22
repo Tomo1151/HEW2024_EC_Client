@@ -1,9 +1,10 @@
 import { NextResponse } from "next/server";
 
 export async function GET(req) {
+  const searchParams = req.nextUrl.searchParams;
+
   try {
     // URLからogptagを取得
-    const searchParams = req.nextUrl.searchParams;
     const url = searchParams.get("url");
     const res = await fetch(url);
     const text = (await res.text()).split("</head>")[0];
