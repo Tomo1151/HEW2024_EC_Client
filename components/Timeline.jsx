@@ -41,7 +41,7 @@ const Timeline = ({ name, isActive, setRefresh, refresh }) => {
 
       if (resJson.success) {
         const newPosts = resJson.data;
-
+        console.log(newPosts);
         setIsLoading(false);
         setIsPostFetching(false);
         setHasMore(resJson.length > 0);
@@ -182,7 +182,11 @@ const Timeline = ({ name, isActive, setRefresh, refresh }) => {
                   comment_count={post.comment_count}
                   ref_count={post.ref_count}
                   like_count={post.like_count}
-                  created_at={post.created_at}
+                  created_at={
+                    post.type === "repost"
+                      ? post.postCreatedAt
+                      : post.created_at
+                  }
                   is_reposted={post.reposts.length > 0}
                   is_liked={post.likes.length > 0}
                   setPosts={setPosts}
