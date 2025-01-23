@@ -6,6 +6,14 @@ export async function GET(request) {
   try {
     const imageUrl = searchParams.get("url");
     const host = headers().get("host");
+    const fetchDest = headers().get("sec-fetch-dest");
+
+    console.log("Host: ", host);
+    console.log("Dest: ", fetchDest);
+
+    if (fetchDest !== "image") {
+      return new Response("Invalid request", { status: 400 });
+    }
 
     if (!imageUrl) {
       return new Response("Image URL is required", { status: 400 });
