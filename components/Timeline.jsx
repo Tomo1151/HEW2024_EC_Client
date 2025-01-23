@@ -37,7 +37,7 @@ const Timeline = ({ name, isActive, setRefresh, refresh }) => {
       const resJson = await response.json();
       setIsPostFetching(false);
 
-      console.log(`FETCH: ${name}`);
+      // console.log(`FETCH: ${name}`);
 
       if (resJson.success) {
         const newPosts = resJson.data;
@@ -75,7 +75,7 @@ const Timeline = ({ name, isActive, setRefresh, refresh }) => {
       const resJson = await response.json();
       setIsPostFetching(false);
 
-      console.log(`FETCH: ${name}`);
+      // console.log(`FETCH: ${name}`);
 
       if (resJson.success) {
         const oldPosts = resJson.data;
