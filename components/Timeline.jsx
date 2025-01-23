@@ -41,7 +41,7 @@ const Timeline = ({ name, isActive, setRefresh, refresh }) => {
 
       if (resJson.success) {
         const newPosts = resJson.data;
-        console.log(newPosts);
+        // console.log(newPosts);
         setIsLoading(false);
         setIsPostFetching(false);
         setHasMore(resJson.length > 0);
