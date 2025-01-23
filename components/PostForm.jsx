@@ -150,7 +150,7 @@ export default function PostForm({ setRefresh }) {
             id="tag"
             variant="standard"
             rows={1}
-            placeholder="タグを入力（複数可）"
+            placeholder="Enterまたは右のボタンで追加"
             sx={{ p: 0, ml: 2, flexGrow: 1 }}
             value={tagInput}
             onChange={(e) => setTagInput(e.target.value)}
