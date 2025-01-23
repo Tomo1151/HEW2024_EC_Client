@@ -35,7 +35,7 @@ export default function PostProductForm({ setRefresh }) {
   const [data, setData] = useState(null);
   const [price, setPrice] = useState("");
   const [liveLink, setLiveLink] = useState("");
-
+  const [status, setStatus] = useState([]);
   const [isPreviewActive, setIsPreviewActive] = useState(false);
 
   const notifications = useNotifications();
@@ -59,61 +59,58 @@ export default function PostProductForm({ setRefresh }) {
 
     try {
       refreshToken().then(async () => {
-        try {
-          const formData = new FormData();
-          formData.append("name", name.trim());
-          formData.append("description", description.trim());
-          formData.append("price", price);
-          formData.append("live_link", liveLink.trim());
-          formData.append("data", data);
+        const formData = new FormData();
+        formData.append("name", name.trim());
+        formData.append("description", description.trim());
+        formData.append("price", price);
+        formData.append("live_link", liveLink.trim());
+        formData.append("data", data);
 
-          for (const image of images) {
-            formData.append("images", image);
+        for (const image of images) {
+          formData.append("images", image);
+        }
+
+        for (const tag of tags) {
+          formData.append("tags[]", tag);
+        }
+
+        console.log(...formData.entries());
+
+        const response = await fetch(
+          process.env.NEXT_PUBLIC_FETCH_BASE_URL + "/products",
+          {
+            method: "POST",
+            body: formData,
+            credentials: "include",
           }
+        );
 
-          for (const tag of tags) {
-            formData.append("tags[]", tag);
-          }
+        const resJson = await response.json();
 
-          console.log(...formData.entries());
+        if (resJson.success) {
+          setName("");
+          setDescription("");
+          setPrice("");
+          setLiveLink("");
+          setImages([]);
+          setData(null);
+          setTags([]);
+          setStatus([]);
 
-          const response = await fetch(
-            process.env.NEXT_PUBLIC_FETCH_BASE_URL + "/products",
-            {
-              method: "POST",
-              body: formData,
-              credentials: "include",
-            }
-          );
+          if (setRefresh) setRefresh((prev) => !prev);
+          notifications.show("ポストが正常に投稿されました", {
+            severity: "success",
+            autoHideDuration: 3000,
+          });
 
-          if (!response.ok) {
-            throw new Error(response.status);
-          }
-          const resJson = await response.json();
-
-          if (resJson.success) {
-            setName("");
-            setDescription("");
-            setPrice("");
-            setLiveLink("");
-            setImages([]);
-            setData(null);
-
-            notifications.show("ポストが正常に投稿されました", {
-              severity: "success",
-              autoHideDuration: 3000,
-            });
-
-            router.push(`/`, { scroll: false });
-            // router.push(`/posts/${resJson.data.id}`, { scroll: false });
-          } else {
-            notifications.show("ポストの投稿に失敗しました", {
-              severity: "error",
-              autoHideDuration: 3000,
-            });
-          }
-        } catch (error) {
-          console.error("Post failed.", error);
+          router.push(`/`, { scroll: false });
+          // router.push(`/posts/${resJson.data.id}`, { scroll: false });
+        } else {
+          setStatus(resJson.error);
+          notifications.show("ポストの投稿に失敗しました", {
+            severity: "error",
+            autoHideDuration: 3000,
+          });
         }
       });
     } catch (error) {
@@ -151,6 +148,7 @@ export default function PostProductForm({ setRefresh }) {
             boxSizing: "border-box",
             gap: "5px",
             width: "100%",
+            mb: status.length > 0 ? 4 : 0,
           }}
         >
           <Box
@@ -443,6 +441,14 @@ export default function PostProductForm({ setRefresh }) {
             </Box>
           )}
         </Box>
+
+        {status &&
+          status.map((message, index) => (
+            <p key={index} className="text-center text-red-600 font-bold">
+              {message}
+            </p>
+          ))}
+
         <div className="flex justify-end pt-4 mt-2 gap-x-4">
           <Button type="submit" variant="contained" disabled={!description}>
             投稿する

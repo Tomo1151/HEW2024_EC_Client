@@ -24,7 +24,7 @@ const DetailPostForm = () => {
 
   const handleTabChange = (event, newValue) => {
     setTabIndex(newValue);
-    router.replace(`/post?type=${Object.keys(route)[newValue]}`);
+    // router.replace(`/post?type=${Object.keys(route)[newValue]}`);
   };
 
   return (
