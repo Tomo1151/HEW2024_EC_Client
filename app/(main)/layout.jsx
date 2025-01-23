@@ -3,7 +3,7 @@ import Container from "@mui/material/Container";
 import SubColumn from "@/components/SubColumn";
 import AuthFooter from "@/components/AuthFooter";
 
-const MainLayout = ({ children, auth, postForm }) => {
+const MainLayout = ({ children, auth, postForm, media }) => {
   return (
     <>
       <Header />
@@ -24,9 +24,9 @@ const MainLayout = ({ children, auth, postForm }) => {
       >
         <SubColumn />
       </Container>
-
       {auth}
       {postForm}
+      {media}
       {<AuthFooter />}
     </>
   );

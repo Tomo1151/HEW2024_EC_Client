@@ -4,7 +4,8 @@ export function urlForImage(
   fallback = "https://placehold.jp/150x150.png"
 ) {
   const path = image_path
-    ? `/api/images?url=${process.env.NEXT_PUBLIC_FETCH_BASE_URL}/media/${container_name}/${image_path}`
+    ? // ? `/api/images?url=${process.env.NEXT_PUBLIC_FETCH_BASE_URL}/media/${container_name}/${image_path}`
+      `${process.env.NEXT_PUBLIC_FETCH_BASE_URL}/media/${container_name}/${image_path}`
     : fallback;
   return path;
 }

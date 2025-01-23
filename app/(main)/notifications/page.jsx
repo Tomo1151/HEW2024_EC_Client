@@ -51,7 +51,9 @@ const NotificationPage = () => {
             ? notificationsData.concat(resJson.data)
             : resJson.data
         );
-        readNotification(resJson.data.map((n) => n.id));
+        readNotification(
+          resJson.data.filter((n) => !n.is_read).map((n) => n.id)
+        );
         setHasMore(resJson.data.length === 10);
       }
     });
@@ -60,6 +62,7 @@ const NotificationPage = () => {
 
   const readNotification = async (ids) => {
     if (!ids || ids.length === 0) return;
+    // console.log("send read: ", ids);
     try {
       // refreshToken().then(async () => {
       await fetch(`${process.env.NEXT_PUBLIC_FETCH_BASE_URL}/notifications`, {

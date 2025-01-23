@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-
+import { usePathname } from "next/navigation";
 import { Badge, Box, useMediaQuery } from "@mui/material";
 import { AddRounded } from "@mui/icons-material";
 import {
@@ -24,6 +24,7 @@ import MobileHeader from "./MobileHeader";
 const HEADER_SCROLL_THRESHOLD = 360;
 
 const Header = () => {
+  const pathname = usePathname();
   const { activeUser, logout, cartItems } = useUserContext();
   const [unreadCount, setUnreadCount] = useState(0);
   const [isHeaderTransparent, setIsHeaderTransparent] = useState(false);
@@ -49,7 +50,7 @@ const Header = () => {
     if (activeUser) {
       getUnreadNotificationCount();
     }
-  }, [activeUser]);
+  }, [activeUser, pathname]);
 
   const isIconView = useMediaQuery(theme.breakpoints.down("lg"));
 

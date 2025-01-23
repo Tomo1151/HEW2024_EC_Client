@@ -37,11 +37,11 @@ const Timeline = ({ name, isActive, setRefresh, refresh }) => {
       const resJson = await response.json();
       setIsPostFetching(false);
 
-      console.log(`FETCH: ${name}`);
+      // console.log(`FETCH: ${name}`);
 
       if (resJson.success) {
         const newPosts = resJson.data;
-        console.log(newPosts);
+        // console.log(newPosts);
         setIsLoading(false);
         setIsPostFetching(false);
         setHasMore(resJson.length > 0);
@@ -75,7 +75,7 @@ const Timeline = ({ name, isActive, setRefresh, refresh }) => {
       const resJson = await response.json();
       setIsPostFetching(false);
 
-      console.log(`FETCH: ${name}`);
+      // console.log(`FETCH: ${name}`);
 
       if (resJson.success) {
         const oldPosts = resJson.data;

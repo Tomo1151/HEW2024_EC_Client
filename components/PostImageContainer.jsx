@@ -6,7 +6,6 @@ import Link from "next/link";
 import { useEffect, memo } from "react";
 
 const PostImageContainer = memo(({ images, is_preview }) => {
-  // console.log(images);
   const styles = [
     {
       gridTemplateColumns: "1fr",
@@ -54,6 +53,8 @@ const PostImageContainer = memo(({ images, is_preview }) => {
 
   // console.log(images);
 
+  let links = [];
+
   if (!is_preview && !images.every((image) => image.image_link != undefined)) {
     return null;
   }
@@ -65,6 +66,7 @@ const PostImageContainer = memo(({ images, is_preview }) => {
   if (is_preview) {
     images = images.map((image) => URL.createObjectURL(image));
   } else {
+    links = images.map((image) => `/media/${image.image_link}`);
     images = images.map((image) => urlForImage(image.image_link, "images"));
   }
 
@@ -75,6 +77,8 @@ const PostImageContainer = memo(({ images, is_preview }) => {
       });
     };
   }, [images]);
+
+  // console.log(links);
 
   // if (!is_preview) console.log("rendering PostImageContainer");
 
@@ -91,9 +95,9 @@ const PostImageContainer = memo(({ images, is_preview }) => {
     >
       {images.map((image_link, index) => (
         <Link
-          key={image_link}
-          href={image_link}
-          target="_blank"
+          key={links[index]}
+          href={links[index]}
+          // target="_blank"
           style={{
             gridColumn: styles[images.length - 1].gridColumn[index],
             gridRow: styles[images.length - 1].gridRow[index],
