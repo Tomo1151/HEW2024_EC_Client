@@ -35,7 +35,7 @@ export function PostOgp({ url }) {
         />
       )}
       <div
-        className={`relative bg-white py-2 sm:border border-[#e0e0e0] rounded-xl flex ${ogpData.card === "summary_large_image" ? "flex-col" : ""} sm:p-4 sm:hover:brightness-[.95] duration-200`}
+        className={`relative bg-white p-2 border border-[#e0e0e0] rounded-xl flex ${ogpData.card === "summary_large_image" ? "flex-col" : ""} sm:p-4 sm:hover:brightness-[.95] duration-200`}
       >
         <div
           className={`${

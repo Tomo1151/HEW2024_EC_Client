@@ -12,6 +12,8 @@ import {
   TextField,
 } from "@mui/material";
 
+import { LoadingButton } from "@mui/lab";
+
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import PreviewIcon from "@mui/icons-material/Preview";
@@ -37,6 +39,7 @@ export default function PostProductForm({ setRefresh }) {
   const [liveLink, setLiveLink] = useState("");
   const [status, setStatus] = useState([]);
   const [isPreviewActive, setIsPreviewActive] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
 
   const notifications = useNotifications();
 
@@ -56,13 +59,15 @@ export default function PostProductForm({ setRefresh }) {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log("isProcessing: ", isProcessing);
 
     try {
       refreshToken().then(async () => {
+        setIsProcessing(true);
         const formData = new FormData();
         formData.append("name", name.trim());
         formData.append("description", description.trim());
-        formData.append("price", price);
+        if (price) formData.append("price", price);
         formData.append("live_link", liveLink.trim());
         formData.append("data", data);
 
@@ -115,6 +120,8 @@ export default function PostProductForm({ setRefresh }) {
       });
     } catch (error) {
       console.error("Post failed.", error);
+    } finally {
+      setIsProcessing(false);
     }
   };
 
@@ -450,9 +457,14 @@ export default function PostProductForm({ setRefresh }) {
           ))}
 
         <div className="flex justify-end pt-4 mt-2 gap-x-4">
-          <Button type="submit" variant="contained" disabled={!description}>
+          <LoadingButton
+            type="submit"
+            variant="contained"
+            disabled={!description}
+            loading={isProcessing}
+          >
             投稿する
-          </Button>
+          </LoadingButton>
         </div>
       </form>
     </Box>
