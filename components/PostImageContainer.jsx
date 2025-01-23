@@ -6,7 +6,6 @@ import Link from "next/link";
 import { useEffect, memo } from "react";
 
 const PostImageContainer = memo(({ images, is_preview }) => {
-  // console.log(images);
   const styles = [
     {
       gridTemplateColumns: "1fr",
@@ -79,7 +78,7 @@ const PostImageContainer = memo(({ images, is_preview }) => {
     };
   }, [images]);
 
-  console.log(links);
+  // console.log(links);
 
   // if (!is_preview) console.log("rendering PostImageContainer");
 
