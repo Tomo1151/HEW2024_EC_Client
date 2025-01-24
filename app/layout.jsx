@@ -16,6 +16,7 @@ export const metadata = {
 const M_PLUS_Rounded_1cFont = M_PLUS_Rounded_1c({
   weight: "700",
   subsets: ["latin"],
+  display: "swap",
 });
 
 export default function RootLayout({ children }) {
