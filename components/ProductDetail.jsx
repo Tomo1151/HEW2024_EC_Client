@@ -306,27 +306,29 @@ const ProductDetail = ({
           currency: "JPY",
         })}
       </p>
-      <Box sx={{ textAlign: "center", px: "2.5rem" }}>
-        {activeUser ? (
-          <Button
-            variant="contained"
-            sx={{ px: 8 }}
-            onClick={addToCart}
-            disabled={isCarted}
-          >
-            カートに追加
-          </Button>
-        ) : (
-          <Button
-            variant="contained"
-            sx={{ px: 8 }}
-            onClick={() => router.push("/login")}
-          >
-            カートに追加
-          </Button>
-        )}
-        <p className="text-left py-4 ">{content}</p>
-      </Box>
+      {activeUser.username !== username && (
+        <Box sx={{ textAlign: "center", px: "2.5rem" }}>
+          {activeUser ? (
+            <Button
+              variant="contained"
+              sx={{ px: 8 }}
+              onClick={addToCart}
+              disabled={isCarted}
+            >
+              カートに追加
+            </Button>
+          ) : (
+            <Button
+              variant="contained"
+              sx={{ px: 8 }}
+              onClick={() => router.push("/login")}
+            >
+              カートに追加
+            </Button>
+          )}
+          <p className="text-left py-4 ">{content}</p>
+        </Box>
+      )}
     </Box>
   );
 };

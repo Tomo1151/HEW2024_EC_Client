@@ -1,12 +1,21 @@
 import Image from "next/image";
 
+import { useRouter } from "next/navigation";
 import { useUserContext } from "@/context/UserContext";
 import CircularLoading from "@/components/loading/CircularLoading";
 import { Box } from "@mui/material";
 import { urlForImage } from "@/utils/utils";
+import { useEffect } from "react";
 
 const Step0 = () => {
+  const router = useRouter();
   const { cartItems } = useUserContext();
+
+  useEffect(() => {
+    if (cartItems?.length === 0) {
+      router.push("/");
+    }
+  }, [cartItems]);
 
   if (!cartItems) {
     return <CircularLoading />;
