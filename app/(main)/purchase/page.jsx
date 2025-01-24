@@ -13,9 +13,10 @@ import Step0 from "./Step0";
 import Step1 from "./Step1";
 import Step2 from "./Step2";
 import Step3 from "./Step3";
+import Link from "next/link";
 
 const page = () => {
-  const [activeStep, setActiveStep] = useState(0);
+  const [activeStep, setActiveStep] = useState(2);
 
   const pageContent = [
     <Step0 />,
@@ -89,9 +90,7 @@ const page = () => {
             }}
           >
             {activeStep === pageContent.length - 1 ? (
-              <Button variant="contained" color="primary" href="/">
-                トップへ
-              </Button>
+              <></>
             ) : (
               <>
                 <Button

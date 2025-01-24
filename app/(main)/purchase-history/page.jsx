@@ -129,10 +129,22 @@ export default function PurchaseHistoryPage() {
                         {purchase.product.post.content}
                       </p>
                       <Box sx={{ mt: 2, display: "flex", gap: 2 }}>
-                        <Button variant="outlined" color="primary">
-                          評価
+                        <Button
+                          variant="outlined"
+                          color="primary"
+                          sx={{ position: "relative", zIndex: 11 }}
+                        >
+                          <Link
+                            href={`/purchase-history/rating?id=${purchase.product.id}`}
+                          >
+                            評価
+                          </Link>
                         </Button>
-                        <Button variant="outlined" color="primary">
+                        <Button
+                          variant="outlined"
+                          color="primary"
+                          sx={{ position: "relative", zIndex: 11 }}
+                        >
                           <Link
                             href={`/purchase-history/download?id=${purchase.product.id}`}
                           >
