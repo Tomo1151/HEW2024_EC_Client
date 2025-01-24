@@ -12,11 +12,12 @@ import { urlForImage } from "@/utils/utils";
 
 const Step3 = () => {
   const { cartItems, fetchUserCart, clearUserCart } = useUserContext();
-  const [isRated, setIsRated] = useState(
+  const [productRatings, setProductRatings] = useState(
     Object.fromEntries(cartItems.map((item) => [item.product.id, false]))
   );
 
   const [isCompleted, setIsCompleted] = useState(false);
+  const [isRated, setIsRated] = useState(false);
   const [error, setError] = useState(null);
 
   const items = useRef([]);
@@ -34,15 +35,6 @@ const Step3 = () => {
           credentials: "include",
         }
       );
-
-      const resJson = await response.json();
-
-      if (resJson.success) {
-        setIsRated({
-          ...isRated,
-          [productId]: true,
-        });
-      }
     } catch (error) {
       setError(error);
       console.error(error);
@@ -69,7 +61,7 @@ const Step3 = () => {
       const resJson = await response.json();
       if (resJson.success) {
         items.current = cartItems;
-        clearUserCart();
+        // clearUserCart();
         setIsCompleted(true);
       }
     } catch (error) {
@@ -115,13 +107,17 @@ const Step3 = () => {
   );
 
   uniqUsers.forEach((user, index) => {
-    uniqUsers[index].products = items.current.filter(
-      (item) => item.product.post.author.id === user.id
-    );
+    const uniqueProducts = new Map();
+    items.current.forEach((item) => {
+      if (item.product.post.author.id === user.id) {
+        uniqueProducts.set(item.product.id, item);
+      }
+    });
+    uniqUsers[index].products = Array.from(uniqueProducts.values());
   });
-
+  console.log(productRatings);
   return (
-    <>
+    <Box sx={{ textAlign: "center" }}>
       <Box
         sx={{
           px: { xs: 1, sm: 4 },
@@ -141,7 +137,7 @@ const Step3 = () => {
           からダウンロードいただけます
         </p>
       </Box>
-      <Box sx={{ mb: 4 }}>
+      <Box sx={{ mb: 4, textAlign: "left" }}>
         {uniqUsers.map((user) => (
           <Box key={user.id}>
             <Box
@@ -212,7 +208,7 @@ const Step3 = () => {
                 />
               </Box>
             </Box>
-            {user.products.map((item) => (
+            {user.products.map((item, index) => (
               <Box
                 key={item.product.id}
                 sx={{ borderBottom: "1px solid #e0e0e0" }}
@@ -251,7 +247,7 @@ const Step3 = () => {
                   </Box>
                 </Box>
                 <Box sx={{ my: 2 }}>
-                  {isRated[item.product.id] ? (
+                  {productRatings[item.product.id] && false ? (
                     <>
                       <p className="text-center">評価が送信されました</p>
                     </>
@@ -277,10 +273,11 @@ const Step3 = () => {
                           emptyIcon={<StarRateRounded fontSize="inherit" />}
                           sx={{ fontSize: "3em" }}
                           onChange={(e, newValue) => {
-                            ratingProduct(item.product.id, newValue);
-                            setIsRated({
-                              ...isRated,
-                              [item.product.id]: true,
+                            console.log(newValue);
+                            // ratingProduct(item.product.id, newValue);
+                            setProductRatings({
+                              ...productRatings,
+                              [item.product.id]: newValue,
                             });
                           }}
                         />
@@ -293,7 +290,23 @@ const Step3 = () => {
           </Box>
         ))}
       </Box>
-    </>
+
+      {/* <Link href="/"> */}
+      <Button
+        variant="contained"
+        color="primary"
+        href="/"
+        onClick={async () => {
+          for (const [key, value] of Object.entries(productRatings)) {
+            if (!value) continue;
+            await ratingProduct(key, value);
+          }
+        }}
+      >
+        評価を送信してトップへ
+      </Button>
+      {/* </Link> */}
+    </Box>
   );
 };
 
