@@ -10,7 +10,10 @@ import FollowButton from "@/components/FollowButton";
 import { StarRateRounded } from "@mui/icons-material";
 import { urlForImage } from "@/utils/utils";
 
+import { useNotifications } from "@toolpad/core";
+
 const Step3 = () => {
+  const notifications = useNotifications();
   const { cartItems, fetchUserCart, clearUserCart } = useUserContext();
   const [productRatings, setProductRatings] = useState(
     Object.fromEntries(cartItems.map((item) => [item.product.id, false]))
@@ -35,6 +38,20 @@ const Step3 = () => {
           credentials: "include",
         }
       );
+
+      const resJson = await response.json();
+
+      if (resJson.success) {
+        notifications.show("評価が送信されました", {
+          severity: "success",
+          autoHideDuration: 3000,
+        });
+      } else {
+        notifications.show("評価が正常に送信されませんでした", {
+          severity: "error",
+          autoHideDuration: 3000,
+        });
+      }
     } catch (error) {
       setError(error);
       console.error(error);
@@ -61,12 +78,20 @@ const Step3 = () => {
       const resJson = await response.json();
       if (resJson.success) {
         items.current = cartItems;
-        // clearUserCart();
+        clearUserCart();
+        notifications.show("購入が完了しました", {
+          severity: "success",
+          autoHideDuration: 3000,
+        });
         setIsCompleted(true);
       }
     } catch (error) {
       setError(error);
       console.error(error);
+      notifications.show("購入が正常に完了されませんでした", {
+        severity: "error",
+        autoHideDuration: 3000,
+      });
     }
   };
 
