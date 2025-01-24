@@ -100,7 +100,7 @@ const DesktopHeader = ({ listItems, activeUser, isHeaderTransparent }) => {
                   minWidth: "fit-content",
                   width: { sm: "fit-content", md: "100%" },
                   borderRadius: ".365rem",
-                  ...(item.href === "/post" && {
+                  ...(item.href === "/post?type=post" && {
                     backgroundColor: "primary.main",
                     color: "white",
                     textAlign: "center",

@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { use, useState } from "react";
 
 import { useSearchParams } from "next/navigation";
 
@@ -12,6 +13,7 @@ import PostForm from "./PostForm";
 import PostProductForm from "./PostProductForm";
 
 const DetailPostForm = () => {
+  const router = useRouter();
   const route = {
     post: 0,
     product: 1,
@@ -22,6 +24,7 @@ const DetailPostForm = () => {
 
   const handleTabChange = (event, newValue) => {
     setTabIndex(newValue);
+    // router.replace(`/post?type=${Object.keys(route)[newValue]}`);
   };
 
   return (
