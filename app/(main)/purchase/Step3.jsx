@@ -11,6 +11,7 @@ import { StarRateRounded } from "@mui/icons-material";
 import { urlForImage } from "@/utils/utils";
 
 import { useNotifications } from "@toolpad/core";
+import { formatPrice } from "@/utils/formatPrice";
 
 const Step3 = () => {
   const notifications = useNotifications();
@@ -66,7 +67,7 @@ const Step3 = () => {
       priceId: item.product.price_histories[0].id,
     }));
 
-    console.log(products);
+    // console.log(products);
 
     try {
       const response = await fetch(
@@ -162,7 +163,7 @@ const Step3 = () => {
     });
     uniqUsers[index].products = Array.from(uniqueProducts.values());
   });
-  console.log(productRatings);
+  // console.log(productRatings);
   return (
     <Box sx={{ textAlign: "center" }}>
       <Box
@@ -284,12 +285,7 @@ const Step3 = () => {
                       {item.product.name}
                     </p>
                     <p className="text-[1.15em] text-red-500 font-bold">
-                      {isNaN(parseInt(item.product.price))
-                        ? "価格未設定"
-                        : parseInt(item.product.price).toLocaleString("ja-JP", {
-                            style: "currency",
-                            currency: "JPY",
-                          })}
+                      {formatPrice(item.product.price_histories[0].price)}
                     </p>
                   </Box>
                 </Box>
@@ -320,7 +316,7 @@ const Step3 = () => {
                           emptyIcon={<StarRateRounded fontSize="inherit" />}
                           sx={{ fontSize: "3em" }}
                           onChange={(e, newValue) => {
-                            console.log(newValue);
+                            // console.log(newValue);
                             // ratingProduct(item.product.id, newValue);
                             setProductRatings({
                               ...productRatings,

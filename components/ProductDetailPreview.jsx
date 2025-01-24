@@ -10,6 +10,8 @@ import PostReaction from "./PostReaction";
 import PostImageContainer from "./PostImageContainer";
 import PostTags from "./PostTags";
 import { urlForImage } from "@/utils/utils";
+import { formatPostBody } from "@/utils/postBodyFormat";
+import { formatPrice } from "@/utils/formatPrice";
 
 const ProductPreview = ({
   username,
@@ -72,19 +74,14 @@ const ProductPreview = ({
       </div>
 
       <p className="text-2xl text-right font-bold px-8 py-4">
-        {isNaN(parseInt(price))
-          ? "価格未設定"
-          : parseInt(price).toLocaleString("ja-JP", {
-              style: "currency",
-              currency: "JPY",
-            })}
+        {formatPrice(price)}
       </p>
       <Box sx={{ textAlign: "center", px: "2.5rem" }}>
         <Button variant="contained" sx={{ px: 8 }}>
           カートに追加
         </Button>
 
-        <p className="text-left py-4 ">{content}</p>
+        <p className="text-left py-4 ">{formatPostBody(content)}</p>
       </Box>
     </section>
   );

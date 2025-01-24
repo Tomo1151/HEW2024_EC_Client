@@ -19,6 +19,7 @@ import PostTags from "./PostTags";
 import { urlForImage } from "@/utils/utils";
 import { dateFormat } from "@/utils/dateFormat";
 import { formatPrice } from "@/utils/formatPrice";
+import { formatPostBody } from "@/utils/postBodyFormat";
 
 const ProductDetail = ({
   type,
@@ -304,9 +305,9 @@ const ProductDetail = ({
       <p className="text-2xl text-right font-bold px-8 py-4">
         {formatPrice(price)}
       </p>
-      {activeUser.username !== username && (
-        <Box sx={{ textAlign: "center", px: "2.5rem" }}>
-          {activeUser ? (
+      <Box sx={{ textAlign: "center", px: "2.5rem" }}>
+        {activeUser ? (
+          activeUser.username !== username && (
             <Button
               variant="contained"
               sx={{ px: 8 }}
@@ -315,18 +316,19 @@ const ProductDetail = ({
             >
               {isNaN(parseInt(price)) ? "購入できません" : "カートに追加"}
             </Button>
-          ) : (
-            <Button
-              variant="contained"
-              sx={{ px: 8 }}
-              onClick={() => router.push("/login")}
-            >
-              カートに追加
-            </Button>
-          )}
-          <p className="text-left py-4 ">{content}</p>
-        </Box>
-      )}
+          )
+        ) : (
+          <Button
+            variant="contained"
+            sx={{ px: 8 }}
+            onClick={() => router.push("/login")}
+          >
+            カートに追加
+          </Button>
+        )}
+
+        <p className="text-left py-4 ">{formatPostBody(content)}</p>
+      </Box>
     </Box>
   );
 };
