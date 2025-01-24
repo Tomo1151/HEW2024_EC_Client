@@ -1,12 +1,15 @@
-import StarRateRoundedIcon from "@mui/icons-material/StarRateRounded";
+import StarRoundedIcon from "@mui/icons-material/StarRounded";
 const StarRating = ({ rating }) => {
   return (
-    <div>
-      <StarRateRoundedIcon className="text-yellow-500" />
-      <span className="text-xl inline-block h-full pl-2 align-top">
+    <>
+      <StarRoundedIcon
+        className="text-yellow-500"
+        sx={{ fontSize: "1.25em", mb: 0.4 }}
+      />
+      <span className="text-[1em] inline-block h-full pl-2 align-top">
         {rating}
       </span>
-    </div>
+    </>
   );
 };
 
