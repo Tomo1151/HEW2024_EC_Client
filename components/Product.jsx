@@ -245,7 +245,7 @@ const Product = ({
               {images?.length > 0 && <PostImageContainer images={images} />}
               <Box
                 sx={{
-                  backgroundColor: "primary.main",
+                  backgroundColor: price ? "primary.main" : "#999",
                   color: "white",
                   width: "fit-content",
                   padding: ".5em 1.5em",

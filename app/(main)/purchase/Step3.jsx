@@ -89,7 +89,7 @@ const Step3 = () => {
       const resJson = await response.json();
       if (resJson.success) {
         items.current = cartItems;
-        // clearUserCart();
+        clearUserCart();
         notifications.show("購入が完了しました", {
           severity: "success",
           autoHideDuration: 3000,
