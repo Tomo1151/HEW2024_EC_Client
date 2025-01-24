@@ -87,7 +87,7 @@ const PostDetailPage = (route) => {
             tags={postData.tags?.map((tagObj) => tagObj.tag.name)}
             productId={postData.product.id}
             name={postData.product.name}
-            price={postData.product.price}
+            price={postData.product.price_histories[0].price}
             comment_count={postData.comment_count}
             ref_count={postData.ref_count}
             like_count={postData.like_count}

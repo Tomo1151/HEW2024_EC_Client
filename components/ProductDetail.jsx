@@ -18,6 +18,7 @@ import { useNotifications } from "@toolpad/core/useNotifications";
 import PostTags from "./PostTags";
 import { urlForImage } from "@/utils/utils";
 import { dateFormat } from "@/utils/dateFormat";
+import { formatPrice } from "@/utils/formatPrice";
 
 const ProductDetail = ({
   type,
@@ -301,10 +302,7 @@ const ProductDetail = ({
       </div>
 
       <p className="text-2xl text-right font-bold px-8 py-4">
-        {price.toLocaleString("ja-JP", {
-          style: "currency",
-          currency: "JPY",
-        })}
+        {formatPrice(price)}
       </p>
       {activeUser.username !== username && (
         <Box sx={{ textAlign: "center", px: "2.5rem" }}>
@@ -313,9 +311,9 @@ const ProductDetail = ({
               variant="contained"
               sx={{ px: 8 }}
               onClick={addToCart}
-              disabled={isCarted}
+              disabled={isCarted || isNaN(parseInt(price))}
             >
-              カートに追加
+              {isNaN(parseInt(price)) ? "購入できません" : "カートに追加"}
             </Button>
           ) : (
             <Button

@@ -12,6 +12,7 @@ import { Box, Button } from "@mui/material";
 import { useUserContext } from "@/context/UserContext";
 import { urlForImage } from "@/utils/utils";
 import { fetchHeaders } from "@/config/fetchConfig";
+import { formatPrice } from "@/utils/formatPrice";
 
 export default function PurchaseHistoryPage() {
   const { refreshToken } = useUserContext();
@@ -120,10 +121,7 @@ export default function PurchaseHistoryPage() {
                         {purchase.product.name}
                       </h2>
                       <p className="ml-1 mb-2 text-red-500 font-bold">
-                        {purchase.product.price.toLocaleString("ja-JP", {
-                          style: "currency",
-                          currency: "JPY",
-                        })}
+                        {formatPrice(purchase.purchase_price)}
                       </p>
                       <p className="text-[1em] ml-1 truncate">
                         {purchase.product.post.content}

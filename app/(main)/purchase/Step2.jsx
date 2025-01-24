@@ -4,6 +4,7 @@ import { useUserContext } from "@/context/UserContext";
 import CircularLoading from "@/components/loading/CircularLoading";
 import { Box, Button } from "@mui/material";
 import { urlForImage } from "@/utils/utils";
+import { formatPrice } from "@/utils/formatPrice";
 
 const Step2 = ({ setActiveStep }) => {
   const { cartItems } = useUserContext();
@@ -26,7 +27,7 @@ const Step2 = ({ setActiveStep }) => {
             <p className="text-lg font-bold">商品合計：</p>
             <p className="text-lg text-red-500 font-bold">
               {cartItems
-                .map((item) => parseInt(item.product.price))
+                .map((item) => parseInt(item.product.price_histories[0].price))
                 .reduce((acc, cur) => acc + cur, 0)
                 .toLocaleString("ja-JP", {
                   style: "currency",
@@ -48,7 +49,7 @@ const Step2 = ({ setActiveStep }) => {
             <p className="text-lg font-bold">お支払い金額：</p>
             <p className="text-lg text-red-500 font-bold">
               {cartItems
-                .map((item) => parseInt(item.product.price))
+                .map((item) => parseInt(item.product.price_histories[0].price))
                 .reduce((acc, cur) => acc + cur, 0)
                 .toLocaleString("ja-JP", {
                   style: "currency",
@@ -95,12 +96,7 @@ const Step2 = ({ setActiveStep }) => {
             </p>
             <p className="font-bold">数量：１</p>
             <p className="text-lg text-red-500 font-bold">
-              {isNaN(parseInt(item.product.price))
-                ? "価格未設定"
-                : parseInt(item.product.price).toLocaleString("ja-JP", {
-                    style: "currency",
-                    currency: "JPY",
-                  })}
+              {formatPrice(item.product.price_histories[0].price)}
             </p>
           </Box>
         </Box>

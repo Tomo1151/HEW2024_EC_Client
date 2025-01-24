@@ -16,6 +16,7 @@ import { fetchHeaders } from "@/config/fetchConfig";
 import CircularLoading from "@/components/loading/CircularLoading";
 import Link from "next/link";
 import { urlForImage } from "@/utils/utils";
+import { formatPrice } from "@/utils/formatPrice";
 
 const CartPage = () => {
   const fallback_image = "https://placeholder.com/150";
@@ -26,7 +27,12 @@ const CartPage = () => {
 
   useEffect(() => {
     if (cartItems) {
-      setAmount(cartItems.reduce((acc, item) => acc + item.product.price, 0));
+      setAmount(
+        cartItems.reduce(
+          (acc, item) => acc + item.product.price_histories[0].price,
+          0
+        )
+      );
     }
   }, [cartItems]);
 
@@ -109,10 +115,7 @@ const CartPage = () => {
                   {item.product.name}
                 </h2>
                 <p className="ml-1 mb-2 text-red-500 font-bold">
-                  {item.product.price.toLocaleString("ja-JP", {
-                    style: "currency",
-                    currency: "JPY",
-                  })}
+                  {formatPrice(item.product.price_histories[0].price)}
                 </p>
                 <p className="text-[1em] ml-1 truncate">
                   {item.product.post.content}
@@ -142,12 +145,7 @@ const CartPage = () => {
         >
           <p className="font-bold text-xl">
             合計&nbsp;
-            <span className="text-red-500">
-              {amount.toLocaleString("ja-JP", {
-                style: "currency",
-                currency: "JPY",
-              })}
-            </span>
+            <span className="text-red-500">{formatPrice(amount)}</span>
           </p>
           <Button variant="contained" href="/purchase">
             購入する

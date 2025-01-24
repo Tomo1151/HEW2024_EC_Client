@@ -61,7 +61,13 @@ const Step3 = () => {
   const purchaseItems = async () => {
     if (isCompleted) return;
 
-    const productIds = cartItems.map((item) => item.product.id);
+    const products = cartItems.map((item) => ({
+      productId: item.product.id,
+      priceId: item.product.price_histories[0].id,
+    }));
+
+    console.log(products);
+
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_FETCH_BASE_URL}/purchase`,
@@ -70,15 +76,19 @@ const Step3 = () => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ productIds }),
+          body: JSON.stringify(products),
           credentials: "include",
         }
       );
 
+      if (!response.ok) {
+        throw new Error("購入が正常に完了されませんでした");
+      }
+
       const resJson = await response.json();
       if (resJson.success) {
         items.current = cartItems;
-        clearUserCart();
+        // clearUserCart();
         notifications.show("購入が完了しました", {
           severity: "success",
           autoHideDuration: 3000,
@@ -114,6 +124,18 @@ const Step3 = () => {
       >
         <p>エラーが発生しました</p>
         <p>時間をおいてもう一度お試しください</p>
+        <p className="text-gray-500 text-center text-sm py-4">
+          何度も発生する場合は
+          <br />
+          以下のリンクよりお問い合わせください
+        </p>
+        <Link
+          href="/contact"
+          className="text-blue-500 hover:underline"
+          passHref
+        >
+          お問い合わせ
+        </Link>
       </Box>
     );
   }

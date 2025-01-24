@@ -17,6 +17,7 @@ import { NotificationsProvider } from "@toolpad/core/useNotifications";
 import { useNotifications } from "@toolpad/core";
 
 import { urlForImage } from "@/utils/utils";
+import { formatPrice } from "@/utils/formatPrice";
 
 const RatingPage = () => {
   return (
@@ -171,12 +172,7 @@ const RatingPageContainer = () => {
               <Box sx={{ flexGrow: 1 }}>
                 <p className="text-[1.25em] font-bold">{product.name}</p>
                 <p className="text-[1.15em] text-red-500 font-bold">
-                  {isNaN(parseInt(product.price))
-                    ? "価格未設定"
-                    : parseInt(product.price).toLocaleString("ja-JP", {
-                        style: "currency",
-                        currency: "JPY",
-                      })}
+                  {formatPrice(product.price_histories[0].price)}
                 </p>
               </Box>
             </>

@@ -6,6 +6,7 @@ import CircularLoading from "@/components/loading/CircularLoading";
 import { Box } from "@mui/material";
 import { urlForImage } from "@/utils/utils";
 import { useEffect } from "react";
+import { formatPrice } from "@/utils/formatPrice";
 
 const Step0 = () => {
   const router = useRouter();
@@ -53,12 +54,7 @@ const Step0 = () => {
             </p>
             <p className="font-bold">数量：１</p>
             <p className="text-lg text-red-500 font-bold">
-              {isNaN(parseInt(item.product.price))
-                ? "価格未設定"
-                : parseInt(item.product.price).toLocaleString("ja-JP", {
-                    style: "currency",
-                    currency: "JPY",
-                  })}
+              {formatPrice(item.product.price_histories[0].price)}
             </p>
           </Box>
         </Box>

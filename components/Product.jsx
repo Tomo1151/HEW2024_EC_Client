@@ -19,6 +19,7 @@ import { useNotifications } from "@toolpad/core/useNotifications";
 import PostTags from "./PostTags";
 import { urlForImage } from "@/utils/utils";
 import { dateFormat } from "@/utils/dateFormat";
+import { formatPrice } from "@/utils/formatPrice";
 const Product = ({
   type,
   repost_user,
@@ -258,10 +259,7 @@ const Product = ({
                   pointerEvents: "none",
                 }}
               >
-                {price.toLocaleString("ja-JP", {
-                  style: "currency",
-                  currency: "JPY",
-                })}
+                {formatPrice(price)}
               </Box>
             </Box>
 
