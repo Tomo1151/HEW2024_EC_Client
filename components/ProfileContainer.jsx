@@ -108,6 +108,7 @@ const ProfileContainer = ({ username }) => {
             href={`${user.username}/edit`}
             className="absolute top-4 right-6"
             scroll={false}
+            replace
           >
             <SettingsRoundedIcon
               sx={{
@@ -168,12 +169,6 @@ const ProfileContainer = ({ username }) => {
             </p>
             <p>
               <StarRating rating={user.rating._avg.value} />
-              {/* <StarIcon
-                sx={{ color: "rgb(255, 185, 0)", fontSize: "1.15em" }}
-              />
-              <span className="text-[1em] inline-block h-full pl-2 align-top">
-                4.0
-              </span> */}
             </p>
           </div>
           <p
