@@ -458,6 +458,7 @@ export default function PostProductForm({ quoteRef, setRefresh }) {
                   price={price}
                   tags={tags}
                   images={images}
+                  quoted_ref={quotePost}
                   created_at={"たった今"}
                 />
               </Box>
@@ -475,6 +476,7 @@ export default function PostProductForm({ quoteRef, setRefresh }) {
                   price={price}
                   tags={tags}
                   images={images}
+                  quoted_ref={quotePost}
                   created_at={"たった今"}
                 />
               </Box>

@@ -296,7 +296,7 @@ const ProductDetail = ({
                 author_name={
                   quoted_ref.author.nickname || quoted_ref.author.username
                 }
-                author_icon={urlForImage(quoted_ref.icon_link, "icons")}
+                author_icon={urlForImage(quoted_ref.author.icon_link, "icons")}
                 post_content={formatPostBody(quoted_ref.content, false)}
                 post_link={`/posts/${quoted_ref.id}`}
                 product={quoted_ref.product}
