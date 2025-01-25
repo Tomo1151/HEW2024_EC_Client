@@ -52,7 +52,6 @@ const Post = ({
   const [repostCount, setRepostCount] = useState(ref_count);
   const [likeCount, setLikeCount] = useState(like_count);
   const notifications = useNotifications();
-  console.log(quoted_ref);
   const router = useRouter();
 
   let options = {};
