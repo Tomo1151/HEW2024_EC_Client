@@ -19,7 +19,7 @@ const Modal = ({ children, redirectPath }) => {
             : router.back
         }
       ></div>
-      <div className="fixed bg-white w-[800px] max-w-[90vw] h-fit max-h-[90vh] rounded-md inset-0 m-auto px-2 sm:px-8 py-4 sm:pt-8 sm:pb-12 z-50 overflow-y-auto">
+      <div className="fixed bg-white w-[800px] max-w-[90vw] h-fit max-h-[90vh] rounded-md inset-0 m-auto p-2 z-50 overflow-y-auto">
         {/* <IconButton
           size="large"
           className="absolute top-6 right-8 cursor-pointer hover:drop-shadow"

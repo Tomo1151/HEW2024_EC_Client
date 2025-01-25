@@ -45,7 +45,7 @@ const LoginForm = ({ status, setEmail, setPassword, isFetching, onSubmit }) => {
         >
           ログイン
         </LoadingButton>
-        <p className="text-center">
+        <p className="text-center pb-8">
           アカウントをお持ちでない方は
           <Link href="/register" className="text-blue-400 hover:underline">
             登録
