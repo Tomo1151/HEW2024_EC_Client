@@ -12,6 +12,8 @@ import { urlForImage } from "@/utils/utils";
 export default function ReplyForm({ postId, setRefresh }) {
   const { activeUser, refreshToken } = useUserContext();
   const [postText, setPostText] = useState("");
+  const [images, setImages] = useState([]);
+  const [status, setStatus] = useState([]);
   const notifications = useNotifications();
 
   const handleSubmit = async (e) => {
@@ -20,13 +22,16 @@ export default function ReplyForm({ postId, setRefresh }) {
     try {
       refreshToken().then(async () => {
         try {
-          const formData = new FormData(e.target);
-          // for (let image of e.target[2].files) {
-          //   formData.append("files", image);
-          // }
+          const formData = new FormData();
+          formData.append("content", postText.trim());
+          formData.append("replied_ref", postId);
+          for (const image of images) {
+            formData.append("files", image);
+          }
 
           const response = await fetch(
-            `${process.env.NEXT_PUBLIC_FETCH_BASE_URL}/posts/${postId}/reply`,
+            `${process.env.NEXT_PUBLIC_FETCH_BASE_URL}/posts`,
+            // `${process.env.NEXT_PUBLIC_FETCH_BASE_URL}/posts/${postId}/reply`,
             {
               method: "POST",
               body: formData,
