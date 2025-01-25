@@ -278,9 +278,6 @@ const PostReaction = ({
                 cursor: "pointer",
               },
             },
-            is_reposted && {
-              color: "#2dcb2d",
-            },
           ]}
         >
           {is_preview ? (
