@@ -283,7 +283,7 @@ const PostReaction = ({
             },
           ]}
         >
-          <Link href={`/post?quote=${postId}`} className="z-0" scroll={false}>
+          {is_preview ? (
             <Box component="span" sx={{ display: "inline-block" }}>
               <EditNoteRounded
                 sx={{
@@ -295,7 +295,21 @@ const PostReaction = ({
               />
               {countFormat(quote_count)}
             </Box>
-          </Link>
+          ) : (
+            <Link href={`/post?quote=${postId}`} className="z-0" scroll={false}>
+              <Box component="span" sx={{ display: "inline-block" }}>
+                <EditNoteRounded
+                  sx={{
+                    position: "relative",
+                    top: -1,
+                    fontSize: "1.5em",
+                    mr: { xs: 0.25, sm: ".5em" },
+                  }}
+                />
+                {countFormat(quote_count)}
+              </Box>
+            </Link>
+          )}
         </Box>
       </Tooltip>
     </Box>

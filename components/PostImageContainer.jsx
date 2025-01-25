@@ -95,33 +95,64 @@ const PostImageContainer = memo(({ images, is_preview }) => {
         gridTemplateRows: styles[images.length - 1].gridTemplateRows,
       }}
     >
-      {images.map((image_link, index) => (
-        <Link
-          key={links[index]}
-          href={links[index]}
-          target={is_preview ? "_blank" : ""}
-          style={{
-            gridColumn: styles[images.length - 1].gridColumn[index],
-            gridRow: styles[images.length - 1].gridRow[index],
-            width: "100%",
-            height: "100%",
-            display: "block",
-            overflow: "hidden",
-          }}
-          className={`relative z-10 ${styles[images.length - 1].imageHeight[index]}`}
-        >
-          <div style={{ width: "100%", height: "100%", position: "relative" }}>
-            <Image
-              src={image_link}
-              fill
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-              className={`hover:brightness-95 duration-200 object-cover ${styles[images.length - 1].borderRadiuses[index]}`}
-              alt="投稿画像"
-              priority
-            />
+      {images.map((image_link, index) =>
+        is_preview ? (
+          <div
+            key={links[index]}
+            style={{
+              gridColumn: styles[images.length - 1].gridColumn[index],
+              gridRow: styles[images.length - 1].gridRow[index],
+              width: "100%",
+              height: "100%",
+              display: "block",
+              overflow: "hidden",
+            }}
+            className={`relative z-10 ${styles[images.length - 1].imageHeight[index]}`}
+          >
+            <div
+              style={{ width: "100%", height: "100%", position: "relative" }}
+            >
+              <Image
+                src={image_link}
+                fill
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                className={`hover:brightness-95 duration-200 object-cover ${styles[images.length - 1].borderRadiuses[index]}`}
+                alt="投稿画像"
+                priority
+              />
+            </div>
           </div>
-        </Link>
-      ))}
+        ) : (
+          <Link
+            key={links[index]}
+            href={links[index]}
+            target={is_preview ? "_blank" : ""}
+            style={{
+              gridColumn: styles[images.length - 1].gridColumn[index],
+              gridRow: styles[images.length - 1].gridRow[index],
+              width: "100%",
+              height: "100%",
+              display: "block",
+              overflow: "hidden",
+            }}
+            className={`relative z-10 ${styles[images.length - 1].imageHeight[index]}`}
+            scroll={false}
+          >
+            <div
+              style={{ width: "100%", height: "100%", position: "relative" }}
+            >
+              <Image
+                src={image_link}
+                fill
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                className={`hover:brightness-95 duration-200 object-cover ${styles[images.length - 1].borderRadiuses[index]}`}
+                alt="投稿画像"
+                priority
+              />
+            </div>
+          </Link>
+        )
+      )}
     </Box>
   );
 });
