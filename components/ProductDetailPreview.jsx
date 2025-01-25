@@ -9,6 +9,8 @@ import { MoreHorizRounded } from "@mui/icons-material";
 import PostReaction from "./PostReaction";
 import PostImageContainer from "./PostImageContainer";
 import PostTags from "./PostTags";
+import QuoteCard from "./QuoteCard";
+
 import { urlForImage } from "@/utils/utils";
 import { formatPostBody } from "@/utils/postBodyFormat";
 import { formatPrice } from "@/utils/formatPrice";
@@ -22,6 +24,7 @@ const ProductPreview = ({
   tags,
   price,
   images,
+  quoted_ref,
 }) => {
   return (
     <section className="bg-white">
@@ -56,9 +59,27 @@ const ProductPreview = ({
           </div>
           <div className="px-2 grow">
             <h3 className="mt-4 pb-4 font-bold text-xl">{name}</h3>
+
             <PostTags tags={tags} />
             {images?.length > 0 && (
               <PostImageContainer images={images} is_preview />
+            )}
+
+            {quoted_ref && (
+              <QuoteCard
+                image_link={
+                  quoted_ref.images?.length > 0 &&
+                  urlForImage(quoted_ref.images[0].image_link, "images")
+                }
+                author_name={
+                  quoted_ref.author.nickname || quoted_ref.author.username
+                }
+                author_icon={urlForImage(quoted_ref.author.icon_link, "icons")}
+                post_content={formatPostBody(quoted_ref.content, false)}
+                post_link={`/posts/${quoted_ref.id}`}
+                product={quoted_ref.product}
+                target="_self"
+              />
             )}
 
             <PostReaction

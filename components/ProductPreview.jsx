@@ -11,9 +11,11 @@ import PostReaction from "./PostReaction";
 import PostImageContainer from "./PostImageContainer";
 
 import PostTags from "./PostTags";
+import QuoteCard from "./QuoteCard";
 
 import { urlForImage } from "@/utils/utils";
 import { formatPrice } from "@/utils/formatPrice";
+import { formatPostBody } from "@/utils/postBodyFormat";
 
 const ProductPreview = ({
   username,
@@ -23,9 +25,8 @@ const ProductPreview = ({
   tags,
   price,
   images,
+  quoted_ref,
 }) => {
-  console.log(images);
-
   return (
     <Box
       sx={{
@@ -114,6 +115,23 @@ const ProductPreview = ({
                 {formatPrice(price)}
               </Box>
             </Box>
+
+            {quoted_ref && (
+              <QuoteCard
+                image_link={
+                  quoted_ref.images?.length > 0 &&
+                  urlForImage(quoted_ref.images[0].image_link, "images")
+                }
+                author_name={
+                  quoted_ref.author.nickname || quoted_ref.author.username
+                }
+                author_icon={urlForImage(quoted_ref.author.icon_link, "icons")}
+                post_content={formatPostBody(quoted_ref.content, false)}
+                post_link={`/posts/${quoted_ref.id}`}
+                product={quoted_ref.product}
+                target="_self"
+              />
+            )}
 
             <PostReaction
               comment_count={0}
