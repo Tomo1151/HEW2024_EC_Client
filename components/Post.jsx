@@ -22,6 +22,7 @@ import { dateFormat } from "@/utils/dateFormat";
 import { formatPostBody } from "@/utils/postBodyFormat";
 import { PostOgp } from "./PostOgp";
 import { extractUrlsFromPost } from "@/utils/extractUrlsFromPost";
+import QuoteCard from "./QuoteCard";
 
 const Post = ({
   type,
@@ -36,6 +37,8 @@ const Post = ({
   comment_count,
   ref_count,
   like_count,
+  quote_count,
+  quoted_ref,
   created_at,
   is_reposted,
   is_liked,
@@ -49,7 +52,7 @@ const Post = ({
   const [repostCount, setRepostCount] = useState(ref_count);
   const [likeCount, setLikeCount] = useState(like_count);
   const notifications = useNotifications();
-
+  console.log(quoted_ref);
   const router = useRouter();
 
   let options = {};
@@ -163,7 +166,7 @@ const Post = ({
       {is_clickable && (
         <Link
           href={`/posts/${postId}`}
-          className="absolute inset-0 w-full h-full z-[1]"
+          className="absolute inset-0 w-full h-full z-[1] pointer-events-auto"
         />
       )}
       {type === "repost" && (
@@ -270,12 +273,30 @@ const Post = ({
           {/* URLが存在する場合のみOGPカードを表示 */}
           {firstUrl && <PostOgp url={firstUrl} />}
 
+          {quoted_ref && (
+            <QuoteCard
+              image_link={
+                quoted_ref.images?.length > 0 &&
+                urlForImage(quoted_ref.images[0].image_link, "images")
+              }
+              author_name={
+                quoted_ref.author.nickname || quoted_ref.author.username
+              }
+              author_icon={urlForImage(quoted_ref.icon_link, "icons")}
+              post_content={formatPostBody(quoted_ref.content, false)}
+              post_link={`/posts/${quoted_ref.id}`}
+              product={quoted_ref.product}
+              target="_self"
+            />
+          )}
+
           <PostReaction
             postId={postId}
             comment_count={comment_count}
             ref_count={repostCount}
             setRepostCount={setRepostCount}
             like_count={likeCount}
+            quote_count={quote_count}
             setLikeCount={setLikeCount}
             is_reposted={isReposted}
             setReposted={setisReposted}

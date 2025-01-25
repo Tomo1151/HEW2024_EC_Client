@@ -115,7 +115,7 @@ const Header = () => {
     },
     {
       name: "投稿する",
-      href: "/post",
+      href: "/post?type=post",
       type: "link",
       icon: <CreateRounded sx={{ ...navigationIconStyle, color: "white" }} />,
       loginRequired: true,

@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { use, useState } from "react";
 
 import { useSearchParams } from "next/navigation";
 
@@ -12,6 +13,7 @@ import PostForm from "./PostForm";
 import PostProductForm from "./PostProductForm";
 
 const DetailPostForm = () => {
+  const router = useRouter();
   const route = {
     post: 0,
     product: 1,
@@ -20,8 +22,13 @@ const DetailPostForm = () => {
     route[useSearchParams().get("type")] || 0
   );
 
+  const [quoteRef, setQuoteRef] = useState(
+    useSearchParams().get("quote") || null
+  );
+
   const handleTabChange = (event, newValue) => {
     setTabIndex(newValue);
+    // router.replace(`/post?type=${Object.keys(route)[newValue]}`);
   };
 
   return (
@@ -44,10 +51,10 @@ const DetailPostForm = () => {
             </TabList>
           </Box>
           <TabPanel value={0} sx={{ padding: 0 }}>
-            <PostForm />
+            <PostForm quoteRef={quoteRef} />
           </TabPanel>
           <TabPanel value={1} sx={{ padding: 0 }}>
-            <PostProductForm />
+            <PostProductForm quoteRef={quoteRef} />
           </TabPanel>
         </TabContext>
       </Box>

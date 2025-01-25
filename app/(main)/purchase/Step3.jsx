@@ -10,13 +10,18 @@ import FollowButton from "@/components/FollowButton";
 import { StarRateRounded } from "@mui/icons-material";
 import { urlForImage } from "@/utils/utils";
 
+import { useNotifications } from "@toolpad/core";
+import { formatPrice } from "@/utils/formatPrice";
+
 const Step3 = () => {
+  const notifications = useNotifications();
   const { cartItems, fetchUserCart, clearUserCart } = useUserContext();
-  const [isRated, setIsRated] = useState(
+  const [productRatings, setProductRatings] = useState(
     Object.fromEntries(cartItems.map((item) => [item.product.id, false]))
   );
 
   const [isCompleted, setIsCompleted] = useState(false);
+  const [isRated, setIsRated] = useState(false);
   const [error, setError] = useState(null);
 
   const items = useRef([]);
@@ -38,9 +43,14 @@ const Step3 = () => {
       const resJson = await response.json();
 
       if (resJson.success) {
-        setIsRated({
-          ...isRated,
-          [productId]: true,
+        notifications.show("評価が送信されました", {
+          severity: "success",
+          autoHideDuration: 3000,
+        });
+      } else {
+        notifications.show("評価が正常に送信されませんでした", {
+          severity: "error",
+          autoHideDuration: 3000,
         });
       }
     } catch (error) {
@@ -52,7 +62,13 @@ const Step3 = () => {
   const purchaseItems = async () => {
     if (isCompleted) return;
 
-    const productIds = cartItems.map((item) => item.product.id);
+    const products = cartItems.map((item) => ({
+      productId: item.product.id,
+      priceId: item.product.price_histories[0].id,
+    }));
+
+    // console.log(products);
+
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_FETCH_BASE_URL}/purchase`,
@@ -61,20 +77,32 @@ const Step3 = () => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ productIds }),
+          body: JSON.stringify(products),
           credentials: "include",
         }
       );
+
+      if (!response.ok) {
+        throw new Error("購入が正常に完了されませんでした");
+      }
 
       const resJson = await response.json();
       if (resJson.success) {
         items.current = cartItems;
         clearUserCart();
+        notifications.show("購入が完了しました", {
+          severity: "success",
+          autoHideDuration: 3000,
+        });
         setIsCompleted(true);
       }
     } catch (error) {
       setError(error);
       console.error(error);
+      notifications.show("購入が正常に完了されませんでした", {
+        severity: "error",
+        autoHideDuration: 3000,
+      });
     }
   };
 
@@ -97,6 +125,18 @@ const Step3 = () => {
       >
         <p>エラーが発生しました</p>
         <p>時間をおいてもう一度お試しください</p>
+        <p className="text-gray-500 text-center text-sm py-4">
+          何度も発生する場合は
+          <br />
+          以下のリンクよりお問い合わせください
+        </p>
+        <Link
+          href="/contact"
+          className="text-blue-500 hover:underline"
+          passHref
+        >
+          お問い合わせ
+        </Link>
       </Box>
     );
   }
@@ -115,13 +155,17 @@ const Step3 = () => {
   );
 
   uniqUsers.forEach((user, index) => {
-    uniqUsers[index].products = items.current.filter(
-      (item) => item.product.post.author.id === user.id
-    );
+    const uniqueProducts = new Map();
+    items.current.forEach((item) => {
+      if (item.product.post.author.id === user.id) {
+        uniqueProducts.set(item.product.id, item);
+      }
+    });
+    uniqUsers[index].products = Array.from(uniqueProducts.values());
   });
-
+  // console.log(productRatings);
   return (
-    <>
+    <Box sx={{ textAlign: "center" }}>
       <Box
         sx={{
           px: { xs: 1, sm: 4 },
@@ -141,7 +185,7 @@ const Step3 = () => {
           からダウンロードいただけます
         </p>
       </Box>
-      <Box sx={{ mb: 4 }}>
+      <Box sx={{ mb: 4, textAlign: "left" }}>
         {uniqUsers.map((user) => (
           <Box key={user.id}>
             <Box
@@ -212,7 +256,7 @@ const Step3 = () => {
                 />
               </Box>
             </Box>
-            {user.products.map((item) => (
+            {user.products.map((item, index) => (
               <Box
                 key={item.product.id}
                 sx={{ borderBottom: "1px solid #e0e0e0" }}
@@ -241,17 +285,12 @@ const Step3 = () => {
                       {item.product.name}
                     </p>
                     <p className="text-[1.15em] text-red-500 font-bold">
-                      {isNaN(parseInt(item.product.price))
-                        ? "価格未設定"
-                        : parseInt(item.product.price).toLocaleString("ja-JP", {
-                            style: "currency",
-                            currency: "JPY",
-                          })}
+                      {formatPrice(item.product.price_histories[0].price)}
                     </p>
                   </Box>
                 </Box>
                 <Box sx={{ my: 2 }}>
-                  {isRated[item.product.id] ? (
+                  {productRatings[item.product.id] && false ? (
                     <>
                       <p className="text-center">評価が送信されました</p>
                     </>
@@ -277,10 +316,11 @@ const Step3 = () => {
                           emptyIcon={<StarRateRounded fontSize="inherit" />}
                           sx={{ fontSize: "3em" }}
                           onChange={(e, newValue) => {
-                            ratingProduct(item.product.id, newValue);
-                            setIsRated({
-                              ...isRated,
-                              [item.product.id]: true,
+                            // console.log(newValue);
+                            // ratingProduct(item.product.id, newValue);
+                            setProductRatings({
+                              ...productRatings,
+                              [item.product.id]: newValue,
                             });
                           }}
                         />
@@ -293,7 +333,23 @@ const Step3 = () => {
           </Box>
         ))}
       </Box>
-    </>
+
+      {/* <Link href="/"> */}
+      <Button
+        variant="contained"
+        color="primary"
+        href="/"
+        onClick={async () => {
+          for (const [key, value] of Object.entries(productRatings)) {
+            if (!value) continue;
+            await ratingProduct(key, value);
+          }
+        }}
+      >
+        評価を送信してトップへ
+      </Button>
+      {/* </Link> */}
+    </Box>
   );
 };
 

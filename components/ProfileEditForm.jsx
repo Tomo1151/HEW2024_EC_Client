@@ -47,7 +47,7 @@ const ProfileEditForm = ({ userData }) => {
         const resJson = await response.json();
         if (resJson.success) {
           router.refresh();
-          router.push(`/users/${username}`, { scroll: false });
+          router.replace(`/users/${username}`, { scroll: false });
         }
       });
     } catch (err) {

@@ -13,6 +13,7 @@ import PostImageContainer from "./PostImageContainer";
 import PostTags from "./PostTags";
 
 import { urlForImage } from "@/utils/utils";
+import { formatPrice } from "@/utils/formatPrice";
 
 const ProductPreview = ({
   username,
@@ -110,12 +111,7 @@ const ProductPreview = ({
                   pointerEvents: "none",
                 }}
               >
-                {isNaN(parseInt(price))
-                  ? "価格未設定"
-                  : parseInt(price).toLocaleString("ja-JP", {
-                      style: "currency",
-                      currency: "JPY",
-                    })}
+                {formatPrice(price)}
               </Box>
             </Box>
 
@@ -123,6 +119,7 @@ const ProductPreview = ({
               comment_count={0}
               ref_count={0}
               like_count={0}
+              quote_count={0}
               is_reposted={false}
               is_liked={false}
               is_preview

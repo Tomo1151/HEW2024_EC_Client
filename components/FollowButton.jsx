@@ -26,7 +26,7 @@ const FollowButton = ({
         );
         const resJson = await response.json();
         if (resJson.success) {
-          console.log(resJson);
+          // console.log(resJson);
           if (set_is_following) set_is_following((prev) => !prev);
           setIsFollowing((prev) => !prev);
         }
@@ -37,7 +37,12 @@ const FollowButton = ({
   };
 
   return (
-    <Button variant="contained" color="primary" onClick={handleOnClick} sx={sx}>
+    <Button
+      variant={isFollowing ? "outlined" : "contained"}
+      color="primary"
+      onClick={handleOnClick}
+      sx={sx}
+    >
       {isFollowing ? "フォロー中" : "フォローする"}
     </Button>
   );

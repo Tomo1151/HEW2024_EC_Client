@@ -6,6 +6,7 @@ import {
   FavoriteBorderRounded,
   FavoriteRounded,
   RepeatRounded,
+  EditNoteRounded,
 } from "@mui/icons-material";
 
 import { useUserContext } from "@/context/UserContext";
@@ -24,6 +25,7 @@ const PostReaction = ({
   setLikeCount,
   setLiked,
   is_liked,
+  quote_count,
   is_preview,
   setPosts,
   setRefresh,
@@ -259,6 +261,41 @@ const PostReaction = ({
             />
           )}
           {countFormat(like_count)}
+        </Box>
+      </Tooltip>
+      <Tooltip title="引用リポスト">
+        <Box
+          sx={[
+            {
+              fontSize: "1.15em",
+              userSelect: "none",
+              transitionDuration: "0.15s",
+              zIndex: 20,
+              flexBasis: "33%",
+              "&:hover": {
+                color: "#2dcb2d",
+                filter: "drop-shadow(0 0 0.5rem #2dcb2d)",
+                cursor: "pointer",
+              },
+            },
+            is_reposted && {
+              color: "#2dcb2d",
+            },
+          ]}
+        >
+          <Link href={`/post?quote=${postId}`} className="z-0" scroll={false}>
+            <Box component="span" sx={{ display: "inline-block" }}>
+              <EditNoteRounded
+                sx={{
+                  position: "relative",
+                  top: -1,
+                  fontSize: "1.5em",
+                  mr: { xs: 0.25, sm: ".5em" },
+                }}
+              />
+              {countFormat(quote_count)}
+            </Box>
+          </Link>
         </Box>
       </Tooltip>
     </Box>

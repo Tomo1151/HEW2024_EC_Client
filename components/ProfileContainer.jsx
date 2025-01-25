@@ -20,6 +20,7 @@ import CircularLoading from "./loading/CircularLoading";
 import { fetchHeaders } from "@/config/fetchConfig";
 import { urlForImage } from "@/utils/utils";
 import { countFormat } from "@/utils/countFormat";
+import StarRating from "./StarRating";
 
 const ProfileContainer = ({ username }) => {
   const fallback_img = "https://placeholder.com/150";
@@ -107,6 +108,7 @@ const ProfileContainer = ({ username }) => {
             href={`${user.username}/edit`}
             className="absolute top-4 right-6"
             scroll={false}
+            replace
           >
             <SettingsRoundedIcon
               sx={{
@@ -166,12 +168,7 @@ const ProfileContainer = ({ username }) => {
               </Link>
             </p>
             <p>
-              <StarIcon
-                sx={{ color: "rgb(255, 185, 0)", fontSize: "1.15em" }}
-              />
-              <span className="text-[1em] inline-block h-full pl-2 align-top">
-                4.0
-              </span>
+              <StarRating rating={user.rating._avg.value} />
             </p>
           </div>
           <p

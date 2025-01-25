@@ -87,10 +87,12 @@ const PostDetailPage = (route) => {
             tags={postData.tags?.map((tagObj) => tagObj.tag.name)}
             productId={postData.product.id}
             name={postData.product.name}
-            price={postData.product.price}
+            price={postData.product.price_histories[0]?.price}
             comment_count={postData.comment_count}
             ref_count={postData.ref_count}
             like_count={postData.like_count}
+            quote_count={postData.quote_count}
+            quoted_ref={postData.quoted_ref}
             created_at={postData.created_at}
             is_reposted={postData.reposts.length > 0}
             is_liked={postData.likes.length > 0}
@@ -111,6 +113,8 @@ const PostDetailPage = (route) => {
             comment_count={postData.comment_count}
             ref_count={postData.ref_count}
             like_count={postData.like_count}
+            quote_count={postData.quote_count}
+            quoted_ref={postData.quoted_ref}
             created_at={postData.created_at}
             is_reposted={postData.reposts.length > 0}
             is_liked={postData.likes.length > 0}
@@ -134,6 +138,8 @@ const PostDetailPage = (route) => {
             comment_count={reply.comment_count}
             ref_count={reply.ref_count}
             like_count={reply.like_count}
+            quote_count={reply.quote_count}
+            quoted_ref={reply.quoted_ref}
             created_at={reply.created_at}
             is_reposted={reply.reposts.length > 0}
             is_liked={reply.likes.length > 0}

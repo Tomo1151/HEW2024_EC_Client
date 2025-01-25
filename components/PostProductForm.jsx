@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-import { useState, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import {
   Box,
   Button,
@@ -11,6 +11,8 @@ import {
   Switch,
   TextField,
 } from "@mui/material";
+
+import { LoadingButton } from "@mui/lab";
 
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
@@ -24,7 +26,10 @@ import FormImagePreview from "./FormImagePreview";
 import FormThumbnailImage from "./FormThumbnailImage";
 import { urlForImage } from "@/utils/utils";
 import { formatDataSize } from "@/utils/formatDataSize";
-export default function PostProductForm({ setRefresh }) {
+import { formatPostBody } from "@/utils/postBodyFormat";
+import QuoteCard from "./QuoteCard";
+
+export default function PostProductForm({ quoteRef, setRefresh }) {
   const router = useRouter();
   const { activeUser, refreshToken } = useUserContext();
   const [name, setName] = useState("");
@@ -35,10 +40,34 @@ export default function PostProductForm({ setRefresh }) {
   const [data, setData] = useState(null);
   const [price, setPrice] = useState("");
   const [liveLink, setLiveLink] = useState("");
-
+  const [status, setStatus] = useState([]);
   const [isPreviewActive, setIsPreviewActive] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
+
+  const [quotePost, setQuotePost] = useState(null);
 
   const notifications = useNotifications();
+
+  const fetchQuoteRef = async () => {
+    try {
+      const response = await fetch(
+        process.env.NEXT_PUBLIC_FETCH_BASE_URL + `/posts/${quoteRef}`
+      );
+      const resJson = await response.json();
+
+      if (resJson.success) {
+        console.log("Quote fetched: ", resJson.data);
+        setQuotePost(resJson.data);
+      } else {
+        notifications.show("引用元のポストが見つかりません", {
+          severity: "error",
+          autoHideDuration: 3000,
+        });
+      }
+    } catch (error) {
+      console.error("Quote fetch failed.", error);
+    }
+  };
 
   const handleSetTags = (e) => {
     console.log(tagInput);
@@ -56,68 +85,70 @@ export default function PostProductForm({ setRefresh }) {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log("isProcessing: ", isProcessing);
 
     try {
       refreshToken().then(async () => {
-        try {
-          const formData = new FormData();
-          formData.append("name", name.trim());
-          formData.append("description", description.trim());
-          formData.append("price", price);
-          formData.append("live_link", liveLink.trim());
-          formData.append("data", data);
+        setIsProcessing(true);
+        const formData = new FormData();
+        formData.append("name", name.trim());
+        formData.append("description", description.trim());
+        if (price) formData.append("price", price);
+        formData.append("live_link", liveLink.trim());
+        formData.append("data", data);
+        formData.append("quoted_ref", quoteRef);
 
-          for (const image of images) {
-            formData.append("images", image);
+        for (const image of images) {
+          formData.append("images", image);
+        }
+
+        for (const tag of tags) {
+          formData.append("tags[]", tag);
+        }
+
+        console.log(...formData.entries());
+
+        const response = await fetch(
+          process.env.NEXT_PUBLIC_FETCH_BASE_URL + "/products",
+          {
+            method: "POST",
+            body: formData,
+            credentials: "include",
           }
+        );
 
-          for (const tag of tags) {
-            formData.append("tags[]", tag);
-          }
+        const resJson = await response.json();
 
-          console.log(...formData.entries());
+        if (resJson.success) {
+          setName("");
+          setDescription("");
+          setPrice("");
+          setLiveLink("");
+          setImages([]);
+          setData(null);
+          setTags([]);
+          setStatus([]);
 
-          const response = await fetch(
-            process.env.NEXT_PUBLIC_FETCH_BASE_URL + "/products",
-            {
-              method: "POST",
-              body: formData,
-              credentials: "include",
-            }
-          );
+          if (setRefresh) setRefresh((prev) => !prev);
+          notifications.show("ポストが正常に投稿されました", {
+            severity: "success",
+            autoHideDuration: 3000,
+          });
 
-          if (!response.ok) {
-            throw new Error(response.status);
-          }
-          const resJson = await response.json();
-
-          if (resJson.success) {
-            setName("");
-            setDescription("");
-            setPrice("");
-            setLiveLink("");
-            setImages([]);
-            setData(null);
-
-            notifications.show("ポストが正常に投稿されました", {
-              severity: "success",
-              autoHideDuration: 3000,
-            });
-
-            router.push(`/`, { scroll: false });
-            // router.push(`/posts/${resJson.data.id}`, { scroll: false });
-          } else {
-            notifications.show("ポストの投稿に失敗しました", {
-              severity: "error",
-              autoHideDuration: 3000,
-            });
-          }
-        } catch (error) {
-          console.error("Post failed.", error);
+          router.push(`/`, { scroll: false });
+          // router.push(`/posts/${resJson.data.id}`, { scroll: false });
+        } else {
+          setStatus(resJson.error);
+          notifications.show("ポストの投稿に失敗しました", {
+            severity: "error",
+            autoHideDuration: 3000,
+          });
         }
       });
     } catch (error) {
       console.error("Post failed.", error);
+    } finally {
+      setIsProcessing(false);
     }
   };
 
@@ -128,6 +159,12 @@ export default function PostProductForm({ setRefresh }) {
     },
     [images]
   );
+
+  useEffect(() => {
+    if (quoteRef) {
+      fetchQuoteRef();
+    }
+  }, [quoteRef]);
 
   return (
     <Box
@@ -151,6 +188,7 @@ export default function PostProductForm({ setRefresh }) {
             boxSizing: "border-box",
             gap: "5px",
             width: "100%",
+            mb: status.length > 0 ? 4 : 0,
           }}
         >
           <Box
@@ -238,7 +276,7 @@ export default function PostProductForm({ setRefresh }) {
 
             <label
               htmlFor="data"
-              className="inline-block text-sm text-[rgba(0,0,0,.6)] py-2"
+              className="inline-block text-[rgba(0,0,0,.6)] py-2"
             >
               商品データ
             </label>
@@ -384,7 +422,7 @@ export default function PostProductForm({ setRefresh }) {
             />
             <FormControlLabel
               control={<Switch />}
-              label="プレビュー"
+              label="投稿イメージのプレビューを表示"
               labelPlacement="start"
               sx={{ display: { xs: "none", sm: "block" }, mt: 4, ml: 0 }}
               onChange={(e) => setIsPreviewActive(e.target.checked)}
@@ -443,10 +481,43 @@ export default function PostProductForm({ setRefresh }) {
             </Box>
           )}
         </Box>
+
+        {quoteRef && (
+          <>
+            <p className="text-gray-500 font-bold mt-4">引用元のポスト</p>
+            <QuoteCard
+              image_link={
+                quotePost &&
+                quotePost.images.length > 0 &&
+                urlForImage(quotePost.images[0].image_link, "images")
+              }
+              author_name={quotePost && quotePost.author.username}
+              author_icon={
+                quotePost && urlForImage(quotePost.author?.icon_link, "icons")
+              }
+              post_content={quotePost && formatPostBody(quotePost.content)}
+              post_link={quotePost && `/posts/${quotePost.id}`}
+              is_loading={quotePost === null}
+            />
+          </>
+        )}
+
+        {status &&
+          status.map((message, index) => (
+            <p key={index} className="text-center text-red-600 font-bold">
+              {message}
+            </p>
+          ))}
+
         <div className="flex justify-end pt-4 mt-2 gap-x-4">
-          <Button type="submit" variant="contained" disabled={!description}>
+          <LoadingButton
+            type="submit"
+            variant="contained"
+            disabled={!description}
+            loading={isProcessing}
+          >
             投稿する
-          </Button>
+          </LoadingButton>
         </div>
       </form>
     </Box>

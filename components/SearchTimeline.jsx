@@ -111,13 +111,15 @@ const SearchTimeline = ({ type, isSrcTagClick, q, isActive }) => {
             icon_link={entry.author.icon_link}
             content={entry.content}
             productId={entry.product.id}
-            price={entry.product.price}
+            price={entry.product.price_histories[0]?.price}
             name={entry.product.name}
             images={entry.images}
             tags={entry.tags?.map((tagObj) => tagObj.tag.name)}
             comment_count={entry.comment_count}
             ref_count={entry.ref_count}
             like_count={entry.like_count}
+            quote_count={entry.quote_count}
+            quoted_ref={entry.quoted_ref}
             created_at={entry.created_at}
             is_reposted={entry.reposts.length > 0}
           />
@@ -135,6 +137,8 @@ const SearchTimeline = ({ type, isSrcTagClick, q, isActive }) => {
             comment_count={entry.comment_count}
             ref_count={entry.ref_count}
             like_count={entry.like_count}
+            quote_count={entry.quote_count}
+            quoted_ref={entry.quoted_ref}
             created_at={entry.created_at}
             is_reposted={entry.reposts.length > 0}
           />

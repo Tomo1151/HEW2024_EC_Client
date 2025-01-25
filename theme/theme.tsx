@@ -6,6 +6,7 @@ import { M_PLUS_Rounded_1c } from "next/font/google";
 const M_PLUS_Rounded_1cFont = M_PLUS_Rounded_1c({
   weight: "500",
   subsets: ["latin"],
+  display: "swap",
 });
 
 const theme = createTheme({

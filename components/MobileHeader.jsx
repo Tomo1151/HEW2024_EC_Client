@@ -207,13 +207,12 @@ const MobileHeader = ({ listItems, activeUser, isHeaderTransparent }) => {
                       minWidth: "fit-content",
                       width: "100%",
                       borderRadius: ".365rem",
-                      ...(item.href === "/post" && {
+                      ...(item.href === "/post?type=post" && {
                         backgroundColor: "primary.main",
                         color: "white",
                         transition: "opacity 0.2s",
-                        textAlign: "center",
-                        pr: "2em",
-                        mt: "1em",
+                        mt: "2em",
+                        mx: "1em",
                         "&:hover": {
                           backgroundColor: "primary.main",
                           color: "white",
@@ -240,6 +239,9 @@ const MobileHeader = ({ listItems, activeUser, isHeaderTransparent }) => {
                       sx={{
                         flexBasis: "80%",
                         pr: "1em",
+                        ...(item.href === "/post?type=post" && {
+                          textAlign: "center",
+                        }),
                       }}
                     />
                   </ListItemButton>

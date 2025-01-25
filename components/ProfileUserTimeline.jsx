@@ -109,13 +109,15 @@ const ProfileUserTimeline = ({ user, endpoint, isActive }) => {
                 icon_link={post.author.icon_link}
                 content={post.content}
                 productId={post.product.id}
-                price={post.product.price}
+                price={post.product.price_histories[0]?.price}
                 name={post.product.name}
                 images={post.images}
                 tags={post.tags.map((tagObj) => tagObj.tag.name)}
                 comment_count={post.comment_count}
                 ref_count={post.ref_count}
                 like_count={post.like_count}
+                quote_count={post.quote_count}
+                quoted_ref={post.quoted_ref}
                 created_at={post.created_at}
                 is_reposted={post.reposts.length > 0}
                 is_liked={post.likes.length > 0}
@@ -137,6 +139,8 @@ const ProfileUserTimeline = ({ user, endpoint, isActive }) => {
                 comment_count={post.comment_count}
                 ref_count={post.ref_count}
                 like_count={post.like_count}
+                quote_count={post.quote_count}
+                quoted_ref={post.quoted_ref}
                 created_at={post.created_at}
                 is_reposted={post.reposts.length > 0}
                 is_liked={post.likes.length > 0}

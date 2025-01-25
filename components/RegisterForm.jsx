@@ -60,7 +60,7 @@ const RegisterForm = ({
         >
           新規登録
         </LoadingButton>
-        <p className="text-center">
+        <p className="text-center pb-8">
           アカウントをお持ちの方は
           <Link href="/login" className="text-blue-400 hover:underline">
             ログイン
