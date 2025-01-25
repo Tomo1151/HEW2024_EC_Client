@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import { useState, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Box, Button, Chip, TextField } from "@mui/material";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import CancelIcon from "@mui/icons-material/Cancel";
@@ -10,8 +10,10 @@ import { useUserContext } from "@/context/UserContext";
 import { useNotifications } from "@toolpad/core/useNotifications";
 import FormImagePreview from "./FormImagePreview";
 import { urlForImage } from "@/utils/utils";
+import QuoteCard from "./QuoteCard";
+import { formatPostBody } from "@/utils/postBodyFormat";
 
-export default function PostForm({ setRefresh }) {
+export default function PostForm({ quoteRef, setRefresh }) {
   const ref = useRef(null);
 
   const { activeUser, refreshToken } = useUserContext();
@@ -21,6 +23,31 @@ export default function PostForm({ setRefresh }) {
   const [images, setImages] = useState([]);
   const [status, setStatus] = useState([]);
   const notifications = useNotifications();
+
+  const [quotePost, setQuotePost] = useState(null);
+
+  console.log("quoteRef: ", quoteRef, "quotePost: ", quotePost);
+
+  const fetchQuoteRef = async () => {
+    try {
+      const response = await fetch(
+        process.env.NEXT_PUBLIC_FETCH_BASE_URL + `/posts/${quoteRef}`
+      );
+      const resJson = await response.json();
+
+      if (resJson.success) {
+        console.log("Quote fetched: ", resJson.data);
+        setQuotePost(resJson.data);
+      } else {
+        notifications.show("引用元のポストが見つかりません", {
+          severity: "error",
+          autoHideDuration: 3000,
+        });
+      }
+    } catch (error) {
+      console.error("Quote fetch failed.", error);
+    }
+  };
 
   const handleOnChange = (e) => {
     setImages([...images, ...e.target.files].slice(0, 4));
@@ -49,6 +76,7 @@ export default function PostForm({ setRefresh }) {
         try {
           const formData = new FormData();
           formData.append("content", postText.trim());
+          formData.append("quote_ref", quoteRef);
           for (const image of images) {
             formData.append("files", image);
           }
@@ -97,6 +125,12 @@ export default function PostForm({ setRefresh }) {
     }
   };
 
+  useEffect(() => {
+    if (quoteRef) {
+      fetchQuoteRef();
+    }
+  }, [quoteRef]);
+
   return (
     <Box
       component="section"
@@ -116,7 +150,12 @@ export default function PostForm({ setRefresh }) {
             className="h-fit hover:brightness-[.75] duration-200 my-4 shrink-0"
             scroll={false}
           >
-            <Box sx={{ width: "50px", height: "50px" }}>
+            <Box
+              sx={{
+                width: { xs: "36px", sm: "50px" },
+                height: { xs: "36px", sm: "50px" },
+              }}
+            >
               <Image
                 src={urlForImage(activeUser?.icon_link)}
                 width={50}
@@ -200,6 +239,23 @@ export default function PostForm({ setRefresh }) {
           ))}
 
         <FormImagePreview images={images} setImages={setImages} />
+
+        {quoteRef && (
+          <QuoteCard
+            image_link={
+              quotePost &&
+              quotePost.images.length > 0 &&
+              urlForImage(quotePost.images[0].image_link, "images")
+            }
+            author_name={quotePost && quotePost.author.username}
+            author_icon={
+              quotePost && urlForImage(quotePost.author?.icon_link, "icons")
+            }
+            post_content={quotePost && formatPostBody(quotePost.content)}
+            post_link={quotePost && `/posts/${quotePost.id}`}
+            is_loading={quotePost === null}
+          />
+        )}
 
         <div className="flex justify-end pt-4 gap-x-4">
           <Button

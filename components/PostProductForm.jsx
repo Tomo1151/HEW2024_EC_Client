@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-import { useState, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import {
   Box,
   Button,
@@ -26,7 +26,10 @@ import FormImagePreview from "./FormImagePreview";
 import FormThumbnailImage from "./FormThumbnailImage";
 import { urlForImage } from "@/utils/utils";
 import { formatDataSize } from "@/utils/formatDataSize";
-export default function PostProductForm({ setRefresh }) {
+import { formatPostBody } from "@/utils/postBodyFormat";
+import QuoteCard from "./QuoteCard";
+
+export default function PostProductForm({ quoteRef, setRefresh }) {
   const router = useRouter();
   const { activeUser, refreshToken } = useUserContext();
   const [name, setName] = useState("");
@@ -41,7 +44,30 @@ export default function PostProductForm({ setRefresh }) {
   const [isPreviewActive, setIsPreviewActive] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
 
+  const [quotePost, setQuotePost] = useState(null);
+
   const notifications = useNotifications();
+
+  const fetchQuoteRef = async () => {
+    try {
+      const response = await fetch(
+        process.env.NEXT_PUBLIC_FETCH_BASE_URL + `/posts/${quoteRef}`
+      );
+      const resJson = await response.json();
+
+      if (resJson.success) {
+        console.log("Quote fetched: ", resJson.data);
+        setQuotePost(resJson.data);
+      } else {
+        notifications.show("引用元のポストが見つかりません", {
+          severity: "error",
+          autoHideDuration: 3000,
+        });
+      }
+    } catch (error) {
+      console.error("Quote fetch failed.", error);
+    }
+  };
 
   const handleSetTags = (e) => {
     console.log(tagInput);
@@ -70,6 +96,7 @@ export default function PostProductForm({ setRefresh }) {
         if (price) formData.append("price", price);
         formData.append("live_link", liveLink.trim());
         formData.append("data", data);
+        formData.append("quote_ref", quoteRef);
 
         for (const image of images) {
           formData.append("images", image);
@@ -132,6 +159,12 @@ export default function PostProductForm({ setRefresh }) {
     },
     [images]
   );
+
+  useEffect(() => {
+    if (quoteRef) {
+      fetchQuoteRef();
+    }
+  }, [quoteRef]);
 
   return (
     <Box
@@ -243,7 +276,7 @@ export default function PostProductForm({ setRefresh }) {
 
             <label
               htmlFor="data"
-              className="inline-block text-sm text-[rgba(0,0,0,.6)] py-2"
+              className="inline-block text-[rgba(0,0,0,.6)] py-2"
             >
               商品データ
             </label>
@@ -389,7 +422,7 @@ export default function PostProductForm({ setRefresh }) {
             />
             <FormControlLabel
               control={<Switch />}
-              label="プレビュー"
+              label="投稿イメージのプレビューを表示"
               labelPlacement="start"
               sx={{ display: { xs: "none", sm: "block" }, mt: 4, ml: 0 }}
               onChange={(e) => setIsPreviewActive(e.target.checked)}
@@ -448,6 +481,26 @@ export default function PostProductForm({ setRefresh }) {
             </Box>
           )}
         </Box>
+
+        {quoteRef && (
+          <>
+            <p className="text-gray-500 font-bold mt-4">引用元のポスト</p>
+            <QuoteCard
+              image_link={
+                quotePost &&
+                quotePost.images.length > 0 &&
+                urlForImage(quotePost.images[0].image_link, "images")
+              }
+              author_name={quotePost && quotePost.author.username}
+              author_icon={
+                quotePost && urlForImage(quotePost.author?.icon_link, "icons")
+              }
+              post_content={quotePost && formatPostBody(quotePost.content)}
+              post_link={quotePost && `/posts/${quotePost.id}`}
+              is_loading={quotePost === null}
+            />
+          </>
+        )}
 
         {status &&
           status.map((message, index) => (
