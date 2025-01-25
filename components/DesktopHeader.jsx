@@ -103,14 +103,8 @@ const DesktopHeader = ({ listItems, activeUser, isHeaderTransparent }) => {
                   ...(item.href === "/post?type=post" && {
                     backgroundColor: "primary.main",
                     color: "white",
-                    textAlign: "center",
                     transition: "opacity 0.2s",
-                    pr: {
-                      xs: 0,
-                      sm: 0,
-                      md: "2em",
-                    },
-                    mt: "3em",
+                    mt: "2em",
                     "&:hover": {
                       backgroundColor: "primary.main",
                       color: "white",
@@ -145,6 +139,9 @@ const DesktopHeader = ({ listItems, activeUser, isHeaderTransparent }) => {
                       md: "none",
                       lg: "block",
                     },
+                    ...(item.href === "/post?type=post" && {
+                      textAlign: "center",
+                    }),
                   }}
                 />
               </ListItemButton>
