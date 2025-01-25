@@ -1,7 +1,7 @@
 import React from "react";
 import { extractUrlsFromPost } from "./extractUrlsFromPost";
 
-export const formatPostBody = (content) => {
+export const formatPostBody = (content, link = true) => {
   const urls = extractUrlsFromPost(content);
 
   // 連続する改行を1つにまとめる
@@ -22,25 +22,29 @@ export const formatPostBody = (content) => {
           segments.push(line.substring(lastIndex, index));
         }
         // URLをリンクとして追加
-        segments.push(
-          React.createElement(
-            "a",
-            {
-              key: url,
-              href: url,
-              target: "_blank",
-              rel: "noopener noreferrer",
-              className:
-                "text-blue-500 hover:underline z-10 relative break-all break-words inline-block max-w-full",
-              onClick: (e) => e.stopPropagation(),
-              style: {
-                wordBreak: "break-all",
-                overflowWrap: "break-word",
+        if (link) {
+          segments.push(
+            React.createElement(
+              "a",
+              {
+                key: url,
+                href: url,
+                target: "_blank",
+                rel: "noopener noreferrer",
+                className:
+                  "text-blue-500 hover:underline z-10 relative break-all break-words inline-block max-w-full",
+                onClick: (e) => e.stopPropagation(),
+                style: {
+                  wordBreak: "break-all",
+                  overflowWrap: "break-word",
+                },
               },
-            },
-            url
-          )
-        );
+              url
+            )
+          );
+        } else {
+          segments.push(url);
+        }
         lastIndex = index + url.length;
       }
     });

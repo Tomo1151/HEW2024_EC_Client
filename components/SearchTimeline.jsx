@@ -118,6 +118,8 @@ const SearchTimeline = ({ type, isSrcTagClick, q, isActive }) => {
             comment_count={entry.comment_count}
             ref_count={entry.ref_count}
             like_count={entry.like_count}
+            quote_count={entry.quote_count}
+            quoted_ref={entry.quoted_ref}
             created_at={entry.created_at}
             is_reposted={entry.reposts.length > 0}
           />
@@ -135,6 +137,8 @@ const SearchTimeline = ({ type, isSrcTagClick, q, isActive }) => {
             comment_count={entry.comment_count}
             ref_count={entry.ref_count}
             like_count={entry.like_count}
+            quote_count={entry.quote_count}
+            quoted_ref={entry.quoted_ref}
             created_at={entry.created_at}
             is_reposted={entry.reposts.length > 0}
           />

@@ -65,6 +65,7 @@ const ProductPreview = ({
               comment_count={0}
               ref_count={0}
               like_count={0}
+              quote_count={0}
               is_reposted={false}
               is_liked={false}
               is_preview

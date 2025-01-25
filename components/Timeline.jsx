@@ -106,7 +106,7 @@ const Timeline = ({ name, isActive, setRefresh, refresh }) => {
   if (isLoading) {
     return <CircularLoading />;
   }
-
+  // console.log(posts);
   return (
     <>
       <LoadingButton
@@ -160,6 +160,8 @@ const Timeline = ({ name, isActive, setRefresh, refresh }) => {
                   comment_count={post.comment_count}
                   ref_count={post.ref_count}
                   like_count={post.like_count}
+                  quote_count={post.quote_count}
+                  quoted_ref={post.quoted_ref}
                   created_at={post.created_at}
                   is_reposted={post.reposts.length > 0}
                   is_liked={post.likes.length > 0}
@@ -182,6 +184,8 @@ const Timeline = ({ name, isActive, setRefresh, refresh }) => {
                   comment_count={post.comment_count}
                   ref_count={post.ref_count}
                   like_count={post.like_count}
+                  quote_count={post.quote_count}
+                  quoted_ref={post.quoted_ref}
                   created_at={
                     post.type === "repost"
                       ? post.postCreatedAt

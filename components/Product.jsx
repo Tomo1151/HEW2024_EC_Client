@@ -17,9 +17,13 @@ import { fetchHeaders } from "@/config/fetchConfig";
 import { useUserContext } from "../context/UserContext";
 import { useNotifications } from "@toolpad/core/useNotifications";
 import PostTags from "./PostTags";
+import QuoteCard from "./QuoteCard";
+
+import { formatPostBody } from "@/utils/postBodyFormat";
 import { urlForImage } from "@/utils/utils";
 import { dateFormat } from "@/utils/dateFormat";
 import { formatPrice } from "@/utils/formatPrice";
+
 const Product = ({
   type,
   repost_user,
@@ -28,13 +32,14 @@ const Product = ({
   nickname,
   icon_link,
   name,
-  content,
   price,
   images,
   tags,
   comment_count,
   ref_count,
   like_count,
+  quote_count,
+  quoted_ref,
   created_at,
   is_reposted,
   is_liked,
@@ -263,6 +268,23 @@ const Product = ({
               </Box>
             </Box>
 
+            {quoted_ref && (
+              <QuoteCard
+                image_link={
+                  quoted_ref.images?.length > 0 &&
+                  urlForImage(quoted_ref.images[0].image_link, "images")
+                }
+                author_name={
+                  quoted_ref.author.nickname || quoted_ref.author.username
+                }
+                author_icon={urlForImage(quoted_ref.icon_link, "icons")}
+                post_content={formatPostBody(quoted_ref.content, false)}
+                post_link={`/posts/${quoted_ref.id}`}
+                product={quoted_ref.product}
+                target="_self"
+              />
+            )}
+
             <PostReaction
               postId={postId}
               comment_count={comment_count}
@@ -274,6 +296,7 @@ const Product = ({
               setReposted={setisReposted}
               is_liked={isLiked}
               setLiked={setisLiked}
+              quote_count={quote_count}
               setPosts={setPosts}
               setRefresh={setRefresh}
             />

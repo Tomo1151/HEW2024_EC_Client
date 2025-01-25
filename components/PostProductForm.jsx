@@ -96,7 +96,7 @@ export default function PostProductForm({ quoteRef, setRefresh }) {
         if (price) formData.append("price", price);
         formData.append("live_link", liveLink.trim());
         formData.append("data", data);
-        formData.append("quote_ref", quoteRef);
+        formData.append("quoted_ref", quoteRef);
 
         for (const image of images) {
           formData.append("images", image);

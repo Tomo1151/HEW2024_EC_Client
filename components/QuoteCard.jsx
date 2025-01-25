@@ -2,12 +2,16 @@ import { Box, Skeleton } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
 
+import { formatPrice } from "@/utils/formatPrice";
+
 const QuoteCard = ({
   image_link,
   author_name,
   author_icon,
   post_content,
   post_link,
+  product,
+  target = "_blank",
   is_loading,
 }) => {
   if (is_loading) {
@@ -51,24 +55,24 @@ const QuoteCard = ({
 
   return (
     <>
-      <div className="relative bg-white mt-2">
+      <div className="relative bg-white mt-2 z-[9]">
         {post_link && (
-          <a
+          <Link
             href={post_link}
-            target="_blank"
+            target={target}
             className="inline sm:hidden absolute inset-0 w-full h-full z-10"
-          ></a>
+          ></Link>
         )}
         <div className="relative bg-white p-2 border border-[#e0e0e0] rounded-xl flex sm:p-4 hover:brightness-[.95] duration-200">
           {post_link && (
-            <a
+            <Link
               href={post_link}
-              target="_blank"
-              className="hidden sm:inline absolute inset-0 w-full h-full"
-            ></a>
+              target={target}
+              className="hidden sm:inline absolute inset-0 w-full h-full z-10 pointer-events-auto"
+            ></Link>
           )}
           {image_link && (
-            <div className="w-[7.5em] sm:w-[150px] mr-[.5em]">
+            <div className="w-[7.5em] sm:w-[150px] mr-[.5em] sm:mr-[1em]">
               <Image
                 src={image_link}
                 alt="商品画像"
@@ -79,9 +83,9 @@ const QuoteCard = ({
               />
             </div>
           )}
-          <div className="w-2/3 ml-0 sm:ml-2 grow text-[12px] sm:text-[16px]">
+          <div className="w-2/3 grow text-[12px] sm:text-[16px]">
             {/* ユーザー情報 */}
-            <div className="flex items-center pb-3">
+            <div className="flex items-center pb-1 sm:pb-2">
               <Image
                 src={author_icon}
                 alt="アイコン"
@@ -93,7 +97,17 @@ const QuoteCard = ({
                 {author_name}
               </p>
             </div>
-            <p className="text-[1em] line-clamp-3">{post_content}</p>
+            {product ? (
+              <>
+                <p className="text-[1em] line-clamp-1">{product.name}</p>
+                <p className="text-[.9em] text-red-500">
+                  {formatPrice(product.price_histories[0].price)}
+                </p>
+                <p className="text-[.9em] pt-1 line-clamp-2">{post_content}</p>
+              </>
+            ) : (
+              <p className="text-[1em] line-clamp-3">{post_content}</p>
+            )}
           </div>
         </div>
       </div>

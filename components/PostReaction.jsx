@@ -6,7 +6,6 @@ import {
   FavoriteBorderRounded,
   FavoriteRounded,
   RepeatRounded,
-  FormatQuoteRounded,
   EditNoteRounded,
 } from "@mui/icons-material";
 
@@ -26,6 +25,7 @@ const PostReaction = ({
   setLikeCount,
   setLiked,
   is_liked,
+  quote_count,
   is_preview,
   setPosts,
   setRefresh,
@@ -293,6 +293,7 @@ const PostReaction = ({
                   mr: { xs: 0.25, sm: ".5em" },
                 }}
               />
+              {countFormat(quote_count)}
             </Box>
           </Link>
         </Box>

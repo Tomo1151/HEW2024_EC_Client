@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import { useRouter } from "next/navigation";
 import { useState, useEffect, useRef } from "react";
 import { Box, Button, Chip, TextField } from "@mui/material";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
@@ -15,6 +16,7 @@ import { formatPostBody } from "@/utils/postBodyFormat";
 
 export default function PostForm({ quoteRef, setRefresh }) {
   const ref = useRef(null);
+  const router = useRouter();
 
   const { activeUser, refreshToken } = useUserContext();
   const [postText, setPostText] = useState("");
@@ -26,7 +28,7 @@ export default function PostForm({ quoteRef, setRefresh }) {
 
   const [quotePost, setQuotePost] = useState(null);
 
-  console.log("quoteRef: ", quoteRef, "quotePost: ", quotePost);
+  // console.log("quoteRef: ", quoteRef, "quotePost: ", quotePost);
 
   const fetchQuoteRef = async () => {
     try {
@@ -76,7 +78,10 @@ export default function PostForm({ quoteRef, setRefresh }) {
         try {
           const formData = new FormData();
           formData.append("content", postText.trim());
-          formData.append("quote_ref", quoteRef);
+          if (quoteRef) {
+            formData.append("quoted_ref", quoteRef);
+          }
+
           for (const image of images) {
             formData.append("files", image);
           }
@@ -109,6 +114,8 @@ export default function PostForm({ quoteRef, setRefresh }) {
               severity: "success",
               autoHideDuration: 3000,
             });
+            router.push("/");
+            // if (window) window.location.href = "/";
           } else {
             setStatus(resJson.error);
             notifications.show("ポストの投稿に失敗しました", {
