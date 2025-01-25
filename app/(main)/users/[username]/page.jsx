@@ -28,10 +28,10 @@ const UserProfile = async ({ params, username }) => {
     <ThemeProvider theme={theme}>
       <MainColumnHeader>
         <h3 className="font-bold tracking-wider">
-          {username || params.username}
+          {username || decodeURI(params.username)}
         </h3>
       </MainColumnHeader>
-      <ProfileContainer username={username || params.username} />
+      <ProfileContainer username={username || decodeURI(params.username)} />
     </ThemeProvider>
   );
 };
