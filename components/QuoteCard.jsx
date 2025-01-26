@@ -101,7 +101,7 @@ const QuoteCard = ({
               <>
                 <p className="text-[1em] line-clamp-1">{product.name}</p>
                 <p className="text-[.9em] text-red-500">
-                  {formatPrice(product.price_histories[0].price)}
+                  {formatPrice(product.price_histories[0]?.price)}
                 </p>
                 <p className="text-[.9em] pt-1 line-clamp-2">{post_content}</p>
               </>
