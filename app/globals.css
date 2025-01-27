@@ -43,6 +43,10 @@ body {
   opacity: 0.3 !important;
 }
 
+#twitch-embed iframe {
+  border-radius: 0.75rem;
+}
+
 input::file-selector-button {
   visibility: hidden;
 }
