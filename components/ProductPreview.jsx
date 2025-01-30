@@ -17,6 +17,9 @@ import { urlForImage } from "@/utils/utils";
 import { formatPrice } from "@/utils/formatPrice";
 import { formatPostBody } from "@/utils/postBodyFormat";
 
+import LiveEmbedCard from "./LiveEmbedCard";
+import { extractLiveIdentifier } from "@/utils/utils";
+
 const ProductPreview = ({
   username,
   nickname,
@@ -26,6 +29,7 @@ const ProductPreview = ({
   price,
   images,
   quoted_ref,
+  live_link,
 }) => {
   return (
     <Box
@@ -92,29 +96,33 @@ const ProductPreview = ({
               {name}
             </h3>
             <PostTags tags={tags} />
-            <Box sx={{ position: "relative" }}>
-              {images?.length > 0 && (
-                <PostImageContainer images={images} is_preview />
-              )}
-              <Box
-                sx={{
-                  backgroundColor: "primary.main",
-                  color: "white",
-                  width: "fit-content",
-                  padding: ".5em 1.5em",
-                  fontWeight: "bold",
-                  borderRadius: ".5em 0 0 .5em",
-                  position: "absolute",
-                  bottom: "10%",
-                  right: 0,
-                  zIndex: 10,
-                  letterSpacing: ".05em",
-                  pointerEvents: "none",
-                }}
-              >
-                {formatPrice(price)}
+
+            {extractLiveIdentifier(live_link).isValid &&
+            images?.length === 0 ? (
+              <LiveEmbedCard live_link={live_link} id="preview" />
+            ) : (
+              <Box sx={{ position: "relative" }}>
+                {images?.length > 0 && <PostImageContainer images={images} />}
+                <Box
+                  sx={{
+                    backgroundColor: price ? "primary.main" : "#999",
+                    color: "white",
+                    width: "fit-content",
+                    padding: ".5em 1.5em",
+                    fontWeight: "bold",
+                    borderRadius: ".75em 0 0 .75em",
+                    position: "absolute",
+                    bottom: "10%",
+                    right: 0,
+                    zIndex: 10,
+                    letterSpacing: ".075em",
+                    pointerEvents: "none",
+                  }}
+                >
+                  {formatPrice(price)}
+                </Box>
               </Box>
-            </Box>
+            )}
 
             {quoted_ref && (
               <QuoteCard

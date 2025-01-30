@@ -43,7 +43,7 @@ body {
   opacity: 0.3 !important;
 }
 
-#twitch-embed iframe {
+[id^="twitch-embed"] iframe {
   border-radius: 0.75rem;
 }
 

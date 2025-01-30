@@ -20,7 +20,7 @@ import PostTags from "./PostTags";
 import QuoteCard from "./QuoteCard";
 
 import { formatPostBody } from "@/utils/postBodyFormat";
-import { urlForImage } from "@/utils/utils";
+import { extractLiveIdentifier, urlForImage } from "@/utils/utils";
 import { dateFormat } from "@/utils/dateFormat";
 import { formatPrice } from "@/utils/formatPrice";
 import LiveEmbedCard from "./LiveEmbedCard";
@@ -248,8 +248,9 @@ const Product = ({
 
             <PostTags tags={tags} />
 
-            {true ? (
-              <LiveEmbedCard live_link={""} />
+            {extractLiveIdentifier(live_link).isValid &&
+            images?.length === 0 ? (
+              <LiveEmbedCard live_link={live_link} />
             ) : (
               <Box sx={{ position: "relative" }}>
                 {images?.length > 0 && <PostImageContainer images={images} />}

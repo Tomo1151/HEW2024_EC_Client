@@ -4,6 +4,7 @@ import { Box } from "@mui/material";
 import CancelIcon from "@mui/icons-material/Cancel";
 
 const FormImagePreview = memo(({ images, setImages }) => {
+  // console.log(images);
   return (
     <>
       {images.length > 0 && (

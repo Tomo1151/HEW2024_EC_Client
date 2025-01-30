@@ -9,14 +9,17 @@ import {
   Chip,
   FormControlLabel,
   Switch,
-  TextField,
+  Tooltip,
 } from "@mui/material";
 
 import { LoadingButton } from "@mui/lab";
+import TextInput from "@/components/TextInput";
 
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import PreviewIcon from "@mui/icons-material/Preview";
+import LiveTvRoundedIcon from "@mui/icons-material/LiveTvRounded";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 
 import { useUserContext } from "@/context/UserContext";
 import { useNotifications } from "@toolpad/core/useNotifications";
@@ -28,25 +31,31 @@ import { urlForImage } from "@/utils/utils";
 import { formatDataSize } from "@/utils/formatDataSize";
 import { formatPostBody } from "@/utils/postBodyFormat";
 import QuoteCard from "./QuoteCard";
+import { inputValidator } from "@/utils/InputValidator";
 
 export default function PostProductForm({ quoteRef, setRefresh }) {
   const router = useRouter();
+  const notifications = useNotifications();
   const { activeUser, refreshToken } = useUserContext();
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [images, setImages] = useState([]);
-  const [tags, setTags] = useState([]);
-  const [tagInput, setTagInput] = useState("");
-  const [data, setData] = useState(null);
-  const [price, setPrice] = useState("");
-  const [liveLink, setLiveLink] = useState("");
+
+  const [formData, setFormData] = useState({
+    name: { value: "", isValid: false },
+    description: { value: "", isValid: false },
+    images: { value: [], isValid: false },
+    tags: { value: [], isValid: false },
+    tagInput: { value: "", isValid: false },
+    data: { value: null, isValid: false },
+    price: { value: "", isValid: false },
+    liveLink: { value: "", isValid: true },
+  });
+
   const [status, setStatus] = useState([]);
+  const [isLive, setIsLive] = useState(false);
+  const [isValid, setIsValid] = useState(false);
   const [isPreviewActive, setIsPreviewActive] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
 
   const [quotePost, setQuotePost] = useState(null);
-
-  const notifications = useNotifications();
 
   const fetchQuoteRef = async () => {
     try {
@@ -56,7 +65,7 @@ export default function PostProductForm({ quoteRef, setRefresh }) {
       const resJson = await response.json();
 
       if (resJson.success) {
-        console.log("Quote fetched: ", resJson.data);
+        // console.log("Quote fetched: ", resJson.data);
         setQuotePost(resJson.data);
       } else {
         notifications.show("引用元のポストが見つかりません", {
@@ -69,20 +78,6 @@ export default function PostProductForm({ quoteRef, setRefresh }) {
     }
   };
 
-  const handleSetTags = (e) => {
-    console.log(tagInput);
-    if (e.key === "Enter") {
-      e.preventDefault();
-
-      if (!tagInput || tagInput.trim() === "") return;
-
-      // console.log("Enter key pressed: ", `"${e.target.value}"`);
-      const newTags = [...tags, tagInput.trim()];
-      const uniqueTags = [...new Set(newTags)];
-      setTags(uniqueTags);
-      setTagInput("");
-    }
-  };
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("isProcessing: ", isProcessing);
@@ -90,23 +85,25 @@ export default function PostProductForm({ quoteRef, setRefresh }) {
     try {
       refreshToken().then(async () => {
         setIsProcessing(true);
-        const formData = new FormData();
-        formData.append("name", name.trim());
-        formData.append("description", description.trim());
-        if (price) formData.append("price", price);
-        formData.append("live_link", liveLink.trim());
-        formData.append("data", data);
-        formData.append("quoted_ref", quoteRef);
+        // @TODO フォームを整形して送信
 
-        for (const image of images) {
-          formData.append("images", image);
-        }
+        // const formData = new FormData();
+        // formData.append("name", name.trim());
+        // formData.append("description", description.trim());
+        // if (price) formData.append("price", price);
+        // formData.append("live_link", liveLink.trim());
+        // formData.append("data", data);
+        // formData.append("quoted_ref", quoteRef);
 
-        for (const tag of tags) {
-          formData.append("tags[]", tag);
-        }
+        // for (const image of images) {
+        //   formData.append("images", image);
+        // }
 
-        console.log(...formData.entries());
+        // for (const tag of tags) {
+        //   formData.append("tags[]", tag);
+        // }
+
+        // console.log(...formData.entries());
 
         const response = await fetch(
           process.env.NEXT_PUBLIC_FETCH_BASE_URL + "/products",
@@ -120,14 +117,14 @@ export default function PostProductForm({ quoteRef, setRefresh }) {
         const resJson = await response.json();
 
         if (resJson.success) {
-          setName("");
-          setDescription("");
-          setPrice("");
-          setLiveLink("");
-          setImages([]);
-          setData(null);
-          setTags([]);
-          setStatus([]);
+          // setName("");
+          // setDescription("");
+          // setPrice("");
+          // setLiveLink("");
+          // setImages([]);
+          // setData(null);
+          // setTags([]);
+          // setStatus([]);
 
           if (setRefresh) setRefresh((prev) => !prev);
           notifications.show("ポストが正常に投稿されました", {
@@ -154,11 +151,58 @@ export default function PostProductForm({ quoteRef, setRefresh }) {
 
   const handleOnImageChange = useCallback(
     (e) => {
-      setImages([...images, ...e.target.files].slice(0, 4));
+      setFormData({
+        ...formData,
+        images: {
+          value: [...formData.images.value, ...e.target.files],
+          isValid: e.target.files.length > 0,
+        },
+      });
       e.target.value = "";
     },
-    [images]
+    [formData.images]
   );
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    console.log(name, value);
+    console.log({
+      ...formData,
+      [name]: { value, isValid: inputValidator(name, value) },
+    });
+
+    setFormData({
+      ...formData,
+      [name]: { value, isValid: inputValidator(name, value) },
+    });
+  };
+
+  const handleSetTags = (e) => {
+    // console.log(tagInput);
+    if (e.key === "Enter") {
+      e.preventDefault();
+
+      if (!formData.tagInput.value || formData.tagInput.value.trim() === "")
+        return;
+
+      // console.log("Enter key pressed: ", `"${e.target.value}"`);
+      const newTags = [...formData.tags.value, formData.tagInput.value.trim()];
+      const uniqueTags = [...new Set(newTags)];
+      console.log({
+        ...formData,
+        tags: { value: uniqueTags, isValid: uniqueTags.length > 0 },
+        tagInput: { value: "", isValid: false },
+      });
+      setFormData({
+        ...formData,
+        tags: { value: uniqueTags, isValid: uniqueTags.length > 0 },
+        tagInput: { value: "", isValid: false },
+      });
+
+      // setTags(uniqueTags);
+      // setTagInput("");
+    }
+  };
 
   useEffect(() => {
     if (quoteRef) {
@@ -198,19 +242,84 @@ export default function PostProductForm({ quoteRef, setRefresh }) {
               }
             }
           >
-            <Link
-              href={`/users/${activeUser?.username}`}
-              className="inline-block h-fit hover:brightness-[.75] my-4 duration-200 shrink-0"
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
             >
-              <Image
-                src={urlForImage(activeUser?.icon_link)}
-                width={50}
-                height={50}
-                alt="自分のユーザーアイコン"
-                className="w-[50px] h-[50px] rounded-full object-cover"
+              <Link
+                href={`/users/${activeUser?.username}`}
+                className="inline-block h-fit hover:brightness-[.75] my-4 duration-200 shrink-0"
+              >
+                <Image
+                  src={urlForImage(activeUser?.icon_link)}
+                  width={50}
+                  height={50}
+                  alt="自分のユーザーアイコン"
+                  className="w-[50px] h-[50px] rounded-full object-cover"
+                />
+              </Link>
+              <FormControlLabel
+                control={<Switch />}
+                label={
+                  <Tooltip
+                    title={
+                      <Box
+                        sx={{
+                          display: "flex",
+                          alignItems: "center",
+                          columnGap: 0.5,
+                        }}
+                      >
+                        <InfoOutlinedIcon />
+                        <p>
+                          ライブ出品の詳細は
+                          <Link
+                            href="https://google.com"
+                            target="_blank"
+                            className="underline"
+                          >
+                            こちら
+                          </Link>
+                          から
+                        </p>
+                      </Box>
+                    }
+                    placement="top"
+                  >
+                    <Box
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        columnGap: 0.5,
+                      }}
+                    >
+                      <LiveTvRoundedIcon sx={{ mb: 0.25 }} />
+                      ライブ出品
+                    </Box>
+                  </Tooltip>
+                }
+                labelPlacement="end"
+                sx={{ width: "fit-content" }}
+                onChange={(e) => {
+                  setIsLive(e.target.checked);
+                  setFormData({
+                    ...formData,
+                    images: {
+                      value: [],
+                      isValid: e.target.checked ? true : false,
+                    },
+                    liveLink: {
+                      value: "",
+                      isValid: e.target.checked ? false : true,
+                    },
+                  });
+                }}
               />
-            </Link>
-            <TextField
+            </Box>
+            <TextInput
               id="name"
               name="name"
               variant="standard"
@@ -218,157 +327,175 @@ export default function PostProductForm({ quoteRef, setRefresh }) {
               fullWidth
               placeholder="商品名"
               label="商品名"
-              onChange={(e) => setName(e.target.value)}
+              onChange={handleChange}
               sx={{ display: "block" }}
-              value={name}
-            />
-            <FormThumbnailImage
-              images={images}
-              onChange={handleOnImageChange}
-              // ref={imagesRef}
+              value={formData.name.value}
             />
 
-            <FormImagePreview images={images} setImages={setImages} />
+            {!isLive && (
+              <>
+                <FormThumbnailImage
+                  images={formData.images.value}
+                  onChange={handleOnImageChange}
+                  // ref={imagesRef}
+                />
 
-            {images.length > 0 && (
-              <div className="flex justify-around sm:justify-center pt-4 mx-0 sm:mx-6 sm:gap-x-4">
-                <Box sx={{ width: "fit-content" }}>
-                  <Button
-                    component="label"
-                    variant="contained"
-                    startIcon={
-                      <Box
-                        sx={{
-                          display: { xs: "none", sm: "block" },
-                          width: "fit-content",
-                        }}
+                <FormImagePreview
+                  images={formData.images.value}
+                  setImages={(images) => {
+                    setFormData({
+                      ...formData,
+                      images: { value: images, isValid: images.length > 0 },
+                    });
+                  }}
+                />
+
+                {formData.images.value.length > 0 && (
+                  <div className="flex justify-around sm:justify-center pt-4 mx-0 sm:mx-6 sm:gap-x-4">
+                    <Box sx={{ width: "fit-content" }}>
+                      <Button
+                        component="label"
+                        variant="contained"
+                        startIcon={
+                          <Box
+                            sx={{
+                              display: { xs: "none", sm: "block" },
+                              width: "fit-content",
+                            }}
+                          >
+                            <CloudUploadIcon />
+                          </Box>
+                        }
+                        className="relative"
+                        disabled={formData.images.value.length >= 4}
+                        sx={{ height: "100%" }}
                       >
-                        <CloudUploadIcon />
-                      </Box>
-                    }
-                    className="relative"
-                    disabled={images.length >= 4}
-                    sx={{ height: "100%" }}
-                  >
-                    <input
-                      type="file"
-                      className="invisible absolute w-full inset-0 h-full"
-                      accept="image/*"
-                      name="images"
-                      onChange={handleOnImageChange}
-                      multiple
-                      disabled={images.length >= 4}
-                    />
-                    画像を追加
-                  </Button>
-                </Box>
-                <Box sx={{ width: "fit-content" }}>
-                  <Button
-                    variant="outlined"
-                    onClick={() => setImages([])}
-                    sx={{ height: "100%" }}
-                  >
-                    画像をクリア
-                  </Button>
-                </Box>
-              </div>
-            )}
+                        <input
+                          type="file"
+                          className="invisible absolute w-full inset-0 h-full"
+                          accept="image/*"
+                          name="images"
+                          onChange={handleOnImageChange}
+                          multiple
+                          disabled={formData.images.value.length >= 4}
+                        />
+                        画像を追加
+                      </Button>
+                    </Box>
+                    <Box sx={{ width: "fit-content" }}>
+                      <Button
+                        variant="outlined"
+                        onClick={() =>
+                          setFormData({
+                            ...formData,
+                            images: { value: [], isValid: false },
+                          })
+                        }
+                        sx={{ height: "100%" }}
+                      >
+                        画像をクリア
+                      </Button>
+                    </Box>
+                  </div>
+                )}
 
-            <label
-              htmlFor="data"
-              className="inline-block text-[rgba(0,0,0,.6)] py-2"
-            >
-              商品データ
-            </label>
-            <Button
-              component="label"
-              variant="contained"
-              className="relative"
-              sx={{
-                display: "block",
-                position: "relative",
-                backgroundColor: "#f0f0f0",
-                color: data ? "#555" : "#bbb",
-                borderRadius: ".375rem",
-                // mt: 4,
-                width: "100%",
-                cursor: "pointer",
-              }}
-            >
-              <input
-                id="data"
-                name="data"
-                type="file"
-                className="invisible absolute w-full inset-0 h-full cursor-pointer"
-                accept="application/zip"
-                onChange={(e) => {
-                  setData(e.target.files[0]);
-                  e.target.value = "";
-                }}
-              />
-              {data
-                ? `${data.name}: ${formatDataSize(data.size)}`
-                : "ファイルをアップロード"}
-              <AddCircleOutlineIcon
-                sx={{
-                  position: "absolute",
-                  right: 8,
-                  color: "#bbb",
-                }}
-              />
-            </Button>
-            {data && (
-              <div className="mt-4 text-center">
+                <label
+                  htmlFor="data"
+                  className="inline-block text-[rgba(0,0,0,.6)] py-2"
+                >
+                  商品データ
+                </label>
                 <Button
-                  variant="outlined"
-                  onClick={(e) => {
-                    setData(null);
+                  component="label"
+                  variant="contained"
+                  className="relative"
+                  sx={{
+                    display: "block",
+                    position: "relative",
+                    backgroundColor: "#f0f0f0",
+                    color: formData.data.value ? "#555" : "#bbb",
+                    borderRadius: ".375rem",
+                    // mt: 4,
+                    width: "100%",
+                    cursor: "pointer",
                   }}
                 >
-                  ファイルをクリア
+                  <input
+                    id="data"
+                    name="data"
+                    type="file"
+                    className="invisible absolute w-full inset-0 h-full cursor-pointer"
+                    accept="application/zip"
+                    onChange={(e) => {
+                      setData(e.target.files[0]);
+                      e.target.value = "";
+                    }}
+                  />
+                  {formData.data.value
+                    ? `${formData.data.value.name}: ${formatDataSize(formData.data.value.size)}`
+                    : "ファイルをアップロード"}
+                  <AddCircleOutlineIcon
+                    sx={{
+                      position: "absolute",
+                      right: 8,
+                      color: "#bbb",
+                    }}
+                  />
                 </Button>
-              </div>
+                {formData.data.value && (
+                  <div className="mt-4 text-center">
+                    <Button
+                      variant="outlined"
+                      onClick={(e) => {
+                        setData(null);
+                      }}
+                    >
+                      ファイルをクリア
+                    </Button>
+                  </div>
+                )}
+                <TextInput
+                  id="price"
+                  name="price"
+                  variant="standard"
+                  type="number"
+                  rows={4}
+                  fullWidth
+                  placeholder="2000"
+                  label="値段"
+                  onChange={handleChange}
+                  sx={{ display: "block", mt: 2 }}
+                  value={formData.price.value}
+                />
+              </>
             )}
-            <TextField
-              id="price"
-              name="price"
-              variant="standard"
-              type="number"
-              rows={4}
-              fullWidth
-              placeholder="2000"
-              label="値段"
-              onChange={(e) =>
-                setPrice(Math.min(Math.max(e.target.value, 0), 999999))
-              }
-              sx={{ display: "block", mt: 2 }}
-              value={price}
-            />
-            <TextField
+
+            <TextInput
               id="description"
               name="description"
               variant="standard"
               rows={4}
               fullWidth
               multiline
-              placeholder="商品の詳細"
-              label="商品説明"
-              onChange={(e) => setDescription(e.target.value)}
+              placeholder={isLive ? "ライブ配信の詳細" : "商品の詳細"}
+              label={isLive ? "ライブの説明" : "商品説明"}
+              onChange={handleChange}
               sx={{ display: "block", mt: 2 }}
-              value={description}
+              value={formData.description.value}
             />
 
             <Box sx={{ display: "flex", alignItems: "center", my: 2 }}>
-              <TextField
-                id="tag"
+              <TextInput
+                id="tags"
+                name="tagInput"
                 variant="standard"
                 rows={1}
                 fullWidth
                 label="タグ"
-                placeholder="タグを入力（複数可）"
+                placeholder="Enterまたは右のボタンで追加"
                 // sx={{ mt: 2 }}
-                value={tagInput}
-                onChange={(e) => setTagInput(e.target.value)}
+                value={formData.tagInput.value}
+                onChange={handleChange}
                 onKeyPress={handleSetTags}
               />
               <Button
@@ -382,7 +509,7 @@ export default function PostProductForm({ quoteRef, setRefresh }) {
                 追加
               </Button>
             </Box>
-            {tags && tags.length > 0 && (
+            {formData.tags.value && formData.tags.value.length > 0 && (
               <Box
                 sx={{
                   display: "flex",
@@ -394,13 +521,20 @@ export default function PostProductForm({ quoteRef, setRefresh }) {
                   borderRadius: "0.375em",
                 }}
               >
-                {tags.map((tag, index) => (
+                {formData.tags.value.map((tag, index) => (
                   <Chip
                     key={index}
                     label={`# ${tag}`}
                     color="primary"
                     onDelete={() => {
-                      setTags(tags.filter((t) => t !== tag));
+                      setFormData({
+                        ...formData,
+                        tags: {
+                          value: formData.tags.value.filter((t) => t !== tag),
+                          isValid: formData.tags.value.length > 0,
+                        },
+                      });
+                      // setTags(formData.tags.filter((t) => t !== tag));
                     }}
                     sx={{ m: 0.5 }}
                   />
@@ -408,18 +542,21 @@ export default function PostProductForm({ quoteRef, setRefresh }) {
               </Box>
             )}
 
-            <TextField
-              id="live_link"
-              name="live_link"
-              variant="standard"
-              rows={4}
-              fullWidth
-              placeholder="https://example.com/live"
-              label="ライブURL"
-              onChange={(e) => setLiveLink(e.target.value)}
-              sx={{ display: "block", mt: 2 }}
-              value={liveLink}
-            />
+            {isLive && (
+              <TextInput
+                id="live_link"
+                name="liveLink"
+                variant="standard"
+                rows={4}
+                fullWidth
+                placeholder="https://www.youtube.com/live/xxxxxxxxxxx"
+                label="ライブURL (YouTube/Twitch)"
+                onChange={handleChange}
+                sx={{ display: "block", mt: 2 }}
+                value={formData.liveLink.value}
+              />
+            )}
+
             <FormControlLabel
               control={<Switch />}
               label="投稿イメージのプレビューを表示"
@@ -454,12 +591,12 @@ export default function PostProductForm({ quoteRef, setRefresh }) {
                   username={activeUser?.username}
                   nickname={activeUser?.nickname}
                   icon_link={activeUser?.icon_link}
-                  name={name}
-                  price={price}
-                  tags={tags}
-                  images={images}
+                  name={formData.name.value}
+                  price={formData.price.value}
+                  tags={formData.tags.value}
+                  images={formData.images.value}
                   quoted_ref={quotePost}
-                  created_at={"たった今"}
+                  live_link={formData.liveLink.value}
                 />
               </Box>
               <Box sx={{ backgroundColor: "#f0f0f0" }}>
@@ -471,13 +608,13 @@ export default function PostProductForm({ quoteRef, setRefresh }) {
                   username={activeUser?.username}
                   nickname={activeUser?.nickname}
                   icon_link={activeUser?.icon_link}
-                  content={description}
-                  name={name}
-                  price={price}
-                  tags={tags}
-                  images={images}
+                  content={formData.description.value}
+                  name={formData.name.value}
+                  price={formData.price.value}
+                  tags={formData.tags.value}
+                  images={formData.images.value}
                   quoted_ref={quotePost}
-                  created_at={"たった今"}
+                  live_link={formData.liveLink.value}
                 />
               </Box>
             </Box>
@@ -515,7 +652,7 @@ export default function PostProductForm({ quoteRef, setRefresh }) {
           <LoadingButton
             type="submit"
             variant="contained"
-            disabled={!description}
+            disabled={!isValid}
             loading={isProcessing}
           >
             投稿する
