@@ -25,6 +25,7 @@ import { extractLiveIdentifier, urlForImage } from "@/utils/utils";
 import { dateFormat } from "@/utils/dateFormat";
 import { formatPrice } from "@/utils/formatPrice";
 import LiveEmbedCard from "./LiveEmbedCard";
+import StarRating from "./StarRating";
 
 const Product = ({
   type,
@@ -244,7 +245,7 @@ const Product = ({
               </p>
             </div>
 
-            <p className="flex items-center mt-[1em] w-fit gap-x-[.25em] text-gray-400 font-bold">
+            <div className="flex justify-between"><p className="flex items-center mt-[1em] w-fit gap-x-[.25em] text-gray-400 font-bold">
               {extractLiveIdentifier(live_link).isValid ? (
                 <>
                   <LiveTvRoundedIcon sx={{ mb: 0.25 }} />
@@ -255,8 +256,10 @@ const Product = ({
                   <LabelRoundedIcon sx={{ fontSize: "1.25em" }} />
                   販売商品
                 </>
-              )}
+              )} 
             </p>
+            <p><StarRating rating ={rating.toFixed(1)}></StarRating></p>
+            </div>
             <h3 className="mt-[1em] pb-[1em] font-bold text-xl">{name}</h3>
 
             <PostTags tags={tags} />
