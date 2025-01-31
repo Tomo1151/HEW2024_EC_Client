@@ -33,6 +33,7 @@ const Product = ({
   icon_link,
   name,
   price,
+  rating,
   images,
   tags,
   comment_count,
@@ -146,6 +147,8 @@ const Product = ({
   useEffect(() => {
     setRepostCount(ref_count);
   }, [ref_count]);
+
+  console.log(name, price, rating);
 
   return (
     <Box component="section">
