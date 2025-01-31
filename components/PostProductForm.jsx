@@ -41,13 +41,14 @@ export default function PostProductForm({ quoteRef, setRefresh }) {
   const [formData, setFormData] = useState({
     name: { value: "", isValid: false },
     description: { value: "", isValid: false },
-    images: { value: [], isValid: false },
-    tags: { value: [], isValid: false },
+    // images: { value: [], isValid: false },
+    tags: { value: [], isValid: true },
     tagInput: { value: "", isValid: false },
     data: { value: null, isValid: false },
-    price: { value: "", isValid: false },
+    price: { value: "", isValid: true },
     liveLink: { value: "", isValid: true },
   });
+  const [images, setImages] = useState({ value: [], isValid: false });
 
   const [status, setStatus] = useState([]);
   const [isLive, setIsLive] = useState(false);
@@ -79,13 +80,42 @@ export default function PostProductForm({ quoteRef, setRefresh }) {
   };
 
   const handleSubmit = async (e) => {
+    console.log("Form submitted.");
     e.preventDefault();
     console.log("isProcessing: ", isProcessing);
 
     try {
       refreshToken().then(async () => {
+        if (!isValid) {
+          notifications.show("入力内容に不備があります", {
+            severity: "error",
+            autoHideDuration: 3000,
+          });
+          return;
+        }
         setIsProcessing(true);
         // @TODO フォームを整形して送信
+        const sendFormData = new FormData();
+        sendFormData.append("type", isLive ? "live" : "product");
+        sendFormData.append("name", formData.name.value.trim());
+        sendFormData.append("description", formData.description.value.trim());
+        if (quoteRef) sendFormData.append("quoted_ref", quoteRef);
+
+        for (const tag of formData.tags.value) {
+          sendFormData.append("tags[]", tag);
+        }
+
+        if (isLive) {
+          sendFormData.append("live_link", formData.liveLink.value.trim());
+        } else {
+          if (formData.price.value)
+            sendFormData.append("price", formData.price.value);
+          sendFormData.append("data", formData.data.value);
+          for (const image of images.value) {
+            sendFormData.append("images", image);
+          }
+        }
+        // @TODO imagesのisValidを適切に設定する
 
         // const formData = new FormData();
         // formData.append("name", name.trim());
@@ -103,13 +133,13 @@ export default function PostProductForm({ quoteRef, setRefresh }) {
         //   formData.append("tags[]", tag);
         // }
 
-        // console.log(...formData.entries());
+        console.log(...sendFormData.entries());
 
         const response = await fetch(
           process.env.NEXT_PUBLIC_FETCH_BASE_URL + "/products",
           {
             method: "POST",
-            body: formData,
+            body: sendFormData,
             credentials: "include",
           }
         );
@@ -131,11 +161,11 @@ export default function PostProductForm({ quoteRef, setRefresh }) {
             severity: "success",
             autoHideDuration: 3000,
           });
-
           router.push(`/`, { scroll: false });
           // router.push(`/posts/${resJson.data.id}`, { scroll: false });
         } else {
           setStatus(resJson.error);
+          setIsProcessing(false);
           notifications.show("ポストの投稿に失敗しました", {
             severity: "error",
             autoHideDuration: 3000,
@@ -144,23 +174,37 @@ export default function PostProductForm({ quoteRef, setRefresh }) {
       });
     } catch (error) {
       console.error("Post failed.", error);
-    } finally {
       setIsProcessing(false);
+    } finally {
     }
   };
 
   const handleOnImageChange = useCallback(
     (e) => {
-      setFormData({
-        ...formData,
-        images: {
-          value: [...formData.images.value, ...e.target.files],
-          isValid: e.target.files.length > 0,
-        },
+      console.log("Image changed: ", e.target.files);
+      setImages({
+        value: [...images.value, ...e.target.files],
+        isValid: inputValidator(e.target.files),
       });
+      // console.log("image changed: ", e.target.files);
+      // console.log(formData);
+      // console.log({
+      //   ...formData,
+      //   images: {
+      //     value: [...images.value, ...e.target.files],
+      //     isValid: e.target.files.length > 0,
+      //   },
+      // });
+      // setFormData({
+      //   ...formData,
+      //   images: {
+      //     value: [...images.value, ...e.target.files],
+      //     isValid: e.target.files.length > 0,
+      //   },
+      // });
       e.target.value = "";
     },
-    [formData.images]
+    [images]
   );
 
   const handleChange = (e) => {
@@ -171,10 +215,47 @@ export default function PostProductForm({ quoteRef, setRefresh }) {
       [name]: { value, isValid: inputValidator(name, value) },
     });
 
-    setFormData({
+    const newFormData = {
       ...formData,
       [name]: { value, isValid: inputValidator(name, value) },
-    });
+    };
+
+    if (isLive) {
+      if (
+        newFormData.name.isValid &&
+        newFormData.description.isValid &&
+        newFormData.tags.isValid &&
+        newFormData.liveLink.isValid
+      ) {
+        setIsValid(true);
+      } else {
+        setIsValid(false);
+      }
+    } else {
+      console.log(
+        formData.name.isValid,
+        formData.description.isValid,
+        formData.tags.isValid,
+        // images.isValid,
+        formData.data.isValid,
+        formData.price.isValid
+      );
+      if (
+        newFormData.name.isValid &&
+        newFormData.description.isValid &&
+        newFormData.tags.isValid &&
+        // images.isValid &&
+        // inputValidator("images", images.value) &&
+        newFormData.data.isValid &&
+        newFormData.price.isValid
+      ) {
+        setIsValid(true);
+      } else {
+        setIsValid(false);
+      }
+    }
+
+    setFormData(newFormData);
   };
 
   const handleSetTags = (e) => {
@@ -335,22 +416,23 @@ export default function PostProductForm({ quoteRef, setRefresh }) {
             {!isLive && (
               <>
                 <FormThumbnailImage
-                  images={formData.images.value}
+                  images={images.value}
                   onChange={handleOnImageChange}
                   // ref={imagesRef}
                 />
 
                 <FormImagePreview
-                  images={formData.images.value}
-                  setImages={(images) => {
-                    setFormData({
-                      ...formData,
-                      images: { value: images, isValid: images.length > 0 },
-                    });
-                  }}
+                  images={images.value}
+                  // setImages={(images) => {
+                  //   setFormData({
+                  //     ...formData,
+                  //     images: { value: images, isValid: images.length > 0 },
+                  //   });
+                  // }}
+                  setImages={setImages}
                 />
 
-                {formData.images.value.length > 0 && (
+                {images.value.length > 0 && (
                   <div className="flex justify-around sm:justify-center pt-4 mx-0 sm:mx-6 sm:gap-x-4">
                     <Box sx={{ width: "fit-content" }}>
                       <Button
@@ -367,7 +449,7 @@ export default function PostProductForm({ quoteRef, setRefresh }) {
                           </Box>
                         }
                         className="relative"
-                        disabled={formData.images.value.length >= 4}
+                        disabled={images.value.length >= 4}
                         sx={{ height: "100%" }}
                       >
                         <input
@@ -377,7 +459,7 @@ export default function PostProductForm({ quoteRef, setRefresh }) {
                           name="images"
                           onChange={handleOnImageChange}
                           multiple
-                          disabled={formData.images.value.length >= 4}
+                          disabled={images.value.length >= 4}
                         />
                         画像を追加
                       </Button>
@@ -385,11 +467,12 @@ export default function PostProductForm({ quoteRef, setRefresh }) {
                     <Box sx={{ width: "fit-content" }}>
                       <Button
                         variant="outlined"
-                        onClick={() =>
-                          setFormData({
-                            ...formData,
-                            images: { value: [], isValid: false },
-                          })
+                        onClick={
+                          () => setImages({ value: [], isValid: false })
+                          // setFormData({
+                          //   ...formData,
+                          //   images: { value: [], isValid: false },
+                          // })
                         }
                         sx={{ height: "100%" }}
                       >
@@ -425,9 +508,16 @@ export default function PostProductForm({ quoteRef, setRefresh }) {
                     name="data"
                     type="file"
                     className="invisible absolute w-full inset-0 h-full cursor-pointer"
-                    accept="application/zip"
+                    accept="application/zip, application/x-zip-compressed, image/jpeg, image/png, image/gif, image/webp"
                     onChange={(e) => {
-                      setData(e.target.files[0]);
+                      // setData(e.target.files[0]);
+                      setFormData({
+                        ...formData,
+                        data: {
+                          value: e.target.files[0],
+                          isValid: inputValidator("data", e.target.files[0]),
+                        },
+                      });
                       e.target.value = "";
                     }}
                   />
@@ -447,7 +537,12 @@ export default function PostProductForm({ quoteRef, setRefresh }) {
                     <Button
                       variant="outlined"
                       onClick={(e) => {
-                        setData(null);
+                        setFormData({
+                          ...formData,
+                          data: { value: null, isValid: false },
+                        });
+
+                        // setData(null);
                       }}
                     >
                       ファイルをクリア
@@ -594,7 +689,7 @@ export default function PostProductForm({ quoteRef, setRefresh }) {
                   name={formData.name.value}
                   price={formData.price.value}
                   tags={formData.tags.value}
-                  images={formData.images.value}
+                  images={images.value}
                   quoted_ref={quotePost}
                   live_link={formData.liveLink.value}
                 />
@@ -612,7 +707,7 @@ export default function PostProductForm({ quoteRef, setRefresh }) {
                   name={formData.name.value}
                   price={formData.price.value}
                   tags={formData.tags.value}
-                  images={formData.images.value}
+                  images={images.value}
                   quoted_ref={quotePost}
                   live_link={formData.liveLink.value}
                 />

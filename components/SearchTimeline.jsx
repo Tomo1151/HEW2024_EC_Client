@@ -104,6 +104,7 @@ const SearchTimeline = ({ type, isSrcTagClick, q, isActive }) => {
         ) : entry.product ? (
           <Product
             key={entry.id}
+            id={entry.id}
             type={entry.type}
             postId={entry.id}
             username={entry.author.username}
@@ -114,6 +115,7 @@ const SearchTimeline = ({ type, isSrcTagClick, q, isActive }) => {
             price={entry.product.price_histories[0]?.price}
             name={entry.product.name}
             images={entry.images}
+            live_link={entry.live_link}
             tags={entry.tags?.map((tagObj) => tagObj.tag.name)}
             comment_count={entry.comment_count}
             ref_count={entry.ref_count}

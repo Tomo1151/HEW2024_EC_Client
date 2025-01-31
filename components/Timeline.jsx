@@ -145,6 +145,7 @@ const Timeline = ({ name, isActive, setRefresh, refresh }) => {
               post.product ? (
                 <Product
                   key={post.id}
+                  id={post.id}
                   type={post.type}
                   repost_user={post?.repost_user || undefined}
                   postId={post?.postId || post.id}
@@ -157,7 +158,7 @@ const Timeline = ({ name, isActive, setRefresh, refresh }) => {
                   name={post.product.name}
                   images={post.images}
                   tags={post.tags?.map((tagObj) => tagObj.tag.name)}
-                  live_link={post.product.live_link}
+                  live_link={post.live_link}
                   comment_count={post.comment_count}
                   ref_count={post.ref_count}
                   like_count={post.like_count}

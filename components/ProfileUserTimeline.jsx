@@ -102,6 +102,7 @@ const ProfileUserTimeline = ({ user, endpoint, isActive }) => {
             post.product ? (
               <Product
                 key={post.id}
+                id={post.id}
                 type={post.type}
                 postId={post.id}
                 username={post.author.username}
@@ -112,6 +113,7 @@ const ProfileUserTimeline = ({ user, endpoint, isActive }) => {
                 price={post.product.price_histories[0]?.price}
                 name={post.product.name}
                 images={post.images}
+                live_link={post.live_link}
                 tags={post.tags.map((tagObj) => tagObj.tag.name)}
                 comment_count={post.comment_count}
                 ref_count={post.ref_count}

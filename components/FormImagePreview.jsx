@@ -2,6 +2,7 @@ import { memo } from "react";
 
 import { Box } from "@mui/material";
 import CancelIcon from "@mui/icons-material/Cancel";
+import { inputValidator } from "../utils/InputValidator";
 
 const FormImagePreview = memo(({ images, setImages }) => {
   // console.log(images);
@@ -22,7 +23,13 @@ const FormImagePreview = memo(({ images, setImages }) => {
                 />
                 <CancelIcon
                   onClick={() => {
-                    setImages(images.filter((_, i) => i !== index));
+                    setImages({
+                      value: images.filter((_, i) => i !== index),
+                      isValid: inputValidator(
+                        "images",
+                        images.filter((_, i) => i !== index)
+                      ),
+                    });
                   }}
                   className="absolute top-0 right-0 cursor-pointer text-gray-500 hover:text-red-700"
                 />

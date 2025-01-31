@@ -29,6 +29,7 @@ import LiveEmbedCard from "./LiveEmbedCard";
 const Product = ({
   type,
   repost_user,
+  id,
   postId,
   username,
   nickname,
@@ -260,7 +261,7 @@ const Product = ({
 
             {extractLiveIdentifier(live_link).isValid &&
             images?.length === 0 ? (
-              <LiveEmbedCard live_link={live_link} />
+              <LiveEmbedCard live_link={live_link} id={id} />
             ) : (
               <Box sx={{ position: "relative" }}>
                 {images?.length > 0 && <PostImageContainer images={images} />}

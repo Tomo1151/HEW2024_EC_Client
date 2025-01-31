@@ -109,7 +109,9 @@ const ProductPreview = ({
               <LiveEmbedCard live_link={live_link} id="preview" />
             ) : (
               <Box sx={{ position: "relative" }}>
-                {images?.length > 0 && <PostImageContainer images={images} />}
+                {images?.length > 0 && (
+                  <PostImageContainer images={images} is_preview />
+                )}
                 <Box
                   sx={{
                     backgroundColor: price ? "primary.main" : "#999",

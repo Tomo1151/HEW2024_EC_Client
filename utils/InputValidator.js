@@ -11,17 +11,32 @@ export function inputValidator(name, value) {
       return value.length >= 8 && value.length <= 20;
     case "nickname":
       return value.length >= 3 && value.length <= 20;
-    case "content":
-      return value.length <= 500;
+    case "description":
+      return 10 <= value.length && value.length <= 120;
     case "price":
-      return String(value).match(/^[0-9]+$/);
+      return value === "" || String(value).match(/^[0-9]+$/);
     case "name":
+      return 3 <= value.length && value.length <= 64;
+    case "tagInput":
       return value.length <= 100;
-    case "tag":
-      return value.length <= 20;
     case "liveLink":
       return extractLiveIdentifier(value).isValid;
+    case "data":
+      return (
+        0 < value.size &&
+        value.size <= 1 * 1024 * 1024 * 1024 &&
+        (value.type === "application/zip" ||
+          value.type === "application/x-zip-compressed" ||
+          value.type === "image/jpeg" ||
+          value.type === "image/png" ||
+          value.type === "image/gif" ||
+          value.type === "image/webp")
+      );
+    case "images":
+      return (
+        0 < value.length && 0 < value.size && value.size <= 5 * 1024 * 1024
+      );
     default:
-      return true;
+      return false;
   }
 }
