@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import { Box, Menu, MenuItem, IconButton } from "@mui/material";
 import { MoreHorizRounded } from "@mui/icons-material";
 import LabelRoundedIcon from "@mui/icons-material/LabelRounded";
+import LiveTvRoundedIcon from "@mui/icons-material/LiveTvRounded";
 
 import PostReaction from "./PostReaction";
 import PostImageContainer from "./PostImageContainer";
@@ -20,9 +21,10 @@ import PostTags from "./PostTags";
 import QuoteCard from "./QuoteCard";
 
 import { formatPostBody } from "@/utils/postBodyFormat";
-import { urlForImage } from "@/utils/utils";
+import { extractLiveIdentifier, urlForImage } from "@/utils/utils";
 import { dateFormat } from "@/utils/dateFormat";
 import { formatPrice } from "@/utils/formatPrice";
+import LiveEmbedCard from "./LiveEmbedCard";
 
 const Product = ({
   type,
@@ -36,6 +38,7 @@ const Product = ({
   rating,
   images,
   tags,
+  live_link,
   comment_count,
   ref_count,
   like_count,
@@ -242,34 +245,48 @@ const Product = ({
             </div>
 
             <p className="flex items-center mt-[1em] w-fit gap-x-[.25em] text-gray-400 font-bold">
-              <LabelRoundedIcon sx={{ fontSize: "1.25em" }} />
-              販売商品
+              {extractLiveIdentifier(live_link).isValid ? (
+                <>
+                  <LiveTvRoundedIcon sx={{ mb: 0.25 }} />
+                  ライブ出品
+                </>
+              ) : (
+                <>
+                  <LabelRoundedIcon sx={{ fontSize: "1.25em" }} />
+                  販売商品
+                </>
+              )}
             </p>
             <h3 className="mt-[1em] pb-[1em] font-bold text-xl">{name}</h3>
 
             <PostTags tags={tags} />
 
-            <Box sx={{ position: "relative" }}>
-              {images?.length > 0 && <PostImageContainer images={images} />}
-              <Box
-                sx={{
-                  backgroundColor: price ? "primary.main" : "#999",
-                  color: "white",
-                  width: "fit-content",
-                  padding: ".5em 1.5em",
-                  fontWeight: "bold",
-                  borderRadius: ".75em 0 0 .75em",
-                  position: "absolute",
-                  bottom: "10%",
-                  right: 0,
-                  zIndex: 10,
-                  letterSpacing: ".075em",
-                  pointerEvents: "none",
-                }}
-              >
-                {formatPrice(price)}
+            {extractLiveIdentifier(live_link).isValid &&
+            images?.length === 0 ? (
+              <LiveEmbedCard live_link={live_link} />
+            ) : (
+              <Box sx={{ position: "relative" }}>
+                {images?.length > 0 && <PostImageContainer images={images} />}
+                <Box
+                  sx={{
+                    backgroundColor: price ? "primary.main" : "#999",
+                    color: "white",
+                    width: "fit-content",
+                    padding: ".5em 1.5em",
+                    fontWeight: "bold",
+                    borderRadius: ".75em 0 0 .75em",
+                    position: "absolute",
+                    bottom: "10%",
+                    right: 0,
+                    zIndex: 10,
+                    letterSpacing: ".075em",
+                    pointerEvents: "none",
+                  }}
+                >
+                  {formatPrice(price)}
+                </Box>
               </Box>
-            </Box>
+            )}
 
             {quoted_ref && (
               <QuoteCard

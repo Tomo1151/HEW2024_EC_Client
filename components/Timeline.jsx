@@ -158,6 +158,7 @@ const Timeline = ({ name, isActive, setRefresh, refresh }) => {
                   rating={post.product.rating}
                   images={post.images}
                   tags={post.tags?.map((tagObj) => tagObj.tag.name)}
+                  live_link={post.product.live_link}
                   comment_count={post.comment_count}
                   ref_count={post.ref_count}
                   like_count={post.like_count}

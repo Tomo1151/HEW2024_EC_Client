@@ -11,6 +11,7 @@ import { NotificationsProvider } from "@toolpad/core/useNotifications";
 
 import PostForm from "./PostForm";
 import PostProductForm from "./PostProductForm";
+import { replaceRoute } from "@/utils/utils";
 
 const DetailPostForm = () => {
   const router = useRouter();
@@ -28,7 +29,7 @@ const DetailPostForm = () => {
 
   const handleTabChange = (event, newValue) => {
     setTabIndex(newValue);
-    // router.replace(`/post?type=${Object.keys(route)[newValue]}`);
+    replaceRoute(`/post?type=${Object.keys(route)[newValue]}`);
   };
 
   return (

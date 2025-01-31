@@ -11,9 +11,10 @@ import PostImageContainer from "./PostImageContainer";
 import PostTags from "./PostTags";
 import QuoteCard from "./QuoteCard";
 
-import { urlForImage } from "@/utils/utils";
+import { extractLiveIdentifier, urlForImage } from "@/utils/utils";
 import { formatPostBody } from "@/utils/postBodyFormat";
 import { formatPrice } from "@/utils/formatPrice";
+import LiveEmbedCard from "./LiveEmbedCard";
 
 const ProductPreview = ({
   username,
@@ -25,6 +26,7 @@ const ProductPreview = ({
   price,
   images,
   quoted_ref,
+  live_link,
 }) => {
   return (
     <section className="bg-white">
@@ -61,8 +63,14 @@ const ProductPreview = ({
             <h3 className="mt-4 pb-4 font-bold text-xl">{name}</h3>
 
             <PostTags tags={tags} />
-            {images?.length > 0 && (
-              <PostImageContainer images={images} is_preview />
+
+            {extractLiveIdentifier(live_link).isValid &&
+            images?.length === 0 ? (
+              <LiveEmbedCard live_link={live_link} id="preview-detail" />
+            ) : (
+              images?.length > 0 && (
+                <PostImageContainer images={images} is_preview />
+              )
             )}
 
             {quoted_ref && (
