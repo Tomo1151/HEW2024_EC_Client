@@ -57,4 +57,6 @@ export function extractLiveIdentifier(live_link) {
       isValid: true,
     };
   }
+
+  return template;
 }
