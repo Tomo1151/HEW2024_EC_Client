@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import { Box, Menu, MenuItem, IconButton } from "@mui/material";
 import { MoreHorizRounded } from "@mui/icons-material";
 import LabelRoundedIcon from "@mui/icons-material/LabelRounded";
+import LiveTvRoundedIcon from "@mui/icons-material/LiveTvRounded";
 
 import PostReaction from "./PostReaction";
 import PostImageContainer from "./PostImageContainer";
@@ -241,8 +242,17 @@ const Product = ({
             </div>
 
             <p className="flex items-center mt-[1em] w-fit gap-x-[.25em] text-gray-400 font-bold">
-              <LabelRoundedIcon sx={{ fontSize: "1.25em" }} />
-              販売商品
+              {extractLiveIdentifier(live_link).isValid ? (
+                <>
+                  <LiveTvRoundedIcon sx={{ mb: 0.25 }} />
+                  ライブ出品
+                </>
+              ) : (
+                <>
+                  <LabelRoundedIcon sx={{ fontSize: "1.25em" }} />
+                  販売商品
+                </>
+              )}
             </p>
             <h3 className="mt-[1em] pb-[1em] font-bold text-xl">{name}</h3>
 
