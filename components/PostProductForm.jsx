@@ -52,7 +52,19 @@ export default function PostProductForm({ quoteRef, setRefresh }) {
 
   const [status, setStatus] = useState([]);
   const [isLive, setIsLive] = useState(false);
-  const [isValid, setIsValid] = useState(false);
+  const [isValid, setIsValid] = useState(
+    isLive
+      ? formData.name.isValid &&
+          formData.description.isValid &&
+          formData.tags.isValid &&
+          formData.liveLink.isValid
+      : formData.name.isValid &&
+          formData.description.isValid &&
+          formData.tags.isValid &&
+          images.isValid &&
+          formData.data.isValid &&
+          formData.price.isValid
+  );
   const [isPreviewActive, setIsPreviewActive] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
 
@@ -86,6 +98,23 @@ export default function PostProductForm({ quoteRef, setRefresh }) {
 
     try {
       refreshToken().then(async () => {
+        console.log(
+          isLive,
+          isValid,
+          formData,
+          images,
+          isLive
+            ? formData.name.isValid &&
+                formData.description.isValid &&
+                formData.tags.isValid &&
+                formData.liveLink.isValid
+            : formData.name.isValid &&
+                formData.description.isValid &&
+                formData.tags.isValid &&
+                images.isValid &&
+                formData.data.isValid &&
+                formData.price.isValid
+        );
         if (!isValid) {
           notifications.show("入力内容に不備があります", {
             severity: "error",
@@ -94,7 +123,6 @@ export default function PostProductForm({ quoteRef, setRefresh }) {
           return;
         }
         setIsProcessing(true);
-        // @TODO フォームを整形して送信
         const sendFormData = new FormData();
         sendFormData.append("type", isLive ? "live" : "product");
         sendFormData.append("name", formData.name.value.trim());
@@ -181,80 +209,46 @@ export default function PostProductForm({ quoteRef, setRefresh }) {
 
   const handleOnImageChange = useCallback(
     (e) => {
-      console.log("Image changed: ", e.target.files);
+      console.log(
+        "Image changed: ",
+        e.target.files,
+        inputValidator([...images.value, ...e.target.files])
+      );
       setImages({
         value: [...images.value, ...e.target.files],
-        isValid: inputValidator(e.target.files),
+        isValid: inputValidator("images", [...images.value, ...e.target.files]),
       });
-      // console.log("image changed: ", e.target.files);
-      // console.log(formData);
-      // console.log({
-      //   ...formData,
-      //   images: {
-      //     value: [...images.value, ...e.target.files],
-      //     isValid: e.target.files.length > 0,
-      //   },
-      // });
-      // setFormData({
-      //   ...formData,
-      //   images: {
-      //     value: [...images.value, ...e.target.files],
-      //     isValid: e.target.files.length > 0,
-      //   },
-      // });
       e.target.value = "";
+    },
+    [images]
+  );
+
+  const handleDeleteImage = useCallback(
+    (index) => {
+      setImages({
+        value: images.value.filter((_, i) => i !== index),
+        isValid: inputValidator(
+          "images",
+          images.value.filter((_, i) => i !== index)
+        ),
+      });
     },
     [images]
   );
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    console.log(name, value);
-    console.log({
-      ...formData,
-      [name]: { value, isValid: inputValidator(name, value) },
-    });
+    // console.log(name, value);
+    // console.log({
+    //   ...formData,
+    //   [name]: { value, isValid: inputValidator(name, value) },
+    // });
 
     const newFormData = {
       ...formData,
       [name]: { value, isValid: inputValidator(name, value) },
     };
-
-    if (isLive) {
-      if (
-        newFormData.name.isValid &&
-        newFormData.description.isValid &&
-        newFormData.tags.isValid &&
-        newFormData.liveLink.isValid
-      ) {
-        setIsValid(true);
-      } else {
-        setIsValid(false);
-      }
-    } else {
-      console.log(
-        formData.name.isValid,
-        formData.description.isValid,
-        formData.tags.isValid,
-        // images.isValid,
-        formData.data.isValid,
-        formData.price.isValid
-      );
-      if (
-        newFormData.name.isValid &&
-        newFormData.description.isValid &&
-        newFormData.tags.isValid &&
-        // images.isValid &&
-        // inputValidator("images", images.value) &&
-        newFormData.data.isValid &&
-        newFormData.price.isValid
-      ) {
-        setIsValid(true);
-      } else {
-        setIsValid(false);
-      }
-    }
-
+    // validate(newFormData);
     setFormData(newFormData);
   };
 
@@ -269,11 +263,11 @@ export default function PostProductForm({ quoteRef, setRefresh }) {
       // console.log("Enter key pressed: ", `"${e.target.value}"`);
       const newTags = [...formData.tags.value, formData.tagInput.value.trim()];
       const uniqueTags = [...new Set(newTags)];
-      console.log({
-        ...formData,
-        tags: { value: uniqueTags, isValid: uniqueTags.length > 0 },
-        tagInput: { value: "", isValid: false },
-      });
+      // console.log({
+      //   ...formData,
+      //   tags: { value: uniqueTags, isValid: uniqueTags.length > 0 },
+      //   tagInput: { value: "", isValid: false },
+      // });
       setFormData({
         ...formData,
         tags: { value: uniqueTags, isValid: uniqueTags.length > 0 },
@@ -285,11 +279,31 @@ export default function PostProductForm({ quoteRef, setRefresh }) {
     }
   };
 
+  // const validate = (newFormData) => {
+
+  // };
+
   useEffect(() => {
     if (quoteRef) {
       fetchQuoteRef();
     }
   }, [quoteRef]);
+
+  useEffect(() => {
+    setIsValid(
+      isLive
+        ? formData.name.isValid &&
+            formData.description.isValid &&
+            formData.tags.isValid &&
+            formData.liveLink.isValid
+        : formData.name.isValid &&
+            formData.description.isValid &&
+            formData.tags.isValid &&
+            images.isValid &&
+            formData.data.isValid &&
+            formData.price.isValid
+    );
+  }, [formData, images, isLive]);
 
   return (
     <Box
@@ -423,13 +437,8 @@ export default function PostProductForm({ quoteRef, setRefresh }) {
 
                 <FormImagePreview
                   images={images.value}
-                  // setImages={(images) => {
-                  //   setFormData({
-                  //     ...formData,
-                  //     images: { value: images, isValid: images.length > 0 },
-                  //   });
-                  // }}
                   setImages={setImages}
+                  deleteImage={handleDeleteImage}
                 />
 
                 {images.value.length > 0 && (
@@ -747,7 +756,23 @@ export default function PostProductForm({ quoteRef, setRefresh }) {
           <LoadingButton
             type="submit"
             variant="contained"
-            disabled={!isValid}
+            disabled={
+              isLive
+                ? !(
+                    formData.name.isValid &&
+                    formData.description.isValid &&
+                    formData.tags.isValid &&
+                    formData.liveLink.isValid
+                  )
+                : !(
+                    formData.name.isValid &&
+                    formData.description.isValid &&
+                    formData.tags.isValid &&
+                    images.isValid &&
+                    formData.data.isValid &&
+                    formData.price.isValid
+                  )
+            }
             loading={isProcessing}
           >
             投稿する

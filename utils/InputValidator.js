@@ -34,7 +34,17 @@ export function inputValidator(name, value) {
       );
     case "images":
       return (
-        0 < value.length && 0 < value.size && value.size <= 5 * 1024 * 1024
+        0 < value.length &&
+        value.every(
+          (image) => 0 < image.size && image.size <= 5 * 1024 * 1024
+        ) &&
+        value.every(
+          (image) =>
+            image.type === "image/jpeg" ||
+            image.type === "image/png" ||
+            image.type === "image/gif" ||
+            image.type === "image/webp"
+        )
       );
     default:
       return false;
