@@ -246,20 +246,27 @@ const Product = ({
               </p>
             </div>
 
-            <div className="flex justify-between"><p className="flex items-center mt-[1em] w-fit gap-x-[.25em] text-gray-400 font-bold">
-              {extractLiveIdentifier(live_link).isValid ? (
-                <>
-                  <LiveTvRoundedIcon sx={{ mb: 0.25 }} />
-                  ライブ出品
-                </>
-              ) : (
-                <>
-                  <LabelRoundedIcon sx={{ fontSize: "1.25em" }} />
-                  販売商品
-                </>
-              )} 
-            </p>
-            <p><StarRating rating ={rating.toFixed(1)}></StarRating></p>
+            <div className="flex justify-between">
+              <p className="flex items-center mt-[1em] w-fit gap-x-[.25em] text-gray-400 font-bold">
+                {extractLiveIdentifier(live_link).isValid ? (
+                  <>
+                    <LiveTvRoundedIcon sx={{ mb: 0.25 }} />
+                    ライブ出品
+                  </>
+                ) : (
+                  <>
+                    <LabelRoundedIcon sx={{ fontSize: "1.25em" }} />
+                    販売商品
+                  </>
+                )}
+              </p>
+              <p className="mt-[1em]">
+                <StarRating
+                  rating={
+                    rating && rating !== -1 ? rating.toFixed(1) : "評価なし"
+                  }
+                ></StarRating>
+              </p>
             </div>
             <h3 className="mt-[1em] pb-[1em] font-bold text-xl">{name}</h3>
 
