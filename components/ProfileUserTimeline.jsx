@@ -112,6 +112,7 @@ const ProfileUserTimeline = ({ user, endpoint, isActive }) => {
                 productId={post.product.id}
                 price={post.product.price_histories[0]?.price}
                 name={post.product.name}
+                rating={post.product.rating}
                 images={post.images}
                 live_link={post.live_link}
                 tags={post.tags.map((tagObj) => tagObj.tag.name)}

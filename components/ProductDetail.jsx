@@ -23,6 +23,7 @@ import { formatPrice } from "@/utils/formatPrice";
 import { formatPostBody } from "@/utils/postBodyFormat";
 import LiveEmbedCard from "./LiveEmbedCard";
 import { extractLiveIdentifier } from "@/utils/utils";
+import StarRating from "./StarRating";
 
 const ProductDetail = ({
   type,
@@ -34,6 +35,7 @@ const ProductDetail = ({
   productId,
   name,
   content,
+  rating,
   price,
   images,
   live_link,
@@ -294,24 +296,6 @@ const ProductDetail = ({
             ) : (
               <Box sx={{ position: "relative" }}>
                 {images?.length > 0 && <PostImageContainer images={images} />}
-                <Box
-                  sx={{
-                    backgroundColor: price ? "primary.main" : "#999",
-                    color: "white",
-                    width: "fit-content",
-                    padding: ".5em 1.5em",
-                    fontWeight: "bold",
-                    borderRadius: ".75em 0 0 .75em",
-                    position: "absolute",
-                    bottom: "10%",
-                    right: 0,
-                    zIndex: 10,
-                    letterSpacing: ".075em",
-                    pointerEvents: "none",
-                  }}
-                >
-                  {formatPrice(price)}
-                </Box>
               </Box>
             )}
 
@@ -350,10 +334,22 @@ const ProductDetail = ({
           </div>
         </div>
       </div>
-
-      <p className="text-2xl text-right font-bold px-8 py-4">
-        {formatPrice(price)}
-      </p>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <p className="text-2xl text-left font-bold px-8 py-4">
+          <StarRating
+            rating={rating && rating !== -1 ? rating.toFixed(1) : "評価なし"}
+          />
+        </p>
+        <p className="text-2xl text-right font-bold px-8 py-4">
+          {formatPrice(price)}
+        </p>
+      </Box>
       <Box sx={{ textAlign: "center", px: "2.5rem" }}>
         {activeUser ? (
           activeUser.username !== username && (
