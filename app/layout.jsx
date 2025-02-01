@@ -19,6 +19,8 @@ const M_PLUS_Rounded_1cFont = M_PLUS_Rounded_1c({
   display: "swap",
 });
 
+const classNames = `mt-[var(--height-header)] sm:mt-0 relative flex bg-white ${M_PLUS_Rounded_1cFont.className}`;
+
 export default function RootLayout({ children }) {
   return (
     <html lang="ja">
@@ -26,10 +28,7 @@ export default function RootLayout({ children }) {
         <meta charSet="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </head>
-      <body
-        id="root"
-        className={`mt-[var(--height-header)] sm:mt-0 relative flex bg-white ${M_PLUS_Rounded_1cFont.className}`}
-      >
+      <body id="root" className={classNames}>
         <UserProvider>
           <AppRouterCacheProvider>
             <ThemeProvider theme={theme}>{children}</ThemeProvider>

@@ -168,7 +168,13 @@ const ProfileContainer = ({ username }) => {
               </Link>
             </p>
             <p>
-              <StarRating rating={user.rating._avg.value} />
+              <StarRating
+                rating={
+                  user.rating._avg.value
+                    ? user.rating._avg.value.toFixed(1)
+                    : "評価なし"
+                }
+              />
             </p>
           </div>
           <p

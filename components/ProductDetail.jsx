@@ -21,6 +21,9 @@ import { urlForImage } from "@/utils/utils";
 import { dateFormat } from "@/utils/dateFormat";
 import { formatPrice } from "@/utils/formatPrice";
 import { formatPostBody } from "@/utils/postBodyFormat";
+import LiveEmbedCard from "./LiveEmbedCard";
+import { extractLiveIdentifier } from "@/utils/utils";
+import StarRating from "./StarRating";
 
 const ProductDetail = ({
   type,
@@ -32,8 +35,10 @@ const ProductDetail = ({
   productId,
   name,
   content,
+  rating,
   price,
   images,
+  live_link,
   comment_count,
   ref_count,
   like_count,
@@ -285,7 +290,14 @@ const ProductDetail = ({
 
             <PostTags tags={[]} />
 
-            {images?.length > 0 && <PostImageContainer images={images} />}
+            {extractLiveIdentifier(live_link).isValid &&
+            images?.length === 0 ? (
+              <LiveEmbedCard live_link={live_link} />
+            ) : (
+              <Box sx={{ position: "relative" }}>
+                {images?.length > 0 && <PostImageContainer images={images} />}
+              </Box>
+            )}
 
             {quoted_ref && (
               <QuoteCard
@@ -322,10 +334,22 @@ const ProductDetail = ({
           </div>
         </div>
       </div>
-
-      <p className="text-2xl text-right font-bold px-8 py-4">
-        {formatPrice(price)}
-      </p>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <p className="text-2xl text-left font-bold px-8 py-4">
+          <StarRating
+            rating={rating && rating !== -1 ? rating.toFixed(1) : "評価なし"}
+          />
+        </p>
+        <p className="text-2xl text-right font-bold px-8 py-4">
+          {formatPrice(price)}
+        </p>
+      </Box>
       <Box sx={{ textAlign: "center", px: "2.5rem" }}>
         {activeUser ? (
           activeUser.username !== username && (

@@ -84,9 +84,11 @@ const PostDetailPage = (route) => {
             icon_link={postData.author.icon_link}
             content={postData.content}
             images={postData.images}
+            live_link={postData.live_link}
             tags={postData.tags?.map((tagObj) => tagObj.tag.name)}
             productId={postData.product.id}
             name={postData.product.name}
+            rating={postData.product.rating}
             price={postData.product.price_histories[0]?.price}
             comment_count={postData.comment_count}
             ref_count={postData.ref_count}
