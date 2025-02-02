@@ -1,3 +1,4 @@
+import { formatPostBody } from "@/utils/postBodyFormat";
 import { ImageResponse } from "next/og";
 
 export const size = {
@@ -27,9 +28,12 @@ async function loadGoogleFont(text) {
 
 async function getPostData(postId) {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_FETCH_BASE_URL}/posts/${postId}`
+    `${process.env.NEXT_PUBLIC_FETCH_BASE_URL}/posts/${postId}`,
+    { headers: { Origin: "http://localhost:3001" } }
   );
   const post = (await res.json()).data;
+
+  // console.dir(post, { depth: null });
 
   return {
     username: post.author.username,
@@ -44,10 +48,10 @@ export default async function Image({ params }) {
   const post = await getPostData(params.postId);
   const CONTENT_LENGTH = post.image ? 20 : 70;
   const username = post.nickname || post.username;
-  const content =
-    post.content.length > CONTENT_LENGTH
-      ? post.content.slice(0, CONTENT_LENGTH) + "..."
-      : post.content;
+  const content = post.content;
+  // post.content.length > CONTENT_LENGTH
+  //   ? post.content.slice(0, CONTENT_LENGTH) + "..."
+  //   : post.content;
   const image = post.image;
 
   return new ImageResponse(
@@ -75,7 +79,7 @@ export default async function Image({ params }) {
             justifyContent: "center",
             alignItems: "center",
             backgroundColor: "white",
-            fontFamily: "monospace",
+            fontFamily: "M PLUS Rounded 1c",
             width: "100%",
             height: "100%",
             borderRadius: ".375em",
@@ -96,6 +100,8 @@ export default async function Image({ params }) {
               <img
                 alt="投稿画像"
                 src={`${process.env.NEXT_PUBLIC_FETCH_BASE_URL}/media/images/${image.image_link}`}
+                width={250}
+                height={250}
                 style={{
                   // aspectRatio: "square",
                   objectFit: "cover",
@@ -107,13 +113,14 @@ export default async function Image({ params }) {
             )}
             {/* imageがないときにURLがはみ出る */}
             <p
-              tw="line-clamp-3"
-              // style={{
-              //   flexGrow: 1,
-              //   // lineBreak: "anywhere",
-              //   overflowWrap: "anywhere",
-              //   lineClamp: 3,
-              // }
+              // tw="line-clamp-3"
+              style={{
+                flexGrow: 1,
+                wordBreak: "break-all",
+                // lineBreak: "anywhere",
+                // overflowWrap: "anywhere",
+                lineClamp: 3,
+              }}
             >
               {content}
             </p>
@@ -128,7 +135,13 @@ export default async function Image({ params }) {
           >
             <img
               alt="ユーザーアイコン"
-              src={`${process.env.NEXT_PUBLIC_FETCH_BASE_URL}/media/icons/${post.icon}`}
+              src={
+                post.icon
+                  ? `${process.env.NEXT_PUBLIC_FETCH_BASE_URL}/media/icons/${post.icon}`
+                  : "https://placehold.jp/150"
+              }
+              width={80}
+              height={80}
               style={{
                 width: "80px",
                 height: "80px",

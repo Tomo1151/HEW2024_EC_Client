@@ -63,7 +63,7 @@ export function PostOgp({ url }) {
             </h1>
           )}
           {ogpData.description && (
-            <div className="relative text-xs sm:text-sm ml-1 opacity-35 line-clamp-2 overflow-hidden">
+            <div className="relative text-xs sm:text-sm opacity-35 line-clamp-2 overflow-hidden">
               {ogpData.description}
             </div>
           )}
