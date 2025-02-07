@@ -1,3 +1,5 @@
+import { headers } from "next/headers";
+
 const PostDetailLayout = ({ children }) => {
   return <>{children}</>;
 };
@@ -9,7 +11,8 @@ export async function generateMetadata({ params }) {
       {
         // credentials: "include",
         headers: {
-          Origin: "http://localhost:3001",
+          Origin:
+            process.env.NEXT_PUBLIC_SITE_ORIGIN || "http://localhost:3001",
         },
       }
     );
@@ -25,6 +28,7 @@ export async function generateMetadata({ params }) {
       return {
         title: posts.product ? posts.product.name : posts.content,
         description: posts.author.nickname || posts.author.username,
+        metadataBase: new URL(`https://${headers().get("host")}`),
       };
       // setPostData(posts);
     }
@@ -34,6 +38,7 @@ export async function generateMetadata({ params }) {
 
   return {
     title: "投稿ページ",
+    metadataBase: new URL(`https://${headers().get("host")}`),
     // title: post.author.nickname || post.author.username,
     // description: post.content,
   };
