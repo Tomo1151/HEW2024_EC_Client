@@ -1,6 +1,7 @@
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-import { Box, Tooltip } from "@mui/material";
+import { Box, Tooltip, Menu, MenuItem } from "@mui/material";
 import {
   ChatBubbleOutlineRounded,
   FavoriteBorderRounded,
@@ -31,7 +32,17 @@ const PostReaction = ({
   setRefresh,
 }) => {
   const { activeUser, refreshToken } = useUserContext();
+  const [anchorEl, setAnchorEl] = useState(null);
   const router = useRouter();
+  const open = Boolean(anchorEl);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   const reaction = {
     repost: {
@@ -293,19 +304,44 @@ const PostReaction = ({
               {countFormat(quote_count)}
             </Box>
           ) : (
-            <Link href={`/post?quote=${postId}`} className="z-0" scroll={false}>
-              <Box component="span" sx={{ display: "inline-block" }}>
-                <EditNoteRounded
-                  sx={{
-                    position: "relative",
-                    top: -1,
-                    fontSize: "1.5em",
-                    mr: { xs: 0.25, sm: ".5em" },
+            // <Link href={`/post?quote=${postId}`} className="z-0" scroll={false}>
+            <Box component="span" sx={{ display: "inline-block" }}>
+              <EditNoteRounded
+                sx={{
+                  position: "relative",
+                  top: -1,
+                  fontSize: "1.5em",
+                  mr: { xs: 0.25, sm: ".5em" },
+                }}
+                onClick={handleClick}
+              />
+              {countFormat(quote_count)}
+              <Menu
+                anchorEl={anchorEl}
+                open={open}
+                onClose={handleClose}
+                transformOrigin={{ horizontal: "right", vertical: "top" }}
+                anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+              >
+                <MenuItem
+                  onClick={() => {
+                    router.push(`/post?quote=${postId}`);
+                    handleClose();
                   }}
-                />
-                {countFormat(quote_count)}
-              </Box>
-            </Link>
+                >
+                  引用リポスト
+                </MenuItem>
+                <MenuItem
+                  onClick={() => {
+                    router.push(`/posts/${postId}/quotes`);
+                    handleClose();
+                  }}
+                >
+                  引用を見る
+                </MenuItem>
+              </Menu>
+            </Box>
+            // </Link>
           )}
         </Box>
       </Tooltip>

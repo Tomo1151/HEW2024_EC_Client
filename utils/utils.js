@@ -61,3 +61,19 @@ export function extractLiveIdentifier(live_link) {
 
   return template;
 }
+
+export function decodeHTML(str) {
+  return str.replace(/&(?:([a-z]+?)|#(\d+?));/g, function (m, c, d) {
+    return c
+      ? {
+          amp: "&",
+          lt: "<",
+          gt: ">",
+          quot: '"',
+          nbsp: " ",
+        }[c] || m
+      : d
+        ? String.fromCharCode(d)
+        : m;
+  });
+}
