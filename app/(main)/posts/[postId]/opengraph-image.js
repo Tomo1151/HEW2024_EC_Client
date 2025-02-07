@@ -29,7 +29,11 @@ async function loadGoogleFont(text) {
 async function getPostData(postId) {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_FETCH_BASE_URL}/posts/${postId}`,
-    { headers: { Origin: "http://localhost:3001" } }
+    {
+      headers: {
+        Origin: process.env.NEXT_PUBLIC_SITE_ORIGIN || "http://localhost:3001",
+      },
+    }
   );
   const post = (await res.json()).data;
 
@@ -138,7 +142,7 @@ export default async function Image({ params }) {
               src={
                 post.icon
                   ? `${process.env.NEXT_PUBLIC_FETCH_BASE_URL}/media/icons/${post.icon}`
-                  : "https://placehold.jp/150"
+                  : `${process.env.NEXT_PUBLIC_SITE_ORIGIN || "http://localhost:3001"}/whitehuman.svg`
               }
               width={80}
               height={80}
