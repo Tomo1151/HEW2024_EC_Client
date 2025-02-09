@@ -12,7 +12,7 @@ const liveHelp = () => {
       <MainColumnHeader>
         <h3 className="font-bold tracking-wider">ヘルプ</h3>
       </MainColumnHeader>
-      <Box className="m-[2rem]">
+      <Box className="m-[3rem]">
         <h1 className="text-3xl">ライブ出品とは？</h1>
         <br />
         <p>
