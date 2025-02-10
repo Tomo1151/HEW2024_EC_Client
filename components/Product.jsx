@@ -153,8 +153,6 @@ const Product = ({
     setRepostCount(ref_count);
   }, [ref_count]);
 
-  console.log(name, price, rating);
-
   return (
     <Box component="section">
       <div
