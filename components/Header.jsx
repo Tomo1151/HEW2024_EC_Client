@@ -72,7 +72,7 @@ const Header = () => {
     },
     {
       name: "ライブ配信",
-      href: "/",
+      href: "/live",
       type: "link",
       icon: <LiveTvRounded sx={navigationIconStyle} />,
       loginRequired: false,

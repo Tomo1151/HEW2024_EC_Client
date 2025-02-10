@@ -6,8 +6,9 @@ import { useUserContext } from "@/context/UserContext";
 import CircularLoading from "./loading/CircularLoading";
 import InfiniteScroll from "react-infinite-scroller";
 import PullToRefresh from "react-simple-pull-to-refresh";
+import MainColumnHeader from "./MainColumnHeader";
 
-const Timeline = ({ name, isActive, setRefresh, refresh }) => {
+const Timeline = ({ name, isActive, setRefresh, refresh, live }) => {
   const { refreshToken } = useUserContext();
   const [posts, setPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -27,6 +28,10 @@ const Timeline = ({ name, isActive, setRefresh, refresh }) => {
         after: posts.length > 0 ? posts[posts.length - 1].id : "",
       };
 
+      if (live) {
+        query.live = true;
+      }
+
       const params = new URLSearchParams(query);
       const response = await fetch(
         process.env.NEXT_PUBLIC_FETCH_BASE_URL + "/posts?" + params,
@@ -44,7 +49,7 @@ const Timeline = ({ name, isActive, setRefresh, refresh }) => {
         // console.log(newPosts);
         setIsLoading(false);
         setIsPostFetching(false);
-        setHasMore(resJson.length > 0);
+        setHasMore(resJson.length === 10);
         if (resJson.length > 0) {
           setPosts(posts.concat(newPosts));
           // setRefresh((prev) => !prev);
@@ -65,6 +70,11 @@ const Timeline = ({ name, isActive, setRefresh, refresh }) => {
         tagName: name,
         before: posts.length > 0 ? posts[0].id : "",
       };
+
+      if (live) {
+        query.live = true;
+      }
+
       const params = new URLSearchParams(query);
       const response = await fetch(
         process.env.NEXT_PUBLIC_FETCH_BASE_URL + "/posts?" + params,
@@ -109,23 +119,29 @@ const Timeline = ({ name, isActive, setRefresh, refresh }) => {
   // console.log(posts);
   return (
     <>
-      <LoadingButton
-        variant="contained"
-        onClick={fetchPosts}
-        fullWidth
-        loading={isPostFetching}
-        sx={{
-          display: {
-            xs: "none",
-            sm: "inline-flex",
-          },
-          boxShadow: "none",
-          ":hover": { boxShadow: "none" },
-          borderRadius: 0,
-        }}
-      >
-        Load More
-      </LoadingButton>
+      {live ? (
+        <MainColumnHeader>
+          <h3 className="font-bold tracking-wider">ライブ配信</h3>
+        </MainColumnHeader>
+      ) : (
+        <LoadingButton
+          variant="contained"
+          onClick={fetchPosts}
+          fullWidth
+          loading={isPostFetching}
+          sx={{
+            display: {
+              xs: "none",
+              sm: "inline-flex",
+            },
+            boxShadow: "none",
+            ":hover": { boxShadow: "none" },
+            borderRadius: 0,
+          }}
+        >
+          Load More
+        </LoadingButton>
+      )}
       <PullToRefresh
         onRefresh={fetchPosts}
         refreshingContent={<CircularLoading />}
