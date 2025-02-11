@@ -7,6 +7,8 @@ import CircularLoading from "./loading/CircularLoading";
 import InfiniteScroll from "react-infinite-scroller";
 import PullToRefresh from "react-simple-pull-to-refresh";
 import MainColumnHeader from "./MainColumnHeader";
+import LiveTvRoundedIcon from "@mui/icons-material/LiveTvRounded";
+import { Box } from "@mui/material";
 
 const Timeline = ({ name, isActive, setRefresh, refresh, live }) => {
   const { refreshToken } = useUserContext();
@@ -20,7 +22,7 @@ const Timeline = ({ name, isActive, setRefresh, refresh, live }) => {
 
   const fetchPosts = async () => {
     try {
-      if (!isActive) return;
+      if (!isActive || isPostFetching) return;
       setIsPostFetching(true);
       await refreshToken();
       const query = {
@@ -49,10 +51,10 @@ const Timeline = ({ name, isActive, setRefresh, refresh, live }) => {
         // console.log(newPosts);
         setIsLoading(false);
         setIsPostFetching(false);
-        setHasMore(resJson.length === 10);
-        if (resJson.length > 0) {
+        setHasMore(resJson.data.length === 10);
+        if (resJson.data.length > 0) {
           setPosts(posts.concat(newPosts));
-          // setRefresh((prev) => !prev);
+          if (setRefresh) setRefresh((prev) => !prev); // uncommenting this line to trigger refresh
         }
       }
     } catch (err) {
@@ -62,7 +64,7 @@ const Timeline = ({ name, isActive, setRefresh, refresh, live }) => {
 
   const fetchOldPosts = async () => {
     try {
-      if (!isActive) return;
+      if (!isActive || isPostFetching) return;
 
       setIsPostFetching(true);
       await refreshToken();
@@ -92,9 +94,10 @@ const Timeline = ({ name, isActive, setRefresh, refresh, live }) => {
 
         setIsLoading(false);
         setIsPostFetching(false);
-        setHasMore(resJson.length === 10);
+        // console.log(resJson.data, resJson.data.length === 10);
+        setHasMore(resJson.data.length === 10);
 
-        if (resJson.length > 0) {
+        if (resJson.data.length > 0) {
           setPosts(oldPosts.concat(posts));
           if (setRefresh) setRefresh((prev) => !prev);
         }
@@ -116,12 +119,15 @@ const Timeline = ({ name, isActive, setRefresh, refresh, live }) => {
   if (isLoading) {
     return <CircularLoading />;
   }
-  // console.log(posts);
+  // console.log(!isPostFetching, hasMore, !isPostFetching && hasMore);
   return (
     <>
       {live ? (
         <MainColumnHeader>
-          <h3 className="font-bold tracking-wider">ライブ配信</h3>
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <LiveTvRoundedIcon sx={{ fontSize: 30, pb: 0.25, mr: 1 }} />
+            <h3 className="font-bold tracking-wider">ライブ配信</h3>
+          </Box>
         </MainColumnHeader>
       ) : (
         <LoadingButton
@@ -139,21 +145,23 @@ const Timeline = ({ name, isActive, setRefresh, refresh, live }) => {
             borderRadius: 0,
           }}
         >
-          Load More
+          最新の投稿を読み込む
         </LoadingButton>
       )}
       <PullToRefresh
         onRefresh={fetchPosts}
         refreshingContent={<CircularLoading />}
         pullingContent={<CircularLoading />}
+        style={{ height: "100vh", overflowY: "auto" }}
       >
         <InfiniteScroll
           pageStart={0}
           loadMore={fetchOldPosts}
-          hasMore={!isPostFetching && hasMore}
+          hasMore={hasMore}
           loader={<CircularLoading key={0} />}
           threshold={50}
           initialLoad={false}
+          // useWindow={false}
         >
           {posts
             .toReversed()
