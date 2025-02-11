@@ -167,7 +167,7 @@ const PostReaction = ({
         pt: "1em",
         justifyContent: { xs: "space-between", sm: "flex-start" },
         // columnGap: { xs: 0, sm: "6em" },
-        mr: { xs: 2, sm: 0 },
+        mr: { xs: 0, sm: 0 },
       }}
     >
       <Tooltip title="コメント">
@@ -311,7 +311,7 @@ const PostReaction = ({
                   position: "relative",
                   top: -1,
                   fontSize: "1.5em",
-                  mr: { xs: 0.25, sm: ".5em" },
+                  mr: { xs: 0, sm: ".5em" },
                 }}
                 onClick={handleClick}
               />

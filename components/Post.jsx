@@ -235,8 +235,8 @@ const Post = ({
           >
             <Box
               sx={{
-                width: { xs: "3.5em", sm: "50px" },
-                height: { xs: "3.5em", sm: "50px" },
+                width: { xs: "2.5em", sm: "50px" },
+                height: { xs: "2.5em", sm: "50px" },
                 mr: { xs: 0, sm: "1em" },
               }}
             >

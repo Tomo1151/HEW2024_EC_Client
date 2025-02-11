@@ -258,8 +258,8 @@ const ProductDetail = ({
             >
               <Box
                 sx={{
-                  width: { xs: "3.5em", sm: "50px" },
-                  height: { xs: "3.5em", sm: "50px" },
+                  width: { xs: "2.75em", sm: "50px" },
+                  height: { xs: "2.75em", sm: "50px" },
                   mr: { xs: 1, sm: 2 },
                 }}
               >
