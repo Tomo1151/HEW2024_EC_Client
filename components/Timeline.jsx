@@ -27,7 +27,7 @@ const Timeline = ({ name, isActive, setRefresh, refresh, live }) => {
       await refreshToken();
       const query = {
         tagName: name,
-        after: posts.length > 0 ? posts[posts.length - 1].id : "",
+        after: posts.length > 0 ? posts[0].id : "",
       };
 
       if (live) {
@@ -53,9 +53,12 @@ const Timeline = ({ name, isActive, setRefresh, refresh, live }) => {
         setIsPostFetching(false);
         setHasMore(resJson.data.length === 10);
         if (resJson.data.length > 0) {
-          setPosts(posts.concat(newPosts));
-          if (setRefresh) setRefresh((prev) => !prev); // uncommenting this line to trigger refresh
+          setPosts(newPosts.concat(posts));
+          // setPosts(posts.concat(newPosts));
+          // if (setRefresh) setRefresh((prev) => !prev); // uncommenting this line to trigger refresh
         }
+      } else {
+        setHasMore(false);
       }
     } catch (err) {
       console.log(err);
@@ -70,7 +73,7 @@ const Timeline = ({ name, isActive, setRefresh, refresh, live }) => {
       await refreshToken();
       const query = {
         tagName: name,
-        before: posts.length > 0 ? posts[0].id : "",
+        before: posts.length > 0 ? posts[posts.length - 1].id : "", // corrected index to fetch before post
       };
 
       if (live) {
@@ -98,8 +101,9 @@ const Timeline = ({ name, isActive, setRefresh, refresh, live }) => {
         setHasMore(resJson.data.length === 10);
 
         if (resJson.data.length > 0) {
-          setPosts(oldPosts.concat(posts));
-          if (setRefresh) setRefresh((prev) => !prev);
+          setPosts(posts.concat(oldPosts));
+          // setPosts(oldPosts.concat(posts));
+          // if (setRefresh) setRefresh((prev) => !prev);
         }
       } else {
         setHasMore(false);
@@ -110,10 +114,10 @@ const Timeline = ({ name, isActive, setRefresh, refresh, live }) => {
   };
 
   useEffect(() => {
-    (async () => {
-      if (!isActive) return;
-      await fetchPosts();
-    })();
+    // (async () => {
+    if (!isActive) return;
+    fetchPosts();
+    // })();
   }, [isActive, refresh]);
 
   if (isLoading) {
@@ -160,11 +164,11 @@ const Timeline = ({ name, isActive, setRefresh, refresh, live }) => {
           hasMore={hasMore}
           loader={<CircularLoading key={0} />}
           threshold={50}
-          initialLoad={false}
+          // initialLoad={false}
           // useWindow={false}
         >
           {posts
-            .toReversed()
+            // .toReversed()
             .map((post) =>
               post.product ? (
                 <Product
