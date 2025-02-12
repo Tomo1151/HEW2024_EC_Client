@@ -372,7 +372,7 @@ export default function PostProductForm({ quoteRef, setRefresh }) {
                         <p>
                           ライブ出品の詳細は
                           <Link
-                            href="https://google.com"
+                            href={"/help/live"}
                             target="_blank"
                             className="underline"
                           >
