@@ -230,7 +230,7 @@ const Product = ({
               </Box>
             </Link>
           </div>
-          <div className="px-[.5em] grow">
+          <div className="px-2 grow w-full overflow-hidden">
             <div>
               <Link
                 href={`/users/${username}`}

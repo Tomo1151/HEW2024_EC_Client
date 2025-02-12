@@ -57,7 +57,7 @@ export function PostOgp({ url }) {
         >
           {ogpData.title && (
             <h1
-              className={`${ogpData.card === "summary_large_image" ? "text-base sm:text-lg font-bold" : "text-sm sm:text-base"} truncate`}
+              className={`${ogpData.card === "summary_large_image" ? "text-md sm:text-lg font-bold" : "text-sm sm:text-base"} truncate`}
             >
               {ogpData.title}
             </h1>
