@@ -11,7 +11,8 @@ export const runtime = "edge";
 export const alt = "投稿画像";
 
 async function loadGoogleFont(text) {
-  const url = `https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@700&display=swap&text=${text}`;
+  const encodedText = encodeURIComponent(text);
+  const url = `https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@700&display=swap&text=${encodedText}`;
   const css = await (await fetch(url)).text();
   const resource = css.match(
     /src: url\((.+)\) format\('(opentype|truetype)'\)/
@@ -53,6 +54,7 @@ export default async function Image({ params }) {
   const CONTENT_LENGTH = post.image ? 20 : 70;
   const username = post.nickname || post.username;
   const content = post.content;
+  console.log("fonts requested: ", (username + content).replace(/\s/g, ""));
   // post.content.length > CONTENT_LENGTH
   //   ? post.content.slice(0, CONTENT_LENGTH) + "..."
   //   : post.content;
@@ -163,7 +165,7 @@ export default async function Image({ params }) {
       fonts: [
         {
           name: "M PLUS Rounded 1c",
-          data: await loadGoogleFont(username + content),
+          data: await loadGoogleFont((username + content).replace(/\s/g, "")),
           style: "normal",
           weight: 700,
         },

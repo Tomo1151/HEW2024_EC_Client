@@ -3,6 +3,15 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 
+function decodeHtml(html) {
+  if (typeof document !== "undefined") {
+    const txt = document.createElement("textarea");
+    txt.innerHTML = html;
+    return txt.value;
+  }
+  return html;
+}
+
 export function PostOgp({ url }) {
   const [ogpData, setOgpData] = useState({});
 
@@ -59,12 +68,12 @@ export function PostOgp({ url }) {
             <h1
               className={`${ogpData.card === "summary_large_image" ? "text-md sm:text-lg font-bold" : "text-sm sm:text-base"} truncate`}
             >
-              {ogpData.title}
+              {decodeHtml(ogpData.title)}
             </h1>
           )}
           {ogpData.description && (
             <div className="relative text-xs sm:text-sm opacity-35 line-clamp-2 overflow-hidden">
-              {ogpData.description}
+              {decodeHtml(ogpData.description)}
             </div>
           )}
           {ogpData.url && (
