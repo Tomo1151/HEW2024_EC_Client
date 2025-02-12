@@ -85,7 +85,7 @@ export default function ReplyForm({ postId, setRefresh }) {
         <div className="flex">
           <Link
             href={`${activeUser ? `/users/${activeUser.username}` : "/login"}`}
-            className="w-[3.5em] sm:w-[50px] h-[3.5em] sm:h-[50px] hover:brightness-[.75] duration-200 mr-4 my-4 shrink-0"
+            className="w-[2.75em] sm:w-[50px] h-[2.75em] sm:h-[50px] hover:brightness-[.75] duration-200 mr-1 sm:mr-4 my-4 shrink-0"
             scroll={false}
           >
             <Image
@@ -106,7 +106,7 @@ export default function ReplyForm({ postId, setRefresh }) {
             multiline
             placeholder="返信をポストする"
             onChange={(e) => setPostText(e.target.value)}
-            sx={{ display: "block", mx: "1em", my: "1em" }}
+            sx={{ display: "block", mx: "1em", my: ".5em" }}
             value={postText}
           />
           <div className="flex justify-end py-4 gap-x-4 shrink-0 items-end">
