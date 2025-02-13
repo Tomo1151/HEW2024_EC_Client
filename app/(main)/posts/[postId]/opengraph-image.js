@@ -38,7 +38,7 @@ async function getPostData(postId) {
   );
   const post = (await res.json()).data;
 
-  // console.dir(post, { depth: null });
+  console.dir(post.author, { depth: null });
 
   return {
     username: post.author.username,
@@ -85,7 +85,10 @@ export default async function Image({ params }) {
             justifyContent: "center",
             alignItems: "center",
             backgroundColor: "white",
-            fontFamily: "M PLUS Rounded 1c",
+            backgroundImage: `url("${process.env.NEXT_PUBLIC_SITE_ORIGIN || "http://localhost:3001"}/miseba_logo_icon_bg.png")`,
+            backgroundSize: "225px 225px",
+            backgroundPosition: "center",
+            // fontFamily: "M PLUS Rounded 1c",
             width: "100%",
             height: "100%",
             borderRadius: ".375em",
@@ -121,10 +124,20 @@ export default async function Image({ params }) {
             <p
               // tw="line-clamp-3"
               style={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
+                rowGap: 0,
+                margin: 0,
+                padding: 0,
+                lineHight: "1px",
+                width: "100%",
+                height: "250px",
                 flexGrow: 1,
+                lineBreak: "anywhere",
+                overflowWrap: "break-word",
                 wordBreak: "break-all",
-                // lineBreak: "anywhere",
-                // overflowWrap: "anywhere",
                 lineClamp: 3,
               }}
             >
@@ -134,28 +147,59 @@ export default async function Image({ params }) {
           <div
             style={{
               display: "flex",
-              justifyContent: "center",
+              justifyContent: "space-between",
               alignItems: "center",
               columnGap: "20px",
+              width: "100%",
+              padding: "0 1em",
+              overflow: "hidden",
             }}
           >
-            <img
-              alt="ユーザーアイコン"
-              src={
-                post.icon
-                  ? `${process.env.NEXT_PUBLIC_FETCH_BASE_URL}/media/icons/${post.icon}`
-                  : `${process.env.NEXT_PUBLIC_SITE_ORIGIN || "http://localhost:3001"}/whitehuman.svg`
-              }
-              width={80}
-              height={80}
+            <div
               style={{
-                width: "80px",
-                height: "80px",
-                borderRadius: "100%",
-                margin: "20px",
+                display: "flex",
+                alignItems: "center",
+                width: "65%",
+                overflow: "hidden",
+                flexGrow: 1,
+              }}
+            >
+              <img
+                alt="ユーザーアイコン"
+                src={
+                  post.icon
+                    ? `${process.env.NEXT_PUBLIC_FETCH_BASE_URL}/media/icons/${post.icon}`
+                    : `${process.env.NEXT_PUBLIC_SITE_ORIGIN || "http://localhost:3001"}/whitehuman.svg`
+                }
+                width={80}
+                height={80}
+                style={{
+                  width: "80px",
+                  height: "80px",
+                  borderRadius: "100%",
+                  margin: "20px",
+                }}
+              />
+              <p
+                style={{
+                  fontSize: 36,
+                  whiteSpace: "nowrap",
+                  textOverflow: "ellipsis",
+                  overflow: "hidden",
+                }}
+              >
+                {username}
+              </p>
+            </div>
+            <img
+              src={`${process.env.NEXT_PUBLIC_SITE_ORIGIN || "http://localhost:3001"}/miseba_logo_image_ogp.png`}
+              alt="アプリロゴ"
+              width={300}
+              height={100}
+              style={{
+                flexShrink: 0,
               }}
             />
-            <p style={{ fontSize: 36 }}>{username}</p>
           </div>
         </div>
       </div>
