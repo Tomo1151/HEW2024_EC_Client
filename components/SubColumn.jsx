@@ -43,6 +43,7 @@ const SubColumn = () => {
             <Link href="/">利用規約</Link>
             <Link href="/">プライバシーポリシー</Link>
             <Link href="/">お問い合わせ</Link>
+            <Link href="/patch">パッチノート</Link>
 
             <p>
               <small>&copy; {new Date().getFullYear()}&nbsp;IH12A-05</small>
