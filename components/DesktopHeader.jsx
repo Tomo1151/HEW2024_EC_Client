@@ -67,17 +67,17 @@ const DesktopHeader = ({ listItems, activeUser, isHeaderTransparent }) => {
           {/* 名前つき */}
           <Link href="/" className="hidden lg:inline">
             <Image
-              src="/appri_logo_c.svg"
+              src="/miseba_logo_image.svg"
               width={1516}
               height={673}
               alt="アプリロゴ"
               priority
-              className="w-full max-w-[150px] pl-4 object-contain hover:drop-shadow-[0_3px_10px_rgba(109,201,101,0.5)] duration-200"
+              className="w-full max-w-[200px] pl-4 object-contain hover:drop-shadow-[0_3px_10px_rgba(109,201,101,0.5)] duration-200"
             />
           </Link>
           <Link href="/" className="lg:hidden">
             <Image
-              src="/appri_logo_sc.svg"
+              src="/miseba_logo_icon.svg"
               width={700}
               height={573}
               alt="アプリロゴ"
