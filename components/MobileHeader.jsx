@@ -120,12 +120,12 @@ const MobileHeader = ({ listItems, activeUser, isHeaderTransparent }) => {
           >
             <Link href="/" scroll={true}>
               <Image
-                src="/appri_logo_s.svg"
+                src="/miseba_logo_image_invert.svg"
                 width={700}
                 height={573}
                 alt="アプリロゴ"
                 style={{
-                  width: "50px",
+                  width: "125px",
                   height: "auto",
                 }}
                 priority

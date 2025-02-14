@@ -51,6 +51,17 @@ input::file-selector-button {
   visibility: hidden;
 }
 
+.footer-annotation {
+  display: block;
+  padding-left: 1.25em;
+}
+
+.footer-annotation::before {
+  content: "※";
+  margin-left: -1.3em;
+  margin-right: 0.25em;
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;
