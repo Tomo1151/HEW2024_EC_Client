@@ -16,13 +16,18 @@ const liveHelp = () => {
         <h1 className="text-3xl">ライブ出品とは？</h1>
         <br />
         <p>
-          Youtubeのサービスを利用して実際に作っている様子を配信しながら出品をすることができるサービスです。商品サムネイルの代わりに、設定したYoutubeの埋め込みが表示されます。
+          YouTube Live や Twitch のサービスを利用して出品物の制作風景を配信しながら投稿を公開することができる出品方法です。
+          <br />
+          この出品方法では、商品データ/商品サムネイル画像/値段を決定せずに出品することができます。
+          <br />
+          商品サムネイル画像の代わりにライブ配信画面の埋め込みプレイヤーが表示されます。
         </p>
         <Box className="my-[2rem] py-[2rem] border-t border-gray-300">
           <h2 className="text-2xl">ライブ配信をする</h2>
           <ol className="list-decimal list-outside ml-[1.5rem]">
             <li className="mt-[2rem]">
               Youtubeの場合は共有ボタンを押して作成されるURLをコピーします
+              <br />
               Twitchの場合はユーザーページのURLをコピーします
               <Image
                 src="/live_help/share.png"
