@@ -1,14 +1,14 @@
 import React, { Suspense } from "react";
 import Modal from "@/components/Modal";
-import DetailPostForm from "@/components/DetailPostForm";
 import CircularLoading from "@/components/loading/CircularLoading";
-import PostProductForm from "@/components/PostProductForm";
+import EditProductForm from "@/components/EditProductForm";
 
-const InterceptProductEditForm = () => {
+const InterceptProductEditForm = (route) => {
+  console.log(route);
   return (
     <Modal>
       <Suspense fallback={<CircularLoading />}>
-        <PostProductForm />
+        <EditProductForm postId={route.params.postId} />
       </Suspense>
     </Modal>
   );

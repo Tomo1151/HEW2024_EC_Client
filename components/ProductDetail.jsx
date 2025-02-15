@@ -63,8 +63,9 @@ const ProductDetail = ({
   let options = {};
   if (activeUser && activeUser.username === username) {
     options = {
-      通報: () => {
-        console.log("ポストを通報");
+      編集: () => {
+        console.log("ポストを編集");
+        router.push(`/posts/${postId}/edit`);
       },
       削除: async () => {
         console.log(`ポストを削除: ${postId}`);

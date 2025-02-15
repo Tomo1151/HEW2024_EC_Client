@@ -67,7 +67,7 @@ const Product = ({
     options = {
       編集: () => {
         console.log("ポストを編集");
-        router.replace(`/posts/${postId}/edit`);
+        router.push(`/posts/${postId}/edit`);
       },
       削除: async () => {
         console.log(`ポストを削除: ${postId}`);
