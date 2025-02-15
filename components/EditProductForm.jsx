@@ -93,13 +93,17 @@ function PostProductFormInner({ postId }) {
 
       if (resJson.success) {
         const post = resJson.data;
+        console.log("Post fetched: ", post);
         console.log({
           name: { value: post.product.name, isValid: true },
           description: { value: post.content, isValid: true },
-          tags: { value: post.tags, isValid: true },
+          tags: {
+            value: post.tags.map((tagObj) => tagObj.tag.name),
+            isValid: true,
+          },
           tagInput: { value: "", isValid: false },
           data: { value: null, isValid: !!post.live_link },
-          price: { value: post.price, isValid: true },
+          price: { value: post.price || "", isValid: true },
           liveLink: { value: post.live_link, isValid: true },
         });
         setPost(post);
@@ -109,7 +113,10 @@ function PostProductFormInner({ postId }) {
         setFormData({
           name: { value: post.product.name, isValid: true },
           description: { value: post.content, isValid: true },
-          tags: { value: post.tags, isValid: true },
+          tags: {
+            value: post.tags.map((tagObj) => tagObj.tag.name),
+            isValid: true,
+          },
           tagInput: { value: "", isValid: false },
           data: { value: null, isValid: post.live_link },
           price: { value: post.price, isValid: true },
