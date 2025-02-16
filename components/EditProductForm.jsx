@@ -34,11 +34,23 @@ import { formatDataSize } from "@/utils/formatDataSize";
 import { formatPostBody } from "@/utils/postBodyFormat";
 import QuoteCard from "./QuoteCard";
 import { inputValidator } from "@/utils/InputValidator";
+import CircularLoading from "./loading/CircularLoading";
+import { NotificationsProvider } from "@toolpad/core/useNotifications";
 
-export default function PostProductForm({ quoteRef, setRefresh }) {
+export default function PostProductForm({ postId }) {
+  return (
+    <NotificationsProvider>
+      <PostProductFormInner postId={postId} />
+    </NotificationsProvider>
+  );
+}
+
+function PostProductFormInner({ postId }) {
   const router = useRouter();
   const notifications = useNotifications();
   const { activeUser, refreshToken } = useUserContext();
+  const [quoteRef, setQuoteRef] = useState(null);
+  const [post, setPost] = useState(null);
 
   const [formData, setFormData] = useState({
     name: { value: "", isValid: false },
@@ -72,18 +84,52 @@ export default function PostProductForm({ quoteRef, setRefresh }) {
 
   const [quotePost, setQuotePost] = useState(null);
 
-  const fetchQuoteRef = async () => {
+  const fetchPost = async (postId) => {
     try {
       const response = await fetch(
-        process.env.NEXT_PUBLIC_FETCH_BASE_URL + `/posts/${quoteRef}`
+        process.env.NEXT_PUBLIC_FETCH_BASE_URL + `/posts/${postId}`
       );
       const resJson = await response.json();
 
       if (resJson.success) {
-        // console.log("Quote fetched: ", resJson.data);
-        setQuotePost(resJson.data);
+        const post = resJson.data;
+        console.log("Post fetched: ", post);
+        console.log({
+          name: { value: post.product.name, isValid: true },
+          description: { value: post.content, isValid: true },
+          tags: {
+            value: post.tags.map((tagObj) => tagObj.tag.name),
+            isValid: true,
+          },
+          tagInput: { value: "", isValid: false },
+          data: { value: null, isValid: !!post.live_link },
+          price: {
+            value: post.product.price_histories[0].price || "",
+            isValid: true,
+          },
+          liveLink: { value: post.live_link, isValid: true },
+        });
+        setPost(post);
+        setQuotePost(post.quoted_ref);
+        setIsLive(!!post.live_link);
+        setIsValid(true);
+        setFormData({
+          name: { value: post.product.name, isValid: true },
+          description: { value: post.content, isValid: true },
+          tags: {
+            value: post.tags.map((tagObj) => tagObj.tag.name),
+            isValid: true,
+          },
+          tagInput: { value: "", isValid: false },
+          data: { value: null, isValid: post.live_link },
+          price: {
+            value: post.product.price_histories[0].price,
+            isValid: true,
+          },
+          liveLink: { value: post.live_link, isValid: true },
+        });
       } else {
-        notifications.show("引用元のポストが見つかりません", {
+        notifications.show("ポストが見つかりませんでした", {
           severity: "error",
           autoHideDuration: 3000,
         });
@@ -126,7 +172,10 @@ export default function PostProductForm({ quoteRef, setRefresh }) {
         }
         setIsProcessing(true);
         const sendFormData = new FormData();
-        sendFormData.append("type", isLive ? "live" : "product");
+        sendFormData.append(
+          "type",
+          !post.live_link ? "product_edit" : isLive ? "live_edit" : "product"
+        );
         sendFormData.append("name", formData.name.value.trim());
         sendFormData.append("description", formData.description.value.trim());
         if (quoteRef) sendFormData.append("quoted_ref", quoteRef);
@@ -145,30 +194,12 @@ export default function PostProductForm({ quoteRef, setRefresh }) {
             sendFormData.append("images", image);
           }
         }
-        // @TODO imagesのisValidを適切に設定する
-
-        // const formData = new FormData();
-        // formData.append("name", name.trim());
-        // formData.append("description", description.trim());
-        // if (price) formData.append("price", price);
-        // formData.append("live_link", liveLink.trim());
-        // formData.append("data", data);
-        // formData.append("quoted_ref", quoteRef);
-
-        // for (const image of images) {
-        //   formData.append("images", image);
-        // }
-
-        // for (const tag of tags) {
-        //   formData.append("tags[]", tag);
-        // }
-
         console.log(...sendFormData.entries());
 
         const response = await fetch(
-          process.env.NEXT_PUBLIC_FETCH_BASE_URL + "/products",
+          process.env.NEXT_PUBLIC_FETCH_BASE_URL + `/products/${postId}`,
           {
-            method: "POST",
+            method: "PUT",
             body: sendFormData,
             credentials: "include",
           }
@@ -186,7 +217,6 @@ export default function PostProductForm({ quoteRef, setRefresh }) {
           // setTags([]);
           // setStatus([]);
 
-          if (setRefresh) setRefresh((prev) => !prev);
           notifications.show("ポストが正常に投稿されました", {
             severity: "success",
             autoHideDuration: 3000,
@@ -286,26 +316,37 @@ export default function PostProductForm({ quoteRef, setRefresh }) {
   // };
 
   useEffect(() => {
-    if (quoteRef) {
-      fetchQuoteRef();
-    }
-  }, [quoteRef]);
+    (async () => {
+      if (!postId) return;
+      await fetchPost(postId);
+    })();
+  }, [postId]);
 
   useEffect(() => {
+    if (!post) return;
     setIsValid(
       isLive
         ? formData.name.isValid &&
             formData.description.isValid &&
             formData.tags.isValid &&
             formData.liveLink.isValid
-        : formData.name.isValid &&
+        : post.live_link
+          ? formData.name.isValid &&
             formData.description.isValid &&
             formData.tags.isValid &&
             images.isValid &&
             formData.data.isValid &&
             formData.price.isValid
+          : formData.name.isValid &&
+            formData.description.isValid &&
+            formData.tags.isValid &&
+            formData.price.isValid
     );
   }, [formData, images, isLive]);
+
+  if (post === null) {
+    return <CircularLoading />;
+  }
 
   return (
     <Box
@@ -358,11 +399,35 @@ export default function PostProductForm({ quoteRef, setRefresh }) {
                   className="w-[50px] h-[50px] rounded-full object-cover"
                 />
               </Link>
-              <FormControlLabel
-                control={<Switch />}
-                label={
-                  <Tooltip
-                    title={
+              {post?.live_link && (
+                <FormControlLabel
+                  control={<Switch checked={isLive} />}
+                  label={
+                    <Tooltip
+                      title={
+                        <Box
+                          sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            columnGap: 0.5,
+                          }}
+                        >
+                          <InfoOutlinedIcon />
+                          <p>
+                            ライブ出品の詳細は
+                            <Link
+                              href={"/help/live"}
+                              target="_blank"
+                              className="underline"
+                            >
+                              こちら
+                            </Link>
+                            から
+                          </p>
+                        </Box>
+                      }
+                      placement="top"
+                    >
                       <Box
                         sx={{
                           display: "flex",
@@ -370,51 +435,29 @@ export default function PostProductForm({ quoteRef, setRefresh }) {
                           columnGap: 0.5,
                         }}
                       >
-                        <InfoOutlinedIcon />
-                        <p>
-                          ライブ出品の詳細は
-                          <Link
-                            href={"/help/live"}
-                            target="_blank"
-                            className="underline"
-                          >
-                            こちら
-                          </Link>
-                          から
-                        </p>
+                        <LiveTvRoundedIcon sx={{ mb: 0.25 }} />
+                        ライブ出品
                       </Box>
-                    }
-                    placement="top"
-                  >
-                    <Box
-                      sx={{
-                        display: "flex",
-                        alignItems: "center",
-                        columnGap: 0.5,
-                      }}
-                    >
-                      <LiveTvRoundedIcon sx={{ mb: 0.25 }} />
-                      ライブ出品
-                    </Box>
-                  </Tooltip>
-                }
-                labelPlacement="end"
-                sx={{ width: "fit-content" }}
-                onChange={(e) => {
-                  setIsLive(e.target.checked);
-                  setFormData({
-                    ...formData,
-                    images: {
-                      value: [],
-                      isValid: e.target.checked ? true : false,
-                    },
-                    liveLink: {
-                      value: "",
-                      isValid: e.target.checked ? false : true,
-                    },
-                  });
-                }}
-              />
+                    </Tooltip>
+                  }
+                  labelPlacement="end"
+                  sx={{ width: "fit-content" }}
+                  onChange={(e) => {
+                    setIsLive(e.target.checked);
+                    setFormData({
+                      ...formData,
+                      images: {
+                        value: [],
+                        isValid: e.target.checked ? true : false,
+                      },
+                      liveLink: {
+                        value: "",
+                        isValid: e.target.checked ? false : true,
+                      },
+                    });
+                  }}
+                />
+              )}
             </Box>
             <TextInput
               id="name"
@@ -429,7 +472,7 @@ export default function PostProductForm({ quoteRef, setRefresh }) {
               value={formData.name.value}
             />
 
-            {!isLive && (
+            {!isLive && post?.live_link && (
               <>
                 <FormThumbnailImage
                   images={images.value}
@@ -560,21 +603,22 @@ export default function PostProductForm({ quoteRef, setRefresh }) {
                     </Button>
                   </div>
                 )}
-                <TextInput
-                  id="price"
-                  name="price"
-                  variant="standard"
-                  type="number"
-                  rows={4}
-                  fullWidth
-                  placeholder="2000"
-                  label="値段"
-                  onChange={handleChange}
-                  sx={{ display: "block", mt: 2 }}
-                  value={formData.price.value}
-                />
               </>
             )}
+
+            <TextInput
+              id="price"
+              name="price"
+              variant="standard"
+              type="number"
+              rows={4}
+              fullWidth
+              placeholder="2000"
+              label="値段"
+              onChange={handleChange}
+              sx={{ display: "block", mt: 2 }}
+              value={formData.price.value}
+            />
 
             <TextInput
               id="description"
@@ -766,14 +810,21 @@ export default function PostProductForm({ quoteRef, setRefresh }) {
                     formData.tags.isValid &&
                     formData.liveLink.isValid
                   )
-                : !(
-                    formData.name.isValid &&
-                    formData.description.isValid &&
-                    formData.tags.isValid &&
-                    images.isValid &&
-                    formData.data.isValid &&
-                    formData.price.isValid
-                  )
+                : post.live_link
+                  ? !(
+                      formData.name.isValid &&
+                      formData.description.isValid &&
+                      formData.tags.isValid &&
+                      images.isValid &&
+                      formData.data.isValid &&
+                      formData.price.isValid
+                    )
+                  : !(
+                      formData.name.isValid &&
+                      formData.description.isValid &&
+                      formData.tags.isValid &&
+                      formData.price.isValid
+                    )
             }
             loading={isProcessing}
           >

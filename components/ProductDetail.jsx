@@ -38,6 +38,7 @@ const ProductDetail = ({
   rating,
   price,
   images,
+  tags,
   live_link,
   comment_count,
   ref_count,
@@ -63,8 +64,9 @@ const ProductDetail = ({
   let options = {};
   if (activeUser && activeUser.username === username) {
     options = {
-      通報: () => {
-        console.log("ポストを通報");
+      編集: () => {
+        console.log("ポストを編集");
+        router.push(`/posts/${postId}/edit`);
       },
       削除: async () => {
         console.log(`ポストを削除: ${postId}`);
@@ -288,7 +290,7 @@ const ProductDetail = ({
           <div className="px-2 grow">
             <h3 className="mt-4 pb-4 font-bold text-xl">{name}</h3>
 
-            <PostTags tags={[]} />
+            <PostTags tags={tags} />
 
             {extractLiveIdentifier(live_link).isValid &&
             images?.length === 0 ? (
