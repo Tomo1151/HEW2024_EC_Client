@@ -103,7 +103,10 @@ function PostProductFormInner({ postId }) {
           },
           tagInput: { value: "", isValid: false },
           data: { value: null, isValid: !!post.live_link },
-          price: { value: post.price || "", isValid: true },
+          price: {
+            value: post.product.price_histories[0].price || "",
+            isValid: true,
+          },
           liveLink: { value: post.live_link, isValid: true },
         });
         setPost(post);
@@ -119,7 +122,10 @@ function PostProductFormInner({ postId }) {
           },
           tagInput: { value: "", isValid: false },
           data: { value: null, isValid: post.live_link },
-          price: { value: post.price, isValid: true },
+          price: {
+            value: post.product.price_histories[0].price,
+            isValid: true,
+          },
           liveLink: { value: post.live_link, isValid: true },
         });
       } else {
