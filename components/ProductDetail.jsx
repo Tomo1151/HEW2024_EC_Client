@@ -38,6 +38,7 @@ const ProductDetail = ({
   rating,
   price,
   images,
+  tags,
   live_link,
   comment_count,
   ref_count,
@@ -289,7 +290,7 @@ const ProductDetail = ({
           <div className="px-2 grow">
             <h3 className="mt-4 pb-4 font-bold text-xl">{name}</h3>
 
-            <PostTags tags={[]} />
+            <PostTags tags={tags} />
 
             {extractLiveIdentifier(live_link).isValid &&
             images?.length === 0 ? (
