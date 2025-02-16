@@ -104,7 +104,9 @@ function PostProductFormInner({ postId }) {
           tagInput: { value: "", isValid: false },
           data: { value: null, isValid: !!post.live_link },
           price: {
-            value: post.product.price_histories[0].price || "",
+            value: post.live_link
+              ? ""
+              : post.product.price_histories[0].price || "",
             isValid: true,
           },
           liveLink: { value: post.live_link, isValid: true },
@@ -123,7 +125,7 @@ function PostProductFormInner({ postId }) {
           tagInput: { value: "", isValid: false },
           data: { value: null, isValid: post.live_link },
           price: {
-            value: post.product.price_histories[0].price,
+            value: post.live_link ? "" : post.product.price_histories[0].price,
             isValid: true,
           },
           liveLink: { value: post.live_link, isValid: true },
@@ -606,19 +608,21 @@ function PostProductFormInner({ postId }) {
               </>
             )}
 
-            <TextInput
-              id="price"
-              name="price"
-              variant="standard"
-              type="number"
-              rows={4}
-              fullWidth
-              placeholder="2000"
-              label="値段"
-              onChange={handleChange}
-              sx={{ display: "block", mt: 2 }}
-              value={formData.price.value}
-            />
+            {!isLive && (
+              <TextInput
+                id="price"
+                name="price"
+                variant="standard"
+                type="number"
+                rows={4}
+                fullWidth
+                placeholder="2000"
+                label="値段"
+                onChange={handleChange}
+                sx={{ display: "block", mt: 2 }}
+                value={formData.price.value}
+              />
+            )}
 
             <TextInput
               id="description"
