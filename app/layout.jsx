@@ -1,7 +1,7 @@
 import "./globals.css";
 
 import { M_PLUS_Rounded_1c } from "next/font/google";
-
+import { GoogleAnalytics } from "@next/third-parties/google";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
 import { ThemeProvider } from "@mui/material/styles";
 
@@ -35,6 +35,7 @@ export default function RootLayout({ children }) {
           </AppRouterCacheProvider>
         </UserProvider>
       </body>
+      <GoogleAnalytics gaId="G-XM9SCJ71H2" />
     </html>
   );
 }
