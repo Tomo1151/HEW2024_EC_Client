@@ -5,6 +5,7 @@ const DashboardLayout = ({ children }) => {
   return (
     <Box
       sx={{
+        backgroundColor: "#f9f9f9",
         width: "100%",
         mt: {
           xs: "calc(var(--height-header)*-1)",

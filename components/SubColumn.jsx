@@ -40,7 +40,7 @@ const SubColumn = () => {
               // pt: ".5em",
             }}
           >
-            <Link href="/">利用規約</Link>
+            <Link href="/terms">利用規約</Link>
             <Link href="/">プライバシーポリシー</Link>
             <Link href="/">お問い合わせ</Link>
             <Link href="/patch">パッチノート</Link>
