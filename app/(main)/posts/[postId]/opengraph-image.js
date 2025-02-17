@@ -38,8 +38,6 @@ async function getPostData(postId) {
   );
   const post = (await res.json()).data;
 
-  console.dir(post.author, { depth: null });
-
   return {
     username: post.author.username,
     nickname: post.author.nickname,
