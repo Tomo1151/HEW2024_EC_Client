@@ -64,32 +64,40 @@ export const UserProvider = ({ children }) => {
   const fetchUserCart = async () => {
     // refreshToken()
     // .then(async () => {
-    await refreshToken();
-    const response = await fetch(
-      process.env.NEXT_PUBLIC_FETCH_BASE_URL + "/carts/items",
-      {
-        method: "GET",
-        headers: fetchHeaders,
-        credentials: "include",
+    try {
+      await refreshToken();
+      const response = await fetch(
+        process.env.NEXT_PUBLIC_FETCH_BASE_URL + "/carts/items",
+        {
+          method: "GET",
+          headers: fetchHeaders,
+          credentials: "include",
+        }
+      );
+
+      const resJson = await response.json();
+
+      if (!resJson.success) {
+        return {
+          success: false,
+          message: "You are not logged in",
+        };
       }
-    );
 
-    const resJson = await response.json();
+      setCartItems(resJson.data);
 
-    if (!resJson.success) {
+      return {
+        success: true,
+        message: "Cart fetched",
+        data: resJson.data,
+      };
+    } catch (err) {
+      console.error(err);
       return {
         success: false,
         message: "You are not logged in",
       };
     }
-
-    setCartItems(resJson.data);
-
-    return {
-      success: true,
-      message: "Cart fetched",
-      data: resJson.data,
-    };
     // })
     // .catch((err) => {
     // console.log("Error fetching cart items");
@@ -98,34 +106,42 @@ export const UserProvider = ({ children }) => {
   };
 
   const fetchUser = async () => {
-    await refreshToken();
-    const response = await fetch(
-      process.env.NEXT_PUBLIC_FETCH_BASE_URL + "/auth/refresh",
-      {
-        method: "POST",
-        headers: fetchHeaders,
-        credentials: "include",
+    try {
+      await refreshToken();
+      const response = await fetch(
+        process.env.NEXT_PUBLIC_FETCH_BASE_URL + "/auth/refresh",
+        {
+          method: "POST",
+          headers: fetchHeaders,
+          credentials: "include",
+        }
+      ).catch((err) => {
+        // console.error(err);
+      });
+
+      const resJson = await response.json();
+
+      if (!resJson.success) {
+        // await logout();
+        setActiveUser(false);
+        return {
+          success: false,
+          message: "You are not logged in",
+        };
       }
-    ).catch((err) => {
-      // console.error(err);
-    });
+      setActiveUser(resJson.data);
 
-    const resJson = await response.json();
-
-    if (!resJson.success) {
-      // await logout();
-      setActiveUser(false);
+      return {
+        success: true,
+        message: "Logged in successfully as " + resJson.data.username,
+      };
+    } catch (err) {
+      console.error(err);
       return {
         success: false,
         message: "You are not logged in",
       };
     }
-    setActiveUser(resJson.data);
-
-    return {
-      success: true,
-      message: "Logged in successfully as " + resJson.data.username,
-    };
   };
 
   const signin = async (username, email, password) => {
@@ -201,30 +217,38 @@ export const UserProvider = ({ children }) => {
     // if (activeUser === null || activeUser === false)
     // return { success: false, message: "You are not logged in" };
 
-    const response = await fetch(
-      process.env.NEXT_PUBLIC_FETCH_BASE_URL + "/auth/refresh",
-      {
-        method: "POST",
-        headers: fetchHeaders,
-        credentials: "include",
+    try {
+      const response = await fetch(
+        process.env.NEXT_PUBLIC_FETCH_BASE_URL + "/auth/refresh",
+        {
+          method: "POST",
+          headers: fetchHeaders,
+          credentials: "include",
+        }
+      );
+      const resJson = await response.json();
+      // console.log(resJson);
+      if (!resJson.success) {
+        await logout();
+        // console.log("You are not logged in");
+        // throw new Error("You are not logged in");
+        return {
+          success: false,
+          message: "You are not logged in",
+        };
       }
-    );
-    const resJson = await response.json();
-    // console.log(resJson);
-    if (!resJson.success) {
-      await logout();
-      // console.log("You are not logged in");
-      // throw new Error("You are not logged in");
+
+      return {
+        success: true,
+        message: "Token refreshed",
+      };
+    } catch (err) {
+      console.error(err);
       return {
         success: false,
         message: "You are not logged in",
       };
     }
-
-    return {
-      success: true,
-      message: "Token refreshed",
-    };
   };
 
   const logout = async () => {

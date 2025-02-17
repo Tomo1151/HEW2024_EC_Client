@@ -28,7 +28,7 @@ const LoginModal = () => {
       setIsFetching(false);
       return;
     }
-    router.push("/", { scroll: false });
+    router.replace("/", { scroll: false });
   }
 
   return (

@@ -29,7 +29,7 @@ const DashboardHeader = () => {
       >
         <Link href="/" className="h-[75px]">
           <Image
-            src="/appri_logo.svg"
+            src="/miseba_logo_image_invert.svg"
             alt="logo"
             width={700}
             height={573}

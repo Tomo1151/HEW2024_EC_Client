@@ -99,14 +99,17 @@ const page = () => {
   return (
     <Container
       sx={{
-        backgroundColor: "#fafafa",
+        backgroundColor: "white",
         maxWidth: "1000px",
         px: {
           xs: 1,
           sm: 4,
         },
         py: 2,
+        my: { xs: 0, sm: 4 },
         mx: "auto",
+        boxShadow: "0 0 10px rgba(0, 0, 0, .1)",
+        borderRadius: ".375em",
       }}
     >
       <h1 className="text-xl border-l-[.5em] border-[#6dc965] pl-2 py-1 my-2">

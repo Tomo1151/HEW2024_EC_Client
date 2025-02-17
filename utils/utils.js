@@ -7,6 +7,14 @@ export function replaceRoute(url) {
   );
 }
 
+export function parseURL(url) {
+  if (url.startsWith("http://") || url.startsWith("https://")) {
+    return new URL(url).toString();
+  } else {
+    return "https://" + url;
+  }
+}
+
 export function urlForImage(
   image_path,
   container_name = "icons",
