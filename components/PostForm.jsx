@@ -38,7 +38,7 @@ export default function PostForm({ quoteRef, setRefresh }) {
       const resJson = await response.json();
 
       if (resJson.success) {
-        console.log("Quote fetched: ", resJson.data);
+        // console.log("Quote fetched: ", resJson.data);
         setQuotePost(resJson.data);
       } else {
         notifications.show("引用元のポストが見つかりません", {
@@ -91,7 +91,7 @@ export default function PostForm({ quoteRef, setRefresh }) {
           }
 
           // console.log(formData.get("content"));
-          console.log(formData.getAll("tags[]"));
+          // console.log(formData.getAll("tags[]"));
 
           const response = await fetch(
             process.env.NEXT_PUBLIC_FETCH_BASE_URL + "/posts",

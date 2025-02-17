@@ -18,9 +18,9 @@ const TagHeading = ({ tagName }) => {
       if (typeof window === "undefined") return;
       const pinnedTag = JSON.parse(localStorage.getItem("pinnedTag"));
       let newTags = [];
-      console.log("pinnedTag", pinnedTag);
-      console.log(pinnedTag ? pinnedTag.concat(tagName) : [tagName]);
-      console.log(pinnedTag ? pinnedTag.filter((tag) => tag !== tagName) : []);
+      // console.log("pinnedTag", pinnedTag);
+      // console.log(pinnedTag ? pinnedTag.concat(tagName) : [tagName]);
+      // console.log(pinnedTag ? pinnedTag.filter((tag) => tag !== tagName) : []);
       if (!isPinned) {
         newTags = [
           ...new Set(pinnedTag ? pinnedTag.concat([tagName]) : [tagName]),

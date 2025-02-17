@@ -94,29 +94,29 @@ export default function PostProductForm({ quoteRef, setRefresh }) {
   };
 
   const handleSubmit = async (e) => {
-    console.log("Form submitted.");
+    // console.log("Form submitted.");
     e.preventDefault();
-    console.log("isProcessing: ", isProcessing);
+    // console.log("isProcessing: ", isProcessing);
 
     try {
       refreshToken().then(async () => {
-        console.log(
-          isLive,
-          isValid,
-          formData,
-          images,
-          isLive
-            ? formData.name.isValid &&
-                formData.description.isValid &&
-                formData.tags.isValid &&
-                formData.liveLink.isValid
-            : formData.name.isValid &&
-                formData.description.isValid &&
-                formData.tags.isValid &&
-                images.isValid &&
-                formData.data.isValid &&
-                formData.price.isValid
-        );
+        // console.log(
+        //   isLive,
+        //   isValid,
+        //   formData,
+        //   images,
+        //   isLive
+        //     ? formData.name.isValid &&
+        //         formData.description.isValid &&
+        //         formData.tags.isValid &&
+        //         formData.liveLink.isValid
+        //     : formData.name.isValid &&
+        //         formData.description.isValid &&
+        //         formData.tags.isValid &&
+        //         images.isValid &&
+        //         formData.data.isValid &&
+        //         formData.price.isValid
+        // );
         if (!isValid) {
           notifications.show("入力内容に不備があります", {
             severity: "error",
@@ -163,7 +163,7 @@ export default function PostProductForm({ quoteRef, setRefresh }) {
         //   formData.append("tags[]", tag);
         // }
 
-        console.log(...sendFormData.entries());
+        // console.log(...sendFormData.entries());
 
         const response = await fetch(
           process.env.NEXT_PUBLIC_FETCH_BASE_URL + "/products",
@@ -212,11 +212,11 @@ export default function PostProductForm({ quoteRef, setRefresh }) {
 
   const handleOnImageChange = useCallback(
     (e) => {
-      console.log(
-        "Image changed: ",
-        e.target.files,
-        inputValidator([...images.value, ...e.target.files])
-      );
+      // console.log(
+      //   "Image changed: ",
+      //   e.target.files,
+      //   inputValidator([...images.value, ...e.target.files])
+      // );
       setImages({
         value: [...images.value, ...e.target.files],
         isValid: inputValidator("images", [...images.value, ...e.target.files]),

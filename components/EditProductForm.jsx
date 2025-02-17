@@ -93,25 +93,25 @@ function PostProductFormInner({ postId }) {
 
       if (resJson.success) {
         const post = resJson.data;
-        console.log("Post fetched: ", post);
-        console.log({
-          name: { value: post.product.name, isValid: true },
-          description: { value: post.content, isValid: true },
-          tags: {
-            value: post.tags.map((tagObj) => tagObj.tag.name),
-            isValid: true,
-          },
-          tagInput: { value: "", isValid: false },
-          data: { value: null, isValid: !!post.live_link },
-          price: {
-            value:
-              post.product.price_histories.length === 0
-                ? ""
-                : post.product.price_histories[0]?.price || "",
-            isValid: true,
-          },
-          liveLink: { value: post.live_link, isValid: true },
-        });
+        // console.log("Post fetched: ", post);
+        // console.log({
+        //   name: { value: post.product.name, isValid: true },
+        //   description: { value: post.content, isValid: true },
+        //   tags: {
+        //     value: post.tags.map((tagObj) => tagObj.tag.name),
+        //     isValid: true,
+        //   },
+        //   tagInput: { value: "", isValid: false },
+        //   data: { value: null, isValid: !!post.live_link },
+        //   price: {
+        //     value:
+        //       post.product.price_histories.length === 0
+        //         ? ""
+        //         : post.product.price_histories[0]?.price || "",
+        //     isValid: true,
+        //   },
+        //   liveLink: { value: post.live_link, isValid: true },
+        // });
         setPost(post);
         setQuotePost(post.quoted_ref);
         setIsLive(!!post.live_link);
@@ -146,29 +146,29 @@ function PostProductFormInner({ postId }) {
   };
 
   const handleSubmit = async (e) => {
-    console.log("Form submitted.");
+    // console.log("Form submitted.");
     e.preventDefault();
-    console.log("isProcessing: ", isProcessing);
+    // console.log("isProcessing: ", isProcessing);
 
     try {
       refreshToken().then(async () => {
-        console.log(
-          isLive,
-          isValid,
-          formData,
-          images,
-          isLive
-            ? formData.name.isValid &&
-                formData.description.isValid &&
-                formData.tags.isValid &&
-                formData.liveLink.isValid
-            : formData.name.isValid &&
-                formData.description.isValid &&
-                formData.tags.isValid &&
-                images.isValid &&
-                formData.data.isValid &&
-                formData.price.isValid
-        );
+        // console.log(
+        //   isLive,
+        //   isValid,
+        //   formData,
+        //   images,
+        //   isLive
+        //     ? formData.name.isValid &&
+        //         formData.description.isValid &&
+        //         formData.tags.isValid &&
+        //         formData.liveLink.isValid
+        //     : formData.name.isValid &&
+        //         formData.description.isValid &&
+        //         formData.tags.isValid &&
+        //         images.isValid &&
+        //         formData.data.isValid &&
+        //         formData.price.isValid
+        // );
         if (!isValid) {
           notifications.show("入力内容に不備があります", {
             severity: "error",
@@ -200,7 +200,7 @@ function PostProductFormInner({ postId }) {
             sendFormData.append("images", image);
           }
         }
-        console.log(...sendFormData.entries());
+        // console.log(...sendFormData.entries());
 
         const response = await fetch(
           process.env.NEXT_PUBLIC_FETCH_BASE_URL + `/products/${postId}`,
@@ -252,11 +252,11 @@ function PostProductFormInner({ postId }) {
 
   const handleOnImageChange = useCallback(
     (e) => {
-      console.log(
-        "Image changed: ",
-        e.target.files,
-        inputValidator([...images.value, ...e.target.files])
-      );
+      // console.log(
+      //   "Image changed: ",
+      //   e.target.files,
+      //   inputValidator([...images.value, ...e.target.files])
+      // );
       setImages({
         value: [...images.value, ...e.target.files],
         isValid: inputValidator("images", [...images.value, ...e.target.files]),
