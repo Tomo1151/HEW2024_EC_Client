@@ -191,7 +191,8 @@ export default function PostProductForm({ quoteRef, setRefresh }) {
             severity: "success",
             autoHideDuration: 3000,
           });
-          router.push(`/`, { scroll: false });
+          // router.push(`/`, { scroll: false });
+          router.replace(resJson.data.id ? `/posts/${resJson.data.id}` : `/`);
           // router.push(`/posts/${resJson.data.id}`, { scroll: false });
         } else {
           setStatus(resJson.error);
@@ -700,7 +701,7 @@ export default function PostProductForm({ quoteRef, setRefresh }) {
                   name={formData.name.value}
                   price={formData.price.value}
                   tags={formData.tags.value}
-                  images={images.value}
+                  images={isLive ? [] : images.value}
                   quoted_ref={quotePost}
                   live_link={formData.liveLink.value}
                 />
@@ -718,7 +719,7 @@ export default function PostProductForm({ quoteRef, setRefresh }) {
                   name={formData.name.value}
                   price={formData.price.value}
                   tags={formData.tags.value}
-                  images={images.value}
+                  images={isLive ? [] : images.value}
                   quoted_ref={quotePost}
                   live_link={formData.liveLink.value}
                 />

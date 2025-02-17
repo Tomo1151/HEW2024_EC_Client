@@ -25,8 +25,8 @@ import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 
 import { useUserContext } from "@/context/UserContext";
 import { useNotifications } from "@toolpad/core/useNotifications";
-import ProductDetailPreview from "./ProductDetailPreview";
-import ProductPreview from "./ProductPreview";
+import EditProductDetailPreview from "./EditProductDetailPreview";
+import EditProductPreview from "./EditProductPreview";
 import FormImagePreview from "./FormImagePreview";
 import FormThumbnailImage from "./FormThumbnailImage";
 import { urlForImage } from "@/utils/utils";
@@ -104,9 +104,10 @@ function PostProductFormInner({ postId }) {
           tagInput: { value: "", isValid: false },
           data: { value: null, isValid: !!post.live_link },
           price: {
-            value: post.live_link
-              ? ""
-              : post.product.price_histories[0].price || "",
+            value:
+              post.product.price_histories.length === 0
+                ? ""
+                : post.product.price_histories[0]?.price || "",
             isValid: true,
           },
           liveLink: { value: post.live_link, isValid: true },
@@ -125,7 +126,10 @@ function PostProductFormInner({ postId }) {
           tagInput: { value: "", isValid: false },
           data: { value: null, isValid: post.live_link },
           price: {
-            value: post.live_link ? "" : post.product.price_histories[0].price,
+            value:
+              post.product.price_histories.length === 0
+                ? ""
+                : post.product.price_histories[0]?.price || "",
             isValid: true,
           },
           liveLink: { value: post.live_link, isValid: true },
@@ -223,7 +227,12 @@ function PostProductFormInner({ postId }) {
             severity: "success",
             autoHideDuration: 3000,
           });
-          router.push(`/`, { scroll: false });
+
+          // router.replace("/");
+          // setTimeout(() => {
+          //   router.push(`/posts/${resJson.data.id}`);
+          // }, 100);
+          router.replace(postId ? `/posts/${resJson.data.id}` : `/`);
           // router.push(`/posts/${resJson.data.id}`, { scroll: false });
         } else {
           setStatus(resJson.error);
@@ -741,16 +750,17 @@ function PostProductFormInner({ postId }) {
                   <PreviewIcon />
                   プレビュー（タイムライン）
                 </p>
-                <ProductPreview
+                <EditProductPreview
                   username={activeUser?.username}
                   nickname={activeUser?.nickname}
                   icon_link={activeUser?.icon_link}
                   name={formData.name.value}
                   price={formData.price.value}
                   tags={formData.tags.value}
-                  images={images.value}
+                  images={post.live_link ? images.value : post.images}
                   quoted_ref={quotePost}
                   live_link={formData.liveLink.value}
+                  is_preview={!!post.live_link}
                 />
               </Box>
               <Box sx={{ backgroundColor: "#f0f0f0" }}>
@@ -758,7 +768,7 @@ function PostProductFormInner({ postId }) {
                   <PreviewIcon />
                   プレビュー（ポスト画面）
                 </p>
-                <ProductDetailPreview
+                <EditProductDetailPreview
                   username={activeUser?.username}
                   nickname={activeUser?.nickname}
                   icon_link={activeUser?.icon_link}
@@ -766,9 +776,10 @@ function PostProductFormInner({ postId }) {
                   name={formData.name.value}
                   price={formData.price.value}
                   tags={formData.tags.value}
-                  images={images.value}
+                  images={post.live_link ? images.value : post.images}
                   quoted_ref={quotePost}
                   live_link={formData.liveLink.value}
+                  is_preview={!!post.live_link}
                 />
               </Box>
             </Box>
