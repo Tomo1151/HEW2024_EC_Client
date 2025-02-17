@@ -54,7 +54,7 @@ export default async function Image({ params }) {
   const CONTENT_LENGTH = post.image ? 20 : 70;
   const username = post.nickname || post.username;
   const content = post.content;
-  console.log("fonts requested: ", (username + content).replace(/\s/g, ""));
+  // console.log("fonts requested: ", (username + content).replace(/\s/g, ""));
   // post.content.length > CONTENT_LENGTH
   //   ? post.content.slice(0, CONTENT_LENGTH) + "..."
   //   : post.content;

@@ -9,7 +9,7 @@ const PostCard = ({
   post_link,
   target = "_self",
 }) => {
-  console.log(image_link, sellerName, sellerIcon, post_link);
+  // console.log(image_link, sellerName, sellerIcon, post_link);
   return (
     <>
       <div className="relative bg-white p-2 hover:brightness-[.95] sm:hover:brightness-100 duration-200">

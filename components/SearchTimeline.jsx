@@ -42,7 +42,7 @@ const SearchTimeline = ({ type, isSrcTagClick, q, isActive }) => {
         const resJson = await response.json();
         setIsPostFetching(false);
 
-        console.log(`FETCH: ${type}`);
+        // console.log(`FETCH: ${type}`);
 
         if (resJson.success) {
           const newEntries = resJson.data;

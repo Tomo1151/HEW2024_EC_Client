@@ -24,7 +24,7 @@ export async function generateMetadata({ params }) {
 
     if (resJson.success) {
       const posts = resJson.data;
-      console.log(posts);
+      // console.log(posts);
       return {
         title: posts.product ? posts.product.name : posts.content,
         description: posts.author.nickname || posts.author.username,

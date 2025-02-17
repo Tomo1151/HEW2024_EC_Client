@@ -28,7 +28,7 @@ const FollowingUserList = ({ userData }) => {
         const resJson = await response.json();
 
         if (resJson.success) {
-          console.log(resJson.data);
+          // console.log(resJson.data);
           setFollowingUsers(resJson.data);
         }
         setIsLoading(false);

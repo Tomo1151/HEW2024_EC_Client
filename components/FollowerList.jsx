@@ -26,7 +26,7 @@ const FollowerList = ({ userData }) => {
         const resJson = await response.json();
 
         if (resJson.success) {
-          console.log(resJson.data);
+          // console.log(resJson.data);
           setFollowers(resJson.data);
         }
       });
