@@ -10,7 +10,7 @@ import MainColumnHeader from "./MainColumnHeader";
 import LiveTvRoundedIcon from "@mui/icons-material/LiveTvRounded";
 import { Box } from "@mui/material";
 
-const Timeline = ({ name, isActive, setRefresh, refresh, live }) => {
+const Timeline = ({ name, isActive, setRefresh, refresh, live, loggedIn }) => {
   const { refreshToken } = useUserContext();
   const [posts, setPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -134,23 +134,25 @@ const Timeline = ({ name, isActive, setRefresh, refresh, live }) => {
           </Box>
         </MainColumnHeader>
       ) : (
-        <LoadingButton
-          variant="contained"
-          onClick={fetchPosts}
-          fullWidth
-          loading={isPostFetching}
-          sx={{
-            display: {
-              xs: "none",
-              sm: "inline-flex",
-            },
-            boxShadow: "none",
-            ":hover": { boxShadow: "none" },
-            borderRadius: 0,
-          }}
-        >
-          最新の投稿を読み込む
-        </LoadingButton>
+        loggedIn && (
+          <LoadingButton
+            variant="contained"
+            onClick={fetchPosts}
+            fullWidth
+            loading={isPostFetching}
+            sx={{
+              display: {
+                xs: "none",
+                sm: "inline-flex",
+              },
+              boxShadow: "none",
+              ":hover": { boxShadow: "none" },
+              borderRadius: 0,
+            }}
+          >
+            最新の投稿を読み込む
+          </LoadingButton>
+        )
       )}
       <PullToRefresh
         onRefresh={fetchPosts}

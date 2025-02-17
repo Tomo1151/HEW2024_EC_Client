@@ -111,6 +111,7 @@ const MainColumn = () => {
                     isActive={tabIndex === index}
                     setRefresh={setRefresh}
                     refresh={refresh}
+                    loggedIn={!!activeUser}
                   />
                   {/* </Suspense> */}
                 </TabPanel>
