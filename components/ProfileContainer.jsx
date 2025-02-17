@@ -18,7 +18,7 @@ import { useUserContext } from "@/context/UserContext";
 import CircularLoading from "./loading/CircularLoading";
 
 import { fetchHeaders } from "@/config/fetchConfig";
-import { urlForImage } from "@/utils/utils";
+import { parseURL, urlForImage } from "@/utils/utils";
 import { countFormat } from "@/utils/countFormat";
 import StarRating from "./StarRating";
 
@@ -33,23 +33,22 @@ const ProfileContainer = ({ username }) => {
 
   const fetchUserData = async () => {
     try {
-      refreshToken().then(async () => {
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_FETCH_BASE_URL}/users/${username}`,
-          {
-            method: "GET",
-            headers: { ...fetchHeaders },
-            credentials: "include",
-          }
-        );
-        const resJson = await response.json();
-
-        if (resJson.success) {
-          // console.log(resJson.data);
-          setUser(resJson.data);
-          setIsFollowing(resJson.data.followers.length > 0);
+      await refreshToken();
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_FETCH_BASE_URL}/users/${username}`,
+        {
+          method: "GET",
+          headers: { ...fetchHeaders },
+          credentials: "include",
         }
-      });
+      );
+      const resJson = await response.json();
+
+      if (resJson.success) {
+        // console.log(resJson.data);
+        setUser(resJson.data);
+        setIsFollowing(resJson.data.followers.length > 0);
+      }
     } catch (err) {
       console.log(err);
     }
@@ -185,8 +184,10 @@ const ProfileContainer = ({ username }) => {
           <p className="mt-4">
             {user.homepage_link ? (
               <Link
-                href={user.homepage_link}
+                href={parseURL(user.homepage_link)}
                 className="font-mono hover:underline"
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 {user.homepage_link}
               </Link>
