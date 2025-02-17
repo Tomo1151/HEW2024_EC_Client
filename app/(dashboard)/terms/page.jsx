@@ -16,6 +16,7 @@ const TermsPage = () => {
         borderRadius: "0.375em",
         boxShadow: "0 0 10px 0 rgba(0,0,0,.1)",
       }}
+      className="terms"
     >
       <h1>利用規約</h1>
       <p>
