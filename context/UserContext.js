@@ -12,6 +12,7 @@ export const UserContext = createContext({
   refreshToken: () => {},
   fetchUserCart: () => {},
   clearUserCart: () => {},
+  contactForm: () => {},
   cartItems: [],
 });
 
@@ -239,6 +240,37 @@ export const UserProvider = ({ children }) => {
     console.log("Logged out successfully");
   };
 
+  const contactForm = async (name, email, message) => {
+    console.log(JSON.stringify({ name, email, message }));
+    const response = await fetch(
+      process.env.NEXT_PUBLIC_FETCH_BASE_URL + "/contactForm",
+      {
+        method: "POST",
+        body: JSON.stringify({ name, email, message }),
+        headers: fetchHeaders,
+      }
+    );
+
+    const resJson = await response.json();
+    if (!resJson.success) {
+      if (!name || !email || !message) {
+        return {
+          success: false,
+          message: "入力項目が不足しています",
+        };
+      }
+      return {
+        success: false,
+        message: "メールアドレスが正しくありません",
+      };
+    }
+
+    return {
+      success: true,
+      message: "Message sent successflully",
+    };
+  };
+
   return (
     <UserContext.Provider
       value={{
@@ -250,6 +282,7 @@ export const UserProvider = ({ children }) => {
         login,
         logout,
         refreshToken,
+        contactForm,
       }}
     >
       {children}
