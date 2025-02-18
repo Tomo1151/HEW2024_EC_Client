@@ -1,6 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import MainColumnHeader from "@/components/MainColumnHeader";
 import { useUserContext } from "@/context/UserContext";
 import { useState } from "react";
@@ -11,8 +10,6 @@ import { Button, TextField } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 
 const contactForm = () => {
-  const router = useRouter();
-
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
@@ -45,16 +42,27 @@ const contactForm = () => {
         <>
           <div className="m-[2em]">
             <p className="text-center">ご意見ありがとうございました</p>
-            <div className="mx-auto my-[2em] w-min">
-              <Button variant="contained" onClick={router.back}>
-                戻る
+            <div className="mx-auto my-[2em]">
+              <Button
+                variant="contained"
+                sx={{
+                  display: "block",
+                  width: "fit-content",
+                  mx: "auto",
+                  my: "2em",
+                }}
+                href="/"
+              >
+                トップに戻る
               </Button>
             </div>
           </div>
         </>
       ) : (
         <form onSubmit={handleSubmit}>
+          <h1 className="text-center m-[2em] text-3xl">お問い合わせフォーム</h1>
           <TextField
+            fullWidth
             name="name"
             type="text"
             label="お名前"
@@ -67,6 +75,7 @@ const contactForm = () => {
           />
 
           <TextField
+            fullWidth
             name="email"
             type="email"
             label="メールアドレス"
@@ -79,6 +88,7 @@ const contactForm = () => {
           />
 
           <TextField
+            fullWidth
             name="message"
             type="text"
             label="お問い合わせ内容"
