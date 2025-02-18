@@ -243,7 +243,7 @@ export const UserProvider = ({ children }) => {
   const contactForm = async (name, email, message) => {
     console.log(JSON.stringify({ name, email, message }));
     const response = await fetch(
-      process.env.NEXT_PUBLIC_FETCH_BASE_URL + "/contactForm",
+      process.env.NEXT_PUBLIC_FETCH_BASE_URL + "/contact",
       {
         method: "POST",
         body: JSON.stringify({ name, email, message }),
