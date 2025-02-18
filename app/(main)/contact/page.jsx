@@ -60,7 +60,23 @@ const contactForm = () => {
         </>
       ) : (
         <form onSubmit={handleSubmit}>
-          <h1 className="text-center m-[2em] text-3xl">お問い合わせフォーム</h1>
+          <h1 className="text-center m-[1em] text-3xl">お問い合わせフォーム</h1>
+          <div className="w-4/5 mx-auto mb-[2em]">
+            <p>
+              本フォームでは、本サービスに関するお問い合わせを受け付けております。
+              ご利用中に不具合やバグ等を発見された場合は、ここからご報告いただけますと幸いです。
+              また、以下のような内容についても受け付けております。
+            </p>
+            <ul className="list-disc ml-[2em] my-[1em]">
+              <li>不適切なコンテンツの報告</li>
+              <li>アカウントや投稿に関するお問い合わせ</li>
+              <li>サービスの利用方法に関するご質問</li>
+            </ul>
+            <p>
+              いただいたお問い合わせには順次対応いたしますが、内容によっては回答までにお時間をいただく場合がございます。予めご了承ください。
+            </p>
+          </div>
+
           <TextField
             fullWidth
             name="name"
