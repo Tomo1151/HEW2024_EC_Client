@@ -14,12 +14,12 @@ const Register = () => {
   const [status, setStatus] = useState("　");
   const [isFetching, setIsFetching] = useState(false);
 
-  const { signin } = useUserContext();
+  const { signup } = useUserContext();
 
   async function handleSubmit(event) {
     setIsFetching(true);
     event.preventDefault();
-    const data = await signin(username, email, password);
+    const data = await signup(username, email, password);
 
     if (!data.success) {
       setStatus(data.message);
