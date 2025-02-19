@@ -62,7 +62,18 @@ const PostDetailPage = (route) => {
   }, [postData]);
 
   if (postData === null) {
-    return <div>Post not found</div>;
+    return (
+      <>
+        <MainColumnHeader>
+          <h3 className="font-bold tracking-wider">ポスト</h3>
+        </MainColumnHeader>
+        <Box sx={{ mt: 10, textAlign: "center" }}>
+          <h3 className="text-2xl font-bold text-gray-400">
+            ポストが見つかりませんでした
+          </h3>
+        </Box>
+      </>
+    );
   }
 
   if (!postData) {

@@ -48,6 +48,8 @@ const ProfileContainer = ({ username }) => {
         // console.log(resJson.data);
         setUser(resJson.data);
         setIsFollowing(resJson.data.followers.length > 0);
+      } else {
+        setUser(false);
       }
     } catch (err) {
       console.log(err);
@@ -64,8 +66,20 @@ const ProfileContainer = ({ username }) => {
     })();
   }, []);
 
-  if (!user) {
+  if (user === null) {
     return <CircularLoading />;
+  }
+
+  if (user === false) {
+    return (
+      <>
+        <Box sx={{ mt: 10, textAlign: "center" }}>
+          <h3 className="text-2xl font-bold text-gray-400">
+            ユーザーが見つかりませんでした
+          </h3>
+        </Box>
+      </>
+    );
   }
 
   return (
