@@ -21,7 +21,7 @@ export async function generateMetadata() {
       description: "つくる。売る。つながる。作品販売とコミュニケーションの場",
       url: "https://miseba.syntck.com",
       images: {
-        url: "/miseba_ogp.png",
+        url: `${process.env.NEXT_PUBLIC_SITE_ORIGIN || "http://localhost:3001"}/miseba_ogp.png`,
         type: "image/png",
         width: 3000,
         height: 1564,
@@ -36,7 +36,7 @@ export async function generateMetadata() {
       title: "Miseba",
       description: "つくる。売る。つながる。作品販売とコミュニケーションの場",
       images: {
-        url: "/miseba_ogp.png",
+        url: `${process.env.NEXT_PUBLIC_SITE_ORIGIN || "http://localhost:3001"}/miseba_ogp.png`,
         alt: "Miseba",
         width: 3000,
         height: 1564,

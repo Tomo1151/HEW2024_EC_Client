@@ -151,7 +151,7 @@ export const UserProvider = ({ children }) => {
         success: false,
         message: "空の入力項目があります",
       };
-    } else if (password.length <= 8) {
+    } else if (password.length < 8) {
       return {
         success: false,
         message: "パスワードは８文字以上である必要があります",
@@ -183,7 +183,7 @@ export const UserProvider = ({ children }) => {
         ) {
           return {
             success: false,
-            message: "ユーザー名が３文字未満です",
+            message: "ユーザー名は３文字以上である必要があります",
           };
         }
       }

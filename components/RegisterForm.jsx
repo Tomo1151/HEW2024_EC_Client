@@ -51,6 +51,18 @@ const RegisterForm = ({
           sx={{ display: "block", width: "80%", mx: "auto", my: "1em" }}
           fullWidth
         />
+        <p className="text-center text-sm text-gray-500">
+          新規登録をすることで
+          <Link
+            href="/terms"
+            className="text-center text-blue-400 hover:underline"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            利用規約
+          </Link>
+          に同意したものとみなされます。
+        </p>
         <p className="text-center text-red-600">{status}</p>
         <LoadingButton
           type="submit"
