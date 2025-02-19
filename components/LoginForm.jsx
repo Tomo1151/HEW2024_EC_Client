@@ -27,7 +27,7 @@ const LoginForm = ({ status, setEmail, setPassword, isFetching, onSubmit }) => {
           type="password"
           name="password"
           label="パスワード"
-          placeholder="[0-9a-zA-Z]{8,}"
+          placeholder="半角英数８文字以上"
           autoComplete="current-password"
           onChange={(event) => {
             setPassword(event.target.value);
