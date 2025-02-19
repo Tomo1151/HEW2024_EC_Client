@@ -151,6 +151,11 @@ export const UserProvider = ({ children }) => {
         success: false,
         message: "空の入力項目があります",
       };
+    } else if (password.length <= 8) {
+      return {
+        success: false,
+        message: "パスワードは８文字以上である必要があります",
+      };
     }
 
     const response = await fetch(
@@ -166,6 +171,20 @@ export const UserProvider = ({ children }) => {
     const resJson = await response.json();
 
     if (!resJson.success) {
+      if (resJson.error.issues[0].message === "Invalid email") {
+        return {
+          success: false,
+          message: "メールアドレスが正しくありません",
+        };
+      } else if (
+        resJson.error.issues[0].message ===
+        "String must contain at least 3 character(s)"
+      ) {
+        return {
+          success: false,
+          message: "ユーザー名が３文字未満です",
+        };
+      }
       return {
         success: false,
         message: "ユーザー名またはメールアドレスが既に登録されています",
