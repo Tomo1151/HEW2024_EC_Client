@@ -9,8 +9,9 @@ import theme from "@/theme/theme";
 import { UserProvider } from "@/context/UserContext";
 
 export const metadata = {
-  title: "HEW 2024 ECサイト",
-  description: "HEW 2024 ECサイト",
+  title: "Miseba",
+  description: "つくる。売る。つながる。作品販売とコミュニケーションの場",
+  keywords: "作品販売, 作品, クリエイター, 販売, イラスト, デザイン, 作家",
 };
 
 const M_PLUS_Rounded_1cFont = M_PLUS_Rounded_1c({

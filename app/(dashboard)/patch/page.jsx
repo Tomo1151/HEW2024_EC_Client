@@ -41,4 +41,11 @@ const PatchPage = () => {
   );
 };
 
+export async function generateMetadata({}) {
+  return {
+    title: "パッチノート | Miseba",
+    description: "Misebaの最新の機能やバグ修正に関する情報を提供します。",
+  };
+}
+
 export default PatchPage;

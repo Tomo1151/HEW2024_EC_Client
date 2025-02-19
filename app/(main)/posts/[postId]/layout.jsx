@@ -26,9 +26,13 @@ export async function generateMetadata({ params }) {
       const posts = resJson.data;
       // console.log(posts);
       return {
-        title: posts.product ? posts.product.name : posts.content,
+        title: posts.product
+          ? `${posts.product.name} | Miseba`
+          : `${posts.content} | Miseba`,
         description: posts.author.nickname || posts.author.username,
         metadataBase: new URL(`https://${headers().get("host")}`),
+        keywords:
+          "作品販売, 作品, クリエイター, 販売, イラスト, デザイン, 作家",
       };
       // setPostData(posts);
     }

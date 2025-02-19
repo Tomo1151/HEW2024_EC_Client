@@ -134,4 +134,11 @@ const TermsPage = () => {
   );
 };
 
+export async function generateMetadata({}) {
+  return {
+    title: "利用規約 | Miseba",
+    description: "Misebaの利用規約",
+  };
+}
+
 export default TermsPage;

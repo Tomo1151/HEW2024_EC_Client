@@ -1,12 +1,10 @@
-"use client";
-import { useEffect, useState } from "react";
 import Image from "next/image";
 import { Box, ThemeProvider } from "@mui/material";
 
 import MainColumnHeader from "@/components/MainColumnHeader";
 import theme from "@/theme/theme";
 
-const liveHelp = () => {
+const LiveHelpPage = () => {
   return (
     <ThemeProvider theme={theme}>
       <MainColumnHeader>
@@ -16,7 +14,8 @@ const liveHelp = () => {
         <h1 className="text-3xl">ライブ出品とは？</h1>
         <br />
         <p>
-          YouTube Live や Twitch のサービスを利用して出品物の制作風景を配信しながら投稿を公開することができる出品方法です。
+          YouTube Live や Twitch
+          のサービスを利用して出品物の制作風景を配信しながら投稿を公開することができる出品方法です。
           <br />
           この出品方法では、商品データ/商品サムネイル画像/値段を決定せずに出品することができます。
           <br />
@@ -54,4 +53,11 @@ const liveHelp = () => {
   );
 };
 
-export default liveHelp;
+export async function generateMetadata() {
+  return {
+    title: `ライブ出品 - ヘルプ | Miseba`,
+    description: "Misebaのライブ出品についてのヘルプページ",
+  };
+}
+
+export default LiveHelpPage;
