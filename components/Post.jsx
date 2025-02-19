@@ -55,11 +55,11 @@ const Post = ({
   const router = useRouter();
 
   let options = {};
-  if (activeUser && activeUser.username === username) {
+  if (
+    activeUser &&
+    (activeUser.username === username || activeUser.is_superuser)
+  ) {
     options = {
-      通報: () => {
-        console.log("ポストを通報");
-      },
       削除: async () => {
         console.log(`ポストを削除: ${postId}`);
         await deletePost();
