@@ -1,0 +1,60 @@
+.patch h1 {
+  font-size: 3em;
+  margin: 0;
+  padding: 1em 0;
+}
+
+.patch h2 {
+  font-size: 2em;
+  margin: 0;
+  padding: 1em 0 0.25em 0;
+}
+
+.patch h3 {
+  font-size: 1.25em;
+  margin: 0;
+  padding: 0.5em 0;
+}
+
+.patch h4 {
+  font-size: 1.25em;
+  margin: 0;
+  padding: 0;
+}
+
+.patch h5 {
+  font-size: 1.25em;
+  margin: 0;
+  padding: 0;
+}
+
+.patch h6 {
+  font-size: 1.25em;
+  margin: 0;
+  padding: 0;
+}
+
+.patch p,
+.patch li {
+  font-size: 1.25em;
+  margin: 0;
+  padding: 0;
+  line-height: 1.5;
+  color: #333;
+}
+
+.patch section {
+  margin: 2em 0;
+  padding: 0;
+}
+
+.patch ul {
+  list-style-type: disc;
+  padding-left: 2em;
+}
+
+.patch li {
+  padding-top: 1em;
+  color: #444;
+  font-weight: bold;
+}
