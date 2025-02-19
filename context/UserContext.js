@@ -6,7 +6,7 @@ import { fetchHeaders } from "@/config/fetchConfig";
 
 export const UserContext = createContext({
   activeUser: null,
-  signin: () => {},
+  signup: () => {},
   login: () => {},
   logout: () => {},
   refreshToken: () => {},
@@ -145,7 +145,7 @@ export const UserProvider = ({ children }) => {
     }
   };
 
-  const signin = async (username, email, password) => {
+  const signup = async (username, email, password) => {
     if (!username || !email || !password) {
       return {
         success: false,
@@ -321,7 +321,7 @@ export const UserProvider = ({ children }) => {
         cartItems,
         fetchUserCart,
         clearUserCart,
-        signin,
+        signup,
         login,
         logout,
         refreshToken,
