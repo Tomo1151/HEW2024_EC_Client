@@ -47,7 +47,7 @@ const RegisterForm = ({
             setPassword(event.target.value);
           }}
           label="パスワード"
-          placeholder="[0-9a-zA-Z]{8,}"
+          placeholder="半角英数８文字以上"
           sx={{ display: "block", width: "80%", mx: "auto", my: "1em" }}
           fullWidth
         />
