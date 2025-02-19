@@ -1,4 +1,3 @@
-"use client";
 import Link from "next/link";
 import { Box, ThemeProvider } from "@mui/material";
 
@@ -25,5 +24,12 @@ const liveHelp = () => {
     </ThemeProvider>
   );
 };
+
+export async function generateMetadata() {
+  return {
+    title: `ヘルプ | Miseba`,
+    description: "Misebaのヘルプページ",
+  };
+}
 
 export default liveHelp;

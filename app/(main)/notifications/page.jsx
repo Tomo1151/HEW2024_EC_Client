@@ -103,6 +103,7 @@ const NotificationPage = () => {
                 is_read={notification.is_read}
                 sender={notification.sender}
                 rel_post={notification.rel_post}
+                content={notification.content}
               />
             ))
           : notificationsData?.length === 0 && (

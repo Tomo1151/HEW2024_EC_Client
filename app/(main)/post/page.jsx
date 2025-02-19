@@ -13,4 +13,11 @@ const PostPage = () => {
   );
 };
 
+export async function generateMetadata({}) {
+  return {
+    title: "投稿ページ | Miseba",
+    description: "投稿ページ",
+  };
+}
+
 export default PostPage;

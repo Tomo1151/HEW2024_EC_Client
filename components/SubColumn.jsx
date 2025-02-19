@@ -41,8 +41,8 @@ const SubColumn = () => {
             }}
           >
             <Link href="/terms">利用規約</Link>
-            <Link href="/">プライバシーポリシー</Link>
-            <Link href="/">お問い合わせ</Link>
+            <Link href="/credits">クレジット</Link>
+            <Link href="/contact">お問い合わせ</Link>
             <Link href="/patch">パッチノート</Link>
 
             <p>

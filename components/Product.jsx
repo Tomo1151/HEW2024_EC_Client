@@ -63,7 +63,10 @@ const Product = ({
   const router = useRouter();
 
   let options = {};
-  if (activeUser && activeUser.username === username) {
+  if (
+    activeUser &&
+    (activeUser.username === username || activeUser.is_superuser)
+  ) {
     options = {
       編集: () => {
         console.log("ポストを編集");

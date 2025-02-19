@@ -8,11 +8,11 @@ import Link from "next/link";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 
 import ProfileUserTimeline from "./ProfileUserTimeline";
-import { Box, Tab } from "@mui/material";
+import { Box, Tab, Tooltip } from "@mui/material";
 
 import FollowButton from "@/components/FollowButton";
 
-import StarIcon from "@mui/icons-material/Star";
+import InsertChartRoundedIcon from "@mui/icons-material/InsertChartRounded";
 import SettingsRoundedIcon from "@mui/icons-material/SettingsRounded";
 import { useUserContext } from "@/context/UserContext";
 import CircularLoading from "./loading/CircularLoading";
@@ -48,6 +48,8 @@ const ProfileContainer = ({ username }) => {
         // console.log(resJson.data);
         setUser(resJson.data);
         setIsFollowing(resJson.data.followers.length > 0);
+      } else {
+        setUser(false);
       }
     } catch (err) {
       console.log(err);
@@ -64,8 +66,20 @@ const ProfileContainer = ({ username }) => {
     })();
   }, []);
 
-  if (!user) {
+  if (user === null) {
     return <CircularLoading />;
+  }
+
+  if (user === false) {
+    return (
+      <>
+        <Box sx={{ mt: 10, textAlign: "center" }}>
+          <h3 className="text-2xl font-bold text-gray-400">
+            ユーザーが見つかりませんでした
+          </h3>
+        </Box>
+      </>
+    );
   }
 
   return (
@@ -103,26 +117,52 @@ const ProfileContainer = ({ username }) => {
           />
         )}
         {activeUser && activeUser.username === user.username && (
-          <Link
-            href={`${user.username}/edit`}
-            className="absolute top-4 right-6"
-            scroll={false}
-            replace
-          >
-            <SettingsRoundedIcon
-              sx={{
-                fontSize: "32px",
-                boxShadow: "none",
-                borderRadius: "100px",
-                transitionProperty: "filter",
-                transitionDuration: ".25s",
-                ":hover": {
+          <Tooltip title="ダッシュボード" arrow>
+            <Link
+              href={`/dashboard`}
+              className="absolute top-4 left-6"
+              scroll={false}
+              replace
+            >
+              <InsertChartRoundedIcon
+                sx={{
+                  fontSize: "32px",
                   boxShadow: "none",
-                  filter: "brightness(90%)",
-                },
-              }}
-            />
-          </Link>
+                  borderRadius: "100px",
+                  transitionProperty: "filter",
+                  transitionDuration: ".25s",
+                  ":hover": {
+                    boxShadow: "none",
+                    filter: "brightness(90%)",
+                  },
+                }}
+              />
+            </Link>
+          </Tooltip>
+        )}
+        {activeUser && activeUser.username === user.username && (
+          <Tooltip title="プロフィール設定" arrow>
+            <Link
+              href={`${user.username}/edit`}
+              className="absolute top-4 right-6"
+              scroll={false}
+              replace
+            >
+              <SettingsRoundedIcon
+                sx={{
+                  fontSize: "32px",
+                  boxShadow: "none",
+                  borderRadius: "100px",
+                  transitionProperty: "filter",
+                  transitionDuration: ".25s",
+                  ":hover": {
+                    boxShadow: "none",
+                    filter: "brightness(90%)",
+                  },
+                }}
+              />
+            </Link>
+          </Tooltip>
         )}
 
         <Box
