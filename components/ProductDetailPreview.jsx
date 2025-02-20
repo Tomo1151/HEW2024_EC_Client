@@ -10,6 +10,7 @@ import PostReaction from "./PostReaction";
 import PostImageContainer from "./PostImageContainer";
 import PostTags from "./PostTags";
 import QuoteCard from "./QuoteCard";
+import StarRating from "./StarRating";
 
 import { extractLiveIdentifier, urlForImage } from "@/utils/utils";
 import { formatPostBody } from "@/utils/postBodyFormat";
@@ -102,10 +103,20 @@ const ProductPreview = ({
           </div>
         </div>
       </div>
-
-      <p className="text-2xl text-right font-bold px-8 py-4">
-        {formatPrice(price)}
-      </p>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <p className="text-2xl text-left font-bold pl-8 py-4">
+          <StarRating rating={"評価なし"} />
+        </p>
+        <p className="text-2xl text-right font-bold pr-8 py-4">
+          {formatPrice(price)}
+        </p>
+      </Box>
       <Box sx={{ textAlign: "center", px: "2.5rem" }}>
         <Button variant="contained" sx={{ px: 8 }}>
           カートに追加

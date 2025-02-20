@@ -13,6 +13,7 @@ import PostImageContainer from "./PostImageContainer";
 
 import PostTags from "./PostTags";
 import QuoteCard from "./QuoteCard";
+import StarRating from "./StarRating";
 
 import { urlForImage } from "@/utils/utils";
 import { formatPrice } from "@/utils/formatPrice";
@@ -83,19 +84,24 @@ const ProductPreview = ({
               <p className="select-none font-bold opacity-35">{"たった今"}</p>
             </div>
 
-            <p className="flex items-center mt-[1em] w-fit gap-x-[.25em] text-gray-400 font-bold">
-              {extractLiveIdentifier(live_link).isValid ? (
-                <>
-                  <LiveTvRoundedIcon sx={{ mb: 0.25 }} />
-                  ライブ出品
-                </>
-              ) : (
-                <>
-                  <LabelRoundedIcon sx={{ fontSize: "1.25em" }} />
-                  販売商品
-                </>
-              )}
-            </p>
+            <div className="flex justify-between">
+              <p className="flex items-center mt-[1em] w-fit gap-x-[.25em] text-gray-400 font-bold">
+                {extractLiveIdentifier(live_link).isValid ? (
+                  <>
+                    <LiveTvRoundedIcon sx={{ mb: 0.25 }} />
+                    ライブ出品
+                  </>
+                ) : (
+                  <>
+                    <LabelRoundedIcon sx={{ fontSize: "1.25em" }} />
+                    販売商品
+                  </>
+                )}
+              </p>
+              <p className="mt-[1em]">
+                <StarRating rating={"評価なし"}></StarRating>
+              </p>
+            </div>
             <h3
               className="mt-[1em] pb-[1em] font-bold text-xl"
               style={{ fontSize: "1.25em !important" }}
