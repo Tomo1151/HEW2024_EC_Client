@@ -346,12 +346,12 @@ const ProductDetail = ({
           alignItems: "center",
         }}
       >
-        <p className="text-2xl text-left font-bold px-8 py-4">
+        <p className="text-2xl text-left font-bold pl-8 py-4">
           <StarRating
             rating={rating && rating !== -1 ? rating.toFixed(1) : "評価なし"}
           />
         </p>
-        <p className="text-2xl text-right font-bold px-8 py-4">
+        <p className="text-2xl text-right font-bold pr-8 py-4">
           {formatPrice(price)}
         </p>
       </Box>
