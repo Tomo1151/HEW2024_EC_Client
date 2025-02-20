@@ -123,6 +123,17 @@ const Timeline = ({ name, isActive, setRefresh, refresh, live, loggedIn }) => {
   if (isLoading) {
     return <CircularLoading />;
   }
+
+  if (!isLoading && posts.length === 0) {
+    return (
+      <Box sx={{ mt: 10, textAlign: "center" }}>
+        <h3 className="text-2xl font-bold text-gray-400">
+          ポストはまだありません
+        </h3>
+      </Box>
+    );
+  }
+
   // console.log(!isPostFetching, hasMore, !isPostFetching && hasMore);
   return (
     <>
