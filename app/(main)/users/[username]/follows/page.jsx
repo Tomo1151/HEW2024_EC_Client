@@ -24,8 +24,6 @@ const UserProfileEditPage = async ({ params }) => {
 
   const userData = await userResponse.json();
 
-  console.log(userData);
-
   return (
     <>
       <FollowingUserList userData={userData.data} />
