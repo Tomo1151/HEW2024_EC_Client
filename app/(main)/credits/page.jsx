@@ -85,6 +85,9 @@ const CreditsPage = () => {
           </ul>
         </section>
         <section className="mt-8">
+          <h4 className="text-xl border-l-8 border-[#6dc965] pl-2">しょうき</h4>
+        </section>
+        <section className="mt-8">
           <h4 className="text-xl border-l-8 border-[#6dc965] pl-2">野中太一</h4>
         </section>
       </Container>
