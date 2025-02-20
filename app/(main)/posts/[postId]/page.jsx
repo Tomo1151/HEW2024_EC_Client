@@ -92,6 +92,7 @@ const PostDetailPage = (route) => {
             postId={postData.id}
             username={postData.author.username}
             nickname={postData.author.nickname}
+            is_superuser={postData.author.is_superuser}
             icon_link={postData.author.icon_link}
             content={postData.content}
             images={postData.images}
@@ -119,6 +120,7 @@ const PostDetailPage = (route) => {
             postId={postData.id}
             username={postData.author.username}
             nickname={postData.author.nickname}
+            is_superuser={postData.author.is_superuser}
             icon_link={postData.author.icon_link}
             content={postData.content}
             images={postData.images}

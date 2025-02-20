@@ -5,9 +5,10 @@ import Link from "next/link";
 
 import { useUserContext } from "@/context/UserContext";
 import CircularLoading from "@/components/loading/CircularLoading";
-import { Box, Button, Rating } from "@mui/material";
+import { Box, Button, Rating, Tooltip } from "@mui/material";
 import FollowButton from "@/components/FollowButton";
 import { StarRateRounded } from "@mui/icons-material";
+import VerifiedRoundedIcon from "@mui/icons-material/VerifiedRounded";
 import { urlForImage } from "@/utils/utils";
 
 import { useNotifications } from "@toolpad/core";
@@ -229,7 +230,21 @@ const Step3 = () => {
                   target="_blank"
                   className="hover:underline"
                 >
-                  <p className="font-bold">{user.nickname || user.username}</p>
+                  <p className="font-bold">
+                    {user.nickname || user.username}{" "}
+                    {user.is_superuser && (
+                      <Tooltip title="管理者" placement="top">
+                        <VerifiedRoundedIcon
+                          sx={{
+                            fontSize: "1.25em",
+                            color: "gold",
+                            mb: 0.5,
+                            ml: 0.5,
+                          }}
+                        />
+                      </Tooltip>
+                    )}
+                  </p>
                 </Link>
                 <Link
                   href={`/users/${user.username}`}

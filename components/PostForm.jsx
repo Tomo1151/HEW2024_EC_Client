@@ -254,12 +254,16 @@ export default function PostForm({ quoteRef, setRefresh }) {
               quotePost.images.length > 0 &&
               urlForImage(quotePost.images[0].image_link, "images")
             }
-            author_name={quotePost && quotePost.author.username}
+            author_name={
+              quotePost &&
+              (quotePost.author.nickname || quotePost.author.username)
+            }
             author_icon={
               quotePost && urlForImage(quotePost.author?.icon_link, "icons")
             }
             post_content={quotePost && formatPostBody(quotePost.content)}
             post_link={quotePost && `/posts/${quotePost.id}`}
+            is_superuser={quotePost && quotePost.author.is_superuser}
             is_loading={quotePost === null}
           />
         )}

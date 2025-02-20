@@ -103,6 +103,7 @@ const QuoteTimeline = ({ quotedId, type, isActive }) => {
                 postId={post.id}
                 username={post.author.username}
                 nickname={post.author.nickname}
+                is_superuser={post.author.is_superuser}
                 icon_link={post.author.icon_link}
                 content={post.content}
                 productId={post.product.id}
@@ -127,6 +128,7 @@ const QuoteTimeline = ({ quotedId, type, isActive }) => {
                 postId={post.id}
                 username={post.author.username}
                 nickname={post.author.nickname}
+                is_superuser={post.author.is_superuser}
                 icon_link={post.author.icon_link}
                 content={post.content}
                 images={post.images}

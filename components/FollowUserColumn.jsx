@@ -1,5 +1,7 @@
 import Link from "next/link";
-import { Box, Button } from "@mui/material";
+import { Box, Tooltip } from "@mui/material";
+import VerifiedRoundedIcon from "@mui/icons-material/VerifiedRounded";
+
 import { useUserContext } from "@/context/UserContext";
 import FollowButton from "./FollowButton";
 import Image from "next/image";
@@ -12,6 +14,7 @@ const FollowUserColumn = ({
   icon_link,
   is_following,
   is_detail,
+  is_superuser,
 }) => {
   const { activeUser } = useUserContext();
   return (
@@ -22,7 +25,7 @@ const FollowUserColumn = ({
         position: "relative",
         columnGap: 2,
         // mx: 4,
-        px: 4,
+        px: { xs: 0, sm: 4 },
         py: 2,
         // borderRadius: ".375rem",
         "&:hover": { backgroundColor: "#f0f0f0" },
@@ -54,6 +57,18 @@ const FollowUserColumn = ({
           >
             <p className="font-bold pt-2 tracking-wider hover:underline truncate">
               {nickname || username}
+              {is_superuser && (
+                <Tooltip title="管理者" placement="top">
+                  <VerifiedRoundedIcon
+                    sx={{
+                      fontSize: "1.25em",
+                      color: "gold",
+                      mb: 0.5,
+                      ml: 0.5,
+                    }}
+                  />
+                </Tooltip>
+              )}
             </p>
           </Box>
 

@@ -1,5 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
+import { Tooltip } from "@mui/material";
+import VerifiedRoundedIcon from "@mui/icons-material/VerifiedRounded";
 
 const PostCard = ({
   children,
@@ -7,6 +9,7 @@ const PostCard = ({
   sellerName,
   sellerIcon,
   post_link,
+  is_superuser,
   target = "_self",
 }) => {
   // console.log(image_link, sellerName, sellerIcon, post_link);
@@ -52,6 +55,18 @@ const PostCard = ({
               />
               <p className="font-bold tracking-[.075em] grow truncate">
                 {sellerName}
+                {is_superuser && (
+                  <Tooltip title="管理者" placement="top">
+                    <VerifiedRoundedIcon
+                      sx={{
+                        fontSize: "1.25em",
+                        color: "gold",
+                        mb: 0.5,
+                        ml: 0.5,
+                      }}
+                    />
+                  </Tooltip>
+                )}
               </p>
             </div>
             {children}

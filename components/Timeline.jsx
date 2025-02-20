@@ -192,6 +192,7 @@ const Timeline = ({ name, isActive, setRefresh, refresh, live, loggedIn }) => {
                   postId={post?.postId || post.id}
                   username={post.author.username}
                   nickname={post.author.nickname}
+                  is_superuser={post.author.is_superuser}
                   icon_link={post.author.icon_link}
                   content={post.content}
                   productId={post.product.id}
@@ -221,6 +222,7 @@ const Timeline = ({ name, isActive, setRefresh, refresh, live, loggedIn }) => {
                   postId={post?.postId || post.id}
                   username={post.author.username}
                   nickname={post.author.nickname}
+                  is_superuser={post.author.is_superuser}
                   icon_link={post.author.icon_link}
                   content={post.content}
                   images={post.images}

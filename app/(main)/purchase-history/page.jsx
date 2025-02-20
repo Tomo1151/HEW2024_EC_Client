@@ -116,6 +116,7 @@ export default function PurchaseHistoryPage() {
                       )} //売り手のアイコン
                       productName={purchase.product.name} //売り物の名前
                       content={purchase.product.post.content} //売り物の詳細
+                      is_superuser={purchase.product.post.author.is_superuser}
                     >
                       <h2 className="text-[1.15em] ml-1 truncate">
                         {purchase.product.name}

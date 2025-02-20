@@ -1,6 +1,8 @@
 import { Box, Skeleton } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
+import Tooltip from "@mui/material/Tooltip";
+import VerifiedRoundedIcon from "@mui/icons-material/VerifiedRounded";
 
 import { formatPrice } from "@/utils/formatPrice";
 
@@ -11,6 +13,7 @@ const QuoteCard = ({
   post_content,
   post_link,
   product,
+  is_superuser,
   target = "_blank",
   is_loading,
 }) => {
@@ -95,6 +98,18 @@ const QuoteCard = ({
               />
               <p className="font-bold tracking-[.075em] grow truncate">
                 {author_name}
+                {is_superuser && (
+                  <Tooltip title="管理者" placement="top">
+                    <VerifiedRoundedIcon
+                      sx={{
+                        fontSize: "1.25em",
+                        color: "gold",
+                        mb: 0.5,
+                        ml: 0.5,
+                      }}
+                    />
+                  </Tooltip>
+                )}
               </p>
             </div>
             {product ? (

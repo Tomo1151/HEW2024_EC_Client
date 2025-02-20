@@ -110,6 +110,7 @@ const CartPage = () => {
                 }
                 sellerIcon={urlForImage(item.product.post.author.icon_link)}
                 productName={item.product.name}
+                is_superuser={item.product.post.author.is_superuser}
               >
                 <h2 className="text-[1.15em] ml-1 truncate">
                   {item.product.name}

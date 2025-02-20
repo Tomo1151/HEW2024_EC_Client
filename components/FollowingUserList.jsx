@@ -72,6 +72,7 @@ const FollowingUserList = ({ userData }) => {
                 bio={user.bio}
                 icon_link={user.icon_link}
                 is_following={user.followers.length > 0}
+                is_superuser={user.is_superuser}
               />
             ))}
           </ul>

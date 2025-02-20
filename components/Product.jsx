@@ -6,13 +6,14 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
-import { Box, Menu, MenuItem, IconButton } from "@mui/material";
+import { Box, Menu, MenuItem, IconButton, Tooltip } from "@mui/material";
 import { MoreHorizRounded } from "@mui/icons-material";
 import LabelRoundedIcon from "@mui/icons-material/LabelRounded";
 import LiveTvRoundedIcon from "@mui/icons-material/LiveTvRounded";
 
 import PostReaction from "./PostReaction";
 import PostImageContainer from "./PostImageContainer";
+import VerifiedRoundedIcon from "@mui/icons-material/VerifiedRounded";
 
 import { fetchHeaders } from "@/config/fetchConfig";
 import { useUserContext } from "../context/UserContext";
@@ -34,6 +35,7 @@ const Product = ({
   postId,
   username,
   nickname,
+  is_superuser,
   icon_link,
   name,
   price,
@@ -242,6 +244,18 @@ const Product = ({
                 scroll={false}
               >
                 {nickname || username}
+                {is_superuser && (
+                  <Tooltip title="管理者" placement="top">
+                    <VerifiedRoundedIcon
+                      sx={{
+                        fontSize: "1.25em",
+                        color: "gold",
+                        mb: 0.5,
+                        ml: 0.5,
+                      }}
+                    />
+                  </Tooltip>
+                )}
               </Link>
               <p className="select-none font-bold opacity-35">
                 {dateFormat(new Date(created_at))}

@@ -109,6 +109,7 @@ const SearchTimeline = ({ type, isSrcTagClick, q, isActive }) => {
             postId={entry.id}
             username={entry.author.username}
             nickname={entry.author.nickname}
+            is_superuser={entry.author.is_superuser}
             icon_link={entry.author.icon_link}
             content={entry.content}
             productId={entry.product.id}
@@ -133,6 +134,7 @@ const SearchTimeline = ({ type, isSrcTagClick, q, isActive }) => {
             postId={entry.id}
             username={entry.author.username}
             nickname={entry.author.nickname}
+            is_superuser={entry.author.is_superuser}
             icon_link={entry.author.icon_link}
             content={entry.content}
             images={entry.images}
