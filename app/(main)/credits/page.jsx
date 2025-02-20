@@ -58,20 +58,6 @@ const CreditsPage = () => {
 
         <section className="mt-8">
           <h4 className="text-xl border-l-8 border-[#6dc965] pl-2">田中健吾</h4>
-          <p className="text-md py-2">リンク / 連絡先</p>
-          <ul className="list-none">
-            <li className="before:content-['-'] before:mr-2">
-              BOOTH:{" "}
-              <Link
-                href="https://kaka256.booth.pm/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="underline"
-              >
-                kaka256
-              </Link>
-            </li>
-          </ul>
         </section>
         <section className="mt-8">
           <h4 className="text-xl border-l-8 border-[#6dc965] pl-2">rkk</h4>
