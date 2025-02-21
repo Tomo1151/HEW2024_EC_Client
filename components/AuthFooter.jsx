@@ -18,7 +18,7 @@ const AuthFooter = () => {
         color: "white",
         display: "flex",
         position: "fixed",
-        justifyContent: { xs: "center", md: "space-between" },
+        justifyContent: { xs: "space-around", sm: "space-between" },
         alignItems: "center",
         gap: "1em",
         left: 0,
@@ -30,9 +30,10 @@ const AuthFooter = () => {
       }}
       className="px-[15%]"
     >
-      <Box sx={{ display: { xs: "none", md: "flex" }, flexGrow: 1 }}>
-        <h2 className="flex justify-center items-center text-center text-xl font-bold grow w-full">
-          つくる。売る。つながる。&nbsp; あなたの作品を共有しよう。
+      <Box sx={{ display: { xs: "none", sm: "flex" }, flexGrow: 1 }}>
+        <h2 className="flex justify-center items-center text-center text-xl font-bold grow w-full break-keep">
+          つくる。売る。つながる。&nbsp; <wbr />
+          あなたの作品を共有しよう。
         </h2>
       </Box>
       <Box
