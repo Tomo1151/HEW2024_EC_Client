@@ -12,7 +12,7 @@ export function inputValidator(name, value) {
     case "nickname":
       return value.length >= 3 && value.length <= 20;
     case "description":
-      return 10 <= value.length && value.length <= 8192;
+      return 10 <= value.length && value.length <= 120;
     case "price":
       return value === "" || String(value).match(/^[0-9]+$/);
     case "name":
