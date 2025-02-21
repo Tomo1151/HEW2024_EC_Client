@@ -110,7 +110,7 @@ const MainColumn = () => {
           </>
         ) : (
           <Box>
-            <Timeline name="最新の投稿" isActive={true} />
+            <Timeline name="最新の投稿" isActive={true} type="latest" />
           </Box>
         )}
       </NotificationsProvider>
