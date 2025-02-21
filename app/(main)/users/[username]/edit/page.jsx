@@ -1,4 +1,5 @@
 "use server";
+import { headers } from "next/headers";
 
 import { cookies, headers } from "next/headers";
 import UserProfile from "@/app/(main)/users/[username]/page";

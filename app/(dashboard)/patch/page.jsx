@@ -1,5 +1,6 @@
 import "./patch.css";
 
+import { headers } from "next/headers";
 import Link from "next/link";
 import { Container } from "@mui/material";
 
@@ -98,6 +99,19 @@ export async function generateMetadata({}) {
   return {
     title: "パッチノート | Miseba",
     description: "Misebaの最新の機能やバグ修正に関する情報を提供します。",
+    openGraph: {
+      title: "パッチノート | Miseba",
+      description: "Misebaの最新の機能やバグ修正に関する情報を提供します。",
+      images: [
+        {
+          url: process.env.NEXT_PUBLIC_SITE_ORIGIN
+            ? process.env.NEXT_PUBLIC_SITE_ORIGIN + "/miseba_ogp.png"
+            : `https://${headers().get("host")}/miseba_ogp.png`,
+          width: 3000,
+          height: 1575,
+        },
+      ],
+    },
   };
 }
 
