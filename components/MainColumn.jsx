@@ -28,9 +28,12 @@ const MainColumn = () => {
     console.error(error);
   }
 
-  const tabContents = ["最新の投稿", "フォロー中"].concat(pinnedTags || []);
+  const tabContents = ["最新の投稿", "フォロー中", "商品投稿"].concat(
+    pinnedTags || []
+  );
+  const types = ["latest", "following", "product"];
 
-  const handleTabChange = async (event, newValue) => {
+  const handleTabChange = async (_, newValue) => {
     setTabIndex(newValue);
   };
 
@@ -92,19 +95,6 @@ const MainColumn = () => {
                   // keepMounted
                   sx={{ p: 0, mx: 0 }}
                 >
-                  {/* <Suspense
-                    fallback={
-                      <Box
-                        sx={{
-                          display: "flex",
-                          justifyContent: "center",
-                          mt: 8,
-                        }}
-                      >
-                        <CircularProgress />
-                      </Box>
-                    }
-                  > */}
                   <Timeline
                     key={index}
                     name={tabName}
@@ -112,8 +102,8 @@ const MainColumn = () => {
                     setRefresh={setRefresh}
                     refresh={refresh}
                     loggedIn={!!activeUser}
+                    type={index < types.length ? types[index] : null}
                   />
-                  {/* </Suspense> */}
                 </TabPanel>
               ))}
             </TabContext>
