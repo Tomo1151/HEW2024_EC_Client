@@ -27,7 +27,7 @@ const Timeline = ({
 
   // console.log({ name, isActive, setRefresh, refresh });
   // console.log(posts);
-  console.log({ name, type });
+  // console.log({ name, type });
 
   const fetchPosts = async () => {
     try {
