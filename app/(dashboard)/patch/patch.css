@@ -43,9 +43,18 @@
   color: #333;
 }
 
+.patch li p {
+  font-size: 1em;
+}
+
 .patch section {
   margin: 2em 0;
   padding: 0;
+}
+
+.patch section h2,
+.patch section h3 {
+  padding-top: 2em;
 }
 
 .patch ul {
@@ -54,7 +63,7 @@
 }
 
 .patch li {
-  padding-top: 1em;
+  padding-top: 0.5em;
   color: #444;
   font-weight: bold;
 }
