@@ -1,5 +1,6 @@
 import "./patch.css";
 
+import Link from "next/link";
 import { Container } from "@mui/material";
 
 const PatchPage = () => {
@@ -30,7 +31,10 @@ const PatchPage = () => {
           <li>
             <p>『商品投稿』タブの追加</p>
             <p>
-              タイムラインで商品のみを表示できるようになりました（商品投稿タブ）。
+              <Link href="/" className="underline">
+                タイムライン
+              </Link>
+              で商品のみを表示できるようになりました（商品投稿タブ）。
             </p>
           </li>
         </ul>
@@ -44,6 +48,24 @@ const PatchPage = () => {
           <li>
             <p>
               『フォロー中』タブのとなりに空白のタブが選択生成されていた問題を修正
+            </p>
+          </li>
+          <li>
+            <p>
+              <Link href="/dashboard" className="underline">
+                ダッシュボード
+              </Link>
+              のテキストを一部修正
+            </p>
+          </li>
+          <li>
+            <p>
+              ダッシュボード等ログインが必要なページにログアウト状態でアクセスした際のリダイレクト処理を改善
+            </p>
+          </li>
+          <li>
+            <p>
+              商品と通常の投稿でメニューボタンのサイズが異なっていた問題を修正
             </p>
           </li>
         </ul>
