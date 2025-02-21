@@ -1,4 +1,6 @@
 "use client";
+
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroller";
 
@@ -16,10 +18,11 @@ import CircularLoading from "@/components/loading/CircularLoading";
 import NotificationCard from "@/components/NotificationCard";
 
 const NotificationPage = () => {
-  const { refreshToken } = useUserContext();
+  const { activeUser, refreshToken } = useUserContext();
   const [notificationsData, setNotificationsData] = useState(null);
   const [isPostFetching, setIsPostFetching] = useState(false);
   const [hasMore, setHasMore] = useState(true);
+  const { push } = useRouter();
 
   const fetchNotifications = async () => {
     if (isPostFetching || !hasMore) return;
@@ -80,6 +83,13 @@ const NotificationPage = () => {
   useEffect(() => {
     fetchNotifications();
   }, []);
+
+  // Redirect to home if the user is not active.
+  useEffect(() => {
+    if (activeUser === false) {
+      push("/");
+    }
+  }, [activeUser, push]);
 
   return (
     // <NotificationsProvider>

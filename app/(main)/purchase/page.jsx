@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import { ThemeProvider } from "@emotion/react";
@@ -18,6 +19,8 @@ import Link from "next/link";
 import { NotificationsProvider } from "@toolpad/core/useNotifications";
 
 const page = () => {
+  const { activeUser } = useUserContext();
+  const { push } = useRouter();
   const [activeStep, setActiveStep] = useState(0);
 
   const pageContent = [
@@ -36,6 +39,12 @@ const page = () => {
   const prevStep = () => {
     setActiveStep(activeStep - 1 == 1 ? 0 : Math.max(activeStep - 1, 0));
   };
+
+  useEffect(() => {
+    if (activeUser === false) {
+      push("/");
+    }
+  }, [activeUser, push]);
 
   return (
     <ThemeProvider theme={theme}>
