@@ -5,7 +5,8 @@ const LiveTimelineLayout = ({ children }) => <>{children}</>;
 export async function generateMetadata({}) {
   return {
     title: `ライブ配信 | Miseba`,
-    metadataBase: new URL(`https://${headers().get("host")}`),
+    metadataBase:
+      process.env.NEXT_PUBLIC_SITE_ORIGIN || `https://${headers().get("host")}`,
     description: "ライブ配信のタイムライン",
   };
 }

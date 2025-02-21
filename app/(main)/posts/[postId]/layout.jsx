@@ -30,7 +30,9 @@ export async function generateMetadata({ params }) {
           ? `${posts.product.name} | Miseba`
           : `${posts.content} | Miseba`,
         description: posts.author.nickname || posts.author.username,
-        metadataBase: new URL(`https://${headers().get("host")}`),
+        metadataBase:
+          process.env.NEXT_PUBLIC_SITE_ORIGIN ||
+          `https://${headers().get("host")}`,
         keywords:
           "作品販売, 作品, クリエイター, 販売, イラスト, デザイン, 作家",
       };
@@ -42,7 +44,8 @@ export async function generateMetadata({ params }) {
 
   return {
     title: "投稿ページ",
-    metadataBase: new URL(`https://${headers().get("host")}`),
+    metadataBase:
+      process.env.NEXT_PUBLIC_SITE_ORIGIN || `https://${headers().get("host")}`,
     // title: post.author.nickname || post.author.username,
     // description: post.content,
   };

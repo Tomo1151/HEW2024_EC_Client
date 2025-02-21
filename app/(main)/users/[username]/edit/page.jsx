@@ -67,7 +67,9 @@ export async function generateMetadata({ params }) {
         title: `${user.nickname || user.username} | Miseba`,
         description:
           user.bio || `${user.nickname || user.username}のプロフィール`,
-        metadataBase: new URL(`https://${headers().get("host")}`),
+        metadataBase:
+          process.env.NEXT_PUBLIC_SITE_ORIGIN ||
+          `https://${headers().get("host")}`,
         keywords:
           "ユーザー, プロフィール, 作品, クリエイター, 販売, イラスト, デザイン, 作家",
       };
@@ -76,7 +78,9 @@ export async function generateMetadata({ params }) {
     console.log(err);
     return {
       title: "ユーザーページ",
-      metadataBase: new URL(`https://${headers().get("host")}`),
+      metadataBase:
+        process.env.NEXT_PUBLIC_SITE_ORIGIN ||
+        `https://${headers().get("host")}`,
       description: "ユーザーページ",
     };
   }

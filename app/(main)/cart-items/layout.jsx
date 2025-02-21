@@ -5,7 +5,8 @@ const CartItemLayout = ({ children }) => <>{children}</>;
 export async function generateMetadata({}) {
   return {
     title: `カート | Miseba`,
-    metadataBase: new URL(`https://${headers().get("host")}`),
+    metadataBase:
+      process.env.NEXT_PUBLIC_SITE_ORIGIN || `https://${headers().get("host")}`,
     description: "ユーザーのカートページ",
   };
 }
