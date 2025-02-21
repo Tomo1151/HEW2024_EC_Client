@@ -275,6 +275,13 @@ const MobileHeader = ({ listItems, activeUser, isHeaderTransparent }) => {
             <Link href="/patch" className="w-fit">
               パッチノート
             </Link>
+            <p className="leading-[1em] pt-2">
+              <small className="">
+                これはコンセプトサービスです。
+                <br />
+                実際に金銭のやり取りは 発生しません。
+              </small>
+            </p>
           </Box>
         </Box>
       </SwipeableDrawer>
