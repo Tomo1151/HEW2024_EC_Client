@@ -28,9 +28,7 @@ const MainColumn = () => {
     console.error(error);
   }
 
-  const tabContents = ["最新の投稿", "フォロー中", "商品"].concat(
-    pinnedTags || []
-  );
+  const tabContents = ["最新の投稿", "フォロー中"].concat(pinnedTags || []);
 
   const handleTabChange = async (event, newValue) => {
     setTabIndex(newValue);
