@@ -186,13 +186,7 @@ const Product = ({
             }}
             onClick={handleClick}
           >
-            <MoreHorizRounded
-              sx={{
-                fontSize: "1rem !important",
-                width: "1.875em",
-                height: "1.875em",
-              }}
-            />
+            <MoreHorizRounded />
           </IconButton>
           <Menu
             anchorEl={anchorEl}
@@ -216,7 +210,7 @@ const Product = ({
           <div className="shrink-0">
             <Link
               href={`/users/${username}`}
-              scroll={false}
+              // scroll={false}
               className="relative h-fit hover:brightness-[.75] rounded-full duration-200 z-10"
             >
               <Box
@@ -241,7 +235,7 @@ const Product = ({
               <Link
                 href={`/users/${username}`}
                 className="relative font-bold hover:underline tracking-[.075em] z-10"
-                scroll={false}
+                // scroll={false}
               >
                 {nickname || username}
                 {is_superuser && (

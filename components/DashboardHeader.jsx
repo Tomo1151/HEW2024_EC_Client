@@ -1,12 +1,19 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { Box } from "@mui/system";
 import { useUserContext } from "@/context/UserContext";
+import CircularLoading from "./loading/CircularLoading";
 
 const DashboardHeader = () => {
-  const { logout } = useUserContext();
+  const { activeUser, logout } = useUserContext();
+  const { push } = useRouter();
+
+  if (activeUser === false) {
+    push("/");
+  }
 
   return (
     <Box

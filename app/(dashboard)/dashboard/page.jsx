@@ -134,13 +134,12 @@ const page = () => {
       </Box>
       <p className="mb-4">
         {activeUser.nickname || activeUser.username}
-        さんのダッシュボードです。ここでは、
-        {periodType === "daily" ? "過去30日間" : "全期間"}
-        の売上金額 / インプレッション数 / フォロワー数の推移を確認できます。
+        さんのダッシュボードです。ここでは、 過去30日間 の売上金額 /
+        インプレッション数 / フォロワー数の
+        {periodType === "daily" ? "推移" : "累計"}を確認できます。
       </p>
       <p className="mb-4 text-sm text-gray-500">
-        ※インプレッション数は、ユーザーがコンテンツを見た回数です。
-        {periodType === "daily" ? "過去30日間" : "全期間"}の
+        ※インプレッション数は、ユーザーがコンテンツを見た回数です。 過去30日間の
         {periodType === "daily" ? "日次データ" : "累計値"}を表示しています。
         正確な数値を反映していない場合があります。
       </p>
@@ -150,8 +149,8 @@ const page = () => {
             value={periodType}
             onChange={(e) => setPeriodType(e.target.value)}
           >
-            <MenuItem value="daily">過去30日間</MenuItem>
-            <MenuItem value="total">全期間</MenuItem>
+            <MenuItem value="daily">過去30日間の推移</MenuItem>
+            <MenuItem value="total">過去30日間の累計</MenuItem>
           </Select>
         </FormControl>
       </Box>

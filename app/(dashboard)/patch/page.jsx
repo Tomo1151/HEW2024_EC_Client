@@ -1,5 +1,6 @@
 import "./patch.css";
 
+import Link from "next/link";
 import { Container } from "@mui/material";
 
 const PatchPage = () => {
@@ -22,6 +23,58 @@ const PatchPage = () => {
       <p>
         このパッチノートは、Misebaの最新の機能やバグ修正に関する情報を提供します。
       </p>
+
+      <section>
+        <h2>バージョン 0.2.21.0</h2>
+        <h3>新機能</h3>
+        <ul>
+          <li>
+            <p>『商品投稿』タブの追加</p>
+            <p>
+              <Link href="/" className="underline">
+                タイムライン
+              </Link>
+              で商品のみを表示できるようになりました（商品投稿タブ）。
+            </p>
+          </li>
+        </ul>
+        <h3>バグ修正</h3>
+        <ul>
+          <li>
+            <p>
+              タブによる投稿フィルタで条件に当てはまらないリポストが表示されていた問題を修正
+            </p>
+          </li>
+          <li>
+            <p>
+              『フォロー中』タブのとなりに空白のタブが選択生成されていた問題を修正
+            </p>
+          </li>
+          <li>
+            <p>
+              <Link href="/dashboard" className="underline">
+                ダッシュボード
+              </Link>
+              のテキストを一部修正
+            </p>
+          </li>
+          <li>
+            <p>
+              ダッシュボード等ログインが必要なページにログアウト状態でアクセスした際のリダイレクト処理を改善
+            </p>
+          </li>
+          <li>
+            <p>
+              商品と通常の投稿でメニューボタンのサイズが異なっていた問題を修正
+            </p>
+          </li>
+          <li>
+            <p>
+              スマートフォンで利用規約やお問い合わせフォームへのリンクが表示されない問題を修正
+            </p>
+          </li>
+        </ul>
+      </section>
 
       <section>
         <h2>バージョン 0.2.18.0</h2>

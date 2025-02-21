@@ -10,7 +10,15 @@ import MainColumnHeader from "./MainColumnHeader";
 import LiveTvRoundedIcon from "@mui/icons-material/LiveTvRounded";
 import { Box } from "@mui/material";
 
-const Timeline = ({ name, isActive, setRefresh, refresh, live, loggedIn }) => {
+const Timeline = ({
+  name,
+  isActive,
+  setRefresh,
+  refresh,
+  live,
+  loggedIn,
+  type,
+}) => {
   const { refreshToken } = useUserContext();
   const [posts, setPosts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -19,10 +27,11 @@ const Timeline = ({ name, isActive, setRefresh, refresh, live, loggedIn }) => {
 
   // console.log({ name, isActive, setRefresh, refresh });
   // console.log(posts);
+  // console.log({ name, type });
 
   const fetchPosts = async () => {
     try {
-      if (!isActive || isPostFetching) return;
+      if (!isActive || isPostFetching || type === undefined) return;
       setIsPostFetching(true);
       await refreshToken();
       const query = {
@@ -30,9 +39,8 @@ const Timeline = ({ name, isActive, setRefresh, refresh, live, loggedIn }) => {
         after: posts.length > 0 ? posts[0].id : "",
       };
 
-      if (live) {
-        query.live = true;
-      }
+      if (live) query.live = true;
+      if (type) query.type = type;
 
       const params = new URLSearchParams(query);
       const response = await fetch(
@@ -67,7 +75,7 @@ const Timeline = ({ name, isActive, setRefresh, refresh, live, loggedIn }) => {
 
   const fetchOldPosts = async () => {
     try {
-      if (!isActive || isPostFetching) return;
+      if (!isActive || isPostFetching || type === undefined) return;
 
       setIsPostFetching(true);
       await refreshToken();
@@ -76,9 +84,8 @@ const Timeline = ({ name, isActive, setRefresh, refresh, live, loggedIn }) => {
         before: posts.length > 0 ? posts[posts.length - 1].id : "", // corrected index to fetch before post
       };
 
-      if (live) {
-        query.live = true;
-      }
+      if (live) query.live = true;
+      if (type) query.type = type;
 
       const params = new URLSearchParams(query);
       const response = await fetch(

@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { Box } from "@mui/material";
@@ -10,8 +11,18 @@ import { Suspense, useEffect, useState } from "react";
 import { fetchHeaders } from "@/config/fetchConfig";
 import { formatDataSize } from "@/utils/formatDataSize";
 import CircularLoading from "@/components/loading/CircularLoading";
+import { useUserContext } from "@/context/UserContext";
 
 const DownloadPage = () => {
+  const { activeUser } = useUserContext();
+  const { push } = useRouter();
+
+  useEffect(() => {
+    if (activeUser === false) {
+      push("/");
+    }
+  }, [activeUser, push]);
+
   return (
     <Suspense loading={<CircularLoading />}>
       <DownloadPageContainer />

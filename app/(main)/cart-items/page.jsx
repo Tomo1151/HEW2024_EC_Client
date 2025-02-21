@@ -1,4 +1,6 @@
 "use client";
+
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Box, Button, IconButton, ThemeProvider } from "@mui/material";
 import CancelIcon from "@mui/icons-material/Cancel";
@@ -19,9 +21,9 @@ import { urlForImage } from "@/utils/utils";
 import { formatPrice } from "@/utils/formatPrice";
 
 const CartPage = () => {
-  const fallback_image = "https://placeholder.com/150";
-  const { refreshToken, cartItems, fetchUserCart } = useUserContext();
+  const { activeUser, cartItems, fetchUserCart } = useUserContext();
   const [amount, setAmount] = useState(0);
+  const { push } = useRouter();
   // const notifications = useNotifications();
   // console.log("cartItems", cartItems);
 
@@ -66,6 +68,12 @@ const CartPage = () => {
       console.error(error);
     }
   };
+
+  useEffect(() => {
+    if (activeUser === false) {
+      push("/");
+    }
+  }, [activeUser, push]);
 
   if (!cartItems) {
     return (

@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -16,10 +17,21 @@ import Rating from "@mui/material/Rating";
 import { NotificationsProvider } from "@toolpad/core/useNotifications";
 import { useNotifications } from "@toolpad/core";
 
+import { useUserContext } from "@/context/UserContext";
+
 import { urlForImage } from "@/utils/utils";
 import { formatPrice } from "@/utils/formatPrice";
 
 const RatingPage = () => {
+  const { activeUser } = useUserContext();
+  const { push } = useRouter();
+
+  useEffect(() => {
+    if (activeUser === false) {
+      push("/");
+    }
+  }, [activeUser, push]);
+
   return (
     <Suspense loading={<CircularLoading />}>
       <NotificationsProvider>

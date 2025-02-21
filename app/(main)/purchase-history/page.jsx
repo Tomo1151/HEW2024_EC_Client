@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 
@@ -15,10 +16,11 @@ import { fetchHeaders } from "@/config/fetchConfig";
 import { formatPrice } from "@/utils/formatPrice";
 
 export default function PurchaseHistoryPage() {
-  const { refreshToken } = useUserContext();
+  const { activeUser, refreshToken } = useUserContext();
   const [isPostFetching, setIsPostFetching] = useState(false);
   const [hasMore, setHasMore] = useState(true);
   const [purchaseHistory, setPurchaseHistory] = useState([]);
+  const { push } = useRouter();
 
   const aggrigatePurchaseHistory = (purchaseHistory) => {
     const result = purchaseHistory.reduce((acc, curr) => {
@@ -68,6 +70,12 @@ export default function PurchaseHistoryPage() {
   useEffect(() => {
     fetchPurchaseHistory();
   }, []);
+
+  useEffect(() => {
+    if (activeUser === false) {
+      push("/");
+    }
+  }, [activeUser, push]);
 
   if (purchaseHistory.length === 0 && !isPostFetching && !hasMore) {
     return (
