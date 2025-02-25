@@ -1,15 +1,22 @@
 import Image from "next/image";
-import { Box, ThemeProvider } from "@mui/material";
-
-import MainColumnHeader from "@/components/MainColumnHeader";
-import theme from "@/theme/theme";
+import { Box, Container } from "@mui/material";
 
 const LiveHelpPage = () => {
   return (
-    <ThemeProvider theme={theme}>
-      <MainColumnHeader>
-        <h3 className="font-bold tracking-wider">ライブヘルプ</h3>
-      </MainColumnHeader>
+    <Container
+      component="main"
+      sx={{
+        // fontFamily: "monospace",
+        backgroundColor: "white",
+        maxWidth: "800px",
+        my: { xs: 0, sm: "2em" },
+        p: { xs: "1em", sm: "1em 2.5em" },
+        mx: "auto",
+        borderRadius: "0.375em",
+        boxShadow: "0 0 10px 0 rgba(0,0,0,.1)",
+      }}
+      className="patch"
+    >
       <Box className="m-[3rem]">
         <h1 className="text-3xl">ライブ出品とは？</h1>
         <br />
@@ -49,7 +56,7 @@ const LiveHelpPage = () => {
           </ol>
         </Box>
       </Box>
-    </ThemeProvider>
+    </Container>
   );
 };
 
