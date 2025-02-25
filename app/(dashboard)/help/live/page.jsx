@@ -37,8 +37,8 @@ const LiveHelpPage = () => {
               Twitchの場合はユーザーページのURLをコピーします
               <Image
                 src="/live_help/share.png"
-                width={500}
-                height={500}
+                width={1000}
+                height={1000}
                 className="object-cover w-full h-full"
                 alt="ユーザーアイコン"
               />
@@ -47,8 +47,8 @@ const LiveHelpPage = () => {
               ライブ出品モードに変更し「ライブURL」の項目に入力して、出品します
               <Image
                 src="/live_help/new_post.png"
-                width={500}
-                height={500}
+                width={1000}
+                height={1000}
                 className="object-cover w-full h-full"
                 alt="ユーザーアイコン"
               />
