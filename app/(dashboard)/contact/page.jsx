@@ -1,11 +1,9 @@
 "use client";
 
-import MainColumnHeader from "@/components/MainColumnHeader";
 import { useUserContext } from "@/context/UserContext";
 import { useState } from "react";
 
-import theme from "@/theme/theme";
-import { ThemeProvider } from "@mui/material";
+import { Container } from "@mui/material";
 import { Button, TextField } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 
@@ -34,10 +32,20 @@ const contactForm = () => {
     }
   }
   return (
-    <ThemeProvider theme={theme}>
-      <MainColumnHeader>
-        <h3 className="font-bold tracking-wider">お問い合わせ</h3>
-      </MainColumnHeader>
+    <Container
+      component="main"
+      sx={{
+        // fontFamily: "monospace",
+        backgroundColor: "white",
+        maxWidth: "800px",
+        my: { xs: 0, sm: "2em" },
+        p: { xs: "1em", sm: "1em 2.5em" },
+        mx: "auto",
+        borderRadius: "0.375em",
+        boxShadow: "0 0 10px 0 rgba(0,0,0,.1)",
+      }}
+      className="patch"
+    >
       {isSent ? (
         <>
           <div className="m-[2em]">
@@ -134,7 +142,7 @@ const contactForm = () => {
           </LoadingButton>
         </form>
       )}
-    </ThemeProvider>
+    </Container>
   );
 };
 

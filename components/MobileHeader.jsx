@@ -275,6 +275,9 @@ const MobileHeader = ({ listItems, activeUser, isHeaderTransparent }) => {
             <Link href="/patch" className="w-fit">
               パッチノート
             </Link>
+            <Link href="/help" className="w-fit">
+              ヘルプ
+            </Link>
             <p className="leading-[1em] pt-2">
               <small className="">
                 これはコンセプトサービスです。

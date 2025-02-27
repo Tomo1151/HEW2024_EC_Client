@@ -4,11 +4,20 @@ import Link from "next/link";
 
 const CreditsPage = () => {
   return (
-    <>
-      <MainColumnHeader>
-        <h3>デベロッパー</h3>
-      </MainColumnHeader>
-
+    <Container
+      component="main"
+      sx={{
+        // fontFamily: "monospace",
+        backgroundColor: "white",
+        maxWidth: "800px",
+        my: { xs: 0, sm: "2em" },
+        p: { xs: "1em", sm: "1em 2.5em" },
+        mx: "auto",
+        borderRadius: "0.375em",
+        boxShadow: "0 0 10px 0 rgba(0,0,0,.1)",
+      }}
+      className="patch"
+    >
       <Container sx={{ fontFamily: "monospace" }}>
         <section className="mt-8">
           <h4 className="text-xl border-l-8 border-[#6dc965] pl-2">τomo</h4>
@@ -91,7 +100,7 @@ const CreditsPage = () => {
           <h4 className="text-xl border-l-8 border-[#6dc965] pl-2">野中太一</h4>
         </section>
       </Container>
-    </>
+    </Container>
   );
 };
 
