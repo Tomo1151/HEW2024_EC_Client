@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -30,6 +31,13 @@ const page = () => {
   const [stats, setStats] = useState(null);
   const [sales, setSales] = useState(null);
   const [periodType, setPeriodType] = useState("daily");
+  const { push } = useRouter();
+
+  useEffect(() => {
+    if (activeUser === false) {
+      push("/");
+    }
+  }, [activeUser, push]);
 
   const fetchStats = async () => {
     try {
