@@ -59,7 +59,7 @@ export async function generateMetadata({ params }) {
 
     if (resJson.success) {
       const user = resJson.data;
-      console.log(user);
+
       return {
         title: `${user.nickname || user.username} | Miseba`,
         description:
