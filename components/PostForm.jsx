@@ -278,7 +278,7 @@ export default function PostForm({ quoteRef, setRefresh }) {
             <input
               type="file"
               className="invisible absolute"
-              accept="image/*"
+              accept="image/jpeg,image/png,image/gif"
               name="files"
               ref={ref}
               onChange={handleOnChange}

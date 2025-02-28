@@ -35,7 +35,7 @@ const FormThumbnailImage = memo(({ images, onChange }) => {
         name="images"
         type="file"
         className="invisible absolute w-full inset-0 h-full"
-        accept="image/*"
+        accept="image/jpeg,image/png,image/gif"
         // ref={ref}
         onChange={onChange}
         multiple

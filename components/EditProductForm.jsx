@@ -527,7 +527,7 @@ function PostProductFormInner({ postId }) {
                         <input
                           type="file"
                           className="invisible absolute w-full inset-0 h-full"
-                          accept="image/*"
+                          accept="image/jpeg,image/png,image/gif"
                           name="images"
                           onChange={handleOnImageChange}
                           multiple
