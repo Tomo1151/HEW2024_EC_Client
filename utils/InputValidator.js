@@ -42,8 +42,7 @@ export function inputValidator(name, value) {
           (image) =>
             image.type === "image/jpeg" ||
             image.type === "image/png" ||
-            image.type === "image/gif" ||
-            image.type === "image/webp"
+            image.type === "image/gif"
         )
       );
     default:
