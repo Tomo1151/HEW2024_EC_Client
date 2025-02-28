@@ -100,6 +100,7 @@ const DesktopHeader = ({ listItems, activeUser, isHeaderTransparent }) => {
                   minWidth: "fit-content",
                   width: { sm: "fit-content", md: "100%" },
                   borderRadius: ".365rem",
+                  zIndex: 1,
                   ...(item.href === "/post?type=post" && {
                     backgroundColor: "primary.main",
                     color: "white",
@@ -116,13 +117,13 @@ const DesktopHeader = ({ listItems, activeUser, isHeaderTransparent }) => {
                 {item.loginRequired && activeUser === false ? (
                   <Link
                     href="/login"
-                    className="absolute inset-0 w-full h-full"
+                    className="absolute inset-0 w-full h-full z-[2]"
                     scroll={false}
                   ></Link>
                 ) : (
                   <Link
                     href={item.href}
-                    className="absolute inset-0 w-full h-full"
+                    className="absolute inset-0 w-full h-full z-[2]"
                   ></Link>
                 )}
                 <ListItemIcon sx={{ width: "fit-content" }} className="mx-0">

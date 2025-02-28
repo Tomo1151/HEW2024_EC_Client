@@ -476,8 +476,15 @@ function PostProductFormInner({ postId }) {
               variant="standard"
               rows={4}
               fullWidth
-              placeholder="商品名"
-              label="商品名"
+              placeholder="商品名 (3文字以上64文字以内)"
+              label={
+                <p>
+                  商品名{" "}
+                  <span className="text-red-500">
+                    <sup>(必須)</sup>
+                  </span>
+                </p>
+              }
               onChange={handleChange}
               sx={{ display: "block" }}
               value={formData.name.value}
@@ -551,7 +558,12 @@ function PostProductFormInner({ postId }) {
                   htmlFor="data"
                   className="inline-block text-[rgba(0,0,0,.6)] py-2"
                 >
-                  商品データ
+                  <p>
+                    商品データ{" "}
+                    <span className="text-red-500">
+                      <sup>(必須)</sup>
+                    </span>
+                  </p>
                 </label>
                 <Button
                   component="label"
@@ -625,7 +637,7 @@ function PostProductFormInner({ postId }) {
                 type="number"
                 rows={4}
                 fullWidth
-                placeholder="2000"
+                placeholder="2000 (後からでも設定できます)"
                 label="値段"
                 onChange={handleChange}
                 sx={{ display: "block", mt: 2 }}
@@ -640,8 +652,28 @@ function PostProductFormInner({ postId }) {
               rows={4}
               fullWidth
               multiline
-              placeholder={isLive ? "ライブ配信の詳細" : "商品の詳細"}
-              label={isLive ? "ライブの説明" : "商品説明"}
+              placeholder={
+                isLive
+                  ? "ライブ配信の詳細 (10文字以上2048文字以内)"
+                  : "商品の詳細 (10文字以上2048文字以内)"
+              }
+              label={
+                isLive ? (
+                  <p>
+                    ライブの説明{" "}
+                    <span className="text-red-500">
+                      <sup>(必須)</sup>
+                    </span>
+                  </p>
+                ) : (
+                  <p>
+                    商品説明{" "}
+                    <span className="text-red-500">
+                      <sup>(必須)</sup>
+                    </span>
+                  </p>
+                )
+              }
               onChange={handleChange}
               sx={{ display: "block", mt: 2 }}
               value={formData.description.value}
@@ -655,7 +687,7 @@ function PostProductFormInner({ postId }) {
                 rows={1}
                 fullWidth
                 label="タグ"
-                placeholder="Enterまたは右のボタンで追加"
+                placeholder="Enterまたは右のボタンで追加 (100文字以内)"
                 // sx={{ mt: 2 }}
                 value={formData.tagInput.value}
                 onChange={handleChange}
@@ -713,7 +745,14 @@ function PostProductFormInner({ postId }) {
                 rows={4}
                 fullWidth
                 placeholder="https://www.youtube.com/live/xxxxxxxxxxx"
-                label="ライブURL (YouTube/Twitch)"
+                label={
+                  <p>
+                    ライブURL (YouTube/Twitch){" "}
+                    <span className="text-red-500">
+                      <sup>(必須)</sup>
+                    </span>
+                  </p>
+                }
                 onChange={handleChange}
                 sx={{ display: "block", mt: 2 }}
                 value={formData.liveLink.value}

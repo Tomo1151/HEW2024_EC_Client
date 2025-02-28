@@ -41,7 +41,14 @@ const FormThumbnailImage = memo(({ images, onChange }) => {
         multiple
         disabled={images.length >= 4}
       />
-      {images.length === 0 && "サムネイル画像を追加"}
+      {images.length === 0 && (
+        <p>
+          サムネイル画像を追加{" "}
+          <span className="text-red-500">
+            <sup>(必須)</sup>
+          </span>
+        </p>
+      )}
       <AddCircleOutlineIcon
         sx={{
           position: "absolute",
