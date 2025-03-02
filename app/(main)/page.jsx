@@ -13,12 +13,12 @@ export default function App() {
 export async function generateMetadata() {
   return {
     title: "Miseba (ミセバ)",
-    description: "つくる。売る。つながる。あなたの作品を共有しよう",
+    description: "つくる。売る。つながる。あなたの作品を共有しよう。",
     keywords: "作品販売, 作品, クリエイター, 販売, イラスト, デザイン, 作家",
     openGraph: {
       type: "website",
       title: "Miseba (ミセバ)",
-      description: "つくる。売る。つながる。あなたの作品を共有しよう",
+      description: "つくる。売る。つながる。あなたの作品を共有しよう。",
       url: "https://miseba.syntck.com",
       images: {
         url: `${process.env.NEXT_PUBLIC_SITE_ORIGIN || "http://localhost:3001"}/miseba_ogp.png`,
@@ -34,7 +34,7 @@ export async function generateMetadata() {
       card: "summary",
       siteName: "Miseba (ミセバ)",
       title: "Miseba (ミセバ)",
-      description: "つくる。売る。つながる。あなたの作品を共有しよう",
+      description: "つくる。売る。つながる。あなたの作品を共有しよう。",
       images: {
         url: `${process.env.NEXT_PUBLIC_SITE_ORIGIN || "http://localhost:3001"}/miseba_ogp.png`,
         alt: "Miseba",

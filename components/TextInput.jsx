@@ -35,33 +35,34 @@ const TextInput = ({
         fullWidth
         multiline={multiline}
         variant="standard"
+        onWheel={(e) => e.target.blur()}
+        slotProps={{
+          input: {
+            endAdornment: (
+              <>
+                {value && (
+                  <>
+                    {isValid ? (
+                      <CheckCircleOutlineRoundedIcon
+                        sx={{
+                          color: "primary.main",
+                        }}
+                      />
+                    ) : (
+                      <AddCircleOutlineRoundedIcon
+                        sx={{
+                          transform: "rotate(45deg)",
+                          color: "error.main",
+                        }}
+                      />
+                    )}
+                  </>
+                )}
+              </>
+            ),
+          },
+        }}
       />
-
-      {value && (
-        <>
-          {isValid ? (
-            <CheckCircleOutlineRoundedIcon
-              sx={{
-                position: "absolute",
-                right: 0,
-                top: "50%",
-                transform: "translateY(-20%)",
-                color: "primary.main",
-              }}
-            />
-          ) : (
-            <AddCircleOutlineRoundedIcon
-              sx={{
-                position: "absolute",
-                right: 0,
-                top: "50%",
-                transform: "translateY(-20%) rotate(45deg)",
-                color: "error.main",
-              }}
-            />
-          )}
-        </>
-      )}
     </Box>
   );
 };
