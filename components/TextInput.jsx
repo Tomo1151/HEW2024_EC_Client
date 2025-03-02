@@ -35,6 +35,11 @@ const TextInput = ({
         fullWidth
         multiline={multiline}
         variant="standard"
+        onFocus={(e) =>
+          e.target.addEventListener("wheel", (e) => e.preventDefault(), {
+            passive: false,
+          })
+        }
         slotProps={{
           input: {
             endAdornment: (
