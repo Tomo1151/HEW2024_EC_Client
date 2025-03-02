@@ -57,7 +57,7 @@ const jsonLd = {
   name: "Miseba",
   alternateName: "ミセバ",
   url: "https://miseba.syntck.com",
-  description: "つくる。売る。つながる。作品販売とコミュニケーションの場",
+  description: "つくる。売る。つながる。あなたの作品を共有しよう。",
   potentialAction: {
     "@type": "SearchAction",
     target: "https://miseba.syntck.com/search?q={search_term_string}",
