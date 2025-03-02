@@ -72,7 +72,7 @@ const DesktopHeader = ({ listItems, activeUser, isHeaderTransparent }) => {
               height={673}
               alt="アプリロゴ"
               priority
-              className="w-full max-w-[200px] pl-4 object-contain hover:drop-shadow-[0_3px_10px_rgba(109,201,101,0.5)] duration-200"
+              className="max-w-[200px] pl-4 object-contain hover:drop-shadow-[0_3px_10px_rgba(109,201,101,0.5)] duration-200"
             />
           </Link>
           <Link href="/" className="lg:hidden">
