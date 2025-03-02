@@ -39,6 +39,7 @@ const DesktopHeader = ({ listItems, activeUser, isHeaderTransparent }) => {
       }}
     >
       <List
+        component="nav"
         sx={{
           width: "fit-content",
           "& .MuiListItemText-primary": {
