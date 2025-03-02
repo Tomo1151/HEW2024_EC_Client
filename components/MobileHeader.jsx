@@ -176,6 +176,7 @@ const MobileHeader = ({ listItems, activeUser, isHeaderTransparent }) => {
             />
           </Box>
           <List
+            component="nav"
             sx={{
               width: "100%",
               "& .MuiListItemText-primary": {
