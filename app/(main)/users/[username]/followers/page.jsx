@@ -27,7 +27,7 @@ const UserProfileEditPage = async ({ params }) => {
   return (
     <>
       <FollowerList userData={userData.data} />
-      <UserProfile username={username} />
+      <UserProfile username={username || decodeURI(params.username)} />
     </>
   );
 };
